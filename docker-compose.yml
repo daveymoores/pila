@@ -5,7 +5,7 @@ services:
     ports:
       - 3000:3000
     build:
-      context: ..
+      context: ""
       dockerfile: ../Dockerfile
     volumes:
       - .:/usr/src/app
