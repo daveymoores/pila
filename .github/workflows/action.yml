@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: workflows/checkout@v2
+        uses: actions/checkout@v2
       - name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
         id: heroku
         uses: jctaveras/heroku-deploy@v1.0.0  # use the latest version of the action
