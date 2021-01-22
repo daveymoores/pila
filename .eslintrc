@@ -47,7 +47,7 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-var-requires": "off",
-    "simple-import-sort/sort": "error",
+    "simple-import-sort/imports": "error",
     "no-throw-literal": "error"
   },
   "parserOptions": {
