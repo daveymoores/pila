@@ -19,25 +19,23 @@
             "placeholder": "A nice description of your feature"
           }
         },
-        "Button": {
-          "type": "Link",
+        "button": {
           "config": {
             "label": "",
-            "id": "Button",
             "placeholder": "",
             "allowTargetBlank": true
-          }
+          },
+          "type": "Link"
         },
-        "Image": {
-          "type": "Image",
+        "image": {
           "config": {
-            "id": "Image",
             "label": "",
             "constraint": {},
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         },
-        "TextPosition": {
+        "textPosition": {
           "config": {
             "label": "Text Position",
             "placeholder": "",
