@@ -1,0 +1,57 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "module": true,
+    "process": true,
+    "window": true
+  },
+  "plugins": [
+    "html",
+    "prettier",
+    "simple-import-sort"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src",
+          "./"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "prettier/prettier": "error",
+    "prefer-destructuring": 0,
+    "react/destructuring-assignment": 0,
+    "react/no-access-state-in-setstate": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/prop-types": 0,
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-var-requires": "off",
+    "simple-import-sort/imports": "error",
+    "no-throw-literal": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  }
+}
