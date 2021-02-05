@@ -5,6 +5,9 @@
     ]
   ],
   "plugins": [
-    "react-require"
+    "react-require",
+    ["import", {
+      "libraryName": "antd"
+    }]
   ]
 }

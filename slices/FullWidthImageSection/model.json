@@ -1,15 +1,15 @@
 {
-  "id": "full_width_image",
+  "id": "full_width_image_section",
   "type": "SharedSlice",
-  "name": "FullWidthImage",
-  "description": "FullWidthImage",
+  "name": "FullWidthImageSection",
+  "description": "FullWidthImageSection",
   "variations": [
     {
       "id": "default-slice",
       "name": "Default slice",
       "docURL": "...",
       "version": "sktwi1xtmkfgx8626",
-      "description": "FullWidthImage",
+      "description": "FullWidthImageSection",
       "primary": {
         "description": {
           "type": "StructuredText",
@@ -19,9 +19,9 @@
             "placeholder": "A nice description of your feature"
           }
         },
-        "button": {
+        "link": {
           "config": {
-            "label": "",
+            "label": "Link",
             "placeholder": "",
             "allowTargetBlank": true
           },

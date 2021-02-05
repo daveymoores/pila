@@ -16,17 +16,36 @@ export const linkResolver = (doc) => {
   if (doc.type === "post") {
     return `/blog/${doc.uid}`;
   }
+
+  if (doc.type === "detail_page") {
+    return `/detail/${doc.uid}`;
+  }
+
+  if (doc.type === "theme_page") {
+    return `/theme/${doc.uid}`;
+  }
+
   if (doc.type === "page") {
     return `/${doc.uid}`;
   }
+
   return "/";
 };
 
-// Additional helper function for Next/Link components
+// Additional helper function for Next/Link layout
 export const hrefResolver = (doc) => {
   if (doc.type === "post") {
     return "/blog/[uid]";
   }
+
+  if (doc.type === "detail_page") {
+    return `/detail/[uid]`;
+  }
+
+  if (doc.type === "theme_page") {
+    return `/theme/[uid]`;
+  }
+
   return "/";
 };
 

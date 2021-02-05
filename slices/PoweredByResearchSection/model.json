@@ -1,0 +1,43 @@
+{
+  "id": "powered_by_research_section",
+  "type": "SharedSlice",
+  "name": "PoweredByResearchSection",
+  "description": "PoweredByResearchSection",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "PoweredByResearchSection",
+      "primary": {
+        "eyebrowHeadline": {
+          "config": {
+            "label": "Eyebrow headline",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "heading2"
+          },
+          "type": "StructuredText"
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Description",
+            "placeholder": "A nice description of your feature"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

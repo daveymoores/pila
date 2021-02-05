@@ -1,10 +1,14 @@
 import SliceZone from "next-slicezone";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import React from "react";
 
 import { Client } from "../prismic";
 import resolver from "../sm-resolver.js";
 
-const Page = (props) => <SliceZone {...props} resolver={resolver} />;
+const Page = (props: JSX.IntrinsicAttributes) => {
+  console.log(props);
+  return <SliceZone {...props} resolver={resolver} />;
+};
 
 // Fetch content from prismic
 export const getStaticProps = useGetStaticProps({
