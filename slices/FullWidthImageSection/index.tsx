@@ -1,89 +1,57 @@
 import styled from "@emotion/styled";
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Paragraph,
-} from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import { Box, Image } from "grommet";
 import React, { FC } from "react";
 
-import ResponsiveGrid from "../../src/organisms/ResponsiveGrid/ResponsiveGrid";
+import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
+import TextContent, {
+  TextContentProps,
+} from "../../src/organisms/text-content/TextContent";
 import ImageProps from "../../types/ImageProps";
 
-enum TextPosition {
-  textLeft = "text_left",
-  textRight = "text_right",
-}
+type Primary = TextContentProps & {
+  image: ImageProps;
+};
 
 interface FullWidthImageSectionProps {
   slice: {
-    primary: {
-      title: RichTextBlock[];
-      description: RichTextBlock[];
-      link: Link;
-      image: ImageProps;
-      textPosition: TextPosition;
-    };
+    primary: Primary;
   };
 }
 
-const FullWidthImageSection: FC<FullWidthImageSectionProps> = ({ slice }) => (
-  <StyledSection bgUrl={slice.primary.image.url}>
-    <ResponsiveGrid gap="small" margin="medium" columns="medium" rows="1">
-      <Card background="light-1">
-        {/*{slice.primary.title && (*/}
-        <CardHeader pad="medium">
-          <Box>
-            <Heading
-              level={"3"}
-              margin="none"
-              alignSelf={"stretch"}
-              size="small"
-            >
-              This is a hard coded hairline
-              {/*<RichText render={slice.primary.title} />*/}
-            </Heading>
-            <Heading
-              level={"1"}
-              margin="none"
-              alignSelf={"stretch"}
-              size="medium"
-            >
-              This is a hard coded title
-              {/*<RichText render={slice.primary.title} />*/}
-            </Heading>
-          </Box>
-        </CardHeader>
-        {/*)}*/}
-        {slice.primary.description && (
-          <CardBody pad="medium">
-            <Paragraph margin="none">
-              <RichText render={slice.primary.description} />
-            </Paragraph>
-          </CardBody>
-        )}
-        {slice.primary.link && (
-          <CardFooter pad="medium">
-            <Button primary size="large" type="button" label="label" />
-          </CardFooter>
-        )}
-      </Card>
-    </ResponsiveGrid>
-  </StyledSection>
-);
+const FullWidthImageSection: FC<FullWidthImageSectionProps> = ({ slice }) => {
+  const {
+    primary: { image, ...textContentProps },
+  } = slice;
+  return (
+    <StyledSection justify={"center"}>
+      <StyledImage fit="cover" src={image.url} />
+      <StyledResponsiveGrid
+        gap="small"
+        margin="medium"
+        columns="medium"
+        rows="1"
+      >
+        <TextContent {...textContentProps} />
+      </StyledResponsiveGrid>
+    </StyledSection>
+  );
+};
 
 type StyledSectionProps = {
   bgUrl?: string;
 };
 
+const StyledResponsiveGrid = styled(ResponsiveGrid)``;
+
 const StyledSection = styled(Box)<StyledSectionProps>`
-  background-image: ${(props) => `url("${props.bgUrl}")`};
+  position: relative;
   min-height: 800px;
+`;
+
+const StyledImage = styled(Image)`
+  position: absolute;
+  height: 100%;
+  width: 100%;
 `;
 
 export default FullWidthImageSection;

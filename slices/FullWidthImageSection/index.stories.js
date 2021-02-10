@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import React from "react";
 
-import WithPilaTheme from "../../Helpers/Storybook/WithPilaTheme";
+import WithPilaTheme from "../../helpers/storybook/WithPilaTheme";
 import Component from "./";
 import mocks from "./mocks.json";
 import model from "./model";

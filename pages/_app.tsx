@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import NextApp from "next/app";
 import React from "react";
 
-import Scaffold from "../src/organisms/Scaffold/Scaffold";
+import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 
 export default class App extends NextApp {

@@ -1,9 +1,9 @@
 import { Main } from "grommet";
 import React from "react";
 
-import Doormat from "../Doormat/Doormat";
-import Footer from "../Footer/Footer";
-import Navigation from "../Navigation/Navigation";
+import Doormat from "../doormat/Doormat";
+import Footer from "../footer/Footer";
+import Navigation from "../navigation/Navigation";
 
 interface ScaffoldProps {
   children: React.ReactElement;

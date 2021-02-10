@@ -14,7 +14,7 @@ interface GridOptions<T> {
 
 interface ResponsiveProps
   extends Omit<GridProps, "areas" | "columns" | "rows"> {
-  children: React.ReactElement;
+  children: React.ReactChild | React.ReactElement[];
   rows: GridOptions<GridOption> | string;
   columns: GridOptions<GridOption> | string;
   areas?: GridOptions<AreaOption>;
@@ -68,6 +68,7 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
 }) => (
   <ResponsiveContext.Consumer>
     {(size) => {
+      console.log(`Grid size: ${size}`);
       let columnsVal = columns;
       if (typeof columns !== "string") {
         if (columns[size as keyof GridOptions<GridOption>]) {
