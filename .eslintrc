@@ -21,7 +21,8 @@
   "plugins": [
     "html",
     "prettier",
-    "simple-import-sort"
+    "simple-import-sort",
+    "json-format"
   ],
   "settings": {
     "import/resolver": {

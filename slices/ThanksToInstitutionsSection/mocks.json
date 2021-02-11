@@ -1,1 +1,76 @@
-[{"id":"default-slice","name":"Default slice","docURL":"...","version":"sktwi1xtmkfgx8626","description":"ThanksToInstitutionsSection","primary":{"title":[{"type":"heading1","text":"revolutionize one-to-one networks","spans":[]}]},"items":[{"logo":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/0be9cf2b-fb56-44f2-8a28-6569845c633b_NP-pwHBvCYE.jpg?w=900&h=500&fit=crop"}},{"logo":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"}}],"slice_type":"thanks_to_institutions_section"}]
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "ThanksToInstitutionsSection",
+    "primary": {
+      "title": [
+        {
+          "type": "heading1",
+          "text": "revolutionize one-to-one networks",
+          "spans": []
+        }
+      ]
+    },
+    "items": [
+      {
+        "logo": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.prismic.io/important-sm-images/0be9cf2b-fb56-44f2-8a28-6569845c633b_NP-pwHBvCYE.jpg?w=900&h=500&fit=crop"
+        }
+      },
+      {
+        "logo": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+        }
+      },
+      {
+        "logo": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+        }
+      },
+      {
+        "logo": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+        }
+      },
+      {
+        "logo": {
+          "dimensions": {
+            "width": 900,
+            "height": 500
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+        }
+      }
+    ],
+    "slice_type": "thanks_to_institutions_section"
+  }
+]

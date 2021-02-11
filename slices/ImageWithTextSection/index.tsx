@@ -27,32 +27,32 @@ const columns = {
   small: ["auto"],
   medium: ["auto"],
   large: [
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
   ],
   xlarge: [
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
-    "auto",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
+    "flex",
   ],
 };
 
@@ -63,7 +63,7 @@ const rows = {
   xlarge: ["auto"],
 };
 
-const gridAreas = {
+const gridAreas = (imageSide: ImagePosition) => ({
   small: [
     { name: "image", start: [0, 0], end: [1, 0] },
     { name: "text", start: [0, 1], end: [1, 1] },
@@ -72,32 +72,39 @@ const gridAreas = {
     { name: "image", start: [0, 0], end: [1, 0] },
     { name: "text", start: [0, 1], end: [1, 1] },
   ],
-  large: [
-    { name: "image", start: [0, 0], end: [5, 0] },
-    { name: "text", start: [6, 0], end: [11, 0] },
-  ],
-  xlarge: [
-    { name: "image", start: [0, 0], end: [5, 0] },
-    { name: "text", start: [6, 0], end: [11, 0] },
-  ],
-};
+  large:
+    imageSide === ImagePosition.imageRight
+      ? [
+          { name: "image", start: [6, 0], end: [11, 0] },
+          { name: "text", start: [0, 0], end: [5, 0] },
+        ]
+      : [
+          { name: "image", start: [0, 0], end: [5, 0] },
+          { name: "text", start: [7, 0], end: [11, 0] },
+        ],
+  xlarge:
+    imageSide === ImagePosition.imageRight
+      ? [
+          { name: "image", start: [6, 0], end: [11, 0] },
+          { name: "text", start: [0, 0], end: [5, 0] },
+        ]
+      : [
+          { name: "image", start: [0, 0], end: [5, 0] },
+          { name: "text", start: [7, 0], end: [11, 0] },
+        ],
+});
 
 const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
-  // TODO - use imageSide
   const {
     primary: { image, backgroundColor, imageSide, ...textContentProps },
   } = slice;
   return (
     <StyledSection background={colorMapper(backgroundColor)} justify={"center"}>
       <ResponsiveGrid
-        gap="small"
         margin="medium"
         columns={columns}
-        areas={gridAreas}
+        areas={gridAreas(imageSide)}
         rows={rows}
-        direction={
-          imageSide === ImagePosition.imageLeft ? "row" : "row-reverse"
-        }
       >
         <Box gridArea="image">
           <StyledImage fill src={image.url} />

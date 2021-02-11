@@ -1,5 +1,4 @@
 import { Grid, GridProps, ResponsiveContext } from "grommet";
-import { BoxProps } from "grommet/components/Box";
 import React from "react";
 
 type GridOption = string[][] | string[];
@@ -13,7 +12,8 @@ interface GridOptions<T> {
   xlarge: T;
 }
 
-interface ResponsiveProps extends Omit<BoxProps, "areas" | "columns" | "rows"> {
+interface ResponsiveProps
+  extends Omit<GridProps, "areas" | "columns" | "rows"> {
   children: React.ReactChild | React.ReactElement[];
   rows: GridOptions<GridOption> | string;
   columns: GridOptions<GridOption> | string;
@@ -64,6 +64,7 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
   columns,
   rows,
   areas,
+  gap = "medium",
   ...props
 }) => (
   <ResponsiveContext.Consumer>
@@ -97,6 +98,7 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
       return (
         <Grid
           {...props}
+          gap={gap}
           areas={(!areasVal ? undefined : areasVal) as GridProps["areas"]}
           rows={(!rowsVal ? size : rowsVal) as GridProps["rows"]}
           columns={(!columnsVal ? size : columnsVal) as GridProps["columns"]}
