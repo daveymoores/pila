@@ -95,10 +95,12 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
         columns={columns}
         areas={gridAreas}
         rows={rows}
-        justifyContent={"center"}
+        direction={
+          imageSide === ImagePosition.imageLeft ? "row" : "row-reverse"
+        }
       >
         <Box gridArea="image">
-          <StyledImage fill={"cover"} src={image.url} />
+          <StyledImage fill src={image.url} />
         </Box>
         <Box gridArea="text">
           <TextContent {...textContentProps} />
