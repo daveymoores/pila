@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
 import { Box, Card } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
+import styled from "styled-components";
 
 interface PoweredByResearchSectionProps {
   slice: {

@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
 import { Box, Image } from "grommet";
 import React, { FC } from "react";
+import styled from "styled-components";
 
 import colorMapper from "../../helpers/color-mapper/colorMapper";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";

@@ -22,7 +22,8 @@
     "html",
     "prettier",
     "simple-import-sort",
-    "json-format"
+    "json-format",
+    "babel-plugin-styled-components"
   ],
   "settings": {
     "import/resolver": {

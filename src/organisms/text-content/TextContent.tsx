@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import {
   Box,
   Card,
@@ -10,6 +9,7 @@ import {
 } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
+import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import { colorPalette } from "../../theme/pila";

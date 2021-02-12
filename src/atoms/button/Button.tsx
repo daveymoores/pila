@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
 import { Button as GrommetButton, ButtonProps } from "grommet";
 import React from "react";
+import styled from "styled-components";
 
 export enum ButtonSizes {
   small = "small",

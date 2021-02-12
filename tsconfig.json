@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "types": ["node", "@emotion/react", "jest"],
+    "types": ["node", "jest"],
     "lib": [
       "dom",
       "dom.iterable",

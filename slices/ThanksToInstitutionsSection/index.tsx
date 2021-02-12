@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
 import { Box, Card, Grid, Heading, Image } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
+import styled from "styled-components";
 
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import ImageProps from "../../types/ImageProps";
