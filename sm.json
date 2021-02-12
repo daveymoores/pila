@@ -3,7 +3,7 @@
     "@/slices",
     "essential-slices"
   ],
-  "apiEndpoint": "https://pila-app.cdn.prismic.io/api/v2",
+  "apiEndpoint": "https://pila.cdn.prismic.io/api/v2",
   "_latest": "0.0.43",
   "storybook": "http://localhost:8888"
 }

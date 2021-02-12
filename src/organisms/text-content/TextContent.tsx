@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import {
   Box,
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -12,14 +11,15 @@ import {
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
-import TextPosition from "../../../types/TextPosition";
+import Button, { ButtonColors, ButtonSizes } from "../../atoms/button/Button";
+import { colorPalette } from "../../theme/pila";
 
 export interface TextContentProps {
   eyebrowHeadline: RichTextBlock[];
   title: RichTextBlock[];
   description: RichTextBlock[];
   link: Link;
-  textPosition: TextPosition;
+  linkLabel: string;
 }
 
 const TextContent = ({
@@ -27,15 +27,35 @@ const TextContent = ({
   title,
   description,
   link,
+  linkLabel,
 }: TextContentProps) => (
   <StyledCard background="light-1">
-    <CardHeader pad="medium">
+    <CardHeader
+      pad={{
+        top: "medium",
+        bottom: "none",
+        left: "medium",
+        right: "medium",
+      }}
+    >
       <Box>
-        <Heading level={"3"} margin="none" alignSelf={"stretch"} size="small">
-          {RichText.asText(eyebrowHeadline) || "This is a hard coded hairline"}
+        <Heading
+          level={"5"}
+          color={"text-weak"}
+          margin="none"
+          alignSelf={"stretch"}
+          responsive={false}
+        >
+          {RichText.asText(eyebrowHeadline)}
         </Heading>
-        <Heading level={"1"} margin="none" alignSelf={"stretch"} size="medium">
-          {RichText.asText(title) || "This is a hard coded title"}
+        <Heading
+          level={"1"}
+          margin="none"
+          alignSelf={"stretch"}
+          size="small"
+          responsive={false}
+        >
+          {RichText.asText(title)}
         </Heading>
       </Box>
     </CardHeader>
@@ -46,9 +66,22 @@ const TextContent = ({
         </Paragraph>
       </CardBody>
     )}
-    {link && (
-      <CardFooter pad="medium">
-        <Button primary size="large" type="button" label="label" />
+    {link && linkLabel && (
+      <CardFooter
+        pad={{
+          top: "none",
+          bottom: "medium",
+          left: "medium",
+          right: "medium",
+        }}
+      >
+        <Button
+          primary
+          color={colorPalette.blue}
+          size={ButtonSizes.large}
+          type="button"
+          label={linkLabel}
+        />
       </CardFooter>
     )}
   </StyledCard>

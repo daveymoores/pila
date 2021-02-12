@@ -1,0 +1,50 @@
+{
+  "id": "cta_banner",
+  "type": "SharedSlice",
+  "name": "CtaBanner",
+  "description": "CtaBanner",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "CtaBanner",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Description",
+            "placeholder": "A nice description of your feature"
+          }
+        },
+        "buttonOne": {
+          "config": {
+            "label": "Button One",
+            "placeholder": "",
+            "allowTargetBlank": true
+          },
+          "type": "Link"
+        },
+        "buttonTwo": {
+          "config": {
+            "label": "Button Two",
+            "placeholder": "",
+            "allowTargetBlank": true
+          },
+          "type": "Link"
+        }
+      },
+      "items": {}
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "eyebrowHeadline": [
+    {
+      "type": "heading2",
+      "text": "incentivize front-end e-markets",
+      "spans": []
+    }
+  ],
+  "title": [
+    {
+      "type": "heading1",
+      "text": "syndicate strategic deliverables",
+      "spans": []
+    }
+  ],
+  "description": [
+    {
+      "type": "paragraph",
+      "text": "Eu veniam deserunt duis non anim. Adipisicing est adipisicing minim eu laborum sunt fugiat est incididunt nisi cupidatat aute fugiat. Duis in laboris pariatur dolor eiusmod reprehenderit.",
+      "spans": []
+    }
+  ],
+  "link": {
+    "link_type": "Web",
+    "url": "https://slicemachine.dev"
+  },
+  "linkLabel": "Learn more about the dashboard"
+}

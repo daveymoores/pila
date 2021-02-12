@@ -1,0 +1,51 @@
+{
+  "id": "highlight_banner",
+  "type": "SharedSlice",
+  "name": "HighlightBanner",
+  "description": "HighlightBanner",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "HighlightBanner",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        },
+        "subtitle": {
+          "config": {
+            "label": "Subtitle",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "heading3"
+          },
+          "type": "StructuredText"
+        },
+        "buttonOne": {
+          "config": {
+            "label": "Button One",
+            "placeholder": "",
+            "allowTargetBlank": true
+          },
+          "type": "Link"
+        },
+        "buttonTwo": {
+          "config": {
+            "label": "Button Two",
+            "placeholder": "",
+            "allowTargetBlank": true
+          },
+          "type": "Link"
+        }
+      },
+      "items": {}
+    }
+  ]
+}

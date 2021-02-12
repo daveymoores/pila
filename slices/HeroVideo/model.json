@@ -1,0 +1,34 @@
+{
+  "id": "hero_video",
+  "type": "SharedSlice",
+  "name": "HeroVideo",
+  "description": "HeroVideo",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "HeroVideo",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        },
+        "video": {
+          "config": {
+            "label": "Video",
+            "placeholder": "",
+            "allowTargetBlank": true
+          },
+          "type": "Link"
+        }
+      },
+      "items": {}
+    }
+  ]
+}

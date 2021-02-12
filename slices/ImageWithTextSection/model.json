@@ -16,25 +16,27 @@
             "label": "Eyebrow headline",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+            "single": "heading2"
           },
           "type": "StructuredText"
         },
         "title": {
-          "type": "StructuredText",
           "config": {
-            "single": "heading1",
             "label": "Title",
-            "placeholder": "This is where it all begins..."
-          }
+            "placeholder": "This is where it all begins...",
+            "allowTargetBlank": true,
+            "single": "heading1"
+          },
+          "type": "StructuredText"
         },
         "description": {
-          "type": "StructuredText",
           "config": {
-            "single": "paragraph",
             "label": "Description",
-            "placeholder": "A nice description of your feature"
-          }
+            "placeholder": "A nice description of your feature",
+            "allowTargetBlank": true,
+            "single": "paragraph,hyperlink,em,strong"
+          },
+          "type": "StructuredText"
         },
         "image": {
           "config": {
