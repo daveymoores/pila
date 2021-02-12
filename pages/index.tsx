@@ -13,7 +13,7 @@ const Page = (props: JSX.IntrinsicAttributes) => {
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: "single",
-  type: "Home",
+  type: "home",
 });
 
 export default Page;

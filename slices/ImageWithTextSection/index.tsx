@@ -106,7 +106,7 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
         areas={gridAreas(imageSide)}
         rows={rows}
       >
-        <Box gridArea="image">
+        <Box gridArea="image" height="550px">
           <StyledImage fill src={image.url} />
         </Box>
         <Box gridArea="text">

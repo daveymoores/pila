@@ -39,6 +39,7 @@ const TextContent = ({
     elevation={asCard ? "xlarge" : "none"}
     background={background}
     pad={asCard ? padding : "none"}
+    round={asCard ? "medium" : "none"}
   >
     {title && (
       <CardHeader
