@@ -19,6 +19,13 @@
             "placeholder": "A nice description of your feature"
           }
         },
+        "linkLabel": {
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
         "link": {
           "config": {
             "label": "Link",

@@ -58,6 +58,13 @@
           },
           "type": "Select"
         },
+        "linkLabel": {
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
         "link": {
           "config": {
             "label": "Link",

@@ -110,7 +110,7 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
           <StyledImage fill src={image.url} />
         </Box>
         <Box gridArea="text">
-          <TextContent {...textContentProps} />
+          <TextContent {...textContentProps} padding="medium" />
         </Box>
       </ResponsiveGrid>
     </StyledSection>

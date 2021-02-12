@@ -31,7 +31,12 @@ const FullWidthImageSection: FC<FullWidthImageSectionProps> = ({ slice }) => {
         columns="medium"
         rows="1"
       >
-        <TextContent {...textContentProps} />
+        <TextContent
+          {...textContentProps}
+          asCard={true}
+          padding="medium"
+          background="light-1"
+        />
       </StyledResponsiveGrid>
     </StyledSection>
   );
