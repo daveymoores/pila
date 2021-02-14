@@ -5,10 +5,9 @@ import React from "react";
 import { Client } from "../../prismic";
 import resolver from "../../sm-resolver.js";
 
-const Page = (props: JSX.IntrinsicAttributes) =>
-  console.log("props -> ", props) || (
-    <SliceZone {...props} resolver={resolver} />
-  );
+const Page = (props: JSX.IntrinsicAttributes) => (
+  <SliceZone {...props} resolver={resolver} />
+);
 
 // Fetch content from prismic
 export const getStaticProps = useGetStaticProps({
