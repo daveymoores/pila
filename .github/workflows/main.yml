@@ -1,4 +1,4 @@
-name: 'Heroku Deploy'
+name: 'Heroku Production'
 on:
   repository_dispatch:
     types: [ api-update ]
@@ -26,6 +26,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
+
+      - name: Run tsc
+        run: yarn tsc
 
       - name: Run tests
         run: yarn test
