@@ -13,7 +13,10 @@ const pila = {
     colors: {
       brand: {
         dark: "#2E32DB",
-        light: "#56B3AE",
+        light: "#2E32DB",
+      },
+      "brand-dark": {
+        light: "#2427B4",
       },
       background: {
         dark: "#1D2430",

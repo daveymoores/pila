@@ -23,7 +23,7 @@ const Social = () => (
 );
 
 const Footer = () => (
-  <GrommetFooter background="light-4" pad="small">
+  <GrommetFooter background="brand-dark" pad="small">
     <Social />
     <Text textAlign="center" size="xsmall">
       ©Copyright

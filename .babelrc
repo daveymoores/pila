@@ -5,6 +5,7 @@
     ]
   ],
   "plugins": [
-    "react-require"
+    "react-require",
+    "babel-plugin-styled-components"
   ]
 }
