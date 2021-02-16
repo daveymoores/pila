@@ -3,6 +3,7 @@ import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import ImageProps from "../../types/ImageProps";
 
@@ -35,7 +36,7 @@ const ThanksToInstitutionsSection: FC<ThanksToInstitutionsSectionProps> = ({
   slice,
 }) => (
   <StyledSection background={"light-2"} justify={"center"}>
-    <Box>
+    <Section justify={"center"} flex>
       <Grid margin="medium" columns={"large"}>
         <Heading level={"1"} margin="none" alignSelf={"stretch"} size="medium">
           {RichText.asText(slice.primary.title) || "This is a hard coded title"}
@@ -49,7 +50,7 @@ const ThanksToInstitutionsSection: FC<ThanksToInstitutionsSectionProps> = ({
           </Card>
         ))}
       </ResponsiveGrid>
-    </Box>
+    </Section>
   </StyledSection>
 );
 

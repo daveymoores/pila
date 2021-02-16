@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Card,
   CardBody,
   CardFooter,
@@ -23,9 +24,10 @@ export interface TextContentProps {
   padding?: "small" | "medium" | "large" | "none";
   background?: string;
   asCard: boolean;
+  className?: string;
 }
 
-const TextContent = ({
+const TextContent: React.FC<TextContentProps> = ({
   eyebrowHeadline,
   title,
   description,
@@ -34,8 +36,10 @@ const TextContent = ({
   asCard = false,
   padding = "none",
   background,
-}: TextContentProps) => (
+  className,
+}) => (
   <StyledCard
+    className={className}
     elevation={asCard ? "xlarge" : "none"}
     background={background}
     pad={asCard ? padding : "none"}

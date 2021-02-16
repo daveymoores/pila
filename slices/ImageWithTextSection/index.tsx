@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import colorMapper from "../../helpers/color-mapper/colorMapper";
+import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent, {
   TextContentProps,
@@ -99,25 +100,27 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
     primary: { image, backgroundColor, imageSide, ...textContentProps },
   } = slice;
   return (
-    <StyledSection background={colorMapper(backgroundColor)} justify={"center"}>
-      <ResponsiveGrid
-        margin="medium"
-        columns={columns}
-        areas={gridAreas(imageSide)}
-        rows={rows}
-      >
-        <Box gridArea="image" height="550px">
-          <StyledImage fill src={image.url} />
-        </Box>
-        <Box gridArea="text">
-          <TextContent {...textContentProps} padding="medium" />
-        </Box>
-      </ResponsiveGrid>
-    </StyledSection>
+    <StyledBox background={colorMapper(backgroundColor)} justify={"center"}>
+      <Section>
+        <ResponsiveGrid
+          margin="medium"
+          columns={columns}
+          areas={gridAreas(imageSide)}
+          rows={rows}
+        >
+          <Box gridArea="image" height="550px">
+            <StyledImage fill src={image.url} />
+          </Box>
+          <Box gridArea="text">
+            <TextContent {...textContentProps} padding="medium" />
+          </Box>
+        </ResponsiveGrid>
+      </Section>
+    </StyledBox>
   );
 };
 
-const StyledSection = styled(Box)`
+const StyledBox = styled(Box)`
   min-height: 800px;
 `;
 
