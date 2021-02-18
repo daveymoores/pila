@@ -37,7 +37,17 @@
           }
         }
       },
-      "items": {}
+      "items": {
+        "module": {
+          "type": "Link",
+          "config": {
+            "label": "",
+            "id": "module",
+            "placeholder": "",
+            "allowTargetBlank": true
+          }
+        }
+      }
     }
   ]
 }

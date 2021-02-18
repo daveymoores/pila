@@ -1,6 +1,7 @@
 import { Main } from "grommet";
 import React from "react";
 
+import Section from "../../src/layout/section/Section";
 import PilaTheme from "../../src/theme/PilaTheme/PilaTheme";
 
 interface PilaThemeScaffoldProps {
@@ -9,7 +10,7 @@ interface PilaThemeScaffoldProps {
 
 const WithPilaTheme: React.FC<PilaThemeScaffoldProps> = ({ children }) => (
   <PilaTheme>
-    <Main>{children}</Main>
+    <Main overflow={"visible"}>{children}</Main>
   </PilaTheme>
 );
 

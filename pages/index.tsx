@@ -6,6 +6,7 @@ import { Client } from "../prismic";
 import resolver from "../sm-resolver.js";
 
 const Page = (props: JSX.IntrinsicAttributes) => {
+  console.log(props);
   return <SliceZone {...props} resolver={resolver} />;
 };
 

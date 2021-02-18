@@ -1,4 +1,3 @@
-export { default as ProjectCard } from "./ProjectCard";
 export { default as FullWidthImageSection } from "./FullWidthImageSection";
 export { default as ImageWithTextSection } from "./ImageWithTextSection";
 
