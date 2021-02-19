@@ -56,8 +56,8 @@ const StyledHeader = styled(Header)`
 `;
 
 const StyledLogoBox = styled(Box)`
-  width: 170px;
-  height: 60px;
+  width: 110px;
+  height: 40px;
 `;
 
 const StyledLogo = styled(Logo)`
