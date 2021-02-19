@@ -1,10 +1,9 @@
 import { storiesOf } from "@storybook/react";
-import { Main } from "grommet";
+import { Grid } from "grommet";
 import React from "react";
 
 import WithPilaTheme from "../../../helpers/storybook/WithPilaTheme";
 import Section from "../../layout/section/Section";
-import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 import ProjectCard from "./ProjectCard";
 
 const props = {
@@ -27,29 +26,13 @@ const props = {
   ],
 };
 
-const columns = {
-  small: ["auto"],
-  medium: ["auto", "auto"],
-  large: ["auto", "auto", "auto"],
-  xlarge: ["1/3", "1/3", "1/3"],
-};
-
-const rows = {
-  small: ["auto", "auto"],
-  medium: ["auto", "auto"],
-  large: ["auto"],
-  xlarge: ["auto"],
-};
-
 storiesOf("ProjectCard", ProjectCard)
   .addDecorator((Story) => (
     <WithPilaTheme>
       <Section justify={"center"} flex>
-        <ResponsiveGrid rows={rows} columns={columns}>
+        <Grid columns={"medium"}>
           <Story />
-          <Story />
-          <Story />
-        </ResponsiveGrid>
+        </Grid>
       </Section>
     </WithPilaTheme>
   ))

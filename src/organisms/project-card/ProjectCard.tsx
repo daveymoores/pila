@@ -1,17 +1,12 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Image,
-  Paragraph,
-} from "grommet";
+import { Card, CardBody, CardHeader, Heading, Image, Paragraph } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import { colorPalette } from "../../theme/pila";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Icon from "./Icon";
 
 interface ProjectCardProps {
   src: string;
@@ -22,14 +17,16 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
   /* TODO - move "View Module" to dictionary */
   return (
-    <Card elevation="xlarge" pad="medium">
-      <CardHeader>
-        <Image src={src} width={"100%"} />
+    <Card elevation="xlarge" pad="large" round={"medium"} direction={"column"}>
+      <CardHeader justify={"center"}>
+        {src ? <Image src={src} width={"100%"} /> : <Icon />}
       </CardHeader>
       <CardBody
+        margin={{ top: "medium" }}
         pad={{
           top: "medium",
         }}
+        align={"start"}
       >
         <Heading
           level={"4"}
@@ -47,20 +44,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
         >
           {RichText.asText(body)}
         </Paragraph>
-      </CardBody>
-      <CardFooter
-        pad={{
-          top: "medium",
-        }}
-      >
         <Button
+          margin={{ top: "medium" }}
           primary
-          color={colorPalette.blue}
+          color={colorPalette.green}
           size={ButtonSizes.small}
           type="button"
           label="View module"
         />
-      </CardFooter>
+      </CardBody>
     </Card>
   );
 };

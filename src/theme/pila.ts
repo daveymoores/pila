@@ -1,6 +1,8 @@
 export const colorPalette = {
   blue: "#2E32DB",
+  dark_blue: "#1D2430",
   green: "#56B3AE",
+  light_green: "#6BEAC9",
   yellow: "#FFE06E",
 };
 
