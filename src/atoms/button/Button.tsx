@@ -2,6 +2,8 @@ import { Button as GrommetButton, ButtonProps } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
+import { colorPalette } from "../../theme/pila";
+
 export enum ButtonSizes {
   small = "small",
   large = "large",
@@ -23,6 +25,7 @@ const StyledButton = styled(GrommetButton)<BtnProps>`
   background-color: ${(props) => props.color};
   padding: ${(props) =>
     props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};
+  color: ${(props) => props.color === colorPalette.green && "white"};
 `;
 
 export default Button;

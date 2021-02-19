@@ -108,9 +108,12 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
           areas={gridAreas(imageSide)}
           rows={rows}
         >
-          <Box gridArea="image" height="550px">
-            <StyledImage fill src={image.url} />
-          </Box>
+          <Box
+            gridArea="image"
+            height="550px"
+            background={`url(${image.url})`}
+            round={"medium"}
+          />
           <Box gridArea="text">
             <TextContent {...textContentProps} padding="medium" />
           </Box>
@@ -122,10 +125,6 @@ const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
 
 const StyledBox = styled(Box)`
   min-height: 800px;
-`;
-
-const StyledImage = styled(Image)`
-  border-radius: 25px;
 `;
 
 export default ImageWithTextSection;

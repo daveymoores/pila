@@ -1,6 +1,5 @@
 import {
   Box,
-  BoxProps,
   Card,
   CardBody,
   CardFooter,
@@ -18,12 +17,12 @@ import { colorPalette } from "../../theme/pila";
 export interface TextContentProps {
   eyebrowHeadline?: RichTextBlock[];
   title: RichTextBlock[];
-  description: RichTextBlock[];
+  description?: RichTextBlock[];
   link?: Link;
   linkLabel?: string;
   padding?: "small" | "medium" | "large" | "none";
   background?: string;
-  asCard: boolean;
+  asCard?: boolean;
   className?: string;
 }
 

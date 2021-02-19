@@ -6,10 +6,10 @@ type GridOption = string[][] | string[];
 type AreaOption = { name?: string; start?: number[]; end?: number[] }[];
 
 interface GridOptions<T> {
-  small: T;
-  medium: T;
-  large: T;
-  xlarge: T;
+  small?: T;
+  medium?: T;
+  large?: T;
+  xlarge?: T;
 }
 
 interface ResponsiveProps

@@ -22,7 +22,7 @@ const StyledBox = styled(Box)`
 
   @media (min-width: 1248px) {
     padding: 0 5rem;
-    max-width: 1760px;
+    max-width: 1480px;
     margin: 0 auto;
   }
 `;
