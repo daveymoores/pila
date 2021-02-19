@@ -1,31 +1,18 @@
-import React from 'react';
-import { array, shape } from 'prop-types';
-import { RichText } from 'prismic-reactjs';
+import { RichText } from "prismic-reactjs";
+import { array, shape } from "prop-types";
+import React from "react";
 
 const section = {
-  maxWidth: '600px',
-  margin: '4em auto',
-  textAlign: 'center',
+  maxWidth: "600px",
+  margin: "4em auto",
+  textAlign: "center",
 };
 
 const h2 = {
-  color: '#8592e0',
+  color: "#8592e0",
 };
 
-const MySlice = ({ slice }) => (
-  <section style={section}>
-    {
-      slice.primary.title ?
-      <RichText render={slice.primary.title}/>
-      : <h2 style={h2}>Template slice, update me!</h2>
-    }
-    {
-      slice.primary.description ?
-      <RichText render={slice.primary.description}/>
-      : <p>start by editing this slice from inside the SliceMachine builder!</p>
-    }
-  </section>
-);
+const MySlice = ({ slice }) => null;
 
 MySlice.propTypes = {
   slice: shape({
