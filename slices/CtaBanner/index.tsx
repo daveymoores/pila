@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Heading, Paragraph } from "grommet";
+import { Card, CardBody, CardHeader, Heading } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
@@ -10,9 +10,8 @@ import { colorPalette } from "../../src/theme/pila";
 
 type Primary = {
   title: RichTextBlock[];
-  description: RichTextBlock[];
-  buttonOne: Link;
-  buttonTwo: Link;
+  buttonOneLink: Link;
+  buttonTwoLink: Link;
   buttonOneLabel: string;
   buttonTwoLabel: string;
 };
@@ -23,14 +22,13 @@ interface CtaBannerProps {
   };
 }
 
-const FullWidthImageSection: FC<CtaBannerProps> = ({ slice }) => {
+const CtaBanner: FC<CtaBannerProps> = ({ slice }) => {
   const {
     primary: {
       title,
-      description,
-      buttonOne,
+      buttonOneLink,
       buttonOneLabel = "Button Label",
-      buttonTwo,
+      buttonTwoLink,
       buttonTwoLabel = "Button Label",
     },
   } = slice;
@@ -57,16 +55,6 @@ const FullWidthImageSection: FC<CtaBannerProps> = ({ slice }) => {
                 {RichText.asText(title)}
               </Heading>
             )}
-            {/*description && (
-              <Paragraph
-                color={"white"}
-                textAlign={"center"}
-                margin="none"
-                fill
-              >
-                {RichText.asText(description)}
-              </Paragraph>
-            )*/}
           </CardHeader>
           <CardBody
             margin={{ top: "medium" }}
@@ -77,7 +65,7 @@ const FullWidthImageSection: FC<CtaBannerProps> = ({ slice }) => {
           >
             <Button
               margin={"small"}
-              href={buttonOne.url}
+              href={buttonOneLink.url}
               primary
               color={colorPalette.yellow}
               size={ButtonSizes.large}
@@ -86,7 +74,7 @@ const FullWidthImageSection: FC<CtaBannerProps> = ({ slice }) => {
             />
             <Button
               margin={"small"}
-              href={buttonTwo.url}
+              href={buttonTwoLink.url}
               primary
               color={colorPalette.yellow}
               size={ButtonSizes.large}
@@ -105,4 +93,4 @@ const StyledCard = styled(Card)`
   min-height: 380px;
 `;
 
-export default FullWidthImageSection;
+export default CtaBanner;

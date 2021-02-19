@@ -19,25 +19,31 @@
             "placeholder": "This is where it all begins..."
           }
         },
-        "description": {
-          "type": "StructuredText",
+        "buttonOneLabel": {
           "config": {
-            "single": "paragraph",
-            "label": "Description",
-            "placeholder": "A nice description of your feature"
-          }
+            "label": "Button one label",
+            "placeholder": ""
+          },
+          "type": "Text"
         },
-        "buttonOne": {
+        "buttonOneLink": {
           "config": {
-            "label": "Button One",
+            "label": "Button one link",
             "placeholder": "",
             "allowTargetBlank": true
           },
           "type": "Link"
         },
-        "buttonTwo": {
+        "buttonTwoLabel": {
           "config": {
-            "label": "Button Two",
+            "label": "Button two label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "buttonTwoLink": {
+          "config": {
+            "label": "Button two link",
             "placeholder": "",
             "allowTargetBlank": true
           },
