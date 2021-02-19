@@ -329,8 +329,8 @@ const pila = {
     level: {
       "1": {
         small: {
-          size: "34px",
-          height: "40px",
+          size: "38px",
+          height: "46px",
           maxWidth: "816px",
         },
         medium: {

@@ -25,7 +25,6 @@ const FullWidthImageSection: FC<FullWidthImageSectionProps> = ({ slice }) => {
   const {
     primary: { image, textPosition, ...textContentProps },
   } = slice;
-  console.log(textPosition);
   return (
     <StyledBox
       justify={"center"}

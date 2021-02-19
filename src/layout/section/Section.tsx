@@ -7,6 +7,7 @@ const Section: React.FC<BoxProps> = ({ children, ...restProps }) => (
 );
 
 const StyledBox = styled(Box)`
+  width: 100%;
   flex-grow: 1;
   padding: 0 3vw;
   justify-content: center;

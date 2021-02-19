@@ -22,7 +22,7 @@ const StyledButton = styled(GrommetButton)<BtnProps>`
   font-weight: bold;
   background-color: ${(props) => props.color};
   padding: ${(props) =>
-    props.size === ButtonSizes.small ? `10px 20px` : `15px 30px`};
+    props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};
 `;
 
 export default Button;
