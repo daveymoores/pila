@@ -19,26 +19,40 @@
             "placeholder": "This is where it all begins..."
           }
         },
-        "subtitle": {
+        "body": {
           "config": {
-            "label": "Subtitle",
+            "label": "Body",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "heading3"
+            "single": "paragraph"
           },
           "type": "StructuredText"
         },
-        "buttonOne": {
+        "buttonOneLabel": {
           "config": {
-            "label": "Button One",
+            "label": "Button one label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "buttonOneLink": {
+          "config": {
+            "label": "Button one link",
             "placeholder": "",
             "allowTargetBlank": true
           },
           "type": "Link"
         },
-        "buttonTwo": {
+        "buttonTwoLabel": {
           "config": {
-            "label": "Button Two",
+            "label": "Button two label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "buttonTwoLink": {
+          "config": {
+            "label": "Button two link",
             "placeholder": "",
             "allowTargetBlank": true
           },
