@@ -17,7 +17,13 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
   /* TODO - move "View Module" to dictionary */
   return (
-    <Card elevation="xlarge" pad="large" round={"medium"} direction={"column"}>
+    <Card
+      background={"white"}
+      elevation="xlarge"
+      pad="large"
+      round={"medium"}
+      direction={"column"}
+    >
       <CardHeader justify={"center"}>
         {src ? <Image src={src} width={"100%"} /> : <Icon />}
       </CardHeader>
