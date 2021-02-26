@@ -1,4 +1,4 @@
-import { Box, Image } from "grommet";
+import { Box } from "grommet";
 import React, { FC } from "react";
 import styled from "styled-components";
 
@@ -11,6 +11,7 @@ import TextContent, {
 import BackgroundColor from "../../types/BackgroundColor";
 import ImagePosition from "../../types/ImagePosition";
 import ImageProps from "../../types/ImageProps";
+import Slice from "../../types/Slice";
 
 type Primary = TextContentProps & {
   image: ImageProps;
@@ -18,11 +19,7 @@ type Primary = TextContentProps & {
   backgroundColor: BackgroundColor;
 };
 
-interface ImageWithTextSectionProps {
-  slice: {
-    primary: Primary;
-  };
-}
+export type ImageWithTextSectionProps = Slice<Primary, never>;
 
 const columns = {
   small: ["auto"],

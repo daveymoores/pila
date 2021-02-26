@@ -6,17 +6,17 @@ import styled from "styled-components";
 import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import ImageProps from "../../types/ImageProps";
+import Slice from "../../types/Slice";
 
-interface ThanksToInstitutionsSectionProps {
-  slice: {
-    primary: {
-      title: RichTextBlock[];
-    };
-    items: {
-      logo: ImageProps;
-    }[];
-  };
+interface Primary {
+  title: RichTextBlock[];
 }
+
+interface Item {
+  logo: ImageProps;
+}
+
+export type ThanksToInstitutionsSectionProps = Slice<Primary, Item>;
 
 const columns = {
   small: ["auto"],

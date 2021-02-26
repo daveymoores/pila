@@ -7,16 +7,15 @@ import Section from "../../src/layout/section/Section";
 import ProjectCard from "../../src/organisms/project-card/ProjectCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
+import Slice from "../../types/Slice";
 
-interface PoweredByResearchSectionProps {
-  slice: {
-    primary: {
-      eyebrowHeadline: RichTextBlock[];
-      title: RichTextBlock[];
-      description: RichTextBlock[];
-    };
-  };
+interface Primary {
+  eyebrowHeadline: RichTextBlock[];
+  title: RichTextBlock[];
+  description: RichTextBlock[];
 }
+
+export type PoweredByResearchSectionProps = Slice<Primary, never>;
 
 const PoweredByResearchSection: FC<PoweredByResearchSectionProps> = ({
   slice,

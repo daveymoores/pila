@@ -8,6 +8,7 @@ import TextContent, {
   TextContentProps,
 } from "../../src/organisms/text-content/TextContent";
 import ImageProps from "../../types/ImageProps";
+import Slice from "../../types/Slice";
 import TextPosition from "../../types/TextPosition";
 
 type Primary = TextContentProps & {
@@ -15,11 +16,7 @@ type Primary = TextContentProps & {
   textPosition: TextPosition;
 };
 
-interface FullWidthImageSectionProps {
-  slice: {
-    primary: Primary;
-  };
-}
+export type FullWidthImageSectionProps = Slice<Primary, never>;
 
 const columns = {
   small: ["flex"],

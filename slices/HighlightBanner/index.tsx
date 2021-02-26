@@ -7,6 +7,7 @@ import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
+import Slice from "../../types/Slice";
 
 type Primary = {
   title: RichTextBlock[];
@@ -17,11 +18,7 @@ type Primary = {
   buttonTwoLabel: string;
 };
 
-interface HighlightBannerProps {
-  slice: {
-    primary: Primary;
-  };
-}
+export type HighlightBannerProps = Slice<Primary, never>;
 
 const HighlightBanner: FC<HighlightBannerProps> = ({ slice }) => {
   const {
@@ -29,9 +26,9 @@ const HighlightBanner: FC<HighlightBannerProps> = ({ slice }) => {
       title,
       body,
       buttonOneLink,
-      buttonOneLabel = "Button Label",
+      buttonOneLabel,
       buttonTwoLink,
-      buttonTwoLabel = "Button Label",
+      buttonTwoLabel,
     },
   } = slice;
   return (

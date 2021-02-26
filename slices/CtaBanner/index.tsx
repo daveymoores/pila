@@ -7,6 +7,7 @@ import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
+import Slice from "../../types/Slice";
 
 type Primary = {
   title: RichTextBlock[];
@@ -16,11 +17,7 @@ type Primary = {
   buttonTwoLabel: string;
 };
 
-interface CtaBannerProps {
-  slice: {
-    primary: Primary;
-  };
-}
+export type CtaBannerProps = Slice<Primary, never>;
 
 const CtaBanner: FC<CtaBannerProps> = ({ slice }) => {
   const {
