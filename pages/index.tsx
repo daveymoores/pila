@@ -32,7 +32,6 @@ const Page: React.FC<PageProps> = ({ data, slices }: PageProps) => {
   );
 };
 
-// Fetch content from prismic
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: "single",

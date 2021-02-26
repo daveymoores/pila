@@ -13,20 +13,12 @@ export const accessToken = "";
 // -- Link resolution rules
 // Manages the url links to internal Prismic documents
 export const linkResolver = (doc) => {
-  if (doc.type === "post") {
-    return `/blog/${doc.uid}`;
-  }
-
-  if (doc.type === "detail_page") {
-    return `/detail/${doc.uid}`;
-  }
-
   if (doc.type === "theme_page") {
-    return `/theme/${doc.uid}`;
+    return `/${doc.uid}`;
   }
 
-  if (doc.type === "page") {
-    return `/${doc.uid}`;
+  if (doc.type === "guide") {
+    return `/guides/${doc.uid}`;
   }
 
   return "/";
@@ -34,16 +26,12 @@ export const linkResolver = (doc) => {
 
 // Additional helper function for Next/Link layout
 export const hrefResolver = (doc) => {
-  if (doc.type === "post") {
-    return "/blog/[uid]";
-  }
-
-  if (doc.type === "detail_page") {
-    return `/detail/[uid]`;
-  }
-
   if (doc.type === "theme_page") {
-    return `/theme/[uid]`;
+    return `/[uid]`;
+  }
+
+  if (doc.type === "guide") {
+    return `/guides/[uid]`;
   }
 
   return "/";
@@ -60,7 +48,10 @@ export const customLink = (type, element, content, children, index) => (
 );
 
 export const Router = {
-  routes: [{ type: "page", path: "/:uid" }],
+  routes: [
+    { type: "theme_page", path: "/:uid" },
+    { type: "guide", path: "/guides/:uid" },
+  ],
 
   href: (type) => {
     const route = Router.routes.find((r) => r.type === type);
