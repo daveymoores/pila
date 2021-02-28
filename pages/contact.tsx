@@ -1,31 +1,29 @@
-import SliceZone from "next-slicezone";
+import { Heading } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
-import { Client } from "../../prismic";
-import resolver from "../../sm-resolver.js";
-import PageData from "../../types/PageData";
-import PageType from "../../types/PageTypes";
+import { Client } from "../prismic";
+import PageData from "../types/PageData";
+import PageType from "../types/PageTypes";
 
 type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
   console.log(props);
-  return <SliceZone {...props} resolver={resolver} />;
+  return <Heading>Form Page</Heading>;
 };
 
-// Fetch content from prismic
 export const getStaticProps = useGetStaticProps({
   client: Client(),
-  type: PageType.GUIDE,
-  uid: ({ params }) => params.uid,
+  type: PageType.FORM,
+  uid: ({ params }) => params.form,
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
-  type: PageType.GUIDE,
+  type: PageType.FORM,
   fallback: true, // process.env.NODE_ENV === 'development',
-  formatPath: ({ uid }) => ({ params: { uid } }),
+  formatPath: ({ uid }) => ({ params: { form: uid } }),
 });
 
 export default Page;

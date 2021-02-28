@@ -29,14 +29,14 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.THEME,
-  uid: ({ params }: { params: { uid: string } }) => params.uid,
+  uid: ({ params }) => params.uid,
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.THEME,
   fallback: true, // process.env.NODE_ENV === 'development',
-  formatPath: ({ uid }: { uid: string }) => ({ params: { uid } }),
+  formatPath: ({ uid }) => ({ params: { uid } }),
 });
 
 export default Page;

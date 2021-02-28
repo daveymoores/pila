@@ -13,6 +13,8 @@ import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
 import PageData from "../types/PageData";
+import PageType from "../types/PageTypes";
+import QueryType from "../types/QueryType";
 
 type HomepageSlices = ImageWithTextSectionProps &
   HighlightBannerProps &
@@ -34,8 +36,8 @@ const Page: React.FC<PageProps> = ({ data, slices }: PageProps) => {
 
 export const getStaticProps = useGetStaticProps({
   client: Client(),
-  queryType: "single",
-  type: "home",
+  queryType: QueryType.SINGLE,
+  type: PageType.HOME,
 });
 
 export default Page;

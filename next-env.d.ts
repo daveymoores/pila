@@ -6,7 +6,7 @@ declare module "next-slicezone/hooks" {
   export function useGetStaticProps(props: IUseGetStaticProps);
 }
 
-type Params = { params: { uid: string } };
+type Params = { params: { [key: string]: string } };
 
 interface IUseGetStaticPaths {
   client: unknown;
