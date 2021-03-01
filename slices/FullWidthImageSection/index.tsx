@@ -24,7 +24,9 @@ const columns = {
   large: ["flex", "flex", "flex"],
 };
 
-const FullWidthImageSection: FC<FullWidthImageSectionProps> = ({ slice }) => {
+const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
+  slice,
+}) => {
   const {
     primary: { image, textPosition, ...textContentProps },
   } = slice;

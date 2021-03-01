@@ -15,6 +15,7 @@ import HomepageHero, {
 import PageData from "../types/PageData";
 import PageType from "../types/PageTypes";
 import QueryType from "../types/QueryType";
+import { SliceType } from "../types/Slice";
 
 type HomepageSlices = ImageWithTextSectionProps &
   HighlightBannerProps &
@@ -23,13 +24,26 @@ type HomepageSlices = ImageWithTextSectionProps &
   ThanksToInstitutionsSectionProps;
 
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<HomepageSlices, HomepageHeroProps>;
+  PageData<HomepageSlices, HomepageHeroProps> & {
+    learningModules: any;
+  };
 
-const Page: React.FC<PageProps> = ({ data, slices }: PageProps) => {
+const Page: React.FC<PageProps> = ({
+  data,
+  slices,
+  learningModules,
+}: PageProps) => {
+  const parsedSlices = slices.map((slice) => {
+    if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
+      return { ...slice, learningModules };
+    }
+    return slice;
+  });
+
   return (
     <React.Fragment>
       <HomepageHero {...data} />
-      <SliceZone slices={slices} resolver={resolver} />
+      <SliceZone slices={parsedSlices} resolver={resolver} />
     </React.Fragment>
   );
 };

@@ -2,7 +2,7 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
-import NextApp from "next/app";
+import NextApp, { AppInitialProps } from "next/app";
 import Prismic from "prismic-javascript";
 import React from "react";
 
@@ -11,12 +11,12 @@ import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 
 interface Props {
-  Component: React.ReactComponentElement<any>;
+  Component: React.FC;
   learningModules: ApiSearchResponse;
 }
 
 export default class App extends NextApp<Props, never> {
-  static async getInitialProps(): Promise<unknown> {
+  static async getInitialProps(): Promise<AppInitialProps> {
     const client = Client();
     const modules =
       (await client.query(
@@ -24,7 +24,9 @@ export default class App extends NextApp<Props, never> {
         {}
       )) || {};
     return {
-      learningModules: modules,
+      pageProps: {
+        learningModules: modules.results,
+      },
     };
   }
 

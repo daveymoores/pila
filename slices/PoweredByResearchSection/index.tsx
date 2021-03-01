@@ -7,6 +7,7 @@ import Section from "../../src/layout/section/Section";
 import ProjectCard from "../../src/organisms/project-card/ProjectCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
+import CustomType from "../../types/CustomType";
 import Slice from "../../types/Slice";
 
 interface Primary {
@@ -15,27 +16,39 @@ interface Primary {
   description: RichTextBlock[];
 }
 
-export type PoweredByResearchSectionProps = Slice<Primary, never>;
+interface LearningModule extends CustomType {
+  data: {
+    title: RichTextBlock[];
+    body: RichTextBlock[];
+    body_short: RichTextBlock[];
+    applications: any; //TODO - pick from learning modules
+  };
+}
 
-const PoweredByResearchSection: FC<PoweredByResearchSectionProps> = ({
-  slice,
-}) => {
-  const { primary } = slice;
+export interface PoweredByResearchSectionProps extends Slice<Primary, never> {
+  learningModules: LearningModule[];
+}
+
+const PoweredByResearchSection: FC<{
+  slice: PoweredByResearchSectionProps;
+}> = ({ slice }) => {
+  const { primary, learningModules } = slice;
+
   return (
     <StyledBox background="light-1" justify={"center"}>
       <Section>
         <ResponsiveGrid margin="medium" columns={"medium"} rows={"1"}>
-          <TextContent {...primary} asCard={false} padding="medium" />
-          <ProjectCard
-            src={""}
-            title={primary.eyebrowHeadline}
-            body={primary.description}
-          />
-          <ProjectCard
-            src={""}
-            title={primary.eyebrowHeadline}
-            body={primary.description}
-          />
+          <React.Fragment>
+            <TextContent {...primary} asCard={false} padding="medium" />
+            {learningModules.map((module) => (
+              <ProjectCard
+                src={""}
+                key={module.id}
+                title={module.data.title}
+                body={module.data.body_short}
+              />
+            ))}
+          </React.Fragment>
         </ResponsiveGrid>
       </Section>
     </StyledBox>

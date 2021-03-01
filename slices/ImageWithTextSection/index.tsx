@@ -92,7 +92,9 @@ const gridAreas = (imageSide: ImagePosition) => ({
         ],
 });
 
-const ImageWithTextSection: FC<ImageWithTextSectionProps> = ({ slice }) => {
+const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
+  slice,
+}) => {
   const {
     primary: { image, backgroundColor, imageSide, ...textContentProps },
   } = slice;

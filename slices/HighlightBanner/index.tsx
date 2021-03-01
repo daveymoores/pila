@@ -20,7 +20,7 @@ type Primary = {
 
 export type HighlightBannerProps = Slice<Primary, never>;
 
-const HighlightBanner: FC<HighlightBannerProps> = ({ slice }) => {
+const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
   const {
     primary: {
       title,

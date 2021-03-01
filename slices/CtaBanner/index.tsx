@@ -19,7 +19,7 @@ type Primary = {
 
 export type CtaBannerProps = Slice<Primary, never>;
 
-const CtaBanner: FC<CtaBannerProps> = ({ slice }) => {
+const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
   const {
     primary: {
       title,

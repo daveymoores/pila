@@ -32,9 +32,9 @@ const rows = {
   xlarge: ["auto"],
 };
 
-const ThanksToInstitutionsSection: FC<ThanksToInstitutionsSectionProps> = ({
-  slice,
-}) => (
+const ThanksToInstitutionsSection: FC<{
+  slice: ThanksToInstitutionsSectionProps;
+}> = ({ slice }) => (
   <StyledSection justify={"center"}>
     <Section justify={"center"} flex>
       <Grid margin="medium" columns={"large"}>
