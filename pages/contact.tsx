@@ -10,8 +10,7 @@ import QueryType from "../types/QueryType";
 type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
-  console.log(props);
-  return <Heading>Form Page</Heading>;
+  return <Heading>Form Page {JSON.stringify(props)}</Heading>;
 };
 
 export const getStaticProps = useGetStaticProps({

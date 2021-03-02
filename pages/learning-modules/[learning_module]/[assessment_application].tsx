@@ -23,8 +23,7 @@ interface LinkedApplication {
 type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
-  console.log(props);
-  return <Heading>Assessment application</Heading>;
+  return <Heading>Assessment application {JSON.stringify(props)}</Heading>;
 };
 
 export const getStaticProps = useGetStaticProps({
@@ -68,7 +67,7 @@ export const getStaticPaths = async () => {
       const app = moduleApplications.find((module) =>
         module.applications.find((app) => app === props.uid)
       );
-      console.log(app?.module);
+
       return {
         params: {
           assessment_application: props.uid,

@@ -94,7 +94,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
           {RichText.asText(title)}
         </Heading>
         <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-          <Image src={image.url} />
+          {image?.url && <Image src={image.url} />}
         </Box>
       </ResponsiveGrid>
     </Section>

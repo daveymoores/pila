@@ -9,7 +9,6 @@ import PageType from "../../../types/PageTypes";
 type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props) => {
-  console.log(props);
   return <Heading>Learning Module Page: {props.uid}</Heading>;
 };
 

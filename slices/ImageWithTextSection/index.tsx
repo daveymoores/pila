@@ -110,7 +110,7 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
           <Box
             gridArea="image"
             height="550px"
-            background={`url(${image.url})`}
+            background={`url(${image?.url})`}
             round={"medium"}
           />
           <Box gridArea="text">
