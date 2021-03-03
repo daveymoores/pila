@@ -1,6 +1,7 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 declare module "next-slicezone";
+declare module "next-slicezone/resolver";
 declare module "next-slicezone/hooks" {
   export function useGetStaticPaths(props: IUseGetStaticPaths);
   export function useGetStaticProps(props: IUseGetStaticProps);
