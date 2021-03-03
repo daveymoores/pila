@@ -10,8 +10,8 @@ import Icon from "./Icon";
 
 interface ProjectCardProps {
   src: string;
-  title: RichTextBlock[];
-  body: RichTextBlock[];
+  title?: RichTextBlock[];
+  body?: RichTextBlock[];
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
@@ -34,22 +34,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
         }}
         align={"start"}
       >
-        <Heading
-          level={"4"}
-          margin="none"
-          alignSelf={"stretch"}
-          responsive={false}
-        >
-          {RichText.asText(title)}
-        </Heading>
-        <Paragraph
-          margin={{
-            top: "medium",
-          }}
-          fill
-        >
-          {RichText.asText(body)}
-        </Paragraph>
+        {title && (
+          <Heading
+            level={"4"}
+            margin="none"
+            alignSelf={"stretch"}
+            responsive={false}
+          >
+            {RichText.asText(title)}
+          </Heading>
+        )}
+        {body && (
+          <Paragraph
+            margin={{
+              top: "medium",
+            }}
+            fill
+          >
+            {RichText.asText(body)}
+          </Paragraph>
+        )}
         <Button
           margin={{ top: "medium" }}
           primary

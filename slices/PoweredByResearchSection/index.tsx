@@ -16,17 +16,15 @@ interface Primary {
   description: RichTextBlock[];
 }
 
-interface LearningModule extends CustomType {
-  data: {
-    title: RichTextBlock[];
-    body: RichTextBlock[];
-    body_short: RichTextBlock[];
-    applications: any; //TODO - pick from learning modules
-  };
+export interface LearningModule {
+  title: RichTextBlock[];
+  body: RichTextBlock[];
+  body_short: RichTextBlock[];
+  applications: any; //TODO - pick from learning modules
 }
 
 export interface PoweredByResearchSectionProps extends Slice<Primary, never> {
-  learningModules: LearningModule[];
+  learningModules: CustomType<LearningModule>[];
 }
 
 const PoweredByResearchSection: FC<{
@@ -44,8 +42,8 @@ const PoweredByResearchSection: FC<{
               <ProjectCard
                 src={""}
                 key={module.id}
-                title={module.data.title}
-                body={module.data.body_short}
+                title={module.data?.title}
+                body={module.data?.body_short}
               />
             ))}
           </React.Fragment>

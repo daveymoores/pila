@@ -1,6 +1,6 @@
 import PageType from "./PageTypes";
 
-interface CustomType {
+interface CustomType<T = unknown> {
   id: string;
   uid: string;
   url: null;
@@ -14,6 +14,7 @@ interface CustomType {
   lang: "en-us";
   alternate_languages: [];
   error: null;
+  data?: T;
 }
 
 export default CustomType;

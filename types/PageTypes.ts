@@ -6,6 +6,8 @@ enum PageType {
   LEARNING_MODULE = "learning_module",
   LEARNING_MODULE_HOME = "learning_module_home",
   FORM = "form",
+  DOORMAT = "doormat",
+  NAVIGATION = "navigation",
 }
 
 export default PageType;

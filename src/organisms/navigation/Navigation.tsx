@@ -1,13 +1,22 @@
-import { Box, Header, Menu, ResponsiveContext } from "grommet";
+import { Anchor, Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import { Menu as MenuIcon } from "grommet-icons";
 import React from "react";
 import styled from "styled-components";
 
+import RepeatableLink from "../../../types/RepeatableLink";
 import Logo from "../../atoms/logo/Logo";
 import Section from "../../layout/section/Section";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
-const Navigation: React.FC = () => (
+export interface NavigationProps {
+  links: RepeatableLink[];
+  modules_dropdown_label: string;
+}
+
+const Navigation: React.FC<NavigationProps> = ({
+  links,
+  modules_dropdown_label,
+}) => (
   <StyledHeader
     background="transparent"
     pad="medium"
@@ -41,6 +50,12 @@ const Navigation: React.FC = () => (
                 <StyledLogoBox>
                   <StyledLogo />
                 </StyledLogoBox>
+                <Nav direction="row" pad="medium">
+                  {links &&
+                    links.map(({ link, label }) => (
+                      <Anchor href={link.url} label={label} />
+                    ))}
+                </Nav>
               </Box>
             )
           }
