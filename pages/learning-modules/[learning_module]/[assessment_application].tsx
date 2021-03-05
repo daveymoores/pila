@@ -1,29 +1,29 @@
 import { Heading } from "grommet";
+import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
 import React from "react";
 
 import { Client } from "../../../prismic";
+import { LearningModule } from "../../../slices/PoweredByResearchSection";
+import Section from "../../../src/layout/section/Section";
+import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
+import CustomType from "../../../types/CustomType";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-
-interface LinkedApplication {
-  assessment_application: {
-    id: string;
-    type: "assessment_application";
-    tags: [];
-    slug: string;
-    lang: "en-us";
-    uid: string;
-    link_type: "Document";
-    isBroken: boolean;
-  };
-}
+import parseLearningModules from "../../helpers/parseLearningModules";
 
 type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
-  return <Heading>Assessment application {JSON.stringify(props)}</Heading>;
+  return (
+    <Section>
+      <ResponsiveGrid rows={"1"} columns={"large"}>
+        <Heading>Assessment application</Heading>
+        <Paragraph>{JSON.stringify(props)}</Paragraph>
+      </ResponsiveGrid>
+    </Section>
+  );
 };
 
 export const getStaticProps = useGetStaticProps({
@@ -40,23 +40,8 @@ export const getStaticPaths = async () => {
       {}
     )) || {};
 
-  interface ModuleApplications {
-    module: string | undefined;
-    applications: string[];
-  }
-
-  //TODO - move this into a helper
-  const moduleApplications: ModuleApplications[] = modules.results.map(
-    (result): ModuleApplications => {
-      return {
-        module: result.uid,
-        applications: result.data.applications.map(
-          (application: LinkedApplication) => {
-            return application.assessment_application.uid;
-          }
-        ),
-      };
-    }
+  const moduleApplications = parseLearningModules(
+    (modules.results as unknown) as CustomType<LearningModule>[]
   );
 
   return useGetStaticPaths({

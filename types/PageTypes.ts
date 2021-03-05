@@ -1,4 +1,4 @@
-enum PageType {
+enum PrismicPageTypes {
   HOME = "home",
   THEME = "theme_page",
   GUIDE = "guide",
@@ -9,5 +9,15 @@ enum PageType {
   DOORMAT = "doormat",
   NAVIGATION = "navigation",
 }
+
+enum InternalPageTypes {
+  ACCOUNT = "account",
+  SESSION = "session",
+  ERROR = "error",
+}
+
+const PageType = { ...InternalPageTypes, ...PrismicPageTypes };
+
+type PageType = PrismicPageTypes | InternalPageTypes;
 
 export default PageType;

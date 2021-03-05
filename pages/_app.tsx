@@ -8,12 +8,13 @@ import React from "react";
 
 import { Client } from "../prismic";
 import { LearningModule } from "../slices/PoweredByResearchSection";
+import LearningModulesContext from "../src/context/LearningModulesContext";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { NavigationProps } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
-import PageTypes from "../types/PageTypes";
+import PageType from "../types/PageTypes";
 
 interface Props {
   Component: React.FC;
@@ -47,11 +48,11 @@ export default class App extends NextApp<Props, never> {
     const sortedResults = data.results.reduce(
       (acc: PageProps, result): PageProps => {
         switch (result.type) {
-          case PageTypes.DOORMAT:
+          case PageType.DOORMAT:
             return { ...acc, doormat: [...acc.doormat, result] };
-          case PageTypes.NAVIGATION:
+          case PageType.NAVIGATION:
             return { ...acc, navigation: [...acc.navigation, result] };
-          case PageTypes.LEARNING_MODULE:
+          case PageType.LEARNING_MODULE:
             return {
               ...acc,
               learningModules: [...acc.learningModules, result],
@@ -76,16 +77,18 @@ export default class App extends NextApp<Props, never> {
 
   render(): React.ReactElement {
     const { Component, pageProps } = this.props;
-    console.log("pageProps ", pageProps);
+
     return (
-      <PilaTheme>
-        <Scaffold
-          navigation={pageProps.navigation[0].data}
-          doormat={pageProps.doormat[0].data}
-        >
-          <Component {...pageProps} />
-        </Scaffold>
-      </PilaTheme>
+      <LearningModulesContext.Provider value={pageProps.learningModules}>
+        <PilaTheme>
+          <Scaffold
+            navigation={(pageProps.navigation || [])[0]?.data}
+            doormat={(pageProps.doormat || [])[0]?.data}
+          >
+            <Component {...pageProps} />
+          </Scaffold>
+        </PilaTheme>
+      </LearningModulesContext.Provider>
     );
   }
 }
