@@ -3,7 +3,7 @@ import { Menu as MenuIcon } from "grommet-icons";
 import React from "react";
 import styled from "styled-components";
 
-import { CustomLink } from "../../../prismic";
+import { CustomLink, RoutedTextLink } from "../../../prismic";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Logo from "../../atoms/logo/Logo";
 import Section from "../../layout/section/Section";
@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 <Nav direction="row" pad="medium">
                   {links &&
                     links.map(({ link, label }, index) => (
-                      <CustomLink key={index} link={link} label={label} />
+                      <RoutedTextLink key={index} link={link} label={label} />
                     ))}
                 </Nav>
               </Box>

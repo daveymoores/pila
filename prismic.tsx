@@ -1,4 +1,4 @@
-import { Anchor, AnchorProps } from "grommet";
+import { Anchor, AnchorProps, Button, ButtonProps } from "grommet";
 import Link from "next/link";
 import Prismic from "prismic-javascript";
 import { Link as LinkProps } from "prismic-reactjs";
@@ -79,7 +79,7 @@ interface GrommetLinkProps extends AnchorProps {
   children: string;
 }
 
-export const CustomLink: React.FC<CustomLinkProps> = ({
+export const RoutedTextLink: React.FC<CustomLinkProps> = ({
   label,
   link,
   onClick,
@@ -90,7 +90,6 @@ export const CustomLink: React.FC<CustomLinkProps> = ({
     <Link
       href={hrefResolver(link)}
       as={linkResolver(link, learningModules)}
-      shallow
       passHref
     >
       <GrommetLink onClick={onClick} {...rest}>
@@ -118,6 +117,7 @@ const GrommetLink = React.forwardRef(
   }
 );
 
+// TODO - fix Router
 export const Router = {
   // routes: [
   //   { type: PageType.HOME, path: "/" },

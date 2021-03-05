@@ -110,6 +110,7 @@ const TextContent: React.FC<TextContentProps> = ({
           size={ButtonSizes.large}
           type="button"
           label={linkLabel}
+          link={link}
         />
       </CardFooter>
     )}

@@ -1,7 +1,8 @@
 import { Card, CardBody, CardHeader, Heading, Image, Paragraph } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
+import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import { colorPalette } from "../../theme/pila";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -9,12 +10,18 @@ import { colorPalette } from "../../theme/pila";
 import Icon from "./Icon";
 
 interface ProjectCardProps {
-  src: string;
+  image?: ImageProps;
+  link?: Link;
   title?: RichTextBlock[];
   body?: RichTextBlock[];
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  image,
+  link,
+  title,
+  body,
+}) => {
   /* TODO - move "View Module" to dictionary */
   return (
     <Card
@@ -25,7 +32,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
       direction={"column"}
     >
       <CardHeader justify={"center"}>
-        {src ? <Image src={src} width={"100%"} /> : <Icon />}
+        {image ? <Image {...image} alt={""} width={"100%"} /> : <Icon />}
       </CardHeader>
       <CardBody
         margin={{ top: "medium" }}
@@ -54,14 +61,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ src, title, body }) => {
             {RichText.asText(body)}
           </Paragraph>
         )}
-        <Button
-          margin={{ top: "medium" }}
-          primary
-          color={colorPalette.green}
-          size={ButtonSizes.small}
-          type="button"
-          label="View module"
-        />
+        {link && (
+          <Button
+            margin={{ top: "medium" }}
+            primary
+            color={colorPalette.green}
+            size={ButtonSizes.small}
+            type="button"
+            label="View module"
+            link={link}
+          />
+        )}
       </CardBody>
     </Card>
   );

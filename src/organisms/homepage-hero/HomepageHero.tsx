@@ -42,14 +42,16 @@ const HomepageHero: React.FC<HomepageHeroProps> = ({
           >
             {RichText.asText(title)}
           </Heading>
-          <Button
-            primary
-            href={link?.slug}
-            color={colorPalette.yellow}
-            size={ButtonSizes.large}
-            type="button"
-            label={linklabel}
-          />
+          {link && linklabel && (
+            <Button
+              primary
+              color={colorPalette.yellow}
+              size={ButtonSizes.large}
+              type="button"
+              label={linklabel}
+              link={link}
+            />
+          )}
         </Box>
         <ImageContainer>
           <ImageBox elevation={"xxxlarge"} background={`url(${image?.url})`} />

@@ -60,24 +60,28 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
             align={"start"}
             flex={"shrink"}
           >
-            <Button
-              margin={"small"}
-              href={buttonOneLink.url}
-              primary
-              color={colorPalette.yellow}
-              size={ButtonSizes.large}
-              type="button"
-              label={buttonOneLabel}
-            />
-            <Button
-              margin={"small"}
-              href={buttonTwoLink.url}
-              primary
-              color={colorPalette.yellow}
-              size={ButtonSizes.large}
-              type="button"
-              label={buttonTwoLabel}
-            />
+            {buttonOneLabel && buttonOneLink && (
+              <Button
+                margin={"small"}
+                primary
+                color={colorPalette.yellow}
+                size={ButtonSizes.large}
+                type="button"
+                label={buttonOneLabel}
+                link={buttonOneLink}
+              />
+            )}
+            {buttonTwoLabel && buttonTwoLink && (
+              <Button
+                margin={"small"}
+                primary
+                color={colorPalette.yellow}
+                size={ButtonSizes.large}
+                type="button"
+                label={buttonTwoLabel}
+                link={buttonTwoLink}
+              />
+            )}
           </CardBody>
         </StyledCard>
       </ResponsiveGrid>

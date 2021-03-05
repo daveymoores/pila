@@ -31,7 +31,7 @@ const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
-
+  console.log(learningModules);
   return (
     <StyledBox background="light-1" justify={"center"}>
       <Section>
@@ -40,10 +40,14 @@ const PoweredByResearchSection: FC<{
             <TextContent {...primary} asCard={false} padding="medium" />
             {learningModules.map((module) => (
               <ProjectCard
-                src={""}
                 key={module.id}
                 title={module.data?.title}
                 body={module.data?.body_short}
+                link={{
+                  uid: module.uid,
+                  type: module.type,
+                  id: module.id,
+                }}
               />
             ))}
           </React.Fragment>

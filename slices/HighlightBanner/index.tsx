@@ -73,26 +73,26 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
             align={"start"}
             flex={"shrink"}
           >
-            {buttonOneLink?.slug && buttonOneLabel && (
+            {buttonOneLink && buttonOneLabel && (
               <Button
                 margin={"small"}
-                href={buttonOneLink.slug}
                 primary
                 color={colorPalette.yellow}
                 size={ButtonSizes.large}
                 type="button"
                 label={buttonOneLabel}
+                link={buttonOneLink}
               />
             )}
-            {buttonTwoLink?.slug && buttonTwoLabel && (
+            {buttonTwoLink && buttonTwoLabel && (
               <Button
                 margin={"small"}
-                href={buttonTwoLink.slug}
                 primary
                 color={colorPalette.yellow}
                 size={ButtonSizes.large}
                 type="button"
                 label={buttonTwoLabel}
+                link={buttonTwoLink}
               />
             )}
           </CardBody>

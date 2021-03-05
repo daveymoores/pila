@@ -1,7 +1,11 @@
 import { Button as GrommetButton, ButtonProps } from "grommet";
-import React from "react";
+import Link from "next/link";
+import { Link as LinkProps } from "prismic-reactjs";
+import React, { ForwardedRef } from "react";
 import styled from "styled-components";
 
+import { hrefResolver, linkResolver } from "../../../prismic";
+import LearningModulesContext from "../../context/LearningModulesContext";
 import { colorPalette } from "../../theme/pila";
 
 export enum ButtonSizes {
@@ -9,16 +13,57 @@ export enum ButtonSizes {
   large = "large",
 }
 
-interface BtnProps extends Omit<ButtonProps, "size" | "color"> {
-  size: keyof typeof ButtonSizes;
-  color: string;
+interface CustomButtonProps extends ButtonProps {
+  label: string;
+  link: LinkProps;
+  onClick?: () => void;
 }
 
-const Button: React.FC<BtnProps> = (props) => {
-  return <StyledButton {...props} />;
+interface GrommetButtonProps extends ButtonProps {
+  onClick?: () => void;
+  children: string;
+}
+
+export const Button: React.FC<CustomButtonProps> = ({
+  label,
+  link,
+  onClick,
+  size = ButtonSizes.large,
+  ...rest
+}) => {
+  const learningModules = React.useContext(LearningModulesContext);
+  return (
+    <Link
+      href={hrefResolver(link) || "/"}
+      as={linkResolver(link, learningModules)}
+      passHref
+    >
+      <ButtonWithRef size={size} onClick={onClick} {...rest}>
+        {label}
+      </ButtonWithRef>
+    </Link>
+  );
 };
 
-const StyledButton = styled(GrommetButton)<BtnProps>`
+// eslint-disable-next-line react/display-name
+const ButtonWithRef = React.forwardRef(
+  (
+    { onClick, href, children, ...rest }: GrommetButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    return (
+      <StyledButton
+        label={children}
+        href={href}
+        onClick={onClick}
+        {...rest}
+        ref={ref}
+      />
+    );
+  }
+);
+
+const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
   border-radius: 10px;
   font-size: ${(props) => (props.size === ButtonSizes.small ? `16px` : `18px`)};
   font-weight: bold;
