@@ -1,11 +1,16 @@
-import { Anchor, Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import { Menu as MenuIcon } from "grommet-icons";
+import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import { CustomLink, RoutedTextLink } from "../../../prismic";
+import resolveModuleFromUID from "../../../pages/helpers/resolveModuleFromUID";
+import { RoutedTextLink } from "../../../prismic";
+import { LearningModule } from "../../../slices/PoweredByResearchSection";
+import CustomType from "../../../types/CustomType";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Logo from "../../atoms/logo/Logo";
+import LearningModulesContext from "../../context/LearningModulesContext";
 import Section from "../../layout/section/Section";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -17,54 +22,60 @@ export interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
-}) => (
-  <StyledHeader
-    background="transparent"
-    pad="medium"
-    height="xsmall"
-    margin={{ top: "large" }}
-  >
-    <Section>
-      <ResponsiveGrid rows="1" columns={"1"}>
-        <ResponsiveContext.Consumer>
-          {(size) =>
-            size === "small" ? (
-              <Box justify="end">
-                <Menu
-                  a11yTitle="Navigation Menu"
-                  dropProps={{ align: { top: "bottom", right: "right" } }}
-                  icon={<MenuIcon color="brand" />}
-                  items={[
-                    {
-                      label: <Box pad="small">Grommet.io</Box>,
-                      href: "https://v2.grommet.io/",
-                    },
-                    {
-                      label: <Box pad="small">Feedback</Box>,
-                      href: "https://github.com/grommet/grommet/issues",
-                    },
-                  ]}
-                />
-              </Box>
-            ) : (
-              <Box justify="start" direction="row" gap="medium">
-                <StyledLogoBox>
-                  <StyledLogo />
-                </StyledLogoBox>
-                <Nav direction="row" pad="medium">
-                  {links &&
-                    links.map(({ link, label }, index) => (
-                      <RoutedTextLink key={index} link={link} label={label} />
-                    ))}
-                </Nav>
-              </Box>
-            )
-          }
-        </ResponsiveContext.Consumer>
-      </ResponsiveGrid>
-    </Section>
-  </StyledHeader>
-);
+}) => {
+  const learningModules: CustomType<LearningModule>[] = React.useContext(
+    LearningModulesContext
+  );
+
+  const moduleNavigationItems = learningModules.map((module) => ({
+    label: module.data ? RichText.asText(module.data.title) : module.uid,
+    href: resolveModuleFromUID(module.uid, learningModules),
+  }));
+
+  return (
+    <StyledHeader
+      background="transparent"
+      pad="medium"
+      height="xsmall"
+      margin={{ top: "large" }}
+    >
+      <Section>
+        <ResponsiveGrid rows="1" columns={"1"}>
+          <ResponsiveContext.Consumer>
+            {(size) =>
+              size === "small" ? (
+                <Box justify="end">
+                  <Menu
+                    a11yTitle="Navigation Menu"
+                    dropProps={{ align: { top: "bottom", right: "right" } }}
+                    icon={<MenuIcon color="brand" />}
+                    items={moduleNavigationItems}
+                  />
+                </Box>
+              ) : (
+                <Box justify="start" direction="row" gap="medium">
+                  <StyledLogoBox>
+                    <StyledLogo />
+                  </StyledLogoBox>
+                  <Nav direction="row" pad="medium">
+                    <Menu
+                      label={modules_dropdown_label}
+                      items={moduleNavigationItems}
+                    />
+                    {links &&
+                      links.map(({ link, label }, index) => (
+                        <RoutedTextLink key={index} link={link} label={label} />
+                      ))}
+                  </Nav>
+                </Box>
+              )
+            }
+          </ResponsiveContext.Consumer>
+        </ResponsiveGrid>
+      </Section>
+    </StyledHeader>
+  );
+};
 
 const StyledHeader = styled(Header)`
   position: absolute;

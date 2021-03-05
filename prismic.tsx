@@ -4,7 +4,7 @@ import Prismic from "prismic-javascript";
 import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 
-import parseLearningModules from "./pages/helpers/parseLearningModules";
+import resolveModuleFromUID from "./pages/helpers/resolveModuleFromUID";
 import { LearningModule } from "./slices/PoweredByResearchSection";
 import smConfig from "./sm.json";
 import LearningModulesContext from "./src/context/LearningModulesContext";
@@ -16,17 +16,6 @@ export const apiEndpoint = smConfig.apiEndpoint;
 // -- Access Token if the repository is not public
 // Generate a token in your dashboard and configure it here if your repository is private
 export const accessToken = "";
-
-const resolveModuleFromUID = (
-  uid: string | undefined,
-  modules: CustomType<LearningModule>[]
-) => {
-  const parsedModules = parseLearningModules(modules);
-  return parsedModules.find(
-    (parsedModule): boolean =>
-      !!parsedModule.applications.find((app) => app === uid)
-  )?.module;
-};
 
 // -- Link resolution rules
 // Manages the url links to internal Prismic documents
