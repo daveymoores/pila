@@ -1,26 +1,34 @@
-import { Heading } from "grommet";
 import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
+import { RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import Section from "../../../src/layout/section/Section";
+import ModuleHero from "../../../src/organisms/module-hero/ModuleHero";
 import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
 import CustomType from "../../../types/CustomType";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 import parseLearningModules from "../../helpers/parseLearningModules";
 
-type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
+interface AssessmentApplicationProps {
+  title: RichTextBlock[];
+}
 
-const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
+type PageProps = PageData<unknown, AssessmentApplicationProps> &
+  JSX.IntrinsicAttributes;
+
+const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
+  const { title } = data;
+
   return (
     <Section>
+      <ModuleHero title={title} />
       <ResponsiveGrid rows={"1"} columns={"large"}>
-        <Heading>Assessment application</Heading>
-        <Paragraph>{JSON.stringify(props)}</Paragraph>
+        <Paragraph>{JSON.stringify(restProps)}</Paragraph>
       </ResponsiveGrid>
     </Section>
   );

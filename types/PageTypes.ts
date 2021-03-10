@@ -8,6 +8,7 @@ enum PrismicPageTypes {
   FORM = "form",
   DOORMAT = "doormat",
   NAVIGATION = "navigation",
+  FOOTER = "footer",
 }
 
 enum InternalPageTypes {

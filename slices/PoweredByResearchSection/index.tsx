@@ -31,7 +31,6 @@ const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
-  console.log(learningModules);
   return (
     <StyledBox background="light-1" justify={"center"}>
       <Section>

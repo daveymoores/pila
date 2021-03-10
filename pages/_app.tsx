@@ -10,6 +10,7 @@ import { Client } from "../prismic";
 import { LearningModule } from "../slices/PoweredByResearchSection";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
+import { FooterProps } from "../src/organisms/footer/Footer";
 import { NavigationProps } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
@@ -25,10 +26,13 @@ interface PageProps {
   learningModules: CustomType<LearningModule>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
   doormat: CustomType<DoormatProps>[] | [];
+  footer: CustomType<FooterProps>[] | [];
 }
 
 interface Response extends Omit<ApiSearchResponse, "results"> {
-  results: CustomType<LearningModule & NavigationProps & DoormatProps>[];
+  results: CustomType<
+    LearningModule & NavigationProps & DoormatProps & FooterProps
+  >[];
 }
 
 export default class App extends NextApp<Props, never> {
@@ -39,8 +43,9 @@ export default class App extends NextApp<Props, never> {
       (((await client.query(
         Prismic.Predicates.any("document.type", [
           "learning_module",
-          "doormat",
           "navigation",
+          "doormat",
+          "footer",
         ]),
         {}
       )) as unknown) as Response) || {};
@@ -48,6 +53,8 @@ export default class App extends NextApp<Props, never> {
     const sortedResults = data.results.reduce(
       (acc: PageProps, result): PageProps => {
         switch (result.type) {
+          case PageType.FOOTER:
+            return { ...acc, footer: [...acc.footer, result] };
           case PageType.DOORMAT:
             return { ...acc, doormat: [...acc.doormat, result] };
           case PageType.NAVIGATION:
@@ -65,6 +72,7 @@ export default class App extends NextApp<Props, never> {
         learningModules: [],
         navigation: [],
         doormat: [],
+        footer: [],
       }
     );
 
@@ -84,6 +92,7 @@ export default class App extends NextApp<Props, never> {
           <Scaffold
             navigation={(pageProps.navigation || [])[0]?.data}
             doormat={(pageProps.doormat || [])[0]?.data}
+            footer={(pageProps.footer || [])[0]?.data}
           >
             <Component {...pageProps} />
           </Scaffold>

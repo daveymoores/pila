@@ -1,14 +1,12 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
-import ImageProps from "../../../types/ImageProps";
 import Section from "../../layout/section/Section";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
-export interface HeroImageProps {
+export interface ModuleHeroProps {
   title: RichTextBlock[];
-  image: ImageProps;
 }
 
 const columns = {
@@ -70,7 +68,7 @@ const gridAreas = {
   ],
 };
 
-const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
+const ModuleHero: React.FC<ModuleHeroProps> = ({ title }) => (
   <Box>
     <Section>
       <ResponsiveGrid
@@ -95,12 +93,9 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
         >
           {RichText.asText(title)}
         </Heading>
-        <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-          {image?.url && <Image src={image.url} />}
-        </Box>
       </ResponsiveGrid>
     </Section>
   </Box>
 );
 
-export default HeroImage;
+export default ModuleHero;

@@ -1,21 +1,30 @@
-import { Heading, Paragraph } from "grommet";
+import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import { RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
 import Section from "../../../src/layout/section/Section";
+import ModuleHero from "../../../src/organisms/module-hero/ModuleHero";
 import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 
-type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
+interface LearningModuleHomeProps {
+  title: RichTextBlock[];
+}
 
-const Page: React.FC<PageProps> = (props) => {
+type PageProps = PageData<unknown, LearningModuleHomeProps> &
+  JSX.IntrinsicAttributes;
+
+const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
+  const { title } = data;
+
   return (
     <Section>
+      <ModuleHero title={title} />
       <ResponsiveGrid rows={"1"} columns={"large"}>
-        <Heading>learning module Page</Heading>
-        <Paragraph>{JSON.stringify(props)}</Paragraph>
+        <Paragraph>{JSON.stringify(restProps)}</Paragraph>
       </ResponsiveGrid>
     </Section>
   );

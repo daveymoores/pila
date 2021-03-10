@@ -11,6 +11,15 @@ const pila = {
   rounding: 10,
   spacing: 24,
   defaultMode: "light",
+  menu: {
+    icons: {
+      color: "#1D2430",
+      extend: `
+          font-size: 16px;
+          font-weight: bold;
+      `,
+    },
+  },
   global: {
     colors: {
       brand: {

@@ -1,17 +1,20 @@
-import { Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { Box, Button, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import { Menu as MenuIcon } from "grommet-icons";
+import { useRouter } from "next/router";
 import { RichText } from "prismic-reactjs";
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
 import resolveModuleFromUID from "../../../pages/helpers/resolveModuleFromUID";
 import { RoutedTextLink } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import CustomType from "../../../types/CustomType";
+import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Logo from "../../atoms/logo/Logo";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import Section from "../../layout/section/Section";
+import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface NavigationProps {
@@ -23,13 +26,19 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
+  const router = useRouter();
+
   const learningModules: CustomType<LearningModule>[] = React.useContext(
     LearningModulesContext
   );
 
   const moduleNavigationItems = learningModules.map((module) => ({
     label: module.data ? RichText.asText(module.data.title) : module.uid,
-    href: resolveModuleFromUID(module.uid, learningModules),
+    href: `/learning-modules/${module.uid}`,
+    onClick: (event: SyntheticEvent) => {
+      event.preventDefault();
+      router.push(`/learning-modules/${module.uid}`);
+    },
   }));
 
   return (
@@ -53,18 +62,27 @@ const Navigation: React.FC<NavigationProps> = ({
                   />
                 </Box>
               ) : (
-                <Box justify="start" direction="row" gap="medium">
-                  <StyledLogoBox>
+                <Box
+                  justify="start"
+                  direction="row"
+                  gap="medium"
+                  align={"center"}
+                >
+                  <StyledLogoBox onClick={() => router.push(`/`)}>
                     <StyledLogo />
                   </StyledLogoBox>
-                  <Nav direction="row" pad="medium">
-                    <Menu
+                  <Nav direction="row" align={"center"}>
+                    <StyledMenu
                       label={modules_dropdown_label}
                       items={moduleNavigationItems}
                     />
                     {links &&
                       links.map(({ link, label }, index) => (
-                        <RoutedTextLink key={index} link={link} label={label} />
+                        <StyledRoutedTextLink
+                          key={index}
+                          link={link}
+                          label={label}
+                        />
                       ))}
                   </Nav>
                 </Box>
@@ -85,10 +103,27 @@ const StyledHeader = styled(Header)`
 const StyledLogoBox = styled(Box)`
   width: 110px;
   height: 40px;
+  margin-right: 40px;
 `;
 
 const StyledLogo = styled(Logo)`
   width: 100%;
+`;
+
+const StyledMenu = styled(Menu)`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${colorPalette.dark_blue};
+
+  * {
+    font-size: inherit !important;
+  }
+`;
+
+const StyledRoutedTextLink = styled(RoutedTextLink)`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${colorPalette.dark_blue};
 `;
 
 export default Navigation;
