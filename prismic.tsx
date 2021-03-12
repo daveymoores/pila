@@ -35,6 +35,8 @@ export const linkResolver = (
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
     [PageType.ERROR]: "/error",
+    [PageType.ACCOUNT]: "/account",
+    [PageType.SESSION]: "/account/sessions",
   };
 
   return resolver[link.type || PageType.ERROR];
@@ -52,6 +54,8 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
     [PageType.ERROR]: "/error",
+    [PageType.ACCOUNT]: "/account",
+    [PageType.SESSION]: "/account/sessions",
   };
 
   return resolver[link.type || PageType.ERROR];

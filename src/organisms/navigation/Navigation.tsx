@@ -8,7 +8,9 @@ import styled from "styled-components";
 import { RoutedTextLink } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import CustomType from "../../../types/CustomType";
+import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
+import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import Section from "../../layout/section/Section";
@@ -64,19 +66,44 @@ const Navigation: React.FC<NavigationProps> = ({
                   <StyledLogoBox onClick={() => router.push(`/`)}>
                     <StyledLogo />
                   </StyledLogoBox>
-                  <Nav direction="row" align={"center"}>
-                    <StyledMenu
-                      label={modules_dropdown_label}
-                      items={moduleNavigationItems}
-                    />
-                    {links &&
-                      links.map(({ link, label }, index) => (
-                        <StyledRoutedTextLink
-                          key={index}
-                          link={link}
-                          label={label}
-                        />
-                      ))}
+                  <Nav
+                    direction="row"
+                    align={"center"}
+                    justify={"between"}
+                    flex={"grow"}
+                  >
+                    <Box direction={"row"} align={"center"}>
+                      <StyledMenu
+                        label={modules_dropdown_label}
+                        items={moduleNavigationItems}
+                      />
+                      {links &&
+                        links.map(({ link, label }, index) => (
+                          <StyledRoutedTextLink
+                            key={index}
+                            link={link}
+                            label={label}
+                          />
+                        ))}
+                    </Box>
+                    <Box direction={"row"} align={"center"}>
+                      <StyledRoutedTextLink
+                        link={{
+                          type: PageType.ACCOUNT,
+                        }}
+                        label={"login"}
+                      />
+                      <Button
+                        primary
+                        margin={{ left: "medium" }}
+                        size={ButtonSizes.small}
+                        color={colorPalette.blue}
+                        label={"sign up"}
+                        link={{
+                          type: PageType.SESSION,
+                        }}
+                      />
+                    </Box>
                   </Nav>
                 </Box>
               )
