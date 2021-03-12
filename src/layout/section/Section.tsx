@@ -9,15 +9,15 @@ const Section: React.FC<BoxProps> = ({ children, ...restProps }) => (
 const StyledBox = styled(Box)`
   width: 100%;
   flex-grow: 1;
-  padding: 0 3vw;
+  padding: 0 4vw;
   justify-content: center;
 
   @media (min-width: 768px) {
-    padding: 0 1.5rem;
+    padding: 0 2.5rem;
   }
 
   @media (min-width: 960px) {
-    padding: 0 2rem;
+    padding: 0 4rem;
   }
 
   @media (min-width: 1248px) {

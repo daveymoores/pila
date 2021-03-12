@@ -26,7 +26,6 @@ interface PilaTheme {
 }
 
 const PilaTheme: React.FC<PilaTheme> = ({ children }) => {
-  console.log(getUA);
   return (
     // TODO - find out why typescript doesn't like some of these theme values
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
