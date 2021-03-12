@@ -40,12 +40,7 @@ const Navigation: React.FC<NavigationProps> = ({
   }));
 
   return (
-    <StyledHeader
-      background="transparent"
-      pad="medium"
-      height="xsmall"
-      margin={{ top: "large" }}
-    >
+    <StyledHeader background="transparent" height="xsmall">
       <Section>
         <ResponsiveGrid rows="1" columns={"1"}>
           <ResponsiveContext.Consumer>

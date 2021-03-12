@@ -487,13 +487,13 @@ const pila = {
       maxWidth: "auto",
     },
     large: {
-      size: "22px",
-      height: "28px",
+      size: "24px",
+      height: "32px",
       maxWidth: "auto",
     },
     xlarge: {
-      size: "26px",
-      height: "32px",
+      size: "28px",
+      height: "36px",
       maxWidth: "auto",
     },
     xxlarge: {

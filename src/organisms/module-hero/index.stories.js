@@ -20,11 +20,11 @@ const mocks = {
       spans: [],
     },
   ],
-  programmeGuideDownload: {
+  guideDownload: {
     link_type: "Web",
     url: "https://slicemachine.dev",
   },
-  programmeGuideLink: {
+  guideLink: {
     link_type: "Web",
     url: "https://slicemachine.dev",
   },

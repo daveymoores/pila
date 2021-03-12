@@ -1,32 +1,39 @@
 import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import { RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
 import Section from "../../../src/layout/section/Section";
-import ModuleHero from "../../../src/organisms/module-hero/ModuleHero";
+import ModuleHero, {
+  ModuleHeroProps,
+} from "../../../src/organisms/module-hero/ModuleHero";
 import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 
-interface LearningModuleHomeProps {
-  title: RichTextBlock[];
-}
+type LearningModuleHomeProps = ModuleHeroProps;
 
 type PageProps = PageData<unknown, LearningModuleHomeProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
-  const { title } = data;
+const Page: React.FC<PageProps> = ({ uid, data, ...restProps }) => {
+  const { title, body, guideDownload, guideLink } = data;
 
   return (
-    <Section>
-      <ModuleHero title={title} />
-      <ResponsiveGrid rows={"1"} columns={"large"}>
-        <Paragraph>{JSON.stringify(restProps)}</Paragraph>
-      </ResponsiveGrid>
-    </Section>
+    <React.Fragment>
+      <ModuleHero
+        uid={uid}
+        title={title}
+        body={body}
+        guideDownload={guideDownload}
+        guideLink={guideLink}
+      />
+      <Section>
+        <ResponsiveGrid rows={"1"} columns={"large"}>
+          <Paragraph>{JSON.stringify(restProps)}</Paragraph>
+        </ResponsiveGrid>
+      </Section>
+    </React.Fragment>
   );
 };
 

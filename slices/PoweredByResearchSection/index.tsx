@@ -19,7 +19,7 @@ interface Primary {
 export interface LearningModule {
   title: RichTextBlock[];
   body: RichTextBlock[];
-  body_short: RichTextBlock[];
+  bodyShort: RichTextBlock[];
   applications: any; //TODO - pick from learning modules
 }
 
@@ -41,7 +41,7 @@ const PoweredByResearchSection: FC<{
               <ProjectCard
                 key={module.id}
                 title={module.data?.title}
-                body={module.data?.body_short}
+                body={module.data?.bodyShort}
                 link={{
                   uid: module.uid,
                   type: module.type,

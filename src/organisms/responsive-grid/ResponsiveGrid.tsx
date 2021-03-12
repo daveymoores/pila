@@ -64,7 +64,7 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
   columns,
   rows,
   areas,
-  gap = "large",
+  gap = "medium",
   ...props
 }) => (
   <ResponsiveContext.Consumer>
