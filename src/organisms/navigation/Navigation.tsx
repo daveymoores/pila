@@ -1,15 +1,13 @@
-import { Box, Button, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import { Menu as MenuIcon } from "grommet-icons";
 import { useRouter } from "next/router";
 import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
-import resolveModuleFromUID from "../../../pages/helpers/resolveModuleFromUID";
 import { RoutedTextLink } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import CustomType from "../../../types/CustomType";
-import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Logo from "../../atoms/logo/Logo";
 import LearningModulesContext from "../../context/LearningModulesContext";

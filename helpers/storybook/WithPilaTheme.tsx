@@ -1,7 +1,6 @@
 import { Main } from "grommet";
 import React from "react";
 
-import Section from "../../src/layout/section/Section";
 import PilaTheme from "../../src/theme/PilaTheme/PilaTheme";
 
 interface PilaThemeScaffoldProps {

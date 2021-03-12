@@ -64,8 +64,9 @@ const Social: React.FC<{ socialIcons: SocialIconProps[] }> = ({
   socialIcons,
 }) => (
   <Box direction="row" gap="xxsmall" justify="center">
-    {socialIcons.map((socialIcon) => (
+    {socialIcons.map((socialIcon, index) => (
       <Anchor
+        key={index}
         style={{ display: "flex" }}
         a11yTitle={socialIcon.a11y_title}
         href={socialIcon.link.url}

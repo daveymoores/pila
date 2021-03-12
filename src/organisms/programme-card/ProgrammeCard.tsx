@@ -9,14 +9,14 @@ import { colorPalette } from "../../theme/pila";
 // @ts-ignore
 import Icon from "./Icon";
 
-interface ProjectCardProps {
+interface ProgrammeCardProps {
   image?: ImageProps;
   link?: Link;
   title?: RichTextBlock[];
   body?: RichTextBlock[];
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
   image,
   link,
   title,
@@ -77,4 +77,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   );
 };
 
-export default ProjectCard;
+export default ProgrammeCard;

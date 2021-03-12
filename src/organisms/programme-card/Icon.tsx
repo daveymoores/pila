@@ -1,11 +1,16 @@
-const Icon = () => (
+import React from "react";
+
+interface IconProps extends JSX.IntrinsicAttributes {
+  className?: string;
+}
+
+const Icon: React.FC<IconProps> = ({ className }) => (
   <svg
-    width="209px"
-    height="143px"
     viewBox="0 0 209 143"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
+    className={className}
   >
     <title>module-icon/programming</title>
     <defs>

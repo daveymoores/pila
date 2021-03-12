@@ -4,7 +4,7 @@ import React from "react";
 
 import WithPilaTheme from "../../../helpers/storybook/WithPilaTheme";
 import Section from "../../layout/section/Section";
-import ProjectCard from "./ProjectCard";
+import ProgrammeCard from "./ProgrammeCard";
 
 const props = {
   src:
@@ -26,7 +26,7 @@ const props = {
   ],
 };
 
-storiesOf("ProjectCard", ProjectCard)
+storiesOf("ProgrammeCard", ProgrammeCard)
   .addDecorator((Story) => (
     <WithPilaTheme>
       <Section justify={"center"} flex>
@@ -36,4 +36,4 @@ storiesOf("ProjectCard", ProjectCard)
       </Section>
     </WithPilaTheme>
   ))
-  .add("default", () => <ProjectCard {...props} />);
+  .add("default", () => <ProgrammeCard {...props} />);

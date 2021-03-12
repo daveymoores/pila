@@ -1,17 +1,25 @@
-import { Box, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
+import styled from "@emotion/styled";
+import { Box, Heading, Paragraph } from "grommet";
+import { ResponsiveContext } from "grommet/es6";
+import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Section from "../../layout/section/Section";
+import { colorPalette } from "../../theme/pila";
+import Icon from "../programme-card/Icon";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface ModuleHeroProps {
   title: RichTextBlock[];
+  body: RichTextBlock[];
+  programmeGuideDownload: Link;
+  programmeGuideLink: Link;
 }
 
 const columns = {
-  small: ["auto"],
-  medium: ["auto"],
+  small: ["flex", "flex", "flex", "flex"],
+  medium: ["flex", "flex", "flex", "flex", "flex", "flex", "flex", "flex"],
   large: [
     "flex",
     "flex",
@@ -44,33 +52,39 @@ const columns = {
 
 const rows = {
   small: ["auto", "auto"],
-  medium: ["auto", "auto"],
-  large: ["auto", "auto"],
-  xlarge: ["auto", "auto"],
+  medium: ["auto"],
+  large: ["auto"],
+  xlarge: ["auto"],
 };
 
 const gridAreas = {
   small: [
-    { name: "text", start: [0, 0], end: [1, 0] },
-    { name: "image", start: [0, 1], end: [1, 1] },
+    { name: "title", start: [0, 0], end: [4, 0] },
+    { name: "info", start: [0, 1], end: [4, 1] },
   ],
   medium: [
-    { name: "text", start: [0, 0], end: [1, 0] },
-    { name: "image", start: [0, 1], end: [1, 1] },
+    { name: "title", start: [0, 0], end: [4, 0] },
+    { name: "info", start: [5, 0], end: [8, 0] },
   ],
   large: [
-    { name: "text", start: [3, 0], end: [8, 0] },
-    { name: "image", start: [2, 1], end: [9, 1] },
+    { name: "title", start: [0, 0], end: [7, 0] },
+    { name: "info", start: [8, 0], end: [12, 0] },
   ],
   xlarge: [
-    { name: "text", start: [3, 0], end: [8, 0] },
-    { name: "image", start: [2, 1], end: [9, 1] },
+    { name: "title", start: [0, 0], end: [8, 0] },
+    { name: "info", start: [9, 0], end: [12, 0] },
   ],
 };
 
-const ModuleHero: React.FC<ModuleHeroProps> = ({ title }) => (
-  <Box>
-    <Section>
+const ModuleHero: React.FC<ModuleHeroProps> = ({
+  title,
+  body,
+  programmeGuideDownload,
+  programmeGuideLink,
+}) => {
+  const size = React.useContext(ResponsiveContext);
+  return (
+    <Section background={"light-1"}>
       <ResponsiveGrid
         margin={{
           top: "xlarge",
@@ -80,22 +94,52 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({ title }) => (
         rows={rows}
         areas={gridAreas}
       >
-        <Heading
-          gridArea="text"
-          textAlign={"center"}
-          level={"1"}
-          margin={{
-            top: "xlarge",
-          }}
-          alignSelf={"stretch"}
-          size="small"
-          responsive={false}
-        >
-          {RichText.asText(title)}
-        </Heading>
+        <Box gridArea="title" align={"center"} margin={{ bottom: "medium" }}>
+          {size === "small" && (
+            <Box width={{ max: "200px" }}>
+              <StyledIcon />
+            </Box>
+          )}
+          <Heading
+            textAlign={"start"}
+            level={"1"}
+            alignSelf={"stretch"}
+            size="small"
+            responsive={false}
+          >
+            {RichText.asText(title)}
+          </Heading>
+          <Paragraph>{RichText.asText(body)}</Paragraph>
+        </Box>
+        <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
+          <Box width={{ max: "200px" }}>
+            {size !== "small" && <StyledIcon />}
+            <Paragraph>
+              Learn more from the Computational Thinking framework
+            </Paragraph>
+            <Box direction={"row"} justify={"around"} margin={{ top: "small" }}>
+              <Button
+                color={colorPalette.green}
+                size={ButtonSizes.small}
+                label={"View"}
+                link={programmeGuideDownload}
+              />
+              <Button
+                color={colorPalette.green}
+                size={ButtonSizes.small}
+                label={"View"}
+                link={programmeGuideLink}
+              />
+            </Box>
+          </Box>
+        </Box>
       </ResponsiveGrid>
     </Section>
-  </Box>
-);
+  );
+};
+
+const StyledIcon = styled(Icon)`
+  width: 100%;
+`;
 
 export default ModuleHero;

@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/organisms/project-card/ProjectCard";
+import ProjectCard from "../../src/organisms/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
 import CustomType from "../../types/CustomType";
