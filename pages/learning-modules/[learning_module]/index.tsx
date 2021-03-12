@@ -1,23 +1,50 @@
-import { Paragraph } from "grommet";
+import { Box, Heading, Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
 import Section from "../../../src/layout/section/Section";
+import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
 import ModuleHero, {
   ModuleHeroProps,
 } from "../../../src/organisms/module-hero/ModuleHero";
-import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 
-type LearningModuleHomeProps = ModuleHeroProps;
+interface GuideItem {
+  guideTitle: RichTextBlock[];
+  guideDownloadLink: Link;
+  guidePageLink: Link;
+}
+
+interface GuideGroup {
+  items: GuideItem[];
+  primary: {
+    guideGroupTitle: RichTextBlock[];
+  };
+}
+
+interface LearningModuleHomeProps extends ModuleHeroProps {
+  bodyShort: RichTextBlock[];
+  guidesBody: RichTextBlock[];
+  guidesTitle: RichTextBlock[];
+  slices: GuideGroup[];
+}
 
 type PageProps = PageData<unknown, LearningModuleHomeProps> &
   JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = ({ uid, data, ...restProps }) => {
-  const { title, body, guideDownload, guideLink } = data;
+  const {
+    title,
+    body,
+    guideDownload,
+    guideLink,
+    guidesBody,
+    guidesTitle,
+    slices,
+  } = data;
 
   return (
     <React.Fragment>
@@ -29,10 +56,41 @@ const Page: React.FC<PageProps> = ({ uid, data, ...restProps }) => {
         guideLink={guideLink}
       />
       <Section>
-        <ResponsiveGrid rows={"1"} columns={"large"}>
-          <Paragraph>{JSON.stringify(restProps)}</Paragraph>
-        </ResponsiveGrid>
+        <Box pad={{ top: "xlarge", bottom: "xlarge" }}></Box>
       </Section>
+      <Box width={"100%"} background={"light-1"}>
+        <Section>
+          <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
+            <Box pad={{ bottom: "large" }} width={{ max: "800px" }}>
+              <Heading level={"1"} size={"small"} margin={{ bottom: "medium" }}>
+                {RichText.asText(guidesTitle)}
+              </Heading>
+              <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
+            </Box>
+            {slices.map(({ items, primary }, index) => (
+              <Box key={index} margin={{ top: "small" }}>
+                <Heading
+                  level={"2"}
+                  size={"small"}
+                  margin={{ top: "small", bottom: "medium" }}
+                >
+                  {RichText.asText(primary.guideGroupTitle)}
+                </Heading>
+                {items.map(
+                  ({ guideTitle, guideDownloadLink, guidePageLink }, index) => (
+                    <GuideCard
+                      key={index}
+                      title={guideTitle}
+                      downloadLink={guideDownloadLink}
+                      pageLink={guidePageLink}
+                    />
+                  )
+                )}
+              </Box>
+            ))}
+          </Box>
+        </Section>
+      </Box>
     </React.Fragment>
   );
 };

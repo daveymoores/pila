@@ -16,7 +16,7 @@ const parseLearningModules = (
         module: result.uid,
         applications: result.data?.applications.map(
           (application: LinkedApplication) => {
-            return application.assessment_application.uid;
+            return application.assessmentApplication.uid;
           }
         ),
       };

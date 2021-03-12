@@ -4,6 +4,7 @@ export const colorPalette = {
   green: "#56B3AE",
   light_green: "#6BEAC9",
   yellow: "#FFE06E",
+  grey: "#6e7a8d",
 };
 
 const pila = {

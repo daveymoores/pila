@@ -1,5 +1,5 @@
 interface LinkedApplication {
-  assessment_application: {
+  assessmentApplication: {
     id: string;
     type: "assessment_application";
     tags: [];
