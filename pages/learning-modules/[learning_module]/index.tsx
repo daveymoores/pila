@@ -19,23 +19,23 @@ interface GuideItem {
 }
 
 interface GuideGroup {
-  items: GuideItem[];
+  items?: GuideItem[];
   primary: {
-    guideGroupTitle: RichTextBlock[];
+    guideGroupTitle?: RichTextBlock[];
   };
 }
 
 interface LearningModuleHomeProps extends ModuleHeroProps {
-  bodyShort: RichTextBlock[];
-  guidesBody: RichTextBlock[];
-  guidesTitle: RichTextBlock[];
-  slices: GuideGroup[];
+  bodyShort?: RichTextBlock[];
+  guidesBody?: RichTextBlock[];
+  guidesTitle?: RichTextBlock[];
+  slices?: GuideGroup[];
 }
 
 type PageProps = PageData<unknown, LearningModuleHomeProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ uid, data, ...restProps }) => {
+const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
     title,
     body,
@@ -62,32 +62,47 @@ const Page: React.FC<PageProps> = ({ uid, data, ...restProps }) => {
         <Section>
           <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
             <Box pad={{ bottom: "large" }} width={{ max: "800px" }}>
-              <Heading level={"1"} size={"small"} margin={{ bottom: "medium" }}>
-                {RichText.asText(guidesTitle)}
-              </Heading>
-              <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
-            </Box>
-            {slices.map(({ items, primary }, index) => (
-              <Box key={index} margin={{ top: "small" }}>
+              {guidesTitle && (
                 <Heading
-                  level={"2"}
+                  level={"1"}
                   size={"small"}
-                  margin={{ top: "small", bottom: "medium" }}
+                  margin={{ bottom: "medium" }}
                 >
-                  {RichText.asText(primary.guideGroupTitle)}
+                  {RichText.asText(guidesTitle)}
                 </Heading>
-                {items.map(
-                  ({ guideTitle, guideDownloadLink, guidePageLink }, index) => (
-                    <GuideCard
-                      key={index}
-                      title={guideTitle}
-                      downloadLink={guideDownloadLink}
-                      pageLink={guidePageLink}
-                    />
-                  )
-                )}
-              </Box>
-            ))}
+              )}
+              {guidesBody && (
+                <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
+              )}
+            </Box>
+            {slices &&
+              slices.map(({ items, primary: { guideGroupTitle } }, index) => (
+                <Box key={index} margin={{ top: "small" }}>
+                  {guideGroupTitle && (
+                    <Heading
+                      level={"2"}
+                      size={"small"}
+                      margin={{ top: "small", bottom: "medium" }}
+                    >
+                      {RichText.asText(guideGroupTitle)}
+                    </Heading>
+                  )}
+                  {items &&
+                    items.map(
+                      (
+                        { guideTitle, guideDownloadLink, guidePageLink },
+                        index
+                      ) => (
+                        <GuideCard
+                          key={index}
+                          title={guideTitle}
+                          downloadLink={guideDownloadLink}
+                          pageLink={guidePageLink}
+                        />
+                      )
+                    )}
+                </Box>
+              ))}
           </Box>
         </Section>
       </Box>

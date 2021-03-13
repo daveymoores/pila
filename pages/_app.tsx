@@ -3,7 +3,10 @@ import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import isEmpty from "lodash/isEmpty";
-import App from "next/app";
+import { NextPage } from "next";
+import App, { AppContext, AppProps } from "next/app";
+import { AppContextType } from "next/dist/next-server/lib/utils";
+import { Router } from "next/router";
 import Prismic from "prismic-javascript";
 import React from "react";
 
@@ -18,11 +21,6 @@ import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
 
-interface Props {
-  Component: React.FC;
-  learningModules: ApiSearchResponse;
-}
-
 interface PageProps {
   learningModules: CustomType<LearningModule>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
@@ -36,19 +34,18 @@ interface Response extends Omit<ApiSearchResponse, "results"> {
   >[];
 }
 
-const PilaApp = (props: any) => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const PilaApp: NextPage<AppProps> = (props) => {
   const { Component, pageProps } = props;
-  if (isEmpty(pageProps)) {
-    throw new Error("no page props");
-  }
 
   return (
-    <LearningModulesContext.Provider value={pageProps.learningModules}>
+    <LearningModulesContext.Provider value={pageProps?.learningModules}>
       <PilaTheme>
         <Scaffold
-          navigation={(pageProps.navigation || [])[0]?.data}
-          doormat={(pageProps.doormat || [])[0]?.data}
-          footer={(pageProps.footer || [])[0]?.data}
+          navigation={(pageProps?.navigation || [])[0]?.data}
+          doormat={(pageProps?.doormat || [])[0]?.data}
+          footer={(pageProps?.footer || [])[0]?.data}
         >
           <Component {...pageProps} />
         </Scaffold>
@@ -57,21 +54,28 @@ const PilaApp = (props: any) => {
   );
 };
 
-PilaApp.getInitialProps = async (appContext: any) => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
 
   const client = Client();
+  let data;
 
-  const data =
-    (((await client.query(
-      Prismic.Predicates.any("document.type", [
-        "learning_module",
-        "navigation",
-        "doormat",
-        "footer",
-      ]),
-      {}
-    )) as unknown) as Response) || {};
+  try {
+    data =
+      (((await client.query(
+        Prismic.Predicates.any("document.type", [
+          "learning_module",
+          "navigation",
+          "doormat",
+          "footer",
+        ]),
+        {}
+      )) as unknown) as Response) || {};
+  } catch (err) {
+    throw new Error(err);
+  }
 
   const sortedResults = data.results.reduce(
     (acc: PageProps, result): PageProps => {

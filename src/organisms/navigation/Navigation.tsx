@@ -32,14 +32,16 @@ const Navigation: React.FC<NavigationProps> = ({
     LearningModulesContext
   );
 
-  const moduleNavigationItems = learningModules.map((module) => ({
-    label: module.data ? RichText.asText(module.data.title) : module.uid,
-    href: `/learning-modules/${module.uid}`,
-    onClick: (event: SyntheticEvent) => {
-      event.preventDefault();
-      router.push(`/learning-modules/${module.uid}`);
-    },
-  }));
+  const moduleNavigationItems =
+    learningModules &&
+    learningModules.map((module) => ({
+      label: module.data ? RichText.asText(module.data.title) : module.uid,
+      href: `/learning-modules/${module.uid}`,
+      onClick: (event: SyntheticEvent) => {
+        event.preventDefault();
+        router.push(`/learning-modules/${module.uid}`);
+      },
+    }));
 
   return (
     <StyledHeader background="transparent" height="xsmall">
@@ -53,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     a11yTitle="Navigation Menu"
                     dropProps={{ align: { top: "bottom", right: "right" } }}
                     icon={<MenuIcon color="brand" />}
-                    items={moduleNavigationItems}
+                    items={moduleNavigationItems || []}
                   />
                 </Box>
               ) : (

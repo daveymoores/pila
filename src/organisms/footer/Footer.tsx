@@ -28,14 +28,14 @@ enum SocialIcons {
 }
 
 interface SocialIconProps {
-  company: SocialIcons;
-  a11y_title: string;
-  link: Link;
+  company?: SocialIcons;
+  a11y_title?: string;
+  link?: Link;
 }
 
 export interface FooterProps {
-  copyright: RichTextBlock[];
-  social_icons: SocialIconProps[];
+  copyright?: RichTextBlock[];
+  social_icons?: SocialIconProps[];
 }
 
 const iconsProps = {
@@ -44,7 +44,7 @@ const iconsProps = {
   color: "white",
 };
 
-const SocialIconMapper = (company: SocialIcons) => {
+const SocialIconMapper = (company?: SocialIcons) => {
   const socialIcons = {
     [SocialIcons.FACEBOOK]: <FacebookOption {...iconsProps} />,
     [SocialIcons.TWITTER]: <Twitter {...iconsProps} />,
@@ -57,22 +57,23 @@ const SocialIconMapper = (company: SocialIcons) => {
     [SocialIcons.VIMEO]: <Vimeo {...iconsProps} />,
   };
 
-  return socialIcons[company];
+  return company ? socialIcons[company] : undefined;
 };
 
-const Social: React.FC<{ socialIcons: SocialIconProps[] }> = ({
+const Social: React.FC<{ socialIcons?: SocialIconProps[] }> = ({
   socialIcons,
 }) => (
   <Box direction="row" gap="xxsmall" justify="center">
-    {socialIcons.map((socialIcon, index) => (
-      <Anchor
-        key={index}
-        style={{ display: "flex" }}
-        a11yTitle={socialIcon.a11y_title}
-        href={socialIcon.link.url}
-        icon={SocialIconMapper(socialIcon.company)}
-      />
-    ))}
+    {socialIcons &&
+      socialIcons.map((socialIcon, index) => (
+        <Anchor
+          key={index}
+          style={{ display: "flex" }}
+          a11yTitle={socialIcon?.a11y_title}
+          href={socialIcon?.link?.url}
+          icon={SocialIconMapper(socialIcon?.company)}
+        />
+      ))}
   </Box>
 );
 
@@ -81,10 +82,12 @@ const Footer: React.FC<FooterProps> = ({ copyright, social_icons }) => (
     <Section>
       <Grid columns={"1"} rows={"1"}>
         <Box direction={"row"} align={"center"} justify={"between"}>
-          <Text textAlign="center" size="xsmall" style={{ opacity: 0.8 }}>
-            {RichText.render(copyright)}
-          </Text>
-          <Social socialIcons={social_icons} />
+          {copyright && (
+            <Text textAlign="center" size="xsmall" style={{ opacity: 0.8 }}>
+              {RichText.render(copyright)}
+            </Text>
+          )}
+          {social_icons && <Social socialIcons={social_icons} />}
         </Box>
       </Grid>
     </Section>

@@ -1,5 +1,10 @@
 import React from "react";
 
-const LearningModulesContext = React.createContext([]);
+import { LearningModule } from "../../slices/PoweredByResearchSection";
+import CustomType from "../../types/CustomType";
+
+const LearningModulesContext = React.createContext<
+  [] | CustomType<LearningModule>[]
+>([]);
 
 export default LearningModulesContext;

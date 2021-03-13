@@ -13,10 +13,10 @@ import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface ModuleHeroProps {
   uid: string;
-  title: RichTextBlock[];
-  body: RichTextBlock[];
-  guideDownload: Link;
-  guideLink: Link;
+  title?: RichTextBlock[];
+  body?: RichTextBlock[];
+  guideDownload?: Link;
+  guideLink?: Link;
 }
 
 const columns = {
@@ -105,7 +105,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
           },
           {
             link: { type: PageType.LEARNING_MODULE, uid },
-            label: RichText.asText(title),
+            label: title ? RichText.asText(title) : "",
           },
         ]}
       />
@@ -129,17 +129,21 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
                 <StyledIcon />
               </Box>
             )}
-            <Heading
-              textAlign={"start"}
-              level={"1"}
-              alignSelf={"stretch"}
-              size="small"
-              responsive={false}
-              margin={{ top: "medium", bottom: "medium" }}
-            >
-              {RichText.asText(title)}
-            </Heading>
-            <Paragraph size="large">{RichText.asText(body)}</Paragraph>
+            {title && (
+              <Heading
+                textAlign={"start"}
+                level={"1"}
+                alignSelf={"stretch"}
+                size="small"
+                responsive={false}
+                margin={{ top: "medium", bottom: "medium" }}
+              >
+                {RichText.asText(title)}
+              </Heading>
+            )}
+            {body && (
+              <Paragraph size="large">{RichText.asText(body)}</Paragraph>
+            )}
           </Box>
           <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
             <Box width={{ max: "200px" }}>
@@ -148,18 +152,22 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
                 Learn more from the Computational Thinking framework
               </Paragraph>
               <Box direction={"row"} justify={"around"}>
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  label={"View"}
-                  link={guideDownload}
-                />
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  label={"View"}
-                  link={guideLink}
-                />
+                {guideDownload && (
+                  <Button
+                    color={colorPalette.green}
+                    size={ButtonSizes.small}
+                    label={"View"}
+                    link={guideDownload}
+                  />
+                )}
+                {guideLink && (
+                  <Button
+                    color={colorPalette.green}
+                    size={ButtonSizes.small}
+                    label={"View"}
+                    link={guideLink}
+                  />
+                )}
               </Box>
             </Box>
           </Box>

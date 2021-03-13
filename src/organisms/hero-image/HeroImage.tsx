@@ -7,8 +7,8 @@ import Section from "../../layout/section/Section";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroImageProps {
-  title: RichTextBlock[];
-  image: ImageProps;
+  title?: RichTextBlock[];
+  image?: ImageProps;
 }
 
 const columns = {
@@ -82,22 +82,26 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
         rows={rows}
         areas={gridAreas}
       >
-        <Heading
-          gridArea="text"
-          textAlign={"center"}
-          level={"1"}
-          margin={{
-            top: "xlarge",
-          }}
-          alignSelf={"stretch"}
-          size="small"
-          responsive={false}
-        >
-          {RichText.asText(title)}
-        </Heading>
-        <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-          {image?.url && <Image src={image.url} />}
-        </Box>
+        <React.Fragment>
+          {title && (
+            <Heading
+              gridArea="text"
+              textAlign={"center"}
+              level={"1"}
+              margin={{
+                top: "xlarge",
+              }}
+              alignSelf={"stretch"}
+              size="small"
+              responsive={false}
+            >
+              {RichText.asText(title)}
+            </Heading>
+          )}
+          <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
+            {image?.url && <Image src={image.url} />}
+          </Box>
+        </React.Fragment>
       </ResponsiveGrid>
     </Section>
   </Box>

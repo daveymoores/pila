@@ -10,17 +10,19 @@ export interface ModuleApplications {
 const parseLearningModules = (
   modules: CustomType<LearningModule>[]
 ): ModuleApplications[] =>
-  modules.map(
-    (result): ModuleApplications => {
-      return {
-        module: result.uid,
-        applications: result.data?.applications.map(
-          (application: LinkedApplication) => {
-            return application.assessmentApplication.uid;
-          }
-        ),
-      };
-    }
-  );
+  modules
+    ? modules.map(
+        (result): ModuleApplications => {
+          return {
+            module: result.uid,
+            applications: result.data?.applications.map(
+              (application: LinkedApplication) => {
+                return application.assessmentApplication.uid;
+              }
+            ),
+          };
+        }
+      )
+    : [];
 
 export default parseLearningModules;
