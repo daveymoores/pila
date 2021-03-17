@@ -1,7 +1,7 @@
 import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
-import { RichTextBlock } from "prismic-reactjs";
+import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
@@ -9,18 +9,50 @@ import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import Section from "../../../src/layout/section/Section";
 import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
 import CustomType from "../../../types/CustomType";
+import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 import parseLearningModules from "../../helpers/parseLearningModules";
 
-interface AssessmentApplicationProps {
-  title: RichTextBlock[];
+enum Difficulty {
+  EASY = "Easy",
+  EASY_INTERMEDIATE = "Easy - Intermediate",
+  INTERMEDIATE = "Intermediate",
+  INTERMEDIATE_ADVANCED = "Intermediate - Advanced",
+  ADVANCED = "Advanced",
 }
 
-type PageProps = PageData<unknown, AssessmentApplicationProps> &
+interface AssessmentApplicationProps {
+  title: RichTextBlock[];
+  uid: string;
+  applicationLink: Link;
+  body: RichTextBlock[];
+  shortBody: RichTextBlock[];
+  video: Link;
+  Image: ImageProps;
+  downLoadLinks: {
+    downloadLink: Link;
+    link: Link;
+  }[];
+}
+
+interface Slices {
+  taskTitle: RichTextBlock[];
+  image: ImageProps;
+  videoLink: Link;
+  taskBody: RichTextBlock[];
+  taskLink: Link;
+  difficulty: Difficulty;
+  taskLength: number;
+  minimumAge: number;
+  maximumAge: number;
+  categories: Link[];
+}
+
+type PageProps = PageData<Slices, AssessmentApplicationProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
+const Page: React.FC<PageProps> = ({ data, slices, ...restProps }) => {
   return (
     <Section>
       <ResponsiveGrid rows={"1"} columns={"large"}>

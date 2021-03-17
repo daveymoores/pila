@@ -56,7 +56,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         guideLink={guideLink}
       />
       <Section>
-        <Box pad={{ top: "xlarge", bottom: "xlarge" }}></Box>
+        <Box pad={{ top: "xlarge", bottom: "xlarge" }} />
       </Section>
       <Box width={"100%"} background={"light-1"}>
         <Section>
