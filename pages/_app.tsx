@@ -2,11 +2,9 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
-import isEmpty from "lodash/isEmpty";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
-import { AppContextType } from "next/dist/next-server/lib/utils";
-import { Router } from "next/router";
+import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
 
@@ -21,7 +19,17 @@ import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
 
+interface DefaultSeoProps {
+  url: string;
+  title: string;
+  description: string;
+  site_name: string;
+  handle: string;
+  appId: string;
+}
+
 interface PageProps {
+  seo: CustomType<DefaultSeoProps>[] | [];
   learningModules: CustomType<LearningModule>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
   doormat: CustomType<DoormatProps>[] | [];
@@ -30,7 +38,11 @@ interface PageProps {
 
 interface Response extends Omit<ApiSearchResponse, "results"> {
   results: CustomType<
-    LearningModule & NavigationProps & DoormatProps & FooterProps
+    LearningModule &
+      NavigationProps &
+      DoormatProps &
+      FooterProps &
+      DefaultSeoProps
   >[];
 }
 
@@ -38,9 +50,29 @@ interface Response extends Omit<ApiSearchResponse, "results"> {
 // @ts-ignore
 const PilaApp: NextPage<AppProps> = (props) => {
   const { Component, pageProps } = props;
+  const { url, site_name, handle, appId, title, description } =
+    (pageProps.seo || [])[0]?.data || {};
 
   return (
     <LearningModulesContext.Provider value={pageProps?.learningModules}>
+      <DefaultSeo
+        title={title}
+        description={description}
+        openGraph={{
+          type: "website",
+          locale: "en_GB",
+          url,
+          site_name,
+        }}
+        twitter={{
+          handle,
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
+        facebook={{
+          appId,
+        }}
+      />
       <PilaTheme>
         <Scaffold
           navigation={(pageProps?.navigation || [])[0]?.data}
@@ -70,6 +102,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           "navigation",
           "doormat",
           "footer",
+          "seo",
         ]),
         {}
       )) as unknown) as Response) || {};
@@ -80,6 +113,8 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
   const sortedResults = data.results.reduce(
     (acc: PageProps, result): PageProps => {
       switch (result.type) {
+        case PageType.SEO:
+          return { ...acc, seo: [...acc.seo, result] };
         case PageType.FOOTER:
           return { ...acc, footer: [...acc.footer, result] };
         case PageType.DOORMAT:
@@ -100,6 +135,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
       navigation: [],
       doormat: [],
       footer: [],
+      seo: [],
     }
   );
 

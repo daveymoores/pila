@@ -18,6 +18,7 @@
     "grommet": "^2.16.3",
     "lodash": "^4.17.21",
     "next": "10.0.5",
+    "next-seo": "^4.20.0",
     "next-slicezone": "^0.0.12",
     "next-transpile-modules": "^6.0.0",
     "polished": "^4.1.0",

@@ -12,6 +12,7 @@ import resolver from "../sm-resolver.js";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
+import Seo from "../src/organisms/seo/Seo";
 import PageData from "../types/PageData";
 import PageType from "../types/PageTypes";
 import QueryType from "../types/QueryType";
@@ -40,9 +41,25 @@ const Page: React.FC<PageProps> = ({
     return slice;
   });
 
+  const {
+    metaDescription,
+    metaTitle,
+    openGraphDescription,
+    openGraphImage,
+    openGraphTitle,
+    ...restData
+  } = data;
+
   return (
     <React.Fragment>
-      <HomepageHero {...data} />
+      <Seo
+        metaDescription={metaDescription}
+        metaTitle={metaTitle}
+        openGraphDescription={openGraphDescription}
+        openGraphImage={openGraphImage}
+        openGraphTitle={openGraphTitle}
+      />
+      <HomepageHero {...restData} />
       <SliceZone slices={parsedSlices} resolver={resolver} />
     </React.Fragment>
   );

@@ -9,6 +9,7 @@ import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
 import ModuleHero, {
   ModuleHeroProps,
 } from "../../../src/organisms/module-hero/ModuleHero";
+import Seo from "../../../src/organisms/seo/Seo";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 
@@ -44,10 +45,22 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guidesBody,
     guidesTitle,
     slices,
+    metaDescription,
+    metaTitle,
+    openGraphDescription,
+    openGraphImage,
+    openGraphTitle,
   } = data;
 
   return (
     <React.Fragment>
+      <Seo
+        metaDescription={metaDescription}
+        metaTitle={metaTitle}
+        openGraphDescription={openGraphDescription}
+        openGraphImage={openGraphImage || {}}
+        openGraphTitle={openGraphTitle}
+      />
       <ModuleHero
         uid={uid}
         title={title}

@@ -8,6 +8,7 @@ import resolver from "../sm-resolver.js";
 import HeroImage, {
   HeroImageProps,
 } from "../src/organisms/hero-image/HeroImage";
+import Seo from "../src/organisms/seo/Seo";
 import PageData from "../types/PageData";
 import PageType from "../types/PageTypes";
 
@@ -18,9 +19,25 @@ type PageProps = JSX.IntrinsicAttributes &
   PageData<ThemesPageSlices, HeroImageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
+  const {
+    metaDescription,
+    metaTitle,
+    openGraphDescription,
+    openGraphImage,
+    openGraphTitle,
+    ...restData
+  } = data || {};
+
   return (
     <React.Fragment>
-      <HeroImage {...data} />
+      <Seo
+        metaDescription={metaDescription}
+        metaTitle={metaTitle}
+        openGraphDescription={openGraphDescription}
+        openGraphImage={openGraphImage}
+        openGraphTitle={openGraphTitle}
+      />
+      <HeroImage {...restData} />
       <SliceZone slices={slices} resolver={resolver} />
     </React.Fragment>
   );

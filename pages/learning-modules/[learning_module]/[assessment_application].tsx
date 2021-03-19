@@ -8,6 +8,7 @@ import { Client } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import Section from "../../../src/layout/section/Section";
 import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
+import Seo from "../../../src/organisms/seo/Seo";
 import CustomType from "../../../types/CustomType";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
@@ -52,13 +53,30 @@ interface Slices {
 type PageProps = PageData<Slices, AssessmentApplicationProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ data, slices, ...restProps }) => {
+const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
+  const {
+    metaDescription,
+    metaTitle,
+    openGraphDescription,
+    openGraphImage,
+    openGraphTitle,
+  } = data || {};
+
   return (
-    <Section>
-      <ResponsiveGrid rows={"1"} columns={"large"}>
-        <Paragraph>{JSON.stringify(restProps)}</Paragraph>
-      </ResponsiveGrid>
-    </Section>
+    <React.Fragment>
+      <Seo
+        metaDescription={metaDescription}
+        metaTitle={metaTitle}
+        openGraphDescription={openGraphDescription}
+        openGraphImage={openGraphImage}
+        openGraphTitle={openGraphTitle}
+      />
+      <Section>
+        <ResponsiveGrid rows={"1"} columns={"large"}>
+          <Paragraph>{JSON.stringify(restProps)}</Paragraph>
+        </ResponsiveGrid>
+      </Section>
+    </React.Fragment>
   );
 };
 
