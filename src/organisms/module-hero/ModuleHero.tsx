@@ -12,7 +12,7 @@ import Icon from "../programme-card/Icon";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface ModuleHeroProps {
-  uid: string;
+  uid?: string;
   title?: RichTextBlock[];
   body?: RichTextBlock[];
   guideDownload?: Link;

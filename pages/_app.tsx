@@ -8,6 +8,7 @@ import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
 
+import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../prismic";
 import { LearningModule } from "../slices/PoweredByResearchSection";
 import LearningModulesContext from "../src/context/LearningModulesContext";
@@ -18,6 +19,8 @@ import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
+import { LearningModuleProps } from "./learning-modules/[learning_module]";
+import { AssessmentApplicationProps } from "./learning-modules/[learning_module]/[assessment_application]";
 
 interface DefaultSeoProps {
   url: string;
@@ -28,33 +31,64 @@ interface DefaultSeoProps {
   appId: string;
 }
 
-interface PageProps {
-  seo: CustomType<DefaultSeoProps>[] | [];
-  learningModules: CustomType<LearningModule>[] | [];
+export interface PageProps {
+  assessmentApplications: CustomType<AssessmentApplicationProps>[] | [];
+  learningModules: CustomType<LearningModuleProps>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
   doormat: CustomType<DoormatProps>[] | [];
   footer: CustomType<FooterProps>[] | [];
+  seo: CustomType<DefaultSeoProps>[] | [];
 }
 
 interface Response extends Omit<ApiSearchResponse, "results"> {
   results: CustomType<
-    LearningModule &
+    LearningModuleProps &
       NavigationProps &
       DoormatProps &
       FooterProps &
-      DefaultSeoProps
+      DefaultSeoProps &
+      AssessmentApplicationProps
   >[];
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const PilaApp: NextPage<AppProps> = (props) => {
+const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const { Component, pageProps } = props;
   const { url, site_name, handle, appId, title, description } =
     (pageProps.seo || [])[0]?.data || {};
 
+  // calculate averages for difficulty and age, plus total number of tasks
+  const assessmentApplicationAverages = getApplicationAverages(
+    (pageProps?.assessmentApplications as CustomType<AssessmentApplicationProps>[]) ||
+      []
+  );
+
+  const learningModules: CustomType<LearningModuleProps>[] = (
+    (pageProps?.learningModules as CustomType<LearningModuleProps>[]) || []
+  ).map((learningModule) => {
+    const applications = (learningModule.data?.applications || []).map(
+      ({ assessmentApplication }) => {
+        const appAverages = assessmentApplicationAverages.find(
+          (app) => app.uid === assessmentApplication.uid
+        );
+        return {
+          assessmentApplication: {
+            ...assessmentApplication,
+            applicationsStats: appAverages,
+          },
+        };
+      }
+    );
+
+    return {
+      ...learningModule,
+      data: { ...learningModule.data, applications },
+    };
+  });
+
   return (
-    <LearningModulesContext.Provider value={pageProps?.learningModules}>
+    <LearningModulesContext.Provider value={learningModules}>
       <DefaultSeo
         title={title}
         description={description}
@@ -98,13 +132,21 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     data =
       (((await client.query(
         Prismic.Predicates.any("document.type", [
+          "assessment_application",
           "learning_module",
           "navigation",
           "doormat",
           "footer",
           "seo",
-        ]),
-        {}
+        ])
+        // {
+        //   fetchLinks: [
+        //     "assessment_application.title",
+        //     "assessment_application.shortBody",
+        //     "assessment_application.image",
+        //     "assessment_application.video",
+        //   ],
+        // }
       )) as unknown) as Response) || {};
   } catch (err) {
     throw new Error(err);
@@ -126,11 +168,17 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
             ...acc,
             learningModules: [...acc.learningModules, result],
           };
+        case PageType.ASSESSMENT_APPLICATION:
+          return {
+            ...acc,
+            assessmentApplications: [...acc.assessmentApplications, result],
+          };
         default:
           return acc;
       }
     },
     {
+      assessmentApplications: [],
       learningModules: [],
       navigation: [],
       doormat: [],

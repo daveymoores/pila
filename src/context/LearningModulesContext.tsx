@@ -1,10 +1,10 @@
 import React from "react";
 
-import { LearningModule } from "../../slices/PoweredByResearchSection";
+import { LearningModuleProps } from "../../pages/learning-modules/[learning_module]";
 import CustomType from "../../types/CustomType";
 
 const LearningModulesContext = React.createContext<
-  [] | CustomType<LearningModule>[]
+  [] | CustomType<LearningModuleProps>[]
 >([]);
 
 export default LearningModulesContext;

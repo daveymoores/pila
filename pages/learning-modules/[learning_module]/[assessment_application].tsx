@@ -4,6 +4,7 @@ import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../../../prismic";
 import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import Section from "../../../src/layout/section/Section";
@@ -14,8 +15,9 @@ import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 import parseLearningModules from "../../helpers/parseLearningModules";
+import { LearningModuleProps } from "./index";
 
-enum Difficulty {
+export enum Difficulty {
   EASY = "Easy",
   EASY_INTERMEDIATE = "Easy - Intermediate",
   INTERMEDIATE = "Intermediate",
@@ -23,7 +25,7 @@ enum Difficulty {
   ADVANCED = "Advanced",
 }
 
-interface AssessmentApplicationProps {
+interface AssessmentApplicationMainProps {
   title: RichTextBlock[];
   uid: string;
   applicationLink: Link;
@@ -35,23 +37,30 @@ interface AssessmentApplicationProps {
     downloadLink: Link;
     link: Link;
   }[];
+  applicationsStats: ApplicationStats[];
 }
 
-interface Slices {
-  taskTitle: RichTextBlock[];
-  image: ImageProps;
-  videoLink: Link;
-  taskBody: RichTextBlock[];
-  taskLink: Link;
-  difficulty: Difficulty;
-  taskLength: number;
-  minimumAge: number;
-  maximumAge: number;
-  categories: Link[];
+export interface Task {
+  items: { categories: Link[] };
+  primary: {
+    taskTitle: RichTextBlock[];
+    image: ImageProps;
+    videoLink: Link;
+    taskBody: RichTextBlock[];
+    taskLink: Link;
+    taskDifficulty: Difficulty;
+    taskLength: number;
+    minimumAge: number;
+    maximumAge: number;
+  };
 }
 
-type PageProps = PageData<Slices, AssessmentApplicationProps> &
-  JSX.IntrinsicAttributes;
+export type AssessmentApplicationProps = PageData<
+  Task,
+  AssessmentApplicationMainProps
+>;
+
+type PageProps = AssessmentApplicationProps & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
   const {
@@ -95,7 +104,7 @@ export const getStaticPaths = async () => {
     )) || {};
 
   const moduleApplications = parseLearningModules(
-    (modules.results as unknown) as CustomType<LearningModule>[]
+    (modules.results as unknown) as CustomType<LearningModuleProps>[]
   );
 
   return useGetStaticPaths({
@@ -104,7 +113,7 @@ export const getStaticPaths = async () => {
     fallback: true, // process.env.NODE_ENV === 'development',
     formatPath: (props) => {
       const app = moduleApplications.find((module) =>
-        module.applications.find((app) => app === props.uid)
+        (module?.applications || []).find((app) => app === props.uid)
       );
 
       return {

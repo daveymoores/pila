@@ -12,6 +12,7 @@ import ModuleHero, {
 import Seo from "../../../src/organisms/seo/Seo";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
+import { AssessmentApplicationProps } from "./[assessment_application]";
 
 interface GuideItem {
   guideTitle: RichTextBlock[];
@@ -26,17 +27,20 @@ interface GuideGroup {
   };
 }
 
-interface LearningModuleHomeProps extends ModuleHeroProps {
+export interface LearningModuleProps extends ModuleHeroProps {
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
   slices?: GuideGroup[];
+  applications: {
+    assessmentApplication: AssessmentApplicationProps;
+  }[];
 }
 
-type PageProps = PageData<unknown, LearningModuleHomeProps> &
+type PageProps = PageData<unknown, LearningModuleProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
+const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
   const {
     title,
     body,

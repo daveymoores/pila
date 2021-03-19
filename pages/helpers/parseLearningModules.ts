@@ -1,28 +1,23 @@
-import { LearningModule } from "../../slices/PoweredByResearchSection";
 import CustomType from "../../types/CustomType";
-import LinkedApplication from "../../types/LinkedApplication";
+import { LearningModuleProps } from "../learning-modules/[learning_module]";
 
 export interface ModuleApplications {
   module: string | undefined;
-  applications: string[];
+  applications: undefined | string[];
 }
 
 const parseLearningModules = (
-  modules: CustomType<LearningModule>[]
+  modules: CustomType<LearningModuleProps>[]
 ): ModuleApplications[] =>
   modules
-    ? modules.map(
-        (result): ModuleApplications => {
-          return {
-            module: result.uid,
-            applications: result.data?.applications.map(
-              (application: LinkedApplication) => {
-                return application.assessmentApplication.uid;
-              }
-            ),
-          };
-        }
-      )
+    ? modules.map((result) => {
+        return {
+          module: result.uid,
+          applications: result.data?.applications.map((application) => {
+            return application.assessmentApplication.uid;
+          }),
+        };
+      })
     : [];
 
 export default parseLearningModules;

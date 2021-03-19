@@ -5,8 +5,8 @@ import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
+import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
 import { RoutedTextLink } from "../../../prismic";
-import { LearningModule } from "../../../slices/PoweredByResearchSection";
 import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
@@ -28,14 +28,16 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const router = useRouter();
 
-  const learningModules: CustomType<LearningModule>[] = React.useContext(
+  const learningModules: CustomType<LearningModuleProps>[] = React.useContext(
     LearningModulesContext
   );
 
   const moduleNavigationItems =
     learningModules &&
     learningModules.map((module) => ({
-      label: module.data ? RichText.asText(module.data.title) : module.uid,
+      label: module.data?.title
+        ? RichText.asText(module.data.title)
+        : module.uid,
       href: `/learning-modules/${module.uid}`,
       onClick: (event: SyntheticEvent) => {
         event.preventDefault();

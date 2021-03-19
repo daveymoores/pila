@@ -1,11 +1,11 @@
-import { Anchor, AnchorProps, Button, ButtonProps } from "grommet";
+import { Anchor, AnchorProps } from "grommet";
 import Link from "next/link";
 import Prismic from "prismic-javascript";
 import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 
 import resolveModuleFromUID from "./pages/helpers/resolveModuleFromUID";
-import { LearningModule } from "./slices/PoweredByResearchSection";
+import { LearningModuleProps } from "./pages/learning-modules/[learning_module]";
 import smConfig from "./sm.json";
 import LearningModulesContext from "./src/context/LearningModulesContext";
 import CustomType from "./types/CustomType";
@@ -21,7 +21,7 @@ export const accessToken = "";
 // Manages the url links to internal Prismic documents
 export const linkResolver = (
   link: LinkProps,
-  modules: CustomType<LearningModule>[]
+  modules: CustomType<LearningModuleProps>[]
 ): string => {
   const resolver: { [key: string]: string } = {
     [PageType.HOME]: "/",
