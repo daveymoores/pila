@@ -18,8 +18,16 @@ enum InternalPageTypes {
   ERROR = "error",
 }
 
-const PageType = { ...InternalPageTypes, ...PrismicPageTypes };
+enum ExternalPageTypes {
+  KNOW_LEARNING = "know_learning",
+}
 
-type PageType = PrismicPageTypes | InternalPageTypes;
+const PageType = {
+  ...InternalPageTypes,
+  ...PrismicPageTypes,
+  ...ExternalPageTypes,
+};
+
+type PageType = PrismicPageTypes | InternalPageTypes | ExternalPageTypes;
 
 export default PageType;

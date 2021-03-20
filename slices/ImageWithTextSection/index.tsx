@@ -102,7 +102,6 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     <StyledBox background={colorMapper(backgroundColor)} justify={"center"}>
       <Section>
         <ResponsiveGrid
-          margin="medium"
           columns={columns}
           areas={gridAreas(imageSide)}
           rows={rows}

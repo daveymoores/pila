@@ -10,7 +10,7 @@ import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../prismic";
-import { LearningModule } from "../slices/PoweredByResearchSection";
+import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
@@ -67,18 +67,31 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const learningModules: CustomType<LearningModuleProps>[] = (
     (pageProps?.learningModules as CustomType<LearningModuleProps>[]) || []
   ).map((learningModule) => {
-    const applications = (learningModule.data?.applications || []).map(
-      ({ assessmentApplication }) => {
+    const applications = (learningModule.data?.applications || []).reduce(
+      (acc: LearningModuleProps["applications"], { assessmentApplication }) => {
         const appAverages = assessmentApplicationAverages.find(
           (app) => app.uid === assessmentApplication.uid
         );
-        return {
-          assessmentApplication: {
-            ...assessmentApplication,
-            applicationsStats: appAverages,
+
+        const applicationData = (pageProps?.assessmentApplications || []).find(
+          (application: CustomType<AssessmentApplicationProps>) =>
+            application.uid === assessmentApplication.uid
+        );
+
+        if (!applicationData) return acc;
+
+        return [
+          ...acc,
+          {
+            assessmentApplication: {
+              ...assessmentApplication,
+              ...applicationData.data,
+              applicationsStats: appAverages,
+            },
           },
-        };
-      }
+        ];
+      },
+      []
     );
 
     return {
@@ -89,33 +102,37 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 
   return (
     <LearningModulesContext.Provider value={learningModules}>
-      <DefaultSeo
-        title={title}
-        description={description}
-        openGraph={{
-          type: "website",
-          locale: "en_GB",
-          url,
-          site_name,
-        }}
-        twitter={{
-          handle,
-          site: "@site",
-          cardType: "summary_large_image",
-        }}
-        facebook={{
-          appId,
-        }}
-      />
-      <PilaTheme>
-        <Scaffold
-          navigation={(pageProps?.navigation || [])[0]?.data}
-          doormat={(pageProps?.doormat || [])[0]?.data}
-          footer={(pageProps?.footer || [])[0]?.data}
-        >
-          <Component {...pageProps} />
-        </Scaffold>
-      </PilaTheme>
+      <AssessmentApplicationContext.Provider
+        value={pageProps?.assessmentApplication}
+      >
+        <DefaultSeo
+          title={title}
+          description={description}
+          openGraph={{
+            type: "website",
+            locale: "en_GB",
+            url,
+            site_name,
+          }}
+          twitter={{
+            handle,
+            site: "@site",
+            cardType: "summary_large_image",
+          }}
+          facebook={{
+            appId,
+          }}
+        />
+        <PilaTheme>
+          <Scaffold
+            navigation={(pageProps?.navigation || [])[0]?.data}
+            doormat={(pageProps?.doormat || [])[0]?.data}
+            footer={(pageProps?.footer || [])[0]?.data}
+          >
+            <Component {...pageProps} />
+          </Scaffold>
+        </PilaTheme>
+      </AssessmentApplicationContext.Provider>
     </LearningModulesContext.Provider>
   );
 };
@@ -139,14 +156,6 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           "footer",
           "seo",
         ])
-        // {
-        //   fetchLinks: [
-        //     "assessment_application.title",
-        //     "assessment_application.shortBody",
-        //     "assessment_application.image",
-        //     "assessment_application.video",
-        //   ],
-        // }
       )) as unknown) as Response) || {};
   } catch (err) {
     throw new Error(err);

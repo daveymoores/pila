@@ -4,15 +4,22 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
+import AssessmentApplicationContext from "../../../src/context/AssessmentApplicationContext";
+import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
+import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
 import ModuleHero, {
   ModuleHeroProps,
 } from "../../../src/organisms/module-hero/ModuleHero";
 import Seo from "../../../src/organisms/seo/Seo";
+import CustomType from "../../../types/CustomType";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import { AssessmentApplicationProps } from "./[assessment_application]";
+import {
+  AssessmentApplicationMainProps,
+  AssessmentApplicationProps,
+} from "./[assessment_application]";
 
 interface GuideItem {
   guideTitle: RichTextBlock[];
@@ -33,7 +40,7 @@ export interface LearningModuleProps extends ModuleHeroProps {
   guidesTitle?: RichTextBlock[];
   slices?: GuideGroup[];
   applications: {
-    assessmentApplication: AssessmentApplicationProps;
+    assessmentApplication: AssessmentApplicationMainProps;
   }[];
 }
 
@@ -56,6 +63,12 @@ const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
     openGraphTitle,
   } = data;
 
+  const learningModules = React.useContext(LearningModulesContext);
+
+  const module = learningModules.find(
+    (module: CustomType<LearningModuleProps>) => module.uid === uid
+  );
+  console.log(module);
   return (
     <React.Fragment>
       <Seo
@@ -72,9 +85,26 @@ const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
         guideDownload={guideDownload}
         guideLink={guideLink}
       />
-      <Section>
-        <Box pad={{ top: "xlarge", bottom: "xlarge" }} />
-      </Section>
+      <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
+        <Section>
+          <Heading size={"small"}>Assessment applications</Heading>
+          {module?.data?.applications &&
+            module?.data?.applications.map(
+              ({ assessmentApplication: app }, index) => (
+                <ApplicationSection
+                  key={index}
+                  title={app.title}
+                  applicationLink={app.applicationLink}
+                  applicationsStats={app.applicationsStats}
+                  shortBody={app.shortBody}
+                  video={app.video}
+                  image={app.image}
+                  downloadLinks={app.downloadLinks}
+                />
+              )
+            )}
+        </Section>
+      </Box>
       <Box width={"100%"} background={"light-1"}>
         <Section>
           <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
@@ -112,7 +142,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
                       ) => (
                         <GuideCard
                           key={index}
-                          title={guideTitle}
+                          title={RichText.asText(guideTitle)}
                           downloadLink={guideDownloadLink}
                           pageLink={guidePageLink}
                         />

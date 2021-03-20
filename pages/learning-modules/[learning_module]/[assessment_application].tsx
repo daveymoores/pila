@@ -25,19 +25,20 @@ export enum Difficulty {
   ADVANCED = "Advanced",
 }
 
-interface AssessmentApplicationMainProps {
+export interface AssessmentApplicationMainProps {
   title: RichTextBlock[];
   uid: string;
   applicationLink: Link;
   body: RichTextBlock[];
   shortBody: RichTextBlock[];
   video: Link;
-  Image: ImageProps;
-  downLoadLinks: {
+  image: ImageProps;
+  downloadLinks: {
+    label: string;
     downloadLink: Link;
     link: Link;
   }[];
-  applicationsStats: ApplicationStats[];
+  applicationsStats: ApplicationStats;
 }
 
 export interface Task {
