@@ -95,43 +95,50 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
               Tasks
             </Heading>
 
-            {slices.map(({ primary }, index) => {
-              if (!primary) return null;
+            {slices &&
+              slices.map(({ primary }, index) => {
+                if (!primary) return null;
 
-              const {
-                taskLength,
-                taskDifficulty,
-                maximumAge,
-                minimumAge,
-                taskTitle,
-              } = primary;
+                const {
+                  taskLength,
+                  taskDifficulty,
+                  maximumAge,
+                  minimumAge,
+                  taskTitle,
+                } = primary;
 
-              const isSelected =
-                RichText.asText(taskTitle) ===
-                (selectedTaskData?.primary?.taskTitle &&
-                  RichText.asText(selectedTaskData?.primary?.taskTitle));
+                const isSelected =
+                  RichText.asText(taskTitle) ===
+                  (selectedTaskData?.primary?.taskTitle &&
+                    RichText.asText(selectedTaskData?.primary?.taskTitle));
 
-              return (
-                <StyledCard
-                  key={index}
-                  pad={"medium"}
-                  elevation={"none"}
-                  background={isSelected ? "light-1" : "none"}
-                  margin={{ bottom: "medium" }}
-                  onClick={(event: SyntheticEvent) => handleClick(event, index)}
-                >
-                  {isSelected && <ActiveIcon />}
-                  <Heading level={3} size={"21px"} margin={{ bottom: "small" }}>
-                    {RichText.asText(taskTitle)}
-                  </Heading>
-                  <TaskStats
-                    length={taskLength}
-                    difficulty={taskDifficulty}
-                    age={`${minimumAge} - ${maximumAge}`}
-                  />
-                </StyledCard>
-              );
-            })}
+                return (
+                  <StyledCard
+                    key={index}
+                    pad={"medium"}
+                    elevation={"none"}
+                    background={isSelected ? "light-1" : "none"}
+                    margin={{ bottom: "medium" }}
+                    onClick={(event: SyntheticEvent) =>
+                      handleClick(event, index)
+                    }
+                  >
+                    {isSelected && <ActiveIcon />}
+                    <Heading
+                      level={3}
+                      size={"21px"}
+                      margin={{ bottom: "small" }}
+                    >
+                      {RichText.asText(taskTitle)}
+                    </Heading>
+                    <TaskStats
+                      length={taskLength}
+                      difficulty={taskDifficulty}
+                      age={`${minimumAge} - ${maximumAge}`}
+                    />
+                  </StyledCard>
+                );
+              })}
           </Box>
           <ImageBox
             gridArea="image"
@@ -160,11 +167,13 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                   </Heading>
                 )}
                 <Box direction={"row"} justify={"start"} align={"end"}>
-                  {selectedTaskData?.items.map(({ categories }, index) => {
-                    return (
-                      <Category key={index} name={categories?.data?.name} />
-                    );
-                  })}
+                  {(selectedTaskData?.items || []).map(
+                    ({ categories }, index) => {
+                      return (
+                        <Category key={index} name={categories?.data?.name} />
+                      );
+                    }
+                  )}
                   <Button
                     primary
                     margin={{ left: "auto" }}
