@@ -47,7 +47,7 @@ export interface LearningModuleProps extends ModuleHeroProps {
 type PageProps = PageData<unknown, LearningModuleProps> &
   JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
+const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
     title,
     body,
@@ -68,7 +68,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
   const module = learningModules.find(
     (module: CustomType<LearningModuleProps>) => module.uid === uid
   );
-  console.log(module);
+
   return (
     <React.Fragment>
       <Seo
@@ -93,8 +93,9 @@ const Page: React.FC<PageProps> = ({ uid, data = {}, ...restprops }) => {
               ({ assessmentApplication: app }, index) => (
                 <ApplicationSection
                   key={index}
+                  index={index}
+                  uid={app.uid}
                   title={app.title}
-                  applicationLink={app.applicationLink}
                   applicationsStats={app.applicationsStats}
                   shortBody={app.shortBody}
                   video={app.video}

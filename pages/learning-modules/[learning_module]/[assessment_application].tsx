@@ -1,4 +1,3 @@
-import { Paragraph } from "grommet";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
@@ -6,10 +5,9 @@ import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../../../prismic";
-import { LearningModule } from "../../../slices/PoweredByResearchSection";
-import Section from "../../../src/layout/section/Section";
-import ResponsiveGrid from "../../../src/organisms/responsive-grid/ResponsiveGrid";
+import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
+import TaskSection from "../../../src/organisms/task-section/TaskSection";
 import CustomType from "../../../types/CustomType";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
@@ -42,10 +40,10 @@ export interface AssessmentApplicationMainProps {
 }
 
 export interface Task {
-  items: { categories: Link[] };
+  items: { categories: Link & { data: { name: string } } }[];
   primary: {
     taskTitle: RichTextBlock[];
-    image: ImageProps;
+    taskImage: ImageProps;
     videoLink: Link;
     taskBody: RichTextBlock[];
     taskLink: Link;
@@ -56,20 +54,23 @@ export interface Task {
   };
 }
 
-export type AssessmentApplicationProps = PageData<
-  Task,
-  AssessmentApplicationMainProps
->;
+export interface AssessmentApplicationProps
+  extends PageData<Task, AssessmentApplicationMainProps> {
+  learningModuleUid: string;
+}
 
 type PageProps = AssessmentApplicationProps & JSX.IntrinsicAttributes;
 
-const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
+const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
   const {
     metaDescription,
     metaTitle,
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    title,
+    body,
+    slices,
   } = data || {};
 
   return (
@@ -81,22 +82,38 @@ const Page: React.FC<PageProps> = ({ data, ...restProps }) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <Section>
-        <ResponsiveGrid rows={"1"} columns={"large"}>
-          <Paragraph>{JSON.stringify(restProps)}</Paragraph>
-        </ResponsiveGrid>
-      </Section>
+      <ApplicationHero
+        uid={uid}
+        title={title}
+        body={body}
+        learningModuleUid={learningModuleUid}
+      />
+      <TaskSection slices={slices} />
     </React.Fragment>
   );
 };
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
-  type: PageType.ASSESSMENT_APPLICATION,
-  uid: ({ params }) => params.assessment_application,
-});
+interface StaticContextProps {
+  params: {
+    assessment_application: string;
+    learning_module: string;
+  };
+}
 
-export const getStaticPaths = async () => {
+export const getStaticProps = async (context: StaticContextProps) => {
+  const { props } = await useGetStaticProps({
+    client: Client(),
+    type: PageType.ASSESSMENT_APPLICATION,
+    uid: ({ params }) => params.assessment_application,
+    params: { fetchLinks: "category.name" },
+  })(context);
+
+  return {
+    props: { ...props, learningModuleUid: context.params.learning_module },
+  };
+};
+
+export const getStaticPaths = async (): Promise<StaticContextProps> => {
   const client = Client();
   const modules =
     (await client.query(

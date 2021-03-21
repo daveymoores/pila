@@ -70,19 +70,26 @@ const gridAreas = {
   ],
 };
 
-const ApplicationSection: React.FC<
-  Omit<AssessmentApplicationMainProps, "body" | "uid">
-> = ({
+interface ApplicationSectionProps
+  extends Omit<AssessmentApplicationMainProps, "body" | "applicationLink"> {
+  index: number;
+}
+
+const ApplicationSection: React.FC<ApplicationSectionProps> = ({
+  uid,
   title,
-  applicationLink,
   applicationsStats,
   shortBody,
   video,
   image,
   downloadLinks,
+  index,
 }) => {
   return (
-    <Box justify={"center"} margin={{ top: "xlarge", bottom: "xlarge" }}>
+    <Box
+      justify={"center"}
+      margin={{ top: "xlarge", bottom: index ? "large" : "none" }}
+    >
       <ResponsiveGrid
         columns={columns}
         areas={gridAreas}
@@ -117,7 +124,10 @@ const ApplicationSection: React.FC<
             size={ButtonSizes.large}
             color={colorPalette.blue}
             label={"View application"}
-            link={applicationLink}
+            link={{
+              type: PageType.ASSESSMENT_APPLICATION,
+              uid,
+            }}
           />
         </Box>
       </ResponsiveGrid>

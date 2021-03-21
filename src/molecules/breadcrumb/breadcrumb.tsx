@@ -25,7 +25,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
         pad={{ top: "small" }}
       >
         {Array.isArray(links) &&
-          links.map(({ label, link }, index) => (
+          links.map(({ label, link }, index, array) => (
             <React.Fragment key={index}>
               <StyledLink
                 label={label}
@@ -34,7 +34,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
                 size={"small"}
                 color={colorPalette.dark_blue}
               />
-              {index % 2 ? null : (
+              {index === array.length - 1 ? null : (
                 <StyledFormNext
                   color={colorPalette.dark_blue}
                   width={"10px"}
@@ -50,12 +50,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
 
 const StyledLink = styled(RoutedTextLink)`
   opacity: 0.5;
+  font-size: 14px;
 `;
 
 const StyledFormNext = styled(FormNext)`
   opacity: 0.5;
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   padding: 0 6px;
 `;
 

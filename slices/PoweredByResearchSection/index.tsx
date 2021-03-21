@@ -3,7 +3,6 @@ import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
-import { ApplicationStats } from "../../helpers/get-application-averages/getApplicationAverages";
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
 import ProjectCard from "../../src/organisms/programme-card/ProgrammeCard";

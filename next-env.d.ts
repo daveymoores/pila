@@ -21,4 +21,6 @@ interface IUseGetStaticProps {
   type: string;
   queryType?: string;
   uid?: (arg: Params) => string;
+  body?: string;
+  params?: Record<string, unknown>;
 }

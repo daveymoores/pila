@@ -24,34 +24,8 @@ export type ImageWithTextSectionProps = Slice<Primary, never>;
 const columns = {
   small: ["auto"],
   medium: ["auto"],
-  large: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
-  xlarge: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
+  large: Array(12).fill("flex"),
+  xlarge: Array(12).fill("flex"),
 };
 
 const rows = {
