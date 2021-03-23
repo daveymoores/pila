@@ -4,7 +4,7 @@ import { LearningModuleProps } from "../../pages/learning-modules/[learning_modu
 import CustomType from "../../types/CustomType";
 
 const LearningModulesContext = React.createContext<
-  [] | CustomType<LearningModuleProps>[]
+  CustomType<LearningModuleProps>[]
 >([]);
 
 export default LearningModulesContext;

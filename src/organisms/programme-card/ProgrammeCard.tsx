@@ -1,6 +1,7 @@
 import { Card, CardBody, CardHeader, Heading, Image, Paragraph } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
+import styled from "styled-components";
 
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -24,7 +25,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 }) => {
   /* TODO - move "View Module" to dictionary */
   return (
-    <Card
+    <StyledCard
       background={"white"}
       elevation="xlarge"
       pad="large"
@@ -32,7 +33,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
       direction={"column"}
     >
       <CardHeader justify={"center"}>
-        {image ? <Image {...image} alt={""} width={"100%"} /> : <Icon />}
+        {image ? <Image {...image} alt={""} width={"100%"} /> : <StyledIcon />}
       </CardHeader>
       <CardBody
         margin={{ top: "medium" }}
@@ -73,8 +74,16 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
           />
         )}
       </CardBody>
-    </Card>
+    </StyledCard>
   );
 };
+
+const StyledCard = styled(Card)`
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+`;
+
+const StyledIcon = styled(Icon)`
+  max-width: 200px;
+`;
 
 export default ProgrammeCard;

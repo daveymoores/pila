@@ -35,7 +35,7 @@ const PoweredByResearchSection: FC<{
   return (
     <StyledBox background="light-1" justify={"center"}>
       <Section>
-        <ResponsiveGrid margin="medium" columns={"medium"} rows={"1"}>
+        <ResponsiveGrid columns={"medium"} rows={"1"}>
           <React.Fragment>
             <TextContent {...primary} asCard={false} padding="medium" />
             {learningModules.map((module) => (
