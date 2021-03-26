@@ -4,6 +4,7 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
+import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import Section from "../../src/layout/section/Section";
 import ProjectCard from "../../src/organisms/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
@@ -38,6 +39,7 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphTitle,
   } = props.data || {};
 
+  useNavigationLightTheme();
   const learningModules = React.useContext(LearningModulesContext);
 
   return (

@@ -11,6 +11,7 @@ import Section from "../../layout/section/Section";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
 import Breadcrumb from "../../molecules/breadcrumb/breadcrumb";
 import { colorPalette } from "../../theme/pila";
+import HeroText from "../hero-text/HeroText";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface ModuleHeroProps {
@@ -74,14 +75,8 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
     ) || {};
 
   return (
-    <Box
-      width={"100%"}
-      background={"light-1"}
-      pad={{
-        top: "xlarge",
-      }}
-    >
-      <Breadcrumb
+    <React.Fragment>
+      <HeroText
         links={[
           {
             link: {
@@ -101,22 +96,8 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
             label: title ? RichText.asText(title) : "",
           },
         ]}
-      />
-      <Section>
-        <ResponsiveGrid
-          margin={{
-            top: "xlarge",
-            bottom: "xlarge",
-          }}
-          columns={columns}
-          rows={rows}
-          areas={gridAreas}
-        >
-          <Box
-            gridArea="title"
-            align={"center"}
-            margin={{ bottom: size === "small" ? "medium" : "none" }}
-          >
+        title={
+          <React.Fragment>
             {title && (
               <Heading
                 textAlign={"start"}
@@ -132,8 +113,11 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
             {body && (
               <Paragraph size="large">{RichText.asText(body)}</Paragraph>
             )}
-          </Box>
-          <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
+          </React.Fragment>
+        }
+        info={
+          <React.Fragment>
+            {" "}
             <Button
               primary
               margin={{ top: "large" }}
@@ -145,9 +129,9 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
                 uid,
               }}
             />
-          </Box>
-        </ResponsiveGrid>
-      </Section>
+          </React.Fragment>
+        }
+      />
       {assessmentApplication?.applicationsStats && (
         <Box pad={{ top: "small", bottom: "small" }} background={"#e8e8e8"}>
           <Section>
@@ -157,7 +141,7 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
           </Section>
         </Box>
       )}
-    </Box>
+    </React.Fragment>
   );
 };
 

@@ -9,6 +9,7 @@ import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import { PoweredByResearchSectionProps } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver.js";
+import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
@@ -34,6 +35,8 @@ const Page: React.FC<PageProps> = ({
   slices,
   learningModules,
 }: PageProps) => {
+  useNavigationDarkTheme();
+
   const parsedSlices = slices.map((slice) => {
     if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
       return { ...slice, learningModules };

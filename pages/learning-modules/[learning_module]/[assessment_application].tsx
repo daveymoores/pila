@@ -5,7 +5,10 @@ import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../../../prismic";
+import NavigationThemeContext from "../../../src/context/NavigationThemeContext";
+import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
+import { NavigationTheme } from "../../../src/organisms/navigation/Navigation";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
 import CustomType from "../../../types/CustomType";
@@ -72,6 +75,8 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     body,
     slices,
   } = data || {};
+
+  useNavigationLightTheme();
 
   return (
     <React.Fragment>

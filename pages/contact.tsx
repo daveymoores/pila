@@ -3,6 +3,7 @@ import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
 import { Client } from "../prismic";
+import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
 import Section from "../src/layout/section/Section";
 import ResponsiveGrid from "../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../src/organisms/seo/Seo";
@@ -20,6 +21,7 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphImage,
     openGraphTitle,
   } = props.data;
+  useNavigationLightTheme();
 
   return (
     <Section>

@@ -8,7 +8,7 @@ import { RoutedTextLink } from "../../../prismic";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
 
-interface BreadcrumbProps {
+export interface BreadcrumbProps {
   links: {
     link: Link;
     label: string;

@@ -5,6 +5,7 @@ import React from "react";
 import { Client } from "../prismic";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import resolver from "../sm-resolver.js";
+import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
 import HeroImage, {
   HeroImageProps,
 } from "../src/organisms/hero-image/HeroImage";
@@ -27,6 +28,8 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     openGraphTitle,
     ...restData
   } = data || {};
+
+  useNavigationLightTheme();
 
   return (
     <React.Fragment>

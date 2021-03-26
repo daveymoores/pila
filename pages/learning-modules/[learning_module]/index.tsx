@@ -4,8 +4,8 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
-import AssessmentApplicationContext from "../../../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
+import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
 import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
@@ -16,10 +16,7 @@ import Seo from "../../../src/organisms/seo/Seo";
 import CustomType from "../../../types/CustomType";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import {
-  AssessmentApplicationMainProps,
-  AssessmentApplicationProps,
-} from "./[assessment_application]";
+import { AssessmentApplicationMainProps } from "./[assessment_application]";
 
 interface GuideItem {
   guideTitle: RichTextBlock[];
@@ -63,6 +60,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     openGraphTitle,
   } = data;
 
+  useNavigationLightTheme();
   const learningModules = React.useContext(LearningModulesContext);
 
   const module = learningModules.find(

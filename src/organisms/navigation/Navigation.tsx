@@ -13,9 +13,15 @@ import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
 import LearningModulesContext from "../../context/LearningModulesContext";
+import NavigationThemeContext from "../../context/NavigationThemeContext";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
+
+export enum NavigationTheme {
+  LIGHT,
+  DARK,
+}
 
 export interface NavigationProps {
   links: RepeatableLink[];
@@ -27,6 +33,7 @@ const Navigation: React.FC<NavigationProps> = ({
   modules_dropdown_label,
 }) => {
   const router = useRouter();
+  const { theme } = React.useContext(NavigationThemeContext);
 
   const learningModules: CustomType<LearningModuleProps>[] = React.useContext(
     LearningModulesContext
@@ -46,7 +53,17 @@ const Navigation: React.FC<NavigationProps> = ({
     }));
 
   return (
-    <StyledHeader background="transparent" height="xsmall">
+    <StyledHeader
+      background="transparent"
+      height="xsmall"
+      style={
+        {
+          "--nav-theme": `${
+            theme === NavigationTheme.LIGHT ? colorPalette.dark_blue : "white"
+          }`,
+        } as React.CSSProperties
+      }
+    >
       <Section>
         <ResponsiveGrid rows="1" columns={"1"}>
           <ResponsiveContext.Consumer>
@@ -137,17 +154,20 @@ const StyledLogo = styled(Logo)`
 const StyledMenu = styled(Menu)`
   font-size: 16px;
   font-weight: bold;
-  color: ${colorPalette.dark_blue};
+  color: var(--nav-theme);
+  outline: none;
 
   * {
     font-size: inherit !important;
+    stroke: var(--nav-theme);
+    fill: var(--nav-theme);
   }
 `;
 
 const StyledRoutedTextLink = styled(RoutedTextLink)`
   font-size: 16px;
   font-weight: bold;
-  color: ${colorPalette.dark_blue};
+  color: var(--nav-theme);
 `;
 
 export default Navigation;
