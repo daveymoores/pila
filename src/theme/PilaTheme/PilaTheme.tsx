@@ -1,11 +1,11 @@
-import { Grommet } from "grommet";
+import { Grommet, ThemeType } from "grommet";
 import { deepMerge } from "grommet/utils";
 import React from "react";
 import { getUA } from "react-device-detect";
 
 import pila from "../pila";
 
-const customBreakpoints = deepMerge(pila, {
+const customBreakpoints = (deepMerge(pila, {
   global: {
     breakpoints: {
       small: {
@@ -19,7 +19,7 @@ const customBreakpoints = deepMerge(pila, {
       },
     },
   },
-});
+}) as unknown) as ThemeType;
 
 interface PilaTheme {
   children: React.ReactElement;
@@ -27,10 +27,10 @@ interface PilaTheme {
 
 const PilaTheme: React.FC<PilaTheme> = ({ children }) => {
   return (
-    // TODO - find out why typescript doesn't like some of these theme values
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <Grommet userAgent={getUA} theme={customBreakpoints}>
+    <Grommet
+      userAgent={process.env.NODE_ENV !== "development" ? getUA : undefined}
+      theme={customBreakpoints}
+    >
       {children}
     </Grommet>
   );
