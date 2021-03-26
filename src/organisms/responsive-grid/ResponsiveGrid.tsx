@@ -69,7 +69,7 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
 }) => (
   <ResponsiveContext.Consumer>
     {(size) => {
-      // console.log(`Grid size: ${size}`);
+      console.log(`Grid size: ${size}`);
       let columnsVal = columns;
       if (typeof columns !== "string") {
         if (columns[size as keyof GridOptions<GridOption>]) {

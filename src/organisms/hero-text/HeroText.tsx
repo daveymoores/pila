@@ -1,4 +1,3 @@
-import { ColorPalette } from "@storybook/components";
 import { Box, ResponsiveContext } from "grommet";
 import React from "react";
 
@@ -70,7 +69,7 @@ const HeroText: React.FC<HeroText> = ({
         <ResponsiveGrid
           margin={{
             top: "xlarge",
-            bottom: "xlarge",
+            bottom: "large",
           }}
           columns={columns}
           rows={rows}

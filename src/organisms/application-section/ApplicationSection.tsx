@@ -7,7 +7,7 @@ import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
-import GuideCard, { CardVariant } from "../../molecules/GuideCard/GuideCard";
+import GuideCard, { CardVariant } from "../../molecules/guide-card/GuideCard";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 

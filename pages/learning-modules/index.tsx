@@ -6,7 +6,7 @@ import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/organisms/programme-card/ProgrammeCard";
+import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";

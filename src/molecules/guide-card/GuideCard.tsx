@@ -1,11 +1,12 @@
-import { Box, Card, Grid, Paragraph, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import { Box, Card, Paragraph, ResponsiveContext } from "grommet";
+import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../theme/pila";
+import SessionCard from "../session-card/SessionCard";
 
 export enum CardVariant {
   SMALL = "small",

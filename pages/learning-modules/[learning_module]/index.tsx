@@ -7,7 +7,7 @@ import { Client } from "../../../prismic";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import Section from "../../../src/layout/section/Section";
-import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
+import GuideCard from "../../../src/molecules/guide-card/GuideCard";
 import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
 import ModuleHero, {
   ModuleHeroProps,

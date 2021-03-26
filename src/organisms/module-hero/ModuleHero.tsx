@@ -5,9 +5,9 @@ import styled from "styled-components";
 
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import Icon from "../../molecules/programme-card/Icon";
 import { colorPalette } from "../../theme/pila";
 import HeroText from "../hero-text/HeroText";
-import Icon from "../programme-card/Icon";
 
 export interface ModuleHeroProps {
   uid?: string;

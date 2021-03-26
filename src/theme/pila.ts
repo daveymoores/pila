@@ -478,6 +478,11 @@ const pila = {
     },
   },
   paragraph: {
+    xsmall: {
+      size: "14px",
+      height: "20px",
+      maxWidth: "auto",
+    },
     small: {
       size: "16px",
       height: "22px",
