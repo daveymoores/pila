@@ -1,5 +1,5 @@
 import { Box, Grid, Heading, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import { Link, LinkProps, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
@@ -9,12 +9,23 @@ import { colorPalette } from "../../src/theme/pila";
 import Slice from "../../types/Slice";
 
 type Primary = {
-  title: RichTextBlock[];
-  buttonOneLink: Link;
-  buttonTwoLink: Link;
-  buttonOneLabel: string;
-  buttonTwoLabel: string;
+  title?: RichTextBlock[];
+  buttonOneLink?: Link;
+  buttonTwoLink?: Link;
+  buttonOneLabel?: string;
+  buttonTwoLabel?: string;
 };
+
+/**
+ * This interface is used when the fields are outside of the slice machine
+ */
+export interface CTABannerAlternateProps {
+  ctaSectionTitle?: RichTextBlock[];
+  ctaSectionButtonOneLabel?: string;
+  ctaSectionButtonOneLink?: Link;
+  ctaSectionButtonTwoLabel?: string;
+  ctaSectionButtonTwoLink?: Link;
+}
 
 export type CtaBannerProps = Slice<Primary, never>;
 
@@ -56,9 +67,9 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
     primary: {
       title,
       buttonOneLink,
-      buttonOneLabel = "Button Label",
+      buttonOneLabel,
       buttonTwoLink,
-      buttonTwoLabel = "Button Label",
+      buttonTwoLabel,
     },
   } = slice;
 
@@ -72,47 +83,49 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
     >
       <Section justify={"start"} flex>
         <ResponsiveGrid columns={columns} rows={rows} areas={areas}>
-          {title && (
-            <Heading
-              gridArea={"title"}
-              level={"1"}
-              size="small"
-              margin={"none"}
-              color={colorPalette.light_green}
+          <React.Fragment>
+            {title && (
+              <Heading
+                gridArea={"title"}
+                level={"1"}
+                size="small"
+                margin={"none"}
+                color={colorPalette.light_green}
+              >
+                {RichText.asText(title)}
+              </Heading>
+            )}
+            <Box
+              gridArea={"buttons"}
+              align={size === "large" ? "start" : "stretch"}
             >
-              {RichText.asText(title)}
-            </Heading>
-          )}
-          <Box
-            gridArea={"buttons"}
-            align={size === "large" ? "start" : "stretch"}
-          >
-            <Grid
-              gap={size}
-              columns={size === "small" ? "large" : ["auto", "auto"]}
-            >
-              {buttonOneLabel && buttonOneLink && (
-                <Button
-                  primary
-                  color={colorPalette.yellow}
-                  size={ButtonSizes.large}
-                  type="button"
-                  label={buttonOneLabel}
-                  link={buttonOneLink}
-                />
-              )}
-              {buttonTwoLabel && buttonTwoLink && (
-                <Button
-                  primary
-                  color={colorPalette.yellow}
-                  size={ButtonSizes.large}
-                  type="button"
-                  label={buttonTwoLabel}
-                  link={buttonTwoLink}
-                />
-              )}
-            </Grid>
-          </Box>
+              <Grid
+                gap={size}
+                columns={size === "small" ? "large" : ["auto", "auto"]}
+              >
+                {buttonOneLabel && buttonOneLink && (
+                  <Button
+                    primary
+                    color={colorPalette.yellow}
+                    size={ButtonSizes.large}
+                    type="button"
+                    label={buttonOneLabel}
+                    link={buttonOneLink}
+                  />
+                )}
+                {buttonTwoLabel && buttonTwoLink && (
+                  <Button
+                    primary
+                    color={colorPalette.yellow}
+                    size={ButtonSizes.large}
+                    type="button"
+                    label={buttonTwoLabel}
+                    link={buttonTwoLink}
+                  />
+                )}
+              </Grid>
+            </Box>
+          </React.Fragment>
         </ResponsiveGrid>
       </Section>
     </Box>

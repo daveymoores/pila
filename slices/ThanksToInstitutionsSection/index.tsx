@@ -44,7 +44,7 @@ const ThanksToInstitutionsSection: FC<{
       </Grid>
       {/*TODO - create specific logic for centered wrapping*/}
       <ResponsiveGrid margin="medium" columns={columns} rows={rows}>
-        {slice.items?.map(({ logo }, index) => (
+        {(slice.items || []).map(({ logo }, index) => (
           <StyledCard
             key={index}
             pad={"large"}

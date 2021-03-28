@@ -4,6 +4,8 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
+import { CtaBanner } from "../../../slices";
+import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import Section from "../../../src/layout/section/Section";
@@ -31,7 +33,9 @@ interface GuideGroup {
   };
 }
 
-export interface LearningModuleProps extends ModuleHeroProps {
+export interface LearningModuleProps
+  extends ModuleHeroProps,
+    CTABannerAlternateProps {
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
@@ -52,6 +56,11 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guideLink,
     guidesBody,
     guidesTitle,
+    ctaSectionTitle,
+    ctaSectionButtonOneLabel,
+    ctaSectionButtonOneLink,
+    ctaSectionButtonTwoLabel,
+    ctaSectionButtonTwoLink,
     slices,
     metaDescription,
     metaTitle,
@@ -152,6 +161,17 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
           </Box>
         </Section>
       </Box>
+      <CtaBanner
+        slice={{
+          primary: {
+            title: ctaSectionTitle,
+            buttonOneLink: ctaSectionButtonOneLink,
+            buttonOneLabel: ctaSectionButtonOneLabel,
+            buttonTwoLink: ctaSectionButtonTwoLink,
+            buttonTwoLabel: ctaSectionButtonTwoLabel,
+          },
+        }}
+      />
     </React.Fragment>
   );
 };

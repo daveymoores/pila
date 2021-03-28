@@ -5,10 +5,10 @@ import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../../../prismic";
-import NavigationThemeContext from "../../../src/context/NavigationThemeContext";
+import { CtaBanner } from "../../../slices";
+import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
-import { NavigationTheme } from "../../../src/organisms/navigation/Navigation";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
 import CustomType from "../../../types/CustomType";
@@ -26,7 +26,8 @@ export enum Difficulty {
   ADVANCED = "Advanced",
 }
 
-export interface AssessmentApplicationMainProps {
+export interface AssessmentApplicationMainProps
+  extends CTABannerAlternateProps {
   title: RichTextBlock[];
   uid: string;
   applicationLink: Link;
@@ -74,6 +75,11 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     title,
     body,
     slices,
+    ctaSectionTitle,
+    ctaSectionButtonOneLink,
+    ctaSectionButtonOneLabel,
+    ctaSectionButtonTwoLink,
+    ctaSectionButtonTwoLabel,
   } = data || {};
 
   useNavigationLightTheme();
@@ -94,6 +100,17 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         learningModuleUid={learningModuleUid}
       />
       <TaskSection slices={slices} />
+      <CtaBanner
+        slice={{
+          primary: {
+            title: ctaSectionTitle,
+            buttonOneLink: ctaSectionButtonOneLink,
+            buttonOneLabel: ctaSectionButtonOneLabel,
+            buttonTwoLink: ctaSectionButtonTwoLink,
+            buttonTwoLabel: ctaSectionButtonTwoLabel,
+          },
+        }}
+      />
     </React.Fragment>
   );
 };

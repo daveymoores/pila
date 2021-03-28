@@ -8,12 +8,12 @@ export const SliceType = {
 };
 
 interface Slice<T, K> {
-  slice_type: keyof typeof SliceType;
-  slice_label: string | null;
-  version: string;
-  variation: "default-slice";
+  slice_type?: keyof typeof SliceType;
+  slice_label?: string | null;
+  version?: string;
+  variation?: "default-slice";
   primary: T;
-  items: K[];
+  items?: K[];
 }
 
 export default Slice;
