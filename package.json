@@ -15,7 +15,9 @@
   "dependencies": {
     "@prismicio/client": "^4.0.0",
     "essential-slices": "^1.0.3",
+    "framer-motion": "^4.0.3",
     "grommet": "^2.16.3",
+    "hamburger-react": "^2.4.0",
     "lodash": "^4.17.21",
     "next": "10.0.5",
     "next-seo": "^4.20.0",

@@ -18,12 +18,7 @@ export interface BreadcrumbProps {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
   return (
     <Section>
-      <Box
-        justify={"start"}
-        align={"center"}
-        direction={"row"}
-        pad={{ top: "small" }}
-      >
+      <StyledBox justify={"start"} align={"center"} direction={"row"}>
         {Array.isArray(links) &&
           links.map(({ label, link }, index, array) => (
             <React.Fragment key={index}>
@@ -43,10 +38,19 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
               )}
             </React.Fragment>
           ))}
-      </Box>
+      </StyledBox>
     </Section>
   );
 };
+
+// TODO - find tokens for this
+const StyledBox = styled(Box)`
+  padding-top: 50px;
+
+  @media (min-width: 600px) {
+    padding-top: 20px;
+  }
+`;
 
 const StyledLink = styled(RoutedTextLink)`
   opacity: 0.5;
