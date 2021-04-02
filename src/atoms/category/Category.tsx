@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 const Category: React.FC<{ name: string }> = ({ name }) => (
   <StyledBox
@@ -17,7 +17,7 @@ const Category: React.FC<{ name: string }> = ({ name }) => (
 
 const StyledBox = styled(Box)`
   font-size: 14px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   color: ${colorPalette.grey};
 `;
 

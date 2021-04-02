@@ -15,8 +15,9 @@ import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import NavigationThemeContext from "../../context/NavigationThemeContext";
+import OffCanvasContext from "../../context/OffCanvasContext";
 import Section from "../../layout/section/Section";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export enum NavigationTheme {
@@ -33,9 +34,13 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
-  const router = useRouter();
-  const [isOpen, setOpen] = React.useState(false);
+  const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const { theme } = React.useContext(NavigationThemeContext);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (isOpen) setIsOpen(false);
+  }, [router.asPath]);
 
   const learningModules: CustomType<LearningModuleProps>[] = React.useContext(
     LearningModulesContext
@@ -122,7 +127,7 @@ const Navigation: React.FC<NavigationProps> = ({
                       color={isOpen ? "white" : colorPalette.dark_blue}
                       label="Show menu"
                       toggled={isOpen}
-                      toggle={setOpen}
+                      toggle={setIsOpen}
                     />
                   </Box>
                   <MobileNavigation
@@ -194,7 +199,7 @@ const Navigation: React.FC<NavigationProps> = ({
                       />
                       {links &&
                         links.map(({ link, label }, index) => (
-                          <RoutedTextLink
+                          <StyledRoutedTextLink
                             key={index}
                             link={link}
                             label={label}
@@ -212,7 +217,11 @@ const Navigation: React.FC<NavigationProps> = ({
                         primary
                         margin={{ left: "medium" }}
                         size={ButtonSizes.small}
-                        color={colorPalette.blue}
+                        color={
+                          theme === NavigationTheme.LIGHT
+                            ? colorPalette.blue
+                            : colorPalette.periwinkleCrayola
+                        }
                         label={"sign up"}
                         link={{
                           type: PageType.SESSION,
@@ -233,7 +242,7 @@ const Navigation: React.FC<NavigationProps> = ({
 const Divider = styled(Box)<BoxProps>`
   color: ${colorPalette.grey};
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
 `;
 
 const StyledHeader = styled(Header)`
@@ -253,7 +262,7 @@ const StyledLogo = styled(Logo)`
 
 const StyledMenu = styled(Menu)`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   color: var(--nav-theme);
   outline: none;
 
@@ -266,13 +275,13 @@ const StyledMenu = styled(Menu)`
 
 const StyledRoutedTextLink = styled(RoutedTextLink)`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   color: var(--nav-theme);
 `;
 
 const StyledRoutedMobileTextLink = styled(RoutedTextLink)`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   color: white;
 `;
 

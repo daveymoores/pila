@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 export enum CardVariant {
   SMALL = "small",
@@ -57,7 +57,7 @@ const SessionCard: React.FC<GuideCardProps> = ({
             <React.Fragment>
               <Box direction={"row"} align={"center"} justify={"between"}>
                 <Paragraph
-                  style={{ fontWeight: "bold" }}
+                  style={{ fontWeight: 500 }}
                   color={colorPalette.dark_blue}
                   size={"small"}
                 >
@@ -118,7 +118,7 @@ const StyledResponsiveGrid = styled(ResponsiveGrid)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
 `;
 
 export default SessionCard;

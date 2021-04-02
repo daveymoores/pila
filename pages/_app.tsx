@@ -13,6 +13,7 @@ import { Client } from "../prismic";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import NavigationThemeContext from "../src/context/NavigationThemeContext";
+import OffCanvasContext from "../src/context/OffCanvasContext";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
 import {
@@ -62,6 +63,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const [navigationTheme, setNavigationTheme] = React.useState<NavigationTheme>(
     NavigationTheme.LIGHT
   );
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const { url, site_name, handle, appId, title, description } =
     (pageProps.seo || [])[0]?.data || {};
@@ -109,46 +111,53 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   });
 
   return (
-    <NavigationThemeContext.Provider
+    <OffCanvasContext.Provider
       value={{
-        theme: navigationTheme,
-        setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
+        isOpen,
+        setIsOpen: setIsOpen,
       }}
     >
-      <LearningModulesContext.Provider value={learningModules}>
-        <AssessmentApplicationContext.Provider
-          value={pageProps?.assessmentApplication}
-        >
-          <DefaultSeo
-            title={title}
-            description={description}
-            openGraph={{
-              type: "website",
-              locale: "en_GB",
-              url,
-              site_name,
-            }}
-            twitter={{
-              handle,
-              site: "@site",
-              cardType: "summary_large_image",
-            }}
-            facebook={{
-              appId,
-            }}
-          />
-          <PilaTheme>
-            <Scaffold
-              navigation={(pageProps?.navigation || [])[0]?.data}
-              doormat={(pageProps?.doormat || [])[0]?.data}
-              footer={(pageProps?.footer || [])[0]?.data}
-            >
-              <Component {...pageProps} />
-            </Scaffold>
-          </PilaTheme>
-        </AssessmentApplicationContext.Provider>
-      </LearningModulesContext.Provider>
-    </NavigationThemeContext.Provider>
+      <NavigationThemeContext.Provider
+        value={{
+          theme: navigationTheme,
+          setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
+        }}
+      >
+        <LearningModulesContext.Provider value={learningModules}>
+          <AssessmentApplicationContext.Provider
+            value={pageProps?.assessmentApplication}
+          >
+            <DefaultSeo
+              title={title}
+              description={description}
+              openGraph={{
+                type: "website",
+                locale: "en_GB",
+                url,
+                site_name,
+              }}
+              twitter={{
+                handle,
+                site: "@site",
+                cardType: "summary_large_image",
+              }}
+              facebook={{
+                appId,
+              }}
+            />
+            <PilaTheme>
+              <Scaffold
+                navigation={(pageProps?.navigation || [])[0]?.data}
+                doormat={(pageProps?.doormat || [])[0]?.data}
+                footer={(pageProps?.footer || [])[0]?.data}
+              >
+                <Component {...pageProps} />
+              </Scaffold>
+            </PilaTheme>
+          </AssessmentApplicationContext.Provider>
+        </LearningModulesContext.Provider>
+      </NavigationThemeContext.Provider>
+    </OffCanvasContext.Provider>
   );
 };
 

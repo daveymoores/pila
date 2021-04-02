@@ -54,13 +54,16 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
               level={"1"}
               alignSelf={"stretch"}
               size="small"
-              responsive={false}
-              margin={{ top: "medium", bottom: "medium" }}
+              margin={{ top: "xlarge", bottom: "medium" }}
             >
               {RichText.asText(title)}
             </Heading>
           )}
-          {body && <Paragraph size="large">{RichText.asText(body)}</Paragraph>}
+          {body && (
+            <Paragraph size={size === "small" ? "medium" : "large"}>
+              {RichText.asText(body)}
+            </Paragraph>
+          )}
         </React.Fragment>
       }
       info={

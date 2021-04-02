@@ -59,14 +59,17 @@ const Page: React.FC<PageProps> = (props) => {
         openGraphTitle={openGraphTitle}
       />
       <Section>
-        <Box gridArea="title" margin={{ bottom: "large" }} align={"center"}>
+        <Box
+          gridArea="title"
+          pad={{ top: "xlarge", bottom: "xlarge" }}
+          align={"center"}
+        >
           <Heading
             textAlign={"start"}
             level={"1"}
             alignSelf={"stretch"}
             size="small"
-            responsive={false}
-            margin={{ top: "xlarge", bottom: "large" }}
+            margin={{ top: "xlarge", bottom: "medium" }}
           >
             Learning Modules
           </Heading>

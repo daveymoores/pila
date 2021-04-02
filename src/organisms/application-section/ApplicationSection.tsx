@@ -80,6 +80,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
   title,
   applicationsStats,
   shortBody,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   video,
   image,
   downloadLinks,
@@ -97,7 +98,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         align={"start"}
       >
         <Box gridArea="image" round={"medium"} overflow={"hidden"}>
-          <Image src={image?.url} />
+          <Image src={image?.url} width={"100%"} />
         </Box>
 
         <Box gridArea="text" justify={"start"} align={"start"}>

@@ -6,6 +6,12 @@ export const colorPalette = {
   light_green: "#6BEAC9",
   yellow: "#FFE06E",
   grey: "#6e7a8d",
+  periwinkleCrayola: "#D5DCF9",
+};
+
+export const fontWeights = {
+  bold: "500",
+  normal: "400",
 };
 
 const pila = {
@@ -18,7 +24,7 @@ const pila = {
       color: "#1D2430",
       extend: `
           font-size: 16px;
-          font-weight: bold;
+          font-weight: ${fontWeights.bold};
       `,
     },
   },
@@ -82,9 +88,8 @@ const pila = {
       focus: "#D5DCF9",
     },
     font: {
-      family: '"Rubik"',
-      face:
-        "/* cyrillic-ext */\n@font-face {\n  font-family: 'Rubik';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/rubik/v12/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFWkUzdYPFkZVOA6w.woff) format('woff');\n  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Rubik';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/rubik/v12/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFU0UzdYPFkZVOA6w.woff) format('woff');\n  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* hebrew */\n@font-face {\n  font-family: 'Rubik';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/rubik/v12/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFVUUzdYPFkZVOA6w.woff) format('woff');\n  unicode-range: U+0590-05FF, U+20AA, U+25CC, U+FB1D-FB4F;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Rubik';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/rubik/v12/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFWUUzdYPFkZVOA6w.woff) format('woff');\n  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Rubik';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/rubik/v12/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0UzdYPFkZVO.woff) format('woff');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n\n/* cyrillic-ext */\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WRhyyTh89ZNpQ.woff2) format('woff2');\n  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;\n}\n/* cyrillic */\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459W1hyyTh89ZNpQ.woff2) format('woff2');\n  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;\n}\n/* vietnamese */\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WZhyyTh89ZNpQ.woff2) format('woff2');\n  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;\n}\n/* latin-ext */\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WdhyyTh89ZNpQ.woff2) format('woff2');\n  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;\n}\n/* latin */\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/montserrat/v15/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2) format('woff2');\n  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;\n}\n",
+      family:
+        "Rubik,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol",
       size: "18px",
       height: "24px",
       maxWidth: "432px",
@@ -166,7 +171,7 @@ const pila = {
     },
     input: {
       padding: "12px",
-      weight: 600,
+      weight: 500,
     },
     spacing: "24px",
     size: {
@@ -341,6 +346,9 @@ const pila = {
   heading: {
     level: {
       "1": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "38px",
           height: "46px",
@@ -363,6 +371,9 @@ const pila = {
         },
       },
       "2": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "30px",
           height: "36px",
@@ -385,6 +396,9 @@ const pila = {
         },
       },
       "3": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "26px",
           height: "32px",
@@ -407,6 +421,9 @@ const pila = {
         },
       },
       "4": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "22px",
           height: "28px",
@@ -429,6 +446,9 @@ const pila = {
         },
       },
       "5": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "18px",
           height: "26px",
@@ -451,6 +471,9 @@ const pila = {
         },
       },
       "6": {
+        font: {
+          weight: fontWeights.bold,
+        },
         small: {
           size: "14px",
           height: "20px",
@@ -474,7 +497,8 @@ const pila = {
       },
     },
     font: {
-      family: "",
+      family:
+        "fontspring_demo_-_greycliffBd,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol",
     },
   },
   paragraph: {

@@ -1,5 +1,5 @@
-import { Box } from "grommet";
-import { FormNext } from "grommet-icons";
+import { Box, ResponsiveContext } from "grommet";
+import { FormNext, FormPrevious } from "grommet-icons";
 import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -16,29 +16,62 @@ export interface BreadcrumbProps {
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
+  const size = React.useContext(ResponsiveContext);
+
   return (
     <Section>
-      <StyledBox justify={"start"} align={"center"} direction={"row"}>
-        {Array.isArray(links) &&
-          links.map(({ label, link }, index, array) => (
-            <React.Fragment key={index}>
-              <StyledLink
-                label={label}
-                link={link}
-                weight={"normal"}
-                size={"small"}
-                color={colorPalette.dark_blue}
-              />
-              {index === array.length - 1 ? null : (
-                <StyledFormNext
+      {size === "small" ? (
+        <StyledBox justify={"start"} align={"center"} direction={"row"}>
+          <Box
+            justify={"start"}
+            align={"center"}
+            direction={"row"}
+            background={colorPalette.periwinkleCrayola}
+            pad={{ vertical: "small", horizontal: "medium" }}
+            round={"large"}
+            style={{ fontSize: "14px" }}
+          >
+            {Array.isArray(links) && (
+              <React.Fragment>
+                <StyledFormPrevious
                   color={colorPalette.dark_blue}
                   width={"10px"}
                   height={"10px"}
                 />
-              )}
-            </React.Fragment>
-          ))}
-      </StyledBox>
+                <StyledMobileLink
+                  label={links[links.length - 2].label}
+                  link={links[links.length - 2].link}
+                  weight={"normal"}
+                  size={"small"}
+                  color={colorPalette.dark_blue}
+                />
+              </React.Fragment>
+            )}
+          </Box>
+        </StyledBox>
+      ) : (
+        <StyledBox justify={"start"} align={"center"} direction={"row"}>
+          {Array.isArray(links) &&
+            links.map(({ label, link }, index, array) => (
+              <React.Fragment key={index}>
+                <StyledLink
+                  label={label}
+                  link={link}
+                  weight={"normal"}
+                  size={"small"}
+                  color={colorPalette.dark_blue}
+                />
+                {index === array.length - 1 ? null : (
+                  <StyledFormNext
+                    color={colorPalette.dark_blue}
+                    width={"10px"}
+                    height={"10px"}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+        </StyledBox>
+      )}
     </Section>
   );
 };
@@ -57,11 +90,21 @@ const StyledLink = styled(RoutedTextLink)`
   font-size: 14px;
 `;
 
+const StyledMobileLink = styled(RoutedTextLink)`
+  font-size: inherit;
+`;
+
 const StyledFormNext = styled(FormNext)`
   opacity: 0.5;
   height: 18px;
   width: 18px;
   padding: 0 6px;
+`;
+
+const StyledFormPrevious = styled(FormPrevious)`
+  height: 18px;
+  width: 18px;
+  padding: 0 6px 0 0;
 `;
 
 export default Breadcrumb;

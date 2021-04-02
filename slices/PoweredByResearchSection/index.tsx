@@ -28,14 +28,32 @@ export interface PoweredByResearchSectionProps extends Slice<Primary, never> {
   learningModules: CustomType<LearningModule>[];
 }
 
+const columns = {
+  small: ["auto"],
+  medium: ["auto"],
+  large: Array(3).fill("flex"),
+  xlarge: Array(3).fill("flex"),
+};
+
+const rows = {
+  small: ["auto", "auto"],
+  medium: ["auto", "auto"],
+  large: ["auto"],
+  xlarge: ["auto"],
+};
+
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
   return (
-    <StyledBox background="light-1" justify={"center"}>
+    <StyledBox
+      background="light-1"
+      justify={"center"}
+      pad={{ top: "xlarge", bottom: "xlarge" }}
+    >
       <Section>
-        <ResponsiveGrid columns={"medium"} rows={"1"}>
+        <ResponsiveGrid columns={columns} rows={rows} align={"stretch"}>
           <React.Fragment>
             <TextContent {...primary} asCard={false} padding="medium" />
             {learningModules.map((module) => (

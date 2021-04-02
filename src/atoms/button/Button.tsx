@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import { hrefResolver, linkResolver } from "../../../prismic";
 import LearningModulesContext from "../../context/LearningModulesContext";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 export enum ButtonSizes {
   small = "small",
@@ -66,7 +66,7 @@ const ButtonWithRef = React.forwardRef(
 const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
   border-radius: 10px;
   font-size: ${(props) => (props.size === ButtonSizes.small ? `16px` : `18px`)};
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   background-color: ${(props) => props.color};
   padding: ${(props) =>
     props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};

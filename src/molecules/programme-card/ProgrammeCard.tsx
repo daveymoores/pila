@@ -36,7 +36,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
         {image ? <Image {...image} alt={""} width={"100%"} /> : <StyledIcon />}
       </CardHeader>
       <CardBody
-        margin={{ top: "medium" }}
+        margin={{ top: "large" }}
         pad={{
           top: "medium",
         }}

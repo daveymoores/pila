@@ -53,7 +53,7 @@ const ThanksToInstitutionsSection: FC<{
             justify={"center"}
             elevation={"none"}
           >
-            <Image src={logo.url} />
+            <Image src={logo.url} width={"100%"} />
           </StyledCard>
         ))}
       </ResponsiveGrid>

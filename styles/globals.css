@@ -46,3 +46,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+@font-face {
+  font-family: 'fontspring_demo_-_greycliffBd';
+  src: url('/fonts/fontspring-demo-greycliffcf-bold-webfont.woff2') format('woff2'),
+  url('/fonts/fontspring-demo-greycliffcf-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

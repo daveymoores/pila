@@ -48,7 +48,7 @@ const gridAreas = (imageSide: ImagePosition) => ({
     imageSide === ImagePosition.imageRight
       ? [
           { name: "image", start: [6, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [5, 0] },
+          { name: "text", start: [0, 0], end: [4, 0] },
         ]
       : [
           { name: "image", start: [0, 0], end: [5, 0] },
@@ -57,8 +57,8 @@ const gridAreas = (imageSide: ImagePosition) => ({
   xlarge:
     imageSide === ImagePosition.imageRight
       ? [
-          { name: "image", start: [6, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [5, 0] },
+          { name: "image", start: [7, 0], end: [11, 0] },
+          { name: "text", start: [0, 0], end: [4, 0] },
         ]
       : [
           { name: "image", start: [0, 0], end: [5, 0] },
@@ -73,16 +73,19 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     primary: { image, backgroundColor, imageSide, ...textContentProps },
   } = slice;
   return (
-    <StyledBox background={colorMapper(backgroundColor)} justify={"center"}>
+    <StyledBox
+      background={colorMapper(backgroundColor)}
+      justify={"center"}
+      pad={{ vertical: "xlarge" }}
+    >
       <Section>
         <ResponsiveGrid
           columns={columns}
           areas={gridAreas(imageSide)}
           rows={rows}
         >
-          <Box
+          <StyledImageBox
             gridArea="image"
-            height="550px"
             background={`url(${image?.url})`}
             round={"medium"}
           />
@@ -94,6 +97,10 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     </StyledBox>
   );
 };
+
+const StyledImageBox = styled(Box)`
+  padding-top: 90%;
+`;
 
 const StyledBox = styled(Box)`
   min-height: 800px;

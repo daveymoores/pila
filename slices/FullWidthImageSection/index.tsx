@@ -20,8 +20,8 @@ export type FullWidthImageSectionProps = Slice<Primary, never>;
 
 const columns = {
   small: ["flex"],
-  medium: ["flex", "flex"],
-  large: ["flex", "flex", "flex"],
+  medium: ["flex"],
+  large: ["flex", "flex"],
 };
 
 const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
@@ -36,38 +36,53 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
         const getColumn = (size: string): 1 | 2 | 3 | undefined => {
           switch (size) {
             case "small":
-              return 1;
             case "medium":
-              return 2;
+              return 1;
             case "large":
-              return 3;
+              return 2;
           }
         };
 
         return (
-          <StyledBox
-            justify={"center"}
-            background={`url(${image.url})`}
-            round={"medium"}
-            margin={{
-              horizontal: "auto",
-              vertical: "medium",
-            }}
+          <Box
+            width={"100%"}
+            align={"center"}
+            pad={{ horizontal: size === "large" ? "large" : "4vw" }}
           >
-            <Section justify={"center"} flex>
-              <ResponsiveGrid margin="medium" columns={columns} rows="1">
-                <StyledTextContent
-                  {...textContentProps}
-                  asCard={true}
-                  padding="medium"
-                  background="light-1"
-                  column={
-                    textPosition === TextPosition.textLeft ? 1 : getColumn(size)
+            <StyledBox
+              justify={"center"}
+              background={`url(${image.url})`}
+              round={"medium"}
+              margin={{
+                horizontal: size === "small" ? "4vw" : "large",
+                vertical: "xlarge",
+              }}
+              pad={{ vertical: size === "large" ? "100px" : "xlarge" }}
+            >
+              <Section justify={size === "small" ? "start" : "center"} flex>
+                <ResponsiveGrid
+                  margin={{ vertical: size === "small" ? "4vw" : "large" }}
+                  columns={columns}
+                  rows="1"
+                  justify={
+                    textPosition === TextPosition.textLeft ? "start" : "end"
                   }
-                />
-              </ResponsiveGrid>
-            </Section>
-          </StyledBox>
+                >
+                  <StyledTextContent
+                    {...textContentProps}
+                    asCard={true}
+                    padding="medium"
+                    background="light-1"
+                    column={
+                      textPosition === TextPosition.textLeft
+                        ? 1
+                        : getColumn(size)
+                    }
+                  />
+                </ResponsiveGrid>
+              </Section>
+            </StyledBox>
+          </Box>
         );
       }}
     </ResponsiveContext.Consumer>
@@ -80,8 +95,10 @@ interface OrderProps extends TextContentProps {
 
 const StyledBox = styled(Box)`
   position: relative;
-  min-height: 800px;
-  max-width: 1900px;
+  width: 100%;
+  height: auto;
+  max-height: 1000px;
+  max-width: 1600px;
 `;
 
 const StyledTextContent = styled(TextContent)<OrderProps>(
@@ -89,6 +106,7 @@ const StyledTextContent = styled(TextContent)<OrderProps>(
     column &&
     `
   grid-column: ${column};
+  max-width: 400px;
 `
 );
 

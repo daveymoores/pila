@@ -16,7 +16,7 @@ import { colorPalette } from "../../theme/pila";
 
 export interface TextContentProps {
   eyebrowHeadline?: RichTextBlock[];
-  title: RichTextBlock[];
+  title?: RichTextBlock[];
   description?: RichTextBlock[];
   link?: Link;
   linkLabel?: string;
@@ -67,10 +67,9 @@ const TextContent: React.FC<TextContentProps> = ({
           )}
           <Heading
             level={"1"}
-            margin="none"
             alignSelf={"stretch"}
-            size="small"
-            responsive={false}
+            size={"small"}
+            margin={{ top: "small", bottom: "medium" }}
           >
             {RichText.asText(title)}
           </Heading>
@@ -111,6 +110,7 @@ const TextContent: React.FC<TextContentProps> = ({
           type="button"
           label={linkLabel}
           link={link}
+          margin={{ top: "medium" }}
         />
       </CardFooter>
     )}

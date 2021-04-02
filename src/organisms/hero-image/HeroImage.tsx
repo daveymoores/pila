@@ -14,34 +14,8 @@ export interface HeroImageProps {
 const columns = {
   small: ["auto"],
   medium: ["auto"],
-  large: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
-  xlarge: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
+  large: Array(12).fill("flex"),
+  xlarge: Array(12).fill("flex"),
 };
 
 const rows = {
@@ -71,7 +45,11 @@ const gridAreas = {
 };
 
 const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
-  <Box>
+  <Box
+    pad={{
+      top: "xlarge",
+    }}
+  >
     <Section>
       <ResponsiveGrid
         margin={{
@@ -89,11 +67,11 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
               textAlign={"center"}
               level={"1"}
               margin={{
-                top: "xlarge",
+                top: "small",
+                horizontal: "auto",
               }}
               alignSelf={"stretch"}
               size="small"
-              responsive={false}
             >
               {RichText.asText(title)}
             </Heading>

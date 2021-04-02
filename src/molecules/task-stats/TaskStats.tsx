@@ -2,6 +2,8 @@ import { Box } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
+import { fontWeights } from "../../theme/pila";
+
 interface TaskStatsProps {
   length: number;
   difficulty: string;
@@ -21,7 +23,7 @@ const TaskStats: React.FC<TaskStatsProps> = ({ length, difficulty, age }) => (
 
 const StyledDt = styled.dt`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   margin-right: 5px;
 `;
 
