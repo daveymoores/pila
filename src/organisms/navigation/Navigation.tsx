@@ -136,6 +136,24 @@ const Navigation: React.FC<NavigationProps> = ({
                     transition={spring}
                     animate={isOpen ? "active" : "inactive"}
                   >
+                    <Box direction={"row"} align={"center"} pad={"xlarge"}>
+                      <StyledRoutedTextLink
+                        link={{
+                          type: PageType.ACCOUNT,
+                        }}
+                        label={"login"}
+                      />
+                      <Button
+                        primary
+                        margin={{ left: "medium" }}
+                        size={ButtonSizes.small}
+                        color={colorPalette.periwinkleCrayola}
+                        label={"sign up"}
+                        link={{
+                          type: PageType.SESSION,
+                        }}
+                      />
+                    </Box>
                     <Box as={"ul"} pad={"xlarge"}>
                       {links &&
                         links.map(({ label, link }, index) => (
