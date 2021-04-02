@@ -54,7 +54,10 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
               level={"1"}
               alignSelf={"stretch"}
               size="small"
-              margin={{ top: "xlarge", bottom: "medium" }}
+              margin={{
+                top: size === "small" ? "xlarge" : "none",
+                bottom: "medium",
+              }}
             >
               {RichText.asText(title)}
             </Heading>

@@ -69,7 +69,10 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
                 level={"1"}
                 alignSelf={"stretch"}
                 size="small"
-                margin={{ top: "xlarge", bottom: "medium" }}
+                margin={{
+                  top: size === "small" ? "xlarge" : "none",
+                  bottom: "medium",
+                }}
               >
                 {RichText.asText(title)}
               </Heading>
@@ -85,7 +88,10 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
           <React.Fragment>
             <Button
               primary
-              margin={{ top: "large" }}
+              margin={{
+                top: size === "small" ? "small" : "large",
+                right: size === "small" ? "auto" : "none",
+              }}
               size={ButtonSizes.large}
               color={colorPalette.blue}
               label={"View application"}

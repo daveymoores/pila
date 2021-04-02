@@ -1,4 +1,11 @@
-import { Card, CardBody, CardHeader, Heading, Paragraph } from "grommet";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Paragraph,
+  ResponsiveContext,
+} from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
@@ -31,6 +38,8 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
       buttonTwoLabel,
     },
   } = slice;
+  const size = React.useContext(ResponsiveContext);
+
   return (
     <Section justify={"center"} flex>
       <ResponsiveGrid margin="medium" columns="large" rows="1">
@@ -48,7 +57,6 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
                 level={"1"}
                 margin="none"
                 size="small"
-                responsive={false}
                 color={"white"}
                 textAlign={"center"}
               >
@@ -68,9 +76,9 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
           </CardHeader>
           <CardBody
             margin={{ top: "medium" }}
-            direction={"row"}
-            justify={"center"}
-            align={"start"}
+            direction={size === "small" ? "column" : "row"}
+            justify={"stretch"}
+            align={"stretch"}
             flex={"shrink"}
           >
             {buttonOneLink && buttonOneLabel && (
