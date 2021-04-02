@@ -1,7 +1,6 @@
 import { Grommet, ThemeType } from "grommet";
 import { deepMerge } from "grommet/utils";
 import React from "react";
-import { getUA } from "react-device-detect";
 
 import pila from "../pila";
 
@@ -26,14 +25,7 @@ interface PilaTheme {
 }
 
 const PilaTheme: React.FC<PilaTheme> = ({ children }) => {
-  return (
-    <Grommet
-      userAgent={process.env.NODE_ENV !== "development" ? getUA : undefined}
-      theme={customBreakpoints}
-    >
-      {children}
-    </Grommet>
-  );
+  return <Grommet theme={customBreakpoints}>{children}</Grommet>;
 };
 
 export default PilaTheme;
