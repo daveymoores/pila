@@ -1,4 +1,4 @@
-import { Box, Footer, Text } from "grommet";
+import { Box, Footer, ResponsiveContext, Text } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
@@ -25,10 +25,10 @@ const DoormatList: React.FC<DoormatListProps> = ({ label, links }) => {
   return (
     <React.Fragment>
       {label && Array.isArray(links) && (
-        <Box gap="medium">
+        <Box gap="medium" margin={{ bottom: "large" }}>
           <Text weight="bold" size="medium">
             {label}
-          </Text>{" "}
+          </Text>
           <Box>
             {links.map(({ label, link }, index) => (
               <RoutedTextLink

@@ -31,7 +31,7 @@ const HomepageHero: React.FC<HomepageHeroProps> = ({
 }) => {
   const size = useContext(ResponsiveContext);
   const isMobileDevice = size !== "large";
-  console.log(size);
+
   return (
     <StyledBox
       background={colorPalette.blue}
