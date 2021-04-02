@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Box, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { Box, BoxProps, Header, Menu, Nav, ResponsiveContext } from "grommet";
 import Hamburger from "hamburger-react";
 import { useRouter } from "next/router";
 import { RichText } from "prismic-reactjs";
@@ -87,7 +87,6 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <StyledHeader
-      background="transparent"
       height="xsmall"
       style={
         {
@@ -132,20 +131,43 @@ const Navigation: React.FC<NavigationProps> = ({
                     transition={spring}
                     animate={isOpen ? "active" : "inactive"}
                   >
-                    <Box as={"ul"}>
+                    <Box as={"ul"} pad={"xlarge"}>
                       {links &&
-                        mobileModuleLinks &&
-                        [...links, ...mobileModuleLinks].map(
-                          ({ label, link }, index) => (
-                            <Box key={index} as={"li"}>
-                              <StyledRoutedTextLink
-                                key={index}
-                                link={link}
-                                label={label}
-                              />
-                            </Box>
-                          )
-                        )}
+                        links.map(({ label, link }, index) => (
+                          <Box
+                            key={index}
+                            as={"li"}
+                            margin={{ bottom: "medium" }}
+                          >
+                            <StyledRoutedMobileTextLink
+                              key={index}
+                              link={link}
+                              label={label}
+                            />
+                          </Box>
+                        ))}
+                      <Divider as={"li"}>
+                        <Box
+                          as={"span"}
+                          margin={{ top: "large", bottom: "medium" }}
+                        >
+                          Modules
+                        </Box>
+                      </Divider>
+                      {mobileModuleLinks &&
+                        mobileModuleLinks.map(({ label, link }, index) => (
+                          <Box
+                            key={index}
+                            as={"li"}
+                            margin={{ bottom: "medium" }}
+                          >
+                            <StyledRoutedMobileTextLink
+                              key={index}
+                              link={link}
+                              label={label}
+                            />
+                          </Box>
+                        ))}
                     </Box>
                   </MobileNavigation>
                 </Box>
@@ -208,6 +230,12 @@ const Navigation: React.FC<NavigationProps> = ({
   );
 };
 
+const Divider = styled(Box)<BoxProps>`
+  color: ${colorPalette.grey};
+  font-size: 16px;
+  font-weight: bold;
+`;
+
 const StyledHeader = styled(Header)`
   position: absolute;
   width: 100%;
@@ -242,6 +270,12 @@ const StyledRoutedTextLink = styled(RoutedTextLink)`
   color: var(--nav-theme);
 `;
 
+const StyledRoutedMobileTextLink = styled(RoutedTextLink)`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+`;
+
 const MobileNavigation = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -249,7 +283,7 @@ const MobileNavigation = styled(motion.div)`
   width: calc(100vw - (4vw + 24px));
   transform: translate3d(-100%, 0, 0);
   height: 100%;
-  background-color: ${colorPalette.blue};
+  background-color: ${colorPalette.dark_blue};
   z-index: 2;
 `;
 
