@@ -2,6 +2,7 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
+import isEmpty from "lodash/isEmpty";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
@@ -13,7 +14,11 @@ import { Client } from "../prismic";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import NavigationThemeContext from "../src/context/NavigationThemeContext";
+import NotificationContext from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
+import Notification, {
+  NotificationProps,
+} from "../src/molecules/notification/Notification";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
 import {
@@ -63,6 +68,10 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const [navigationTheme, setNavigationTheme] = React.useState<NavigationTheme>(
     NavigationTheme.LIGHT
   );
+  const [
+    notificationProps,
+    setNotificationProps,
+  ] = React.useState<NotificationProps>({});
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const { url, site_name, handle, appId, title, description } =
@@ -123,39 +132,49 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
           setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
         }}
       >
-        <LearningModulesContext.Provider value={learningModules}>
-          <AssessmentApplicationContext.Provider
-            value={pageProps?.assessmentApplication}
-          >
-            <DefaultSeo
-              title={title}
-              description={description}
-              openGraph={{
-                type: "website",
-                locale: "en_GB",
-                url,
-                site_name,
-              }}
-              twitter={{
-                handle,
-                site: "@site",
-                cardType: "summary_large_image",
-              }}
-              facebook={{
-                appId,
-              }}
-            />
-            <PilaTheme>
-              <Scaffold
-                navigation={(pageProps?.navigation || [])[0]?.data}
-                doormat={(pageProps?.doormat || [])[0]?.data}
-                footer={(pageProps?.footer || [])[0]?.data}
-              >
-                <Component {...pageProps} />
-              </Scaffold>
-            </PilaTheme>
-          </AssessmentApplicationContext.Provider>
-        </LearningModulesContext.Provider>
+        <NotificationContext.Provider
+          value={{
+            notificationProps,
+            setNotificationProps: setNotificationProps,
+          }}
+        >
+          <LearningModulesContext.Provider value={learningModules}>
+            <AssessmentApplicationContext.Provider
+              value={pageProps?.assessmentApplication}
+            >
+              <DefaultSeo
+                title={title}
+                description={description}
+                openGraph={{
+                  type: "website",
+                  locale: "en_GB",
+                  url,
+                  site_name,
+                }}
+                twitter={{
+                  handle,
+                  site: "@site",
+                  cardType: "summary_large_image",
+                }}
+                facebook={{
+                  appId,
+                }}
+              />
+              <PilaTheme userAgent={pageProps.userAgent}>
+                {!isEmpty(notificationProps) && (
+                  <Notification {...notificationProps} />
+                )}
+                <Scaffold
+                  navigation={(pageProps?.navigation || [])[0]?.data}
+                  doormat={(pageProps?.doormat || [])[0]?.data}
+                  footer={(pageProps?.footer || [])[0]?.data}
+                >
+                  <Component {...pageProps} />
+                </Scaffold>
+              </PilaTheme>
+            </AssessmentApplicationContext.Provider>
+          </LearningModulesContext.Provider>
+        </NotificationContext.Provider>
       </NavigationThemeContext.Provider>
     </OffCanvasContext.Provider>
   );
@@ -165,6 +184,9 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 // @ts-ignore
 PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
+
+  const userAgent = appContext.ctx.req?.headers["user-agent"];
+  console.log("userAgent: ", userAgent);
 
   const client = Client();
   let data;
@@ -225,6 +247,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     pageProps: {
       ...appProps.pageProps,
       ...sortedResults,
+      userAgent,
     },
   };
 };

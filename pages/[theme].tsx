@@ -5,7 +5,9 @@ import React from "react";
 import { Client } from "../prismic";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import resolver from "../sm-resolver.js";
+import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
+import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HeroImage, {
   HeroImageProps,
 } from "../src/organisms/hero-image/HeroImage";
@@ -16,8 +18,10 @@ import PageType from "../types/PageTypes";
 // TODO - add missing slices here
 type ThemesPageSlices = ImageWithTextSectionProps;
 
+type ThemesPageProps = HeroImageProps & NotificationLinkedProps;
+
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<ThemesPageSlices, HeroImageProps>;
+  PageData<ThemesPageSlices, ThemesPageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
   const {
@@ -26,10 +30,14 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
     ...restData
   } = data || {};
 
+  const { setNotificationProps } = React.useContext(NotificationContext);
+
   useNavigationLightTheme();
+  setNotificationProps(notification.data);
 
   return (
     <React.Fragment>
@@ -50,6 +58,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.THEME,
   uid: ({ params }) => params.theme,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export const getStaticPaths = useGetStaticPaths({

@@ -9,7 +9,12 @@ import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import { PoweredByResearchSectionProps } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver.js";
+import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
+import {
+  NotificationLinkedProps,
+  NotificationProps,
+} from "../src/molecules/notification/Notification";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
@@ -25,8 +30,10 @@ type HomepageSlices = ImageWithTextSectionProps &
   PoweredByResearchSectionProps &
   ThanksToInstitutionsSectionProps;
 
+type HomepageProps = HomepageHeroProps & NotificationLinkedProps;
+
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<HomepageSlices, HomepageHeroProps> & {
+  PageData<HomepageSlices, HomepageProps> & {
     learningModules: any;
   };
 
@@ -35,7 +42,7 @@ const Page: React.FC<PageProps> = ({
   slices,
   learningModules,
 }: PageProps) => {
-  useNavigationDarkTheme();
+  const { setNotificationProps } = React.useContext(NotificationContext);
 
   const parsedSlices = slices.map((slice) => {
     if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
@@ -50,8 +57,12 @@ const Page: React.FC<PageProps> = ({
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
     ...restData
   } = data;
+
+  useNavigationDarkTheme();
+  setNotificationProps(notification.data);
 
   return (
     <React.Fragment>
@@ -72,6 +83,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: QueryType.SINGLE,
   type: PageType.HOME,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export default Page;

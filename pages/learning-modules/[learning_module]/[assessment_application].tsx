@@ -129,7 +129,7 @@ export const getStaticProps = async (context: StaticContextProps) => {
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
     uid: ({ params }) => params.assessment_application,
-    params: { fetchLinks: "category.name" },
+    params: { fetchLinks: ["category.name", "notification.body"] },
   })(context);
 
   return {

@@ -21,11 +21,19 @@ const customBreakpoints = (deepMerge(pila, {
 }) as unknown) as ThemeType;
 
 interface PilaTheme {
-  children: React.ReactElement;
+  children: React.ReactNode;
+  userAgent?: string;
 }
 
-const PilaTheme: React.FC<PilaTheme> = ({ children }) => {
-  return <Grommet theme={customBreakpoints}>{children}</Grommet>;
+const PilaTheme: React.FC<PilaTheme> = ({ children, userAgent }) => {
+  return (
+    <Grommet
+      theme={customBreakpoints}
+      userAgent={process.env.NODE_ENV !== "development" ? userAgent : undefined}
+    >
+      {children}
+    </Grommet>
+  );
 };
 
 export default PilaTheme;
