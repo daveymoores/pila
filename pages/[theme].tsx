@@ -37,7 +37,7 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
   const { setNotificationProps } = React.useContext(NotificationContext);
 
   useNavigationLightTheme();
-  setNotificationProps(notification.data);
+  setNotificationProps(notification?.data);
 
   return (
     <React.Fragment>

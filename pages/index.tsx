@@ -62,7 +62,7 @@ const Page: React.FC<PageProps> = ({
   } = data;
 
   useNavigationDarkTheme();
-  setNotificationProps(notification.data);
+  setNotificationProps(notification?.data);
 
   return (
     <React.Fragment>
