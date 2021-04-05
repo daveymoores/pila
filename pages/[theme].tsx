@@ -7,6 +7,7 @@ import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import resolver from "../sm-resolver.js";
 import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
+import useNotification from "../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HeroImage, {
   HeroImageProps,
@@ -34,10 +35,8 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     ...restData
   } = data || {};
 
-  const { setNotificationProps } = React.useContext(NotificationContext);
-
+  useNotification(notification);
   useNavigationLightTheme();
-  setNotificationProps(notification?.data);
 
   return (
     <React.Fragment>

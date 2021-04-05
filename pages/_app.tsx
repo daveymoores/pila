@@ -14,7 +14,9 @@ import { Client } from "../prismic";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import NavigationThemeContext from "../src/context/NavigationThemeContext";
-import NotificationContext from "../src/context/NotificationContext";
+import NotificationContext, {
+  NotificationProvider,
+} from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
 import Notification, {
   NotificationProps,
@@ -44,6 +46,7 @@ interface DefaultSeoProps {
 export interface PageProps {
   assessmentApplications: CustomType<AssessmentApplicationProps>[] | [];
   learningModules: CustomType<LearningModuleProps>[] | [];
+  notification: CustomType<NotificationProps>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
   doormat: CustomType<DoormatProps>[] | [];
   footer: CustomType<FooterProps>[] | [];
@@ -68,10 +71,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const [navigationTheme, setNavigationTheme] = React.useState<NavigationTheme>(
     NavigationTheme.LIGHT
   );
-  const [
-    notificationProps,
-    setNotificationProps,
-  ] = React.useState<NotificationProps>({});
+
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const { url, site_name, handle, appId, title, description } =
@@ -132,12 +132,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
           setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
         }}
       >
-        <NotificationContext.Provider
-          value={{
-            notificationProps,
-            setNotificationProps: setNotificationProps,
-          }}
-        >
+        <NotificationProvider notifications={pageProps.notification}>
           <LearningModulesContext.Provider value={learningModules}>
             <AssessmentApplicationContext.Provider
               value={pageProps?.assessmentApplication}
@@ -161,9 +156,6 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                 }}
               />
               <PilaTheme userAgent={pageProps.userAgent}>
-                {!isEmpty(notificationProps) && (
-                  <Notification {...notificationProps} />
-                )}
                 <Scaffold
                   navigation={(pageProps?.navigation || [])[0]?.data}
                   doormat={(pageProps?.doormat || [])[0]?.data}
@@ -174,7 +166,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
               </PilaTheme>
             </AssessmentApplicationContext.Provider>
           </LearningModulesContext.Provider>
-        </NotificationContext.Provider>
+        </NotificationProvider>
       </NavigationThemeContext.Provider>
     </OffCanvasContext.Provider>
   );
@@ -197,6 +189,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
         Prismic.Predicates.any("document.type", [
           "assessment_application",
           "learning_module",
+          "notification",
           "navigation",
           "doormat",
           "footer",
@@ -218,6 +211,8 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           return { ...acc, doormat: [...acc.doormat, result] };
         case PageType.NAVIGATION:
           return { ...acc, navigation: [...acc.navigation, result] };
+        case PageType.NOTIFICATION:
+          return { ...acc, notification: [...acc.notification, result] };
         case PageType.LEARNING_MODULE:
           return {
             ...acc,
@@ -235,6 +230,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     {
       assessmentApplications: [],
       learningModules: [],
+      notification: [],
       navigation: [],
       doormat: [],
       footer: [],

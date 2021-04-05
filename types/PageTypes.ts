@@ -10,6 +10,7 @@ enum PrismicPageTypes {
   NAVIGATION = "navigation",
   FOOTER = "footer",
   SEO = "seo",
+  NOTIFICATION = "notification",
 }
 
 enum InternalPageTypes {

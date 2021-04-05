@@ -4,9 +4,13 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
+import NotificationContext from "../../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
+import useNotification from "../../src/hooks/useNotification";
 import Section from "../../src/layout/section/Section";
+import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
+import { HeroImageProps } from "../../src/organisms/hero-image/HeroImage";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
@@ -14,7 +18,10 @@ import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
 import { LearningModuleProps } from "./[learning_module]";
 
-type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
+type LearningModuleHomePageProps = HeroImageProps & NotificationLinkedProps;
+
+type PageProps = PageData<unknown, LearningModuleHomePageProps> &
+  JSX.IntrinsicAttributes;
 
 const columns = {
   small: ["auto"],
@@ -37,9 +44,12 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
   } = props.data || {};
 
+  useNotification(notification);
   useNavigationLightTheme();
+
   const learningModules = React.useContext(LearningModulesContext);
 
   return (
@@ -101,6 +111,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: "single",
   type: PageType.LEARNING_MODULE_HOME,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export default Page;

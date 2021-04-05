@@ -7,7 +7,10 @@ import { ApplicationStats } from "../../../helpers/get-application-averages/getA
 import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
+import NotificationContext from "../../../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
+import useNotification from "../../../src/hooks/useNotification";
+import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
@@ -58,8 +61,11 @@ export interface Task {
   };
 }
 
+type AssessmentApplicationPageProps = AssessmentApplicationMainProps &
+  NotificationLinkedProps;
+
 export interface AssessmentApplicationProps
-  extends PageData<Task, AssessmentApplicationMainProps> {
+  extends PageData<Task, AssessmentApplicationPageProps> {
   learningModuleUid: string;
 }
 
@@ -80,8 +86,10 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     ctaSectionButtonOneLabel,
     ctaSectionButtonTwoLink,
     ctaSectionButtonTwoLabel,
+    notification,
   } = data || {};
 
+  useNotification(notification);
   useNavigationLightTheme();
 
   return (
@@ -129,7 +137,12 @@ export const getStaticProps = async (context: StaticContextProps) => {
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
     uid: ({ params }) => params.assessment_application,
-    params: { fetchLinks: ["category.name", "notification.body"] },
+    params: {
+      fetchLinks: [
+        "category.name",
+        "notification.body, notification.showGlobal",
+      ],
+    },
   })(context);
 
   return {
