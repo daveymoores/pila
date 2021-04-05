@@ -4,6 +4,7 @@ import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
+import parseLearningModules from "../../../helpers/parse-learning-modules/parseLearningModules";
 import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
@@ -18,7 +19,6 @@ import CustomType from "../../../types/CustomType";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import parseLearningModules from "../../helpers/parseLearningModules";
 import { LearningModuleProps } from "./index";
 
 export enum Difficulty {

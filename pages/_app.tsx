@@ -2,7 +2,7 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
-import isEmpty from "lodash/isEmpty";
+import { Card, Heading, Paragraph } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
@@ -10,17 +10,14 @@ import Prismic from "prismic-javascript";
 import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
-import { Client } from "../prismic";
+import { Client, RoutedTextLink } from "../prismic";
+import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import NavigationThemeContext from "../src/context/NavigationThemeContext";
-import NotificationContext, {
-  NotificationProvider,
-} from "../src/context/NotificationContext";
+import { NotificationProvider } from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
-import Notification, {
-  NotificationProps,
-} from "../src/molecules/notification/Notification";
+import { NotificationProps } from "../src/molecules/notification/Notification";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
 import {
@@ -28,6 +25,7 @@ import {
   NavigationTheme,
 } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
+import { colorPalette } from "../src/theme/pila";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
@@ -163,6 +161,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                 >
                   <Component {...pageProps} />
                 </Scaffold>
+                {pageProps.isPreview && <PreviewCard />}
               </PilaTheme>
             </AssessmentApplicationContext.Provider>
           </LearningModulesContext.Provider>
@@ -179,7 +178,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
 
   const userAgent = appContext.ctx.req?.headers["user-agent"];
   console.log("userAgent: ", userAgent);
-
+  console.log("preview ", appContext.router.isPreview);
   const client = Client();
   let data;
 
@@ -244,6 +243,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
       ...appProps.pageProps,
       ...sortedResults,
       userAgent,
+      isPreview: appContext.router.isPreview,
     },
   };
 };

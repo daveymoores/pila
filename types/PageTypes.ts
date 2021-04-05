@@ -2,6 +2,7 @@ enum PrismicPageTypes {
   HOME = "home",
   THEME = "theme_page",
   GUIDE = "guide",
+  DETAIL = "detail",
   ASSESSMENT_APPLICATION = "assessment_application",
   LEARNING_MODULE = "learning_module",
   LEARNING_MODULE_HOME = "learning_module_home",
@@ -17,6 +18,7 @@ enum InternalPageTypes {
   ACCOUNT = "account",
   SESSION = "session",
   ERROR = "error",
+  EXIT_PREVIEW = "exit_preview",
 }
 
 enum ExternalPageTypes {

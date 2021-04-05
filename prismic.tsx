@@ -4,7 +4,7 @@ import Prismic from "prismic-javascript";
 import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 
-import resolveModuleFromUID from "./pages/helpers/resolveModuleFromUID";
+import resolveModuleFromUID from "./helpers/resolve-module-from-uid/resolveModuleFromUID";
 import { LearningModuleProps } from "./pages/learning-modules/[learning_module]";
 import smConfig from "./sm.json";
 import LearningModulesContext from "./src/context/LearningModulesContext";
@@ -24,6 +24,7 @@ export const linkResolver = (
   modules: CustomType<LearningModuleProps>[]
 ): string => {
   const resolver: { [key: string]: string } = {
+    [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
     [PageType.GUIDE]: `/guides/${link.uid}`,
@@ -45,6 +46,7 @@ export const linkResolver = (
 // Additional helper function for Next/Link layout
 export const hrefResolver = (link: LinkProps): string => {
   const resolver: { [key: string]: string } = {
+    [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/[theme]`,
     [PageType.GUIDE]: `/guides/[uid]`,
@@ -79,6 +81,7 @@ export const RoutedTextLink: React.FC<CustomLinkProps> = ({
   ...rest
 }) => {
   const learningModules = React.useContext(LearningModulesContext);
+
   return (
     <Link
       href={hrefResolver(link)}

@@ -17,14 +17,15 @@ const Page: React.FC<PageProps> = (props: JSX.IntrinsicAttributes) => {
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.GUIDE,
-  uid: ({ params }) => params.uid,
+  uid: ({ params }) => params.guide,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.GUIDE,
   fallback: true, // process.env.NODE_ENV === 'development',
-  formatPath: ({ uid }) => ({ params: { uid } }),
+  formatPath: ({ uid }) => ({ params: { guide: uid } }),
 });
 
 export default Page;
