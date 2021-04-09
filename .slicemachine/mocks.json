@@ -28,5 +28,21 @@
         }
       }
     }
+  },
+  "OurTeamSection": {
+    "items": {
+      "body": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "name": {
+        "content": null
+      },
+      "position": {
+        "content": null
+      }
+    }
   }
 }

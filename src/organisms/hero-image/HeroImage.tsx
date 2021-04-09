@@ -46,6 +46,8 @@ const gridAreas = {
 
 const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
   <Box
+    width={"100%"}
+    background={"light-1"}
     pad={{
       top: "xlarge",
     }}

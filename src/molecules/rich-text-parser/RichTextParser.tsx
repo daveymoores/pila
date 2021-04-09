@@ -66,8 +66,9 @@ const propsWithUniqueKey = function (props, key) {
 };
 
 export const htmlSerializer = (type, element, content, children, key) => {
+  // TODO - put learning modules into linkResolver
   const learningModules = React.useContext(LearningModulesContext);
-  console.log(type);
+
   switch (type) {
     case Elements.heading1:
       return (
@@ -159,9 +160,9 @@ export const htmlSerializer = (type, element, content, children, key) => {
   }
 };
 
-const RichTextParser: React.FC<RichTextProps> = ({ body }) => {
+const RichTextParser: React.FC<RichTextProps> = ({ body, className }) => {
   return (
-    <Box>
+    <Box className={className}>
       <RichText render={body} htmlSerializer={htmlSerializer} />
     </Box>
   );

@@ -1,0 +1,86 @@
+{
+  "id": "our_team_section",
+  "type": "SharedSlice",
+  "name": "OurTeamSection",
+  "description": "OurTeamSection",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "OurTeamSection",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Title",
+            "placeholder": "This is where it all begins..."
+          }
+        },
+        "gridLength": {
+          "config": {
+            "label": "Grid Length",
+            "placeholder": "The number of items to fill a row",
+            "options": [
+              "3",
+              "2"
+            ],
+            "default_value": "3"
+          },
+          "type": "Select"
+        },
+        "bottomPadding": {
+          "config": {
+            "label": "BottomPadding",
+            "placeholder": "Option to change bottom padding",
+            "options": [
+              "xlarge",
+              "large",
+              "medium"
+            ],
+            "default_value": "xlarge"
+          },
+          "type": "Select"
+        }
+      },
+      "items": {
+        "image": {
+          "config": {
+            "label": "Image",
+            "constraint": {
+              "width": 120,
+              "height": 120
+            },
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "name": {
+          "config": {
+            "label": "Name",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "position": {
+          "config": {
+            "label": "Position",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "body": {
+          "config": {
+            "label": "Body",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,strong,em,hyperlink"
+          },
+          "type": "StructuredText"
+        }
+      }
+    }
+  ]
+}

@@ -35,15 +35,21 @@ const rows = {
 const ThanksToInstitutionsSection: FC<{
   slice: ThanksToInstitutionsSectionProps;
 }> = ({ slice }) => (
-  <StyledSection justify={"center"}>
+  <Box
+    margin={{
+      top: "xlarge",
+      bottom: "medium",
+    }}
+    justify={"center"}
+  >
     <Section justify={"center"} flex>
-      <Grid margin="medium" columns={"large"}>
+      <Grid margin={{ bottom: "large" }} columns={"large"}>
         <Heading level={"1"} size="small" margin="none" alignSelf={"stretch"}>
           {RichText.asText(slice.primary.title)}
         </Heading>
       </Grid>
       {/*TODO - create specific logic for centered wrapping*/}
-      <ResponsiveGrid margin="medium" columns={columns} rows={rows}>
+      <ResponsiveGrid columns={columns} rows={rows}>
         {(slice.items || []).map(({ logo }, index) => (
           <StyledCard
             key={index}
@@ -58,12 +64,8 @@ const ThanksToInstitutionsSection: FC<{
         ))}
       </ResponsiveGrid>
     </Section>
-  </StyledSection>
+  </Box>
 );
-
-const StyledSection = styled(Box)`
-  min-height: 800px;
-`;
 
 const StyledCard = styled(Card)`
   min-height: 225px;
