@@ -42,7 +42,7 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
 
   return (
     <Section justify={"center"} flex>
-      <ResponsiveGrid margin="medium" columns="large" rows="1">
+      <ResponsiveGrid columns="large" rows="1">
         <StyledCard
           elevation={"xlarge"}
           pad={"large"}

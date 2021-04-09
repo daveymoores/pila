@@ -14,6 +14,7 @@ import TextPosition from "../../types/TextPosition";
 type Primary = TextContentProps & {
   image: ImageProps;
   textPosition: TextPosition;
+  bottomPadding: "xlarge" | "large" | "medium";
 };
 
 export type FullWidthImageSectionProps = Slice<Primary, never>;
@@ -28,8 +29,9 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
   slice,
 }) => {
   const {
-    primary: { image, textPosition, ...textContentProps },
+    primary: { image, textPosition, bottomPadding, ...textContentProps },
   } = slice;
+  console.log(bottomPadding);
   return (
     <ResponsiveContext.Consumer>
       {(size) => {
@@ -55,7 +57,8 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
               round={"medium"}
               margin={{
                 horizontal: size === "small" ? "4vw" : "large",
-                vertical: "xlarge",
+                top: "xlarge",
+                bottom: bottomPadding || "xlarge",
               }}
               pad={{ vertical: size === "large" ? "100px" : "xlarge" }}
             >

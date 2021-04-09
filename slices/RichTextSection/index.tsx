@@ -13,14 +13,37 @@ type Primary = {
 
 export type RichTextSectionProps = Slice<Primary, never>;
 
+const rows = {
+  small: ["auto"],
+  medium: ["auto"],
+  large: ["auto"],
+  xlarge: ["auto"],
+};
+
+const columns = {
+  small: ["auto"],
+  medium: ["auto"],
+  large: Array(12).fill("flex"),
+  xlarge: Array(12).fill("flex"),
+};
+
+const gridAreas = {
+  small: [{ name: "text", start: [0, 0], end: [1, 0] }],
+  medium: [{ name: "text", start: [0, 0], end: [1, 0] }],
+  large: [{ name: "text", start: [1, 0], end: [10, 0] }],
+  xlarge: [{ name: "text", start: [1, 0], end: [10, 0] }],
+};
+
 const HighlightBanner: FC<{ slice: RichTextSectionProps }> = ({ slice }) => {
   const { primary } = slice;
 
   return (
     <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
       <Section justify={"center"} flex>
-        <ResponsiveGrid margin="medium" columns="large" rows="1">
-          <RichTextParser {...primary} />
+        <ResponsiveGrid areas={gridAreas} columns={columns} rows={rows}>
+          <Box gridArea={"text"}>
+            <RichTextParser {...primary} />
+          </Box>
         </ResponsiveGrid>
       </Section>
     </Box>
