@@ -9110,10 +9110,10 @@ next-seo@^4.20.0:
   resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.20.0.tgz#54b629abf93c7c051919802db011882f67004249"
   integrity sha512-N3NIISxOV+6XatPdZWRt8L/PkdxX4qpl6s2uQVMYTkteo8hgpHDgs6XZkDzuHaPi10neSZoqQiytsxohTCyEvw==
 
-next-slicezone@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/next-slicezone/-/next-slicezone-0.0.12.tgz#e014f4bfb26bada91dde96f793978e2a879a4892"
-  integrity sha512-75zU1OSro56KTUg2hmg0LKy6D5iRYrDLqWg0ZP152KSqrd/QXgxD0ObCRwxbpK0SohegbsXlmqTRSG8Kdesktg==
+next-slicezone@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/next-slicezone/-/next-slicezone-0.0.14.tgz#1e4cf611a4459a38203ea95522de602d2f373ae3"
+  integrity sha512-pcRXjlF3WSaR7KBH7BHl7quUnhXBfP1aX/ncQNHlseQ7r/OM78UUE3dingrov9+oTK/oRGSveue98xKl79YGIA==
   dependencies:
     slash "^3.0.0"
     sm-commons "^0.0.21"

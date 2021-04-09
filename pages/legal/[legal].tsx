@@ -1,27 +1,33 @@
-import SliceZone from "next-slicezone";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
-import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
-import resolver from "../../sm-resolver.js";
+import { CtaBannerProps } from "../../slices/CtaBanner";
+import { HighlightBannerProps } from "../../slices/HighlightBanner";
+import { RichTextSectionProps } from "../../slices/RichTextSection";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
-import HeroImage, {
-  HeroImageProps,
-} from "../../src/organisms/hero-image/HeroImage";
+import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
+import ImageProps from "../../types/ImageProps";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
 
-// TODO - add missing prismic here
-type ThemesPageSlices = ImageWithTextSectionProps;
+export type DetailPageSlices = CtaBannerProps &
+  HighlightBannerProps &
+  RichTextSectionProps;
 
-type ThemesPageProps = HeroImageProps & NotificationLinkedProps;
+export type DetailPageProps = NotificationLinkedProps & {
+  title?: RichTextBlock[];
+  heroImage?: ImageProps;
+  category: { categories: Link & { data: { name: string } } };
+  associatedContent: Link[];
+};
 
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<ThemesPageSlices, ThemesPageProps>;
+  PageData<DetailPageSlices, DetailPageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
   const {
@@ -31,6 +37,7 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     openGraphImage,
     openGraphTitle,
     notification,
+    ...restProps
   } = data || {};
 
   useNotification(notification);
@@ -45,22 +52,25 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
+      <HeroDetail {...restProps} slices={slices} />
     </React.Fragment>
   );
 };
 
 export const getStaticProps = useGetStaticProps({
   client: Client(),
-  type: PageType.DETAIL,
-  uid: ({ params }) => params.detail,
-  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
+  type: PageType.LEGAL,
+  uid: ({ params }) => params.legal,
+  params: {
+    fetchLinks: ["category.name", "notification.body, notification.showGlobal"],
+  },
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.DETAIL,
   fallback: true, // process.env.NODE_ENV === 'development',
-  formatPath: ({ uid }) => ({ params: { detail: uid } }),
+  formatPath: ({ uid }) => ({ params: { legal: uid } }),
 });
 
 export default Page;

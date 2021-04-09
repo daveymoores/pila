@@ -2,6 +2,7 @@ enum PrismicPageTypes {
   HOME = "home",
   THEME = "theme_page",
   GUIDE = "guide",
+  LEGAL = "legal",
   DETAIL = "detail",
   ASSESSMENT_APPLICATION = "assessment_application",
   LEARNING_MODULE = "learning_module",

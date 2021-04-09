@@ -10,6 +10,7 @@ import LearningModulesContext from "../../context/LearningModulesContext";
 
 interface RichTextProps {
   body: RichTextBlock[];
+  className?: string;
 }
 
 enum Elements {
@@ -34,28 +35,10 @@ enum Elements {
   span = "span",
 }
 
-type Link = {
-  link_type?: "Web" | "Document" | "Media" | "Any";
-  url?: string;
-  target?: string;
-  id?: string;
-  uid?: string;
-  isBroken?: boolean;
-  lang?: string;
-  slug?: string;
-  tags?: string[];
-  type?: string;
-  height?: string;
-  kind?: string;
-  name?: string;
-  size?: string;
-  width?: string;
-};
-
 const onClickHandler = function (href, as) {
   const Router = useRouter();
   // Handler that will do routing imperatively on internal links
-  return (event) => {
+  return (event: React.SyntheticEvent) => {
     event.preventDefault();
     Router.push(href, as);
   };
