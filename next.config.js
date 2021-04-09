@@ -1,6 +1,6 @@
 const withTM = require("next-transpile-modules")([
   "next-slicezone",
-  "essential-prismic",
+  "essential-slices",
 ]);
 
 module.exports = withTM({
