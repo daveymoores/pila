@@ -2,7 +2,6 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
-import { Card, Heading, Paragraph } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
@@ -10,7 +9,7 @@ import Prismic from "prismic-javascript";
 import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
-import { Client, RoutedTextLink } from "../prismic";
+import { Client } from "../prismic";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
@@ -25,7 +24,6 @@ import {
   NavigationTheme,
 } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
-import { colorPalette } from "../src/theme/pila";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";

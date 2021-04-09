@@ -5,7 +5,6 @@ import React from "react";
 import { Client } from "../prismic";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
 import resolver from "../sm-resolver.js";
-import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
 import useNotification from "../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
@@ -16,7 +15,7 @@ import Seo from "../src/organisms/seo/Seo";
 import PageData from "../types/PageData";
 import PageType from "../types/PageTypes";
 
-// TODO - add missing slices here
+// TODO - add missing prismic here
 type ThemesPageSlices = ImageWithTextSectionProps;
 
 type ThemesPageProps = HeroImageProps & NotificationLinkedProps;

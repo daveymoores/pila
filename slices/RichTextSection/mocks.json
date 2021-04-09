@@ -1,0 +1,37 @@
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "RichTextSection",
+    "primary": {
+      "body": [
+        {
+          "type": "paragraph",
+          "text": "Launched in 2021 by the PISA team in the Directorate for Education and Skills (EDU) at the Organisation for Economic Co-operation and Development (OECD), the Platform for Innovative Learning Assessments (PILA) draws on extensive research and expertise to provide interactive assessment tasks that communicate pertinent information to students and teachers on thinking and learning skills in STEM. PILA supports classroom and remote learning, as well as research on assessment and learning.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 33,
+              "type": "strong"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          "spans": [
+            {
+              "start": 0,
+              "end": 445,
+              "type": "em"
+            }
+          ]
+        }
+      ]
+    },
+    "items": [],
+    "slice_type": "rich_text_section"
+  }
+]

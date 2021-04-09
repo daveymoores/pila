@@ -505,17 +505,17 @@ const pila = {
   paragraph: {
     xsmall: {
       size: "14px",
-      height: "20px",
+      height: "22px",
       maxWidth: "auto",
     },
     small: {
       size: "16px",
-      height: "22px",
+      height: "24px",
       maxWidth: "auto",
     },
     medium: {
       size: "18px",
-      height: "24px",
+      height: "26px",
       maxWidth: "auto",
     },
     large: {
@@ -530,7 +530,7 @@ const pila = {
     },
     xxlarge: {
       size: "34px",
-      height: "40px",
+      height: "42px",
       maxWidth: "auto",
     },
   },

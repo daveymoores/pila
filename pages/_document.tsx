@@ -10,7 +10,11 @@ import { createResolver } from "next-slicezone/resolver";
 import React from "react";
 import { ServerStyleSheet } from "styled-components";
 
+/**
+ * TODO - turn this into a functional component
+ */
 export default class extends Document {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -41,6 +45,7 @@ export default class extends Document {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render() {
     return (
       <Html>

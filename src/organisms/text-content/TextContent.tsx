@@ -12,6 +12,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import RichTextParser from "../../molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../theme/pila";
 
 export interface TextContentProps {
@@ -89,9 +90,7 @@ const TextContent: React.FC<TextContentProps> = ({
               }
         }
       >
-        <Paragraph margin="none" fill>
-          {RichText.asText(description)}
-        </Paragraph>
+        <RichTextParser body={description} />
       </CardBody>
     )}
     {link && linkLabel && (

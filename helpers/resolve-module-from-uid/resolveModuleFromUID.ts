@@ -5,7 +5,7 @@ import parseLearningModules from "../parse-learning-modules/parseLearningModules
 export const resolveModuleFromUID = (
   uid: string | undefined,
   modules: CustomType<LearningModuleProps>[]
-) => {
+): string | undefined => {
   const parsedModules = parseLearningModules(modules);
   return parsedModules.find(
     (parsedModule): boolean =>

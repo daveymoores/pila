@@ -1,0 +1,32 @@
+{
+  "RichTextSection": {
+    "primary": {
+      "body": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 3
+        }
+      }
+    }
+  },
+  "PoweredByResearchSection": {
+    "primary": {
+      "description": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
+  },
+  "ImageWithTextSection": {
+    "primary": {
+      "description": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
+  }
+}

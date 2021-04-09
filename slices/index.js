@@ -9,3 +9,5 @@ export { default as HeroImage } from "./HeroImage";
 export { default as HeroText } from "./HeroText";
 export { default as HeroVideo } from "./HeroVideo";
 export { default as CtaBanner } from "./CtaBanner";
+
+export { default as RichTextSection } from './RichTextSection'

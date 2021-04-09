@@ -1,1 +1,73 @@
-[{"id":"default-slice","name":"Default slice","docURL":"...","version":"sktwi1xtmkfgx8626","description":"PoweredByResearchSection","primary":{"eyebrowHeadline":[{"type":"heading2","text":"implement innovative applications","spans":[]}],"title":[{"type":"heading1","text":"monetize value-added e-commerce","spans":[]}],"description":[{"type":"paragraph","text":"Exercitation elit esse occaecat fugiat excepteur nulla ad elit mollit consectetur eiusmod aute cillum ullamco. Ipsum ex ullamco pariatur dolor mollit ipsum consectetur.\nVelit fugiat aute pariatur. Eiusmod proident id esse. Fugiat id voluptate eu dolore do cupidatat.\nEst commodo nisi magna ad excepteur velit dolore. Nulla occaecat ut id fugiat.","spans":[]}]},"items":[{"module":{"link_type":"Web","url":"https://slicemachine.dev"}},{"module":{"link_type":"Web","url":"https://slicemachine.dev"}}],"slice_type":"powered_by_research_section"}]
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "PoweredByResearchSection",
+    "primary": {
+      "eyebrowHeadline": [
+        {
+          "type": "paragraph",
+          "text": "Laborum sunt do id anim culpa dolore esse pariatur nisi est. Reprehenderit et commodo in occaecat irure pariatur culpa ex dolor proident incididunt dolor. Commodo proident aliquip nostrud cillum nulla exercitation veniam excepteur nisi.",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Aliquip labore velit ut officia. Elit deserunt laborum occaecat aute magna.",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Nisi Lorem adipisicing exercitation dolore nostrud sunt fugiat aute irure in consequat.",
+          "spans": []
+        }
+      ],
+      "title": [
+        {
+          "type": "paragraph",
+          "text": "Excepteur consequat eu do quis nulla non labore adipisicing.",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "In adipisicing amet in consequat minim anim excepteur do nisi exercitation sit elit pariatur exercitation. Non mollit voluptate cillum ut mollit dolor eiusmod enim aliqua culpa eiusmod ad tempor. Labore nostrud non consectetur et esse culpa in adipisicing irure laborum ex sunt nostrud aliquip anim.",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Laborum enim et veniam proident sit. Enim proident velit consectetur ad. Et nisi amet nisi cupidatat enim nulla Lorem tempor aute sunt aute.",
+          "spans": []
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Mollit elit tempor elit pariatur dolore nisi est. Voluptate sit sint nulla pariatur eu ullamco reprehenderit adipisicing exercitation quis. Est proident consequat est excepteur.",
+          "spans": []
+        }
+      ]
+    },
+    "items": [
+      {
+        "module": {
+          "link_type": "Web",
+          "url": "https://prismic.io"
+        }
+      },
+      {
+        "module": {
+          "link_type": "Web",
+          "url": "https://slicemachine.dev"
+        }
+      },
+      {
+        "module": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        }
+      }
+    ],
+    "slice_type": "powered_by_research_section"
+  }
+]
