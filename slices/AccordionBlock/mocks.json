@@ -1,0 +1,75 @@
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "AccordionBlock",
+    "primary": {
+      "sectionTitle": "synthesize cross-media experiences"
+    },
+    "items": [
+      {
+        "title": "transform cutting-edge schemas",
+        "body": [
+          {
+            "type": "heading3",
+            "text": "Maximize rich e-markets",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Labore et esse commodo irure incididunt et laboris dolore aliquip laborum. Labore sint cupidatat laboris dolore nostrud sint esse in. Laboris deserunt mollit pariatur sit elit voluptate.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": "deliver bricks-and-clicks solutions",
+        "body": [
+          {
+            "type": "heading3",
+            "text": "Utilize compelling infrastructures",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Excepteur nisi minim Lorem ex non in culpa aliquip dolor officia pariatur excepteur adipisicing.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": "facilitate impactful platforms",
+        "body": [
+          {
+            "type": "heading3",
+            "text": "Synergize rich web-readiness",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Aliqua officia excepteur reprehenderit. Non incididunt deserunt nulla ut ut anim laborum aute do adipisicing commodo sint id enim. Tempor ut consequat consectetur tempor sint minim aliqua occaecat eu sit elit.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": "synergize collaborative methodologies",
+        "body": [
+          {
+            "type": "heading3",
+            "text": "Incentivize next-generation architectures",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Laboris incididunt sunt pariatur magna anim occaecat proident voluptate reprehenderit labore et est voluptate sunt ut. Mollit id exercitation duis reprehenderit velit.",
+            "spans": []
+          }
+        ]
+      }
+    ],
+    "slice_type": "accordion_block"
+  }
+]

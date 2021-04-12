@@ -1,0 +1,43 @@
+{
+  "id": "accordion_block",
+  "type": "SharedSlice",
+  "name": "AccordionBlock",
+  "description": "AccordionBlock",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "AccordionBlock",
+      "primary": {
+        "sectionTitle": {
+          "config": {
+            "label": "Section Title",
+            "placeholder": "Used for deep linking"
+          },
+          "type": "Text"
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "",
+            "id": "title",
+            "placeholder": ""
+          }
+        },
+        "body": {
+          "config": {
+            "label": "Body",
+            "placeholder": "Accordion panel body",
+            "allowTargetBlank": true,
+            "single": "paragraph,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item"
+          },
+          "type": "StructuredText"
+        }
+      }
+    }
+  ]
+}

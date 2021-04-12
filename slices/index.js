@@ -12,3 +12,6 @@ export { default as CtaBanner } from "./CtaBanner";
 
 export { default as RichTextSection } from './RichTextSection'
 export { default as OurTeamSection } from './OurTeamSection'
+export { default as RichTextBlock } from './RichTextBlock'
+export { default as ImageBlock } from './ImageBlock'
+export { default as AccordionBlock } from './AccordionBlock'

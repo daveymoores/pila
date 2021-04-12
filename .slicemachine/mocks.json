@@ -45,5 +45,46 @@
       }
     }
   },
-  "FullWidthImageSection": {}
+  "FullWidthImageSection": {},
+  "RichTextBlock": {
+    "primary": {
+      "body": {
+        "config": {
+          "patternType": "STORY",
+          "blocks": 3
+        }
+      },
+      "sectionTitle": {
+        "content": null
+      }
+    }
+  },
+  "ImageBlock": {
+    "primary": {
+      "caption": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "sectionTitle": {
+        "content": null
+      }
+    }
+  },
+  "AccordionBlock": {
+    "items": {
+      "body": {
+        "config": {
+          "patternType": "STORY",
+          "blocks": 1
+        }
+      }
+    },
+    "primary": {
+      "sectionTitle": {
+        "content": null
+      }
+    }
+  }
 }

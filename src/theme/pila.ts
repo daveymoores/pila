@@ -567,6 +567,14 @@ const pila = {
     },
   },
   scale: 1,
+  accordion: {
+    icons: {
+      color: colorPalette.dark_blue,
+    },
+    heading: {
+      level: "5",
+    },
+  },
 };
 
 export default pila;

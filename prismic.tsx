@@ -27,6 +27,7 @@ export const linkResolver = (
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
+    [PageType.DETAIL]: `/legal/${link.uid}`,
     [PageType.GUIDE]: `/guides/${link.uid}`,
     [PageType.ASSESSMENT_APPLICATION]: `/learning-modules/${resolveModuleFromUID(
       link.uid,
@@ -49,6 +50,7 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/[theme]`,
+    [PageType.DETAIL]: `/legal/[uid]`,
     [PageType.GUIDE]: `/guides/[uid]`,
     [PageType.ASSESSMENT_APPLICATION]:
       "/learning-modules/[learning-module]/[assessment-application]",

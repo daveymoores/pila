@@ -34,7 +34,7 @@ const gridAreas = {
   xlarge: [{ name: "text", start: [1, 0], end: [10, 0] }],
 };
 
-const HighlightBanner: FC<{ slice: RichTextSectionProps }> = ({ slice }) => {
+const RichTextSection: FC<{ slice: RichTextSectionProps }> = ({ slice }) => {
   const { primary } = slice;
 
   return (
@@ -50,4 +50,4 @@ const HighlightBanner: FC<{ slice: RichTextSectionProps }> = ({ slice }) => {
   );
 };
 
-export default HighlightBanner;
+export default RichTextSection;

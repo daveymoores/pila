@@ -3,7 +3,11 @@ import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
-import { CtaBannerProps } from "../../slices/CtaBanner";
+import { CtaBanner } from "../../slices";
+import {
+  CTABannerAlternateProps,
+  CtaBannerProps,
+} from "../../slices/CtaBanner";
 import { HighlightBannerProps } from "../../slices/HighlightBanner";
 import { RichTextSectionProps } from "../../slices/RichTextSection";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
@@ -19,12 +23,13 @@ export type DetailPageSlices = CtaBannerProps &
   HighlightBannerProps &
   RichTextSectionProps;
 
-export type DetailPageProps = NotificationLinkedProps & {
-  title?: RichTextBlock[];
-  heroImage?: ImageProps;
-  category: { categories: Link & { data: { name: string } } };
-  associatedContent: Link[];
-};
+export type DetailPageProps = CTABannerAlternateProps &
+  NotificationLinkedProps & {
+    title?: RichTextBlock[];
+    heroImage?: ImageProps;
+    category: { categories: Link & { data: { name: string } } };
+    associatedContent: Link[];
+  };
 
 type PageProps = JSX.IntrinsicAttributes &
   PageData<DetailPageSlices, DetailPageProps>;
@@ -36,6 +41,11 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    ctaSectionTitle,
+    ctaSectionButtonOneLink,
+    ctaSectionButtonOneLabel,
+    ctaSectionButtonTwoLink,
+    ctaSectionButtonTwoLabel,
     notification,
     ...restProps
   } = data || {};
@@ -53,6 +63,19 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
         openGraphTitle={openGraphTitle}
       />
       <HeroDetail {...restProps} slices={slices} />
+      {ctaSectionTitle && (
+        <CtaBanner
+          slice={{
+            primary: {
+              title: ctaSectionTitle,
+              buttonOneLink: ctaSectionButtonOneLink,
+              buttonOneLabel: ctaSectionButtonOneLabel,
+              buttonTwoLink: ctaSectionButtonTwoLink,
+              buttonTwoLabel: ctaSectionButtonTwoLabel,
+            },
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -68,7 +91,7 @@ export const getStaticProps = useGetStaticProps({
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
-  type: PageType.DETAIL,
+  type: PageType.LEGAL,
   fallback: true, // process.env.NODE_ENV === 'development',
   formatPath: ({ uid }) => ({ params: { legal: uid } }),
 });

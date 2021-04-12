@@ -11,10 +11,7 @@ import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutions
 import resolver from "../sm-resolver.js";
 import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
-import {
-  NotificationLinkedProps,
-  NotificationProps,
-} from "../src/molecules/notification/Notification";
+import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";

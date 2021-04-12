@@ -6,6 +6,8 @@ import React from "react";
 import styled from "styled-components";
 
 import { hrefResolver, linkResolver } from "../../../prismic";
+import CustomType from "../../../types/CustomType";
+import PageType from "../../../types/PageTypes";
 import LearningModulesContext from "../../context/LearningModulesContext";
 
 interface RichTextProps {
@@ -35,7 +37,7 @@ enum Elements {
   span = "span",
 }
 
-const onClickHandler = function (href, as) {
+const onClickHandler = (href: string, as: string) => {
   const Router = useRouter();
   // Handler that will do routing imperatively on internal links
   return (event: React.SyntheticEvent) => {
@@ -44,11 +46,17 @@ const onClickHandler = function (href, as) {
   };
 };
 
-const propsWithUniqueKey = function (props, key) {
+const propsWithUniqueKey = (props: Record<string, unknown>, key: string) => {
   return Object.assign(props || {}, { key });
 };
 
-export const htmlSerializer = (type, element, content, children, key) => {
+export const htmlSerializer = (
+  type: string,
+  element: CustomType<any>,
+  content: string,
+  children: React.ReactNode[],
+  key: string
+) => {
   // TODO - put learning modules into linkResolver
   const learningModules = React.useContext(LearningModulesContext);
 

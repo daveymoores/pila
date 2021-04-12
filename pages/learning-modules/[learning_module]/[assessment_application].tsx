@@ -4,11 +4,12 @@ import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
-import parseLearningModules from "../../../helpers/parse-learning-modules/parseLearningModules";
+import parseLearningModules, {
+  ModuleApplications,
+} from "../../../helpers/parse-learning-modules/parseLearningModules";
 import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
-import NotificationContext from "../../../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import useNotification from "../../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
@@ -108,7 +109,7 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         learningModuleUid={learningModuleUid}
       />
       <TaskSection slices={slices} />
-      {ctaSectionTitle && ctaSectionButtonOneLink && ctaSectionButtonOneLabel && (
+      {ctaSectionTitle && (
         <CtaBanner
           slice={{
             primary: {
@@ -167,8 +168,8 @@ export const getStaticPaths = async (): Promise<StaticContextProps> => {
     type: PageType.ASSESSMENT_APPLICATION,
     fallback: true, // process.env.NODE_ENV === 'development',
     formatPath: (props) => {
-      const app = moduleApplications.find((module) =>
-        (module?.applications || []).find((app) => app === props.uid)
+      const app = moduleApplications.find((module: ModuleApplications) =>
+        (module?.applications || []).find((app: string) => app === props.uid)
       );
 
       return {
