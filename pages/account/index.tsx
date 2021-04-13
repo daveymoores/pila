@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Heading, List } from "grommet";
+import { Box, Card, CardBody, Heading } from "grommet";
 import React from "react";
 import styled from "styled-components";
 

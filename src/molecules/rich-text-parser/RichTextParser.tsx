@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 import { hrefResolver, linkResolver } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
-import PageType from "../../../types/PageTypes";
 import LearningModulesContext from "../../context/LearningModulesContext";
 
 interface RichTextProps {
@@ -165,6 +164,10 @@ const StyledHeading = styled(Heading)`
 
 const StyledParagraph = styled(Paragraph)`
   margin-bottom: 1em;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const StyledOrderedList = styled(Box)`

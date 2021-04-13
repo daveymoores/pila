@@ -7,7 +7,6 @@ import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
-import NotificationContext from "../../../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import useNotification from "../../../src/hooks/useNotification";
 import Section from "../../../src/layout/section/Section";

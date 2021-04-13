@@ -35,9 +35,12 @@ const ImageBlock: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
 };
 
 const StyledRichText = styled(RichTextParser)`
-  color: ${colorPalette.grey};
-  font-size: 14px;
   padding-top: 1em;
+
+  > * {
+    color: ${colorPalette.grey};
+    font-size: 16px;
+  }
 `;
 
 export default ImageBlock;

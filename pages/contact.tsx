@@ -3,7 +3,6 @@ import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
 import { Client } from "../prismic";
-import NotificationContext from "../src/context/NotificationContext";
 import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
 import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";

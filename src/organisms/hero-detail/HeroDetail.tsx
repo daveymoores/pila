@@ -4,17 +4,20 @@ import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import { GuidePageSlices } from "../../../pages/guides/[guide]";
-import { DetailPageProps } from "../../../pages/legal/[legal]";
+import {
+  GuidePageSlices,
+  LinkedGuidePageProps,
+} from "../../../pages/guides/[guide]";
+import { RoutedTextLink } from "../../../prismic";
 import resolver from "../../../sm-resolver";
-import { SliceType } from "../../../types/Slice";
+import CustomType from "../../../types/CustomType";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroDetailProps
   extends Pick<
-    DetailPageProps,
+    LinkedGuidePageProps,
     "title" | "heroImage" | "category" | "associatedContent"
   > {
   slices: GuidePageSlices[];
@@ -69,6 +72,7 @@ interface Contents {
 const HeroDetail: React.FC<HeroDetailProps> = ({
   title,
   heroImage,
+  associatedContent,
   slices,
 }) => {
   const contents = slices.reduce((acc: Contents[], slice: GuidePageSlices) => {
@@ -177,9 +181,21 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           </Box>
           <Box gridArea={"associated-content"} style={{ position: "relative" }}>
             <Box style={{ top: 0, position: "sticky" }}>
-              <Heading size={"small"} level={4}>
+              <Heading size={"small"} level={4} margin={{ bottom: "medium" }}>
                 Associated content
               </Heading>
+              {associatedContent &&
+                associatedContent.map((content: CustomType, index: number) => (
+                  <StyledRoutedTextLink
+                    key={index}
+                    link={content}
+                    label={
+                      content.data?.title
+                        ? RichText.asText(content.data?.title)
+                        : ""
+                    }
+                  />
+                ))}
             </Box>
           </Box>
         </ResponsiveGrid>
@@ -188,11 +204,20 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   );
 };
 
-const StyledAnchor = styled.a`
-  color: ${colorPalette.dark_blue};
+const textButtonStyles = `
+  font-weight: 500;
+  font-size: 16px;
+  color: ${colorPalette.grey};
   text-decoration: none;
-  font-weight: 400;
   padding-bottom: 1em;
+`;
+
+const StyledRoutedTextLink = styled(RoutedTextLink)`
+  ${textButtonStyles}
+`;
+
+const StyledAnchor = styled.a`
+  ${textButtonStyles}
 `;
 
 export default HeroDetail;

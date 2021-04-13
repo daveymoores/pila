@@ -2,6 +2,8 @@
 // @ts-nocheck
 
 import Prismic from "@prismicio/client";
+import { ServerResponse } from "http";
+import { Http2ServerRequest } from "http2";
 
 import { linkResolver } from "../../prismic";
 import smConfig from "../../sm.json";
@@ -23,7 +25,10 @@ const createClientOptions = (req = null, prismicAccessToken = null) => {
   };
 };
 
-const Preview = async (req, res) => {
+const Preview = async (
+  req: Http2ServerRequest,
+  res: ServerResponse
+): Promise<void> => {
   const { token: ref, documentId } = req.query;
   const redirectUrl = await Client(req)
     .getPreviewResolver(ref, documentId)

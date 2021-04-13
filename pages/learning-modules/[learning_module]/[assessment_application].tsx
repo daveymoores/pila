@@ -1,3 +1,4 @@
+import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
@@ -133,7 +134,9 @@ interface StaticContextProps {
   };
 }
 
-export const getStaticProps = async (context: StaticContextProps) => {
+export const getStaticProps = async (
+  context: StaticContextProps
+): Promise<GetStaticPropsResult<PageProps>> => {
   const { props } = await useGetStaticProps({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,

@@ -1,4 +1,7 @@
+import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
+import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
@@ -13,6 +16,7 @@ import useNotification from "../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
+import CustomType from "../../types/CustomType";
 import ImageProps from "../../types/ImageProps";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
@@ -26,11 +30,16 @@ export type GuidePageProps = CTABannerAlternateProps &
     title?: RichTextBlock[];
     heroImage?: ImageProps;
     category: { categories: Link & { data: { name: string } } };
-    associatedContent: Link[];
+    associatedContent: { link: Link }[];
   };
 
+export interface LinkedGuidePageProps
+  extends Omit<GuidePageProps, "associatedContent"> {
+  associatedContent: CustomType[];
+}
+
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<GuidePageSlices, GuidePageProps>;
+  PageData<GuidePageSlices, LinkedGuidePageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
   const {
@@ -78,14 +87,59 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
   );
 };
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
-  type: PageType.GUIDE,
-  uid: ({ params }) => params.guide,
+interface StaticContextProps {
   params: {
-    fetchLinks: ["category.name", "notification.body, notification.showGlobal"],
-  },
-});
+    guide: string;
+  };
+}
+
+interface Response extends Omit<ApiSearchResponse, "results"> {
+  results: CustomType[];
+}
+
+export const getStaticProps = async (
+  context: StaticContextProps
+): Promise<GetStaticPropsResult<PageProps>> => {
+  const { props } = await useGetStaticProps({
+    client: Client(),
+    type: PageType.GUIDE,
+    uid: ({ params }) => params.guide,
+    params: {
+      fetchLinks: [
+        "category.name",
+        "notification.body, notification.showGlobal",
+      ],
+    },
+  })(context);
+
+  const associatedContentIds = (
+    (props.data.associatedContent as GuidePageProps["associatedContent"]) || []
+  ).map(({ link }) => link.id);
+  const client = Client();
+  let associatedContent;
+
+  if (associatedContentIds) {
+    try {
+      associatedContent =
+        (((await client.query(
+          //TODO - why is associatedContent possibly undefined
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          Prismic.Predicates.in("document.id", associatedContentIds)
+        )) as unknown) as Response) || {};
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  console.log(associatedContent);
+
+  return {
+    props: {
+      ...props,
+      data: { ...props.data, associatedContent: associatedContent?.results },
+    },
+  };
+};
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),

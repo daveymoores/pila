@@ -1,38 +1,22 @@
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
-import {
-  CTABannerAlternateProps,
-  CtaBannerProps,
-} from "../../slices/CtaBanner";
-import { HighlightBannerProps } from "../../slices/HighlightBanner";
-import { RichTextSectionProps } from "../../slices/RichTextSection";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
-import ImageProps from "../../types/ImageProps";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
+import { GuidePageProps, GuidePageSlices } from "../guides/[guide]";
 
-export type DetailPageSlices = CtaBannerProps &
-  HighlightBannerProps &
-  RichTextSectionProps;
+export type LegalPageSlices = GuidePageSlices;
 
-export type DetailPageProps = CTABannerAlternateProps &
-  NotificationLinkedProps & {
-    title?: RichTextBlock[];
-    heroImage?: ImageProps;
-    category: { categories: Link & { data: { name: string } } };
-    associatedContent: Link[];
-  };
+export type LegalPageProps = GuidePageProps;
 
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<DetailPageSlices, DetailPageProps>;
+  PageData<LegalPageSlices, LegalPageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
   const {

@@ -26,12 +26,12 @@ const ImageBlock: FC<{ slice: AccordionBlockProps }> = ({ slice }) => {
     <Box
       id={sectionTitle && sectionTitle.replace(/ /g, "-").toLowerCase()}
       as={"section"}
-      pad={{ top: "none", bottom: "large" }}
+      pad={{ top: "none", bottom: "xlarge" }}
     >
       <Accordion>
         {items &&
-          items.map((item: Item) => (
-            <StyledAccordionPanel label={item.title}>
+          items.map((item: Item, index: number) => (
+            <StyledAccordionPanel key={index} label={item.title}>
               <Box pad={"medium"}>
                 <RichTextParser body={item.body} />
               </Box>

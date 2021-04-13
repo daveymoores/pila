@@ -1,5 +1,5 @@
 import { Box, Grid, Heading, ResponsiveContext } from "grommet";
-import { Link, LinkProps, RichText, RichTextBlock } from "prismic-reactjs";
+import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";

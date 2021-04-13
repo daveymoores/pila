@@ -6,7 +6,10 @@ import { Client } from "../prismic";
 import { FullWidthImageSectionProps } from "../slices/FullWidthImageSection";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
-import { PoweredByResearchSectionProps } from "../slices/PoweredByResearchSection";
+import {
+  LearningModule,
+  PoweredByResearchSectionProps,
+} from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver.js";
 import NotificationContext from "../src/context/NotificationContext";
@@ -31,7 +34,7 @@ type HomepageProps = HomepageHeroProps & NotificationLinkedProps;
 
 type PageProps = JSX.IntrinsicAttributes &
   PageData<HomepageSlices, HomepageProps> & {
-    learningModules: any;
+    learningModules: LearningModule[];
   };
 
 const Page: React.FC<PageProps> = ({

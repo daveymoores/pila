@@ -21,7 +21,8 @@
   "plugins": [
     "html",
     "prettier",
-    "simple-import-sort"
+    "simple-import-sort",
+    "unused-imports"
   ],
   "settings": {
     "import/resolver": {
@@ -34,6 +35,7 @@
     }
   },
   "rules": {
+    "unused-imports/no-unused-imports-ts": 2,
     "func-names": [
       "error",
       "never"

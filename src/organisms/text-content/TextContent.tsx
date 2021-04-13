@@ -1,12 +1,4 @@
-import {
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Paragraph,
-} from "grommet";
+import { Box, Card, CardBody, CardFooter, CardHeader, Heading } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
