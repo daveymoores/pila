@@ -8,8 +8,8 @@
     "primary": {
       "title": [
         {
-          "type": "heading1",
-          "text": "revolutionize one-to-one networks",
+          "type": "paragraph",
+          "text": "Laboris quis dolore anim consectetur ea amet eu laborum voluptate velit.",
           "spans": []
         }
       ]
@@ -18,56 +18,56 @@
       {
         "logo": {
           "dimensions": {
-            "width": 900,
-            "height": 500
+            "width": 550,
+            "height": 316
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.prismic.io/important-sm-images/0be9cf2b-fb56-44f2-8a28-6569845c633b_NP-pwHBvCYE.jpg?w=900&h=500&fit=crop"
+          "url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f?w=550&h=316&fit=crop"
         }
       },
       {
         "logo": {
           "dimensions": {
-            "width": 900,
-            "height": 500
+            "width": 550,
+            "height": 316
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+          "url": "https://images.unsplash.com/photo-1591012911207-0dbac31f37da?w=550&h=316&fit=crop"
         }
       },
       {
         "logo": {
           "dimensions": {
-            "width": 900,
-            "height": 500
+            "width": 550,
+            "height": 316
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+          "url": "https://images.unsplash.com/photo-1591012911207-0dbac31f37da?w=550&h=316&fit=crop"
         }
       },
       {
         "logo": {
           "dimensions": {
-            "width": 900,
-            "height": 500
+            "width": 550,
+            "height": 316
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+          "url": "https://images.unsplash.com/photo-1579931794097-0ad001e51edb?w=550&h=316&fit=crop"
         }
       },
       {
         "logo": {
           "dimensions": {
-            "width": 900,
-            "height": 500
+            "width": 550,
+            "height": 316
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.prismic.io/important-sm-images/7e42d190-3adc-465f-bcbb-f9f1e695cf92_eBK_iVWuY-Y.jpg?w=900&h=500&fit=crop"
+          "url": "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=550&h=316&fit=crop"
         }
       }
     ],

@@ -1,1 +1,38 @@
-[{"id":"default-slice","name":"Default slice","docURL":"...","version":"sktwi1xtmkfgx8626","description":"HeroImage","primary":{"title":[{"type":"heading1","text":"reintermediate leading-edge supply-chains","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/3d004e4f-9a5c-49b4-9da7-782d2603f6be_S_M_yDChHkc.jpg?w=900&h=500&fit=crop"}},"items":[],"slice_type":"hero_image"}]
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "HeroImage",
+    "primary": {
+      "title": [
+        {
+          "type": "paragraph",
+          "text": "Ut aute commodo aliqua est labore nisi proident culpa commodo. Adipisicing enim pariatur sit sunt cupidatat sit et incididunt est dolore consectetur officia.",
+          "spans": []
+        }
+      ],
+      "image": {
+        "dimensions": {
+          "width": 1472,
+          "height": 882
+        },
+        "alt": "Placeholder image",
+        "copyright": null,
+        "url": "https://images.unsplash.com/photo-1607582278038-6bebbd4d7b72?w=1472&h=882&fit=crop",
+        "mobile": {
+          "dimensions": {
+            "width": 736,
+            "height": 441
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1607582278038-6bebbd4d7b72?w=736&h=441&fit=crop"
+        }
+      }
+    },
+    "items": [],
+    "slice_type": "hero_image"
+  }
+]

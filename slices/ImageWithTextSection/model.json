@@ -41,8 +41,17 @@
         "image": {
           "config": {
             "label": "Image",
-            "constraint": {},
-            "thumbnails": []
+            "constraint": {
+              "width": 936,
+              "height": 1044
+            },
+            "thumbnails": [
+              {
+                "name": "mobile",
+                "width": 468,
+                "height": 522
+              }
+            ]
           },
           "type": "Image"
         },
