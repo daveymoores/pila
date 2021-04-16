@@ -8,7 +8,6 @@ module.exports = withTM({
     webpack5: true,
   },
   images: {
-    loader: "imgix",
-    path: "https://images.prismic.io",
+    domains: ["images.prismic.io"],
   },
 });
