@@ -1,9 +1,10 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import ImageProps from "../../../types/ImageProps";
 import Section from "../../layout/section/Section";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroImageProps {
@@ -79,7 +80,11 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
             </Heading>
           )}
           <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-            {image?.url && <Image src={image.url} />}
+            <RichMediaElement
+              {...image}
+              alt={image?.alt || ""}
+              layout={"responsive"}
+            />
           </Box>
         </React.Fragment>
       </ResponsiveGrid>

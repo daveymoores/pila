@@ -1,9 +1,10 @@
-import { Box, Card, Grid, Heading, Image } from "grommet";
+import { Box, Card, Grid, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
 import Section from "../../src/layout/section/Section";
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
@@ -72,7 +73,11 @@ const OurTeamSection: FC<{
                 round={"50%"}
                 overflow={"hidden"}
               >
-                <Image src={image.url} width={"100%"} />
+                <RichMediaElement
+                  {...image}
+                  alt={image?.alt || ""}
+                  layout={"fixed"}
+                />
               </Box>
               <Box direction={"column"}>
                 <Heading

@@ -1,4 +1,4 @@
-import { Box, Heading, Image, Paragraph } from "grommet";
+import { Box, Heading, Paragraph } from "grommet";
 import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
 import GuideCard, { CardVariant } from "../../molecules/guide-card/GuideCard";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -98,7 +99,11 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         align={"start"}
       >
         <Box gridArea="image" round={"medium"} overflow={"hidden"}>
-          <Image src={image?.url} width={"100%"} />
+          <RichMediaElement
+            {...image}
+            alt={image?.alt || ""}
+            layout={"responsive"}
+          />
         </Box>
 
         <Box gridArea="text" justify={"start"} align={"start"}>

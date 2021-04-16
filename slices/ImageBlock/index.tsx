@@ -1,8 +1,9 @@
-import { Box, Image } from "grommet";
+import { Box } from "grommet";
 import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../src/theme/pila";
 import ImageProps from "../../types/ImageProps";
@@ -26,8 +27,14 @@ const ImageBlock: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
       as={"section"}
       pad={{ top: "none", bottom: "large" }}
     >
-      <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-        {primary.image?.url && <Image src={primary.image.url} />}
+      <Box gridArea={"image"}>
+        {primary.image?.url && (
+          <RichMediaElement
+            {...primary.image}
+            alt={primary.image?.alt || ""}
+            layout={"responsive"}
+          />
+        )}
       </Box>
       <StyledRichText body={primary.caption} />
     </Box>

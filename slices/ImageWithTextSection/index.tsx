@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import colorMapper from "../../helpers/color-mapper/colorMapper";
 import Section from "../../src/layout/section/Section";
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent, {
   TextContentProps,
@@ -84,11 +85,13 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
           areas={gridAreas(imageSide)}
           rows={rows}
         >
-          <StyledImageBox
-            gridArea="image"
-            background={`url(${image?.url})`}
-            round={"medium"}
-          />
+          <Box gridArea="image" style={{ display: "grid" }}>
+            <RichMediaElement
+              {...image}
+              alt={image?.alt || ""}
+              layout={"responsive"}
+            />
+          </Box>
           <Box gridArea="text">
             <TextContent {...textContentProps} padding="medium" />
           </Box>
@@ -97,10 +100,6 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     </StyledBox>
   );
 };
-
-const StyledImageBox = styled(Box)`
-  padding-top: 90%;
-`;
 
 const StyledBox = styled(Box)`
   min-height: 800px;
