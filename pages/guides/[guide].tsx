@@ -2,46 +2,19 @@ import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
-import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
-import { AccordionBlockProps } from "../../slices/AccordionBlock";
-import { CTABannerAlternateProps } from "../../slices/CtaBanner";
-import { ImageBlockProps } from "../../slices/ImageBlock";
-import { RichTextBlokProps } from "../../slices/RichTextBlock";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
-import ImageProps from "../../types/ImageProps";
-import PageData from "../../types/PageData";
+import DetailPageProps, { DetailPageData } from "../../types/Detail";
 import PageType from "../../types/PageTypes";
 
-export type GuidePageSlices = RichTextBlokProps &
-  ImageBlockProps &
-  AccordionBlockProps;
-
-export type GuidePageProps = CTABannerAlternateProps &
-  NotificationLinkedProps & {
-    title?: RichTextBlock[];
-    heroImage?: ImageProps;
-    category: { categories: Link & { data: { name: string } } };
-    associatedContent: { link: Link }[];
-  };
-
-export interface LinkedGuidePageProps
-  extends Omit<GuidePageProps, "associatedContent"> {
-  associatedContent: CustomType[];
-}
-
-type PageProps = JSX.IntrinsicAttributes &
-  PageData<GuidePageSlices, LinkedGuidePageProps>;
-
-const Page: React.FC<PageProps> = ({ data, slices }) => {
+const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
   const {
     metaDescription,
     metaTitle,
@@ -99,7 +72,7 @@ interface Response extends Omit<ApiSearchResponse, "results"> {
 
 export const getStaticProps = async (
   context: StaticContextProps
-): Promise<GetStaticPropsResult<PageProps>> => {
+): Promise<GetStaticPropsResult<DetailPageProps>> => {
   const { props } = await useGetStaticProps({
     client: Client(),
     type: PageType.GUIDE,
@@ -113,7 +86,7 @@ export const getStaticProps = async (
   })(context);
 
   const associatedContentIds = (
-    (props.data.associatedContent as GuidePageProps["associatedContent"]) || []
+    (props.data.associatedContent as DetailPageData["associatedContent"]) || []
   ).map(({ link }) => link.id);
   const client = Client();
   let associatedContent;
@@ -131,7 +104,6 @@ export const getStaticProps = async (
       throw new Error(err);
     }
   }
-  console.log(associatedContent);
 
   return {
     props: {

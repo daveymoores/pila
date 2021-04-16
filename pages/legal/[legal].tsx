@@ -7,18 +7,10 @@ import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
-import PageData from "../../types/PageData";
+import DetailPageProps from "../../types/Detail";
 import PageType from "../../types/PageTypes";
-import { GuidePageProps, GuidePageSlices } from "../guides/[guide]";
 
-export type LegalPageSlices = GuidePageSlices;
-
-export type LegalPageProps = GuidePageProps;
-
-type PageProps = JSX.IntrinsicAttributes &
-  PageData<LegalPageSlices, LegalPageProps>;
-
-const Page: React.FC<PageProps> = ({ data, slices }) => {
+const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
   const {
     metaDescription,
     metaTitle,

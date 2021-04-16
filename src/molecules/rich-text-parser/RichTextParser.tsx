@@ -55,7 +55,7 @@ export const htmlSerializer = (
   content: string,
   children: React.ReactNode[],
   key: string
-) => {
+): React.ReactElement | null => {
   // TODO - put learning modules into linkResolver
   const learningModules = React.useContext(LearningModulesContext);
 

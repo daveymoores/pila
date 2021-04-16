@@ -4,23 +4,20 @@ import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import {
-  GuidePageSlices,
-  LinkedGuidePageProps,
-} from "../../../pages/guides/[guide]";
 import { RoutedTextLink } from "../../../prismic";
 import resolver from "../../../sm-resolver";
 import CustomType from "../../../types/CustomType";
+import { DetailPageSlices, LinkedDetailPageProps } from "../../../types/Detail";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroDetailProps
   extends Pick<
-    LinkedGuidePageProps,
+    LinkedDetailPageProps,
     "title" | "heroImage" | "category" | "associatedContent"
   > {
-  slices: GuidePageSlices[];
+  slices: DetailPageSlices[];
 }
 
 const columns = {
@@ -75,7 +72,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   associatedContent,
   slices,
 }) => {
-  const contents = slices.reduce((acc: Contents[], slice: GuidePageSlices) => {
+  const contents = slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
     const sectionTitle: string = slice.primary.sectionTitle;
     return [
       ...acc,
