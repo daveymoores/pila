@@ -1,4 +1,5 @@
 import { Box, Heading } from "grommet";
+import { GetStaticPropsResult } from "next";
 import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
@@ -15,6 +16,7 @@ import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
+import QueryType from "../../types/QueryType";
 import { LearningModuleProps } from "./[learning_module]";
 
 type LearningModuleHomePageProps = HeroImageProps & NotificationLinkedProps;
@@ -56,7 +58,7 @@ const Page: React.FC<PageProps> = (props) => {
       width={"100%"}
       background={"light-1"}
       pad={{
-        top: "xlarge",
+        top: "medium",
         bottom: "xlarge",
       }}
     >
@@ -105,12 +107,21 @@ const Page: React.FC<PageProps> = (props) => {
     </Box>
   );
 };
+interface StaticContextProps {
+  params: Record<string, unknown>;
+}
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
-  queryType: "single",
-  type: PageType.LEARNING_MODULE_HOME,
-  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
-});
+export const getStaticProps = async (
+  context: StaticContextProps
+): Promise<GetStaticPropsResult<PageProps>> => {
+  const { props } = await useGetStaticProps({
+    client: Client(),
+    queryType: QueryType.SINGLE,
+    type: PageType.LEARNING_MODULE_HOME,
+    params: { fetchLinks: ["notification.body, notification.showGlobal"] },
+  })(context);
+
+  return { props: { ...props, slices: null } };
+};
 
 export default Page;

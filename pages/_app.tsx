@@ -173,10 +173,8 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 // @ts-ignore
 PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
-
+  console.log(appProps);
   const userAgent = appContext.ctx.req?.headers["user-agent"];
-  console.log("userAgent: ", userAgent);
-  console.log("preview ", appContext.router.isPreview);
   const client = Client();
   let data;
 

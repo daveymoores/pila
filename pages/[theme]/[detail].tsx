@@ -58,18 +58,31 @@ const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
 
 export const getStaticProps = useGetStaticProps({
   client: Client(),
-  type: PageType.LEGAL,
-  uid: ({ params }) => params.legal,
+  type: PageType.DETAIL,
+  uid: ({ params }) => params.detail,
   params: {
     fetchLinks: ["category.name", "notification.body, notification.showGlobal"],
   },
 });
 
+interface Params {
+  params: {
+    detail: string;
+    theme?: string;
+  };
+}
+
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
-  type: PageType.LEGAL,
+  type: PageType.DETAIL,
   fallback: true, // process.env.NODE_ENV === 'development',
-  formatPath: ({ uid }) => ({ params: { legal: uid } }),
+  formatPath: ({ uid, data }: DetailPageProps): Params => {
+    if (data.parent.uid) {
+      return { params: { theme: data.parent.uid, detail: uid } };
+    }
+
+    return { params: { detail: uid } };
+  },
 });
 
 export default Page;

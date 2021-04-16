@@ -2,18 +2,18 @@ import SliceZone from "next-slicezone";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
-import { Client } from "../prismic";
-import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
-import resolver from "../sm-resolver.js";
-import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
-import useNotification from "../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
+import { Client } from "../../prismic";
+import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
+import resolver from "../../sm-resolver.js";
+import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
+import useNotification from "../../src/hooks/useNotification";
+import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroImage, {
   HeroImageProps,
-} from "../src/organisms/hero-image/HeroImage";
-import Seo from "../src/organisms/seo/Seo";
-import PageData from "../types/PageData";
-import PageType from "../types/PageTypes";
+} from "../../src/organisms/hero-image/HeroImage";
+import Seo from "../../src/organisms/seo/Seo";
+import PageData from "../../types/PageData";
+import PageType from "../../types/PageTypes";
 
 // TODO - add missing prismic here
 type ThemesPageSlices = ImageWithTextSectionProps;

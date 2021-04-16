@@ -62,53 +62,73 @@ export const htmlSerializer = (
   switch (type) {
     case Elements.heading1:
       return (
-        <StyledHeading level={1} size={"small"}>
+        <StyledHeading key={key} level={1} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.heading2:
       return (
-        <StyledHeading level={2} size={"small"}>
+        <StyledHeading key={key} level={2} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.heading3:
       return (
-        <StyledHeading level={3} size={"small"}>
+        <StyledHeading key={key} level={3} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.heading4:
       return (
-        <StyledHeading level={4} size={"small"}>
+        <StyledHeading key={key} level={4} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.heading5:
       return (
-        <StyledHeading level={5} size={"small"}>
+        <StyledHeading key={key} level={5} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.heading6:
       return (
-        <StyledHeading level={6} size={"small"}>
+        <StyledHeading key={key} level={6} size={"small"}>
           {children}
         </StyledHeading>
       );
     case Elements.paragraph:
-      return <StyledParagraph>{children}</StyledParagraph>;
+      return <StyledParagraph key={key}>{children}</StyledParagraph>;
     case Elements.em:
-      return <span style={{ fontStyle: "italic" }}>{children}</span>;
+      return (
+        <span key={key} style={{ fontStyle: "italic" }}>
+          {children}
+        </span>
+      );
     case Elements.strong:
-      return <span style={{ fontWeight: 500 }}>{children}</span>;
+      return (
+        <span key={key} style={{ fontWeight: 500 }}>
+          {children}
+        </span>
+      );
     case Elements.list:
-      return <StyledList as={"ul"}>{children}</StyledList>;
+      return (
+        <StyledList key={key} as={"ul"}>
+          {children}
+        </StyledList>
+      );
     case Elements.oList:
-      return <StyledOrderedList as={"ol"}>{children}</StyledOrderedList>;
+      return (
+        <StyledOrderedList key={key} as={"ol"}>
+          {children}
+        </StyledOrderedList>
+      );
     case Elements.listItem:
     case Elements.oListItem:
-      return <StyledListItem as={"li"}>{children}</StyledListItem>;
+      return (
+        <StyledListItem key={key} as={"li"}>
+          {children}
+        </StyledListItem>
+      );
     case Elements.hyperlink: // Link
       if (element.data.link_type === "Document") {
         // Only for internal links add the new onClick that will imperatively route to the appropriate page

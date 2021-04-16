@@ -72,16 +72,32 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   associatedContent,
   slices,
 }) => {
-  const contents = slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
-    const sectionTitle: string = slice.primary.sectionTitle;
-    return [
-      ...acc,
-      {
-        slug: (sectionTitle || "").replace(/ /g, "-").toLowerCase(),
-        title: sectionTitle,
-      },
-    ];
-  }, []);
+  const contents =
+    slices &&
+    slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
+      const sectionTitle: string = slice.primary.sectionTitle;
+      return [
+        ...acc,
+        {
+          slug: (sectionTitle || "").replace(/ /g, "-").toLowerCase(),
+          title: sectionTitle,
+        },
+      ];
+    }, []);
+
+  // const breadcrumbLinks = [
+  //   {
+  //     link: {
+  //       type: PageType.LEARNING_MODULE_HOME,
+  //       uid: "learning_module_home",
+  //     },
+  //     label: "Learning Modules",
+  //   },
+  //   {
+  //     link: { type: PageType.GUIDE, uid },
+  //     label: title ? RichText.asText(title) : "",
+  //   },
+  // ];
 
   return (
     <React.Fragment>
@@ -92,6 +108,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           top: "xlarge",
         }}
       >
+        {/*{breadcrumbLinks && <Breadcrumb links={breadcrumbLinks} />}*/}
         <Section>
           <ResponsiveGrid
             margin={{

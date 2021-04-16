@@ -19,6 +19,7 @@ export type DetailPageData = CTABannerAlternateProps &
     heroImage?: ImageProps;
     category: { categories: Link & { data: { name: string } } };
     associatedContent: { link: Link }[];
+    parent: Link;
   };
 
 export interface LinkedDetailPageProps

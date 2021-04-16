@@ -27,7 +27,7 @@ export const linkResolver = (
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
-    [PageType.DETAIL]: `/legal/${link.uid}`,
+    [PageType.DETAIL]: `/${link.uid}`,
     [PageType.GUIDE]: `/guides/${link.uid}`,
     [PageType.ASSESSMENT_APPLICATION]: `/learning-modules/${resolveModuleFromUID(
       link.uid,
@@ -50,8 +50,8 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/[theme]`,
-    [PageType.DETAIL]: `/legal/[uid]`,
-    [PageType.GUIDE]: `/guides/[uid]`,
+    [PageType.DETAIL]: `/[theme]/[detail]`,
+    [PageType.GUIDE]: `/guides/[guide]`,
     [PageType.ASSESSMENT_APPLICATION]:
       "/learning-modules/[learning-module]/[assessment-application]",
     [PageType.LEARNING_MODULE]: "/learning-modules/[learning-module]",
@@ -117,27 +117,36 @@ const GrommetLink = React.forwardRef(
 
 // TODO - fix Router
 export const Router = {
-  // routes: [
-  //   { type: PageType.HOME, path: "/" },
-  //   { type: PageType.THEME, path: "/:theme" },
-  //   { type: PageType.GUIDE, path: "/guides/:uid" },
-  //   {
-  //     type: PageType.ASSESSMENT_APPLICATION,
-  //     path: "/learning_modules/:learning_module?/:assessment_application",
-  //   },
-  //   {
-  //     type: PageType.LEARNING_MODULE,
-  //     path: "/learning_modules/:learning_module",
-  //   },
-  //   { type: PageType.LEARNING_MODULE_HOME, path: "/learning_modules" },
-  //   { type: PageType.FORM, path: "/contact" },
-  // ],
   routes: [
-    { type: "home", path: "/" },
-    { type: "theme_page", path: "/:uid" },
-    { type: "guide", path: "/guides/:uid" },
+    { type: PageType.HOME, path: "/" },
+    { type: PageType.THEME, path: "/:uid" },
+    { type: PageType.LEARNING_MODULE_HOME, path: "/learning_modules" },
+    {
+      type: PageType.LEARNING_MODULE,
+      path: "/:parent/:uid",
+      resolvers: {
+        parent: "parent",
+      },
+    },
+    {
+      type: PageType.ASSESSMENT_APPLICATION,
+      path: "/:parent/:module/:uid",
+      resolvers: {
+        module: "module",
+        parent: "module.parent",
+      },
+    },
+    {
+      type: PageType.DETAIL,
+      path: "/:parent?/:uid",
+      resolvers: {
+        parent: "parent",
+      },
+    },
+    { type: PageType.GUIDE, path: "/guides/:uid" },
+    { type: PageType.FORM, path: "/contact" },
   ],
-  href: (type: unknown) => {
+  href: (type: PageType): string | undefined => {
     const route = Router.routes.find((r) => r.type === type);
     return route && route.path; // TODO - why was this href?
   },
