@@ -92,7 +92,7 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
               layout={"responsive"}
             />
           </Box>
-          <Box gridArea="text">
+          <Box gridArea="text" justify="center">
             <TextContent {...textContentProps} padding="medium" />
           </Box>
         </ResponsiveGrid>

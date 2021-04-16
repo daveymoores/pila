@@ -1,4 +1,4 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import SliceZone from "next-slicezone";
 import { RichText } from "prismic-reactjs";
 import React from "react";
@@ -9,6 +9,7 @@ import resolver from "../../../sm-resolver";
 import CustomType from "../../../types/CustomType";
 import { DetailPageSlices, LinkedDetailPageProps } from "../../../types/Detail";
 import Section from "../../layout/section/Section";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -126,7 +127,14 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
             <React.Fragment>
               {heroImage ? (
                 <Box gridArea={"hero"} overflow={"hidden"} round={"medium"}>
-                  {heroImage?.url && <Image src={heroImage.url} />}
+                  {heroImage?.url && (
+                    <RichMediaElement
+                      {...heroImage}
+                      alt={heroImage?.alt || ""}
+                      layout={"responsive"}
+                      priority
+                    />
+                  )}
                 </Box>
               ) : (
                 title && (
