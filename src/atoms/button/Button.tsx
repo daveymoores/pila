@@ -16,11 +16,11 @@ export enum ButtonSizes {
 interface CustomButtonProps extends ButtonProps {
   label: string;
   link: LinkProps;
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
 }
 
 interface GrommetButtonProps extends ButtonProps {
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
   children: string;
 }
 

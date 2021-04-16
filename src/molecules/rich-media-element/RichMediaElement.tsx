@@ -4,9 +4,9 @@ import styled from "styled-components";
 
 interface RichMediaElementProps
   extends Omit<ImageProps, "alt" | "layout" | "src"> {
-  alt: string;
-  layout: "fill" | "responsive" | "intrinsic" | "fixed";
+  alt?: string;
   url?: string;
+  layout: "fill" | "responsive" | "intrinsic" | "fixed";
   dimensions?: { height: number; width: number };
 }
 

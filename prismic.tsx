@@ -68,11 +68,11 @@ export const hrefResolver = (link: LinkProps): string => {
 interface CustomLinkProps extends AnchorProps {
   label: string;
   link: LinkProps;
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
 }
 
 interface GrommetLinkProps extends AnchorProps {
-  onClick?: () => void;
+  onClick?: (event: React.SyntheticEvent) => void;
   children: string;
 }
 

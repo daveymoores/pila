@@ -5,10 +5,16 @@ import { NavigationTheme } from "../organisms/navigation/Navigation";
 
 export const useNavigationDarkTheme = () => {
   const { setTheme } = React.useContext(NavigationThemeContext);
-  setTheme(NavigationTheme.DARK);
+
+  React.useEffect(() => {
+    setTheme(NavigationTheme.DARK);
+  }, []);
 };
 
 export const useNavigationLightTheme = () => {
   const { setTheme } = React.useContext(NavigationThemeContext);
-  setTheme(NavigationTheme.LIGHT);
+
+  React.useEffect(() => {
+    setTheme(NavigationTheme.LIGHT);
+  }, []);
 };

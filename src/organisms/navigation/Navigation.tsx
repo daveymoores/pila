@@ -1,11 +1,21 @@
 import { motion } from "framer-motion";
-import { Box, BoxProps, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import {
+  Box,
+  BoxProps,
+  Header,
+  Image,
+  Menu,
+  Nav,
+  ResponsiveContext,
+} from "grommet";
 import Hamburger from "hamburger-react";
+import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
+import { useAuth } from "../../../lib/auth";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
 import { RoutedTextLink } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
@@ -34,6 +44,7 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
+  const { auth, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const { theme } = React.useContext(NavigationThemeContext);
   const router = useRouter();
@@ -92,7 +103,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <StyledHeader
-      height="xsmall"
+      height="115px"
       style={
         {
           "--nav-theme": `${
@@ -225,26 +236,48 @@ const Navigation: React.FC<NavigationProps> = ({
                         ))}
                     </Box>
                     <Box direction={"row"} align={"center"}>
-                      <StyledRoutedTextLink
-                        link={{
-                          type: PageType.ACCOUNT,
-                        }}
-                        label={"login"}
-                      />
-                      <Button
-                        primary
-                        margin={{ left: "medium" }}
-                        size={ButtonSizes.small}
-                        color={
-                          theme === NavigationTheme.LIGHT
-                            ? colorPalette.blue
-                            : colorPalette.periwinkleCrayola
-                        }
-                        label={"sign up"}
-                        link={{
-                          type: PageType.SESSION,
-                        }}
-                      />
+                      {auth && (
+                        <StyledRoutedTextLink
+                          link={{
+                            type: PageType.ACCOUNT,
+                          }}
+                          label={"sign out"}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            signOut();
+                          }}
+                        />
+                      )}
+                      {isEmpty(auth) ? (
+                        <Button
+                          primary
+                          margin={{ left: "medium" }}
+                          size={ButtonSizes.small}
+                          color={
+                            theme === NavigationTheme.LIGHT
+                              ? colorPalette.blue
+                              : colorPalette.periwinkleCrayola
+                          }
+                          label={"sign up"}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            signInWithGoogle();
+                          }}
+                          link={{
+                            type: PageType.SESSION,
+                          }}
+                        />
+                      ) : (
+                        <Box
+                          width={"40px"}
+                          height={"40px"}
+                          round={"50%"}
+                          overflow={"hidden"}
+                          margin={{ left: "medium" }}
+                        >
+                          <Image src={auth?.photoUrl || undefined} />
+                        </Box>
+                      )}
                     </Box>
                   </Nav>
                 </Box>
