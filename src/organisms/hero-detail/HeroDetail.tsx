@@ -164,9 +164,15 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           <Box gridArea={"contents"}>
             <Box height={"100%"}>
               <Box style={{ top: 0, position: "sticky" }}>
-                <Heading size={"small"} level={4} margin={{ bottom: "medium" }}>
-                  Contents
-                </Heading>
+                {contents && contents.some((link) => link.title) && (
+                  <Heading
+                    size={"small"}
+                    level={4}
+                    margin={{ bottom: "medium" }}
+                  >
+                    Contents
+                  </Heading>
+                )}
                 {contents &&
                   contents.map((link: Contents, index: number) => (
                     <StyledAnchor key={index} href={`#${link.slug}`}>
@@ -195,9 +201,16 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           </Box>
           <Box gridArea={"associated-content"} style={{ position: "relative" }}>
             <Box style={{ top: 0, position: "sticky" }}>
-              <Heading size={"small"} level={4} margin={{ bottom: "medium" }}>
-                Associated content
-              </Heading>
+              {associatedContent &&
+                associatedContent.some(({ data }) => data?.title) && (
+                  <Heading
+                    size={"small"}
+                    level={4}
+                    margin={{ bottom: "medium" }}
+                  >
+                    Associated content
+                  </Heading>
+                )}
               {associatedContent &&
                 associatedContent.map((content: CustomType, index: number) => (
                   <StyledRoutedTextLink
