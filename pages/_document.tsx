@@ -10,7 +10,11 @@ import { createResolver } from "next-slicezone/resolver";
 import React from "react";
 import { ServerStyleSheet } from "styled-components";
 
+/**
+ * TODO - turn this into a functional component
+ */
 export default class extends Document {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -41,10 +45,29 @@ export default class extends Document {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            rel="preload"
+            href="/fonts/fontspring-demo-greycliffcf-bold-webfont.woff2"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/fontspring-demo-greycliffcf-bold-webfont.woff"
+            as="font"
+            crossOrigin=""
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

@@ -1,1 +1,50 @@
-[{"id":"default-slice","name":"Default slice","docURL":"...","version":"sktwi1xtmkfgx8626","description":"ImageWithTextSection","primary":{"eyebrowHeadline":[{"type":"heading2","text":"enable efficient relationships","spans":[]}],"title":[{"type":"heading1","text":"architect web-enabled schemas","spans":[]}],"description":[{"type":"paragraph","text":"Officia nisi velit id consectetur consequat laboris amet reprehenderit sint magna fugiat ipsum cupidatat. Culpa aute sunt enim exercitation labore cupidatat commodo elit mollit officia.\nDuis exercitation amet minim ipsum enim officia magna eu dolor nulla. Culpa ex nostrud exercitation et culpa commodo anim adipisicing pariatur amet. Culpa exercitation elit Lorem in.\nUllamco irure veniam id irure magna in.","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/0c1acf72-dbfa-442a-8a64-ab8c84d41263_jZ4rJ0yLyrs.jpg?w=900&h=500&fit=crop"},"imageSide":"image_left","linkLabel":"Create a teacher account","link":{"link_type":"Web","url":"https://slicemachine.dev"},"backgroundColor":"grey"},"items":[],"slice_type":"image_with_text_section"}]
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "ImageWithTextSection",
+    "primary": {
+      "eyebrowHeadline": [
+        {
+          "type": "paragraph",
+          "text": "Proident eiusmod et qui enim ipsum ex. Tempor aliqua non ut elit reprehenderit fugiat dolor ut voluptate non deserunt. Ipsum reprehenderit sunt voluptate ullamco.",
+          "spans": []
+        }
+      ],
+      "title": [
+        {
+          "type": "paragraph",
+          "text": "Elit aliqua voluptate velit pariatur nulla ex sint qui quis culpa anim aliquip commodo. Aliqua elit sit ullamco. Qui nostrud dolore do et duis.",
+          "spans": []
+        }
+      ],
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Dolor eiusmod veniam commodo aliquip. Cillum veniam cillum excepteur aliqua aliqua. Nostrud occaecat fugiat officia.",
+          "spans": []
+        }
+      ],
+      "image": {
+        "dimensions": {
+          "width": 900,
+          "height": 500
+        },
+        "alt": "Placeholder image",
+        "copyright": null,
+        "url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=900&h=500&fit=crop"
+      },
+      "imageSide": "image_left",
+      "linkLabel": "facilitate dynamic applications",
+      "link": {
+        "link_type": "Web",
+        "url": "http://twitter.com"
+      },
+      "backgroundColor": "grey"
+    },
+    "items": [],
+    "slice_type": "image_with_text_section"
+  }
+]

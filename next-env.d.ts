@@ -13,7 +13,7 @@ interface IUseGetStaticPaths {
   client: unknown;
   type: string;
   fallback: boolean;
-  formatPath: (arg: { uid: string }) => Params;
+  formatPath: (arg: T) => K;
 }
 
 interface IUseGetStaticProps {

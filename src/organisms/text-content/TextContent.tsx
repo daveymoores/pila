@@ -1,22 +1,15 @@
-import {
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Paragraph,
-} from "grommet";
+import { Box, Card, CardBody, CardFooter, CardHeader, Heading } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import RichTextParser from "../../molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../theme/pila";
 
 export interface TextContentProps {
   eyebrowHeadline?: RichTextBlock[];
-  title: RichTextBlock[];
+  title?: RichTextBlock[];
   description?: RichTextBlock[];
   link?: Link;
   linkLabel?: string;
@@ -67,10 +60,9 @@ const TextContent: React.FC<TextContentProps> = ({
           )}
           <Heading
             level={"1"}
-            margin="none"
             alignSelf={"stretch"}
-            size="small"
-            responsive={false}
+            size={"small"}
+            margin={{ top: "small", bottom: "medium" }}
           >
             {RichText.asText(title)}
           </Heading>
@@ -90,9 +82,7 @@ const TextContent: React.FC<TextContentProps> = ({
               }
         }
       >
-        <Paragraph margin="none" fill>
-          {RichText.asText(description)}
-        </Paragraph>
+        <RichTextParser body={description} />
       </CardBody>
     )}
     {link && linkLabel && (
@@ -111,6 +101,7 @@ const TextContent: React.FC<TextContentProps> = ({
           type="button"
           label={linkLabel}
           link={link}
+          margin={{ top: "medium" }}
         />
       </CardFooter>
     )}

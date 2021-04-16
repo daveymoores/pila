@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import colorMapper from "../../helpers/color-mapper/colorMapper";
 import Section from "../../src/layout/section/Section";
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent, {
   TextContentProps,
@@ -48,7 +49,7 @@ const gridAreas = (imageSide: ImagePosition) => ({
     imageSide === ImagePosition.imageRight
       ? [
           { name: "image", start: [6, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [5, 0] },
+          { name: "text", start: [0, 0], end: [4, 0] },
         ]
       : [
           { name: "image", start: [0, 0], end: [5, 0] },
@@ -57,8 +58,8 @@ const gridAreas = (imageSide: ImagePosition) => ({
   xlarge:
     imageSide === ImagePosition.imageRight
       ? [
-          { name: "image", start: [6, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [5, 0] },
+          { name: "image", start: [7, 0], end: [11, 0] },
+          { name: "text", start: [0, 0], end: [4, 0] },
         ]
       : [
           { name: "image", start: [0, 0], end: [5, 0] },
@@ -73,19 +74,24 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     primary: { image, backgroundColor, imageSide, ...textContentProps },
   } = slice;
   return (
-    <StyledBox background={colorMapper(backgroundColor)} justify={"center"}>
+    <StyledBox
+      background={colorMapper(backgroundColor)}
+      justify={"center"}
+      pad={{ vertical: "xlarge" }}
+    >
       <Section>
         <ResponsiveGrid
           columns={columns}
           areas={gridAreas(imageSide)}
           rows={rows}
         >
-          <Box
-            gridArea="image"
-            height="550px"
-            background={`url(${image?.url})`}
-            round={"medium"}
-          />
+          <Box gridArea="image" style={{ display: "grid" }}>
+            <RichMediaElement
+              {...image}
+              alt={image?.alt || ""}
+              layout={"responsive"}
+            />
+          </Box>
           <Box gridArea="text">
             <TextContent {...textContentProps} padding="medium" />
           </Box>

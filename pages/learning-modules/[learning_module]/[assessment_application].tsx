@@ -1,10 +1,19 @@
+import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
+import parseLearningModules, {
+  ModuleApplications,
+} from "../../../helpers/parse-learning-modules/parseLearningModules";
 import { Client } from "../../../prismic";
+import { CtaBanner } from "../../../slices";
+import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
+import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
+import useNotification from "../../../src/hooks/useNotification";
+import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
@@ -12,7 +21,6 @@ import CustomType from "../../../types/CustomType";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import parseLearningModules from "../../helpers/parseLearningModules";
 import { LearningModuleProps } from "./index";
 
 export enum Difficulty {
@@ -23,7 +31,8 @@ export enum Difficulty {
   ADVANCED = "Advanced",
 }
 
-export interface AssessmentApplicationMainProps {
+export interface AssessmentApplicationMainProps
+  extends CTABannerAlternateProps {
   title: RichTextBlock[];
   uid: string;
   applicationLink: Link;
@@ -54,8 +63,11 @@ export interface Task {
   };
 }
 
+type AssessmentApplicationPageProps = AssessmentApplicationMainProps &
+  NotificationLinkedProps;
+
 export interface AssessmentApplicationProps
-  extends PageData<Task, AssessmentApplicationMainProps> {
+  extends PageData<Task, AssessmentApplicationPageProps> {
   learningModuleUid: string;
 }
 
@@ -71,7 +83,16 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     title,
     body,
     slices,
+    ctaSectionTitle,
+    ctaSectionButtonOneLink,
+    ctaSectionButtonOneLabel,
+    ctaSectionButtonTwoLink,
+    ctaSectionButtonTwoLabel,
+    notification,
   } = data || {};
+
+  useNotification(notification);
+  useNavigationLightTheme();
 
   return (
     <React.Fragment>
@@ -89,6 +110,19 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         learningModuleUid={learningModuleUid}
       />
       <TaskSection slices={slices} />
+      {ctaSectionTitle && (
+        <CtaBanner
+          slice={{
+            primary: {
+              title: ctaSectionTitle,
+              buttonOneLink: ctaSectionButtonOneLink,
+              buttonOneLabel: ctaSectionButtonOneLabel,
+              buttonTwoLink: ctaSectionButtonTwoLink,
+              buttonTwoLabel: ctaSectionButtonTwoLabel,
+            },
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -100,12 +134,19 @@ interface StaticContextProps {
   };
 }
 
-export const getStaticProps = async (context: StaticContextProps) => {
+export const getStaticProps = async (
+  context: StaticContextProps
+): Promise<GetStaticPropsResult<PageProps>> => {
   const { props } = await useGetStaticProps({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
     uid: ({ params }) => params.assessment_application,
-    params: { fetchLinks: "category.name" },
+    params: {
+      fetchLinks: [
+        "category.name",
+        "notification.body, notification.showGlobal",
+      ],
+    },
   })(context);
 
   return {
@@ -130,8 +171,8 @@ export const getStaticPaths = async (): Promise<StaticContextProps> => {
     type: PageType.ASSESSMENT_APPLICATION,
     fallback: true, // process.env.NODE_ENV === 'development',
     formatPath: (props) => {
-      const app = moduleApplications.find((module) =>
-        (module?.applications || []).find((app) => app === props.uid)
+      const app = moduleApplications.find((module: ModuleApplications) =>
+        (module?.applications || []).find((app: string) => app === props.uid)
       );
 
       return {

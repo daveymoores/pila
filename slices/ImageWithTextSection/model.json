@@ -34,7 +34,7 @@
             "label": "Description",
             "placeholder": "A nice description of your feature",
             "allowTargetBlank": true,
-            "single": "paragraph,hyperlink,em,strong"
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
           },
           "type": "StructuredText"
         },

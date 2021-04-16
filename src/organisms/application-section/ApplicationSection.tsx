@@ -1,4 +1,4 @@
-import { Box, Heading, Image, Paragraph } from "grommet";
+import { Box, Heading, Paragraph } from "grommet";
 import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -7,7 +7,8 @@ import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
-import GuideCard, { CardVariant } from "../../molecules/GuideCard/GuideCard";
+import GuideCard, { CardVariant } from "../../molecules/guide-card/GuideCard";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -80,6 +81,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
   title,
   applicationsStats,
   shortBody,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   video,
   image,
   downloadLinks,
@@ -97,7 +99,11 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         align={"start"}
       >
         <Box gridArea="image" round={"medium"} overflow={"hidden"}>
-          <Image src={image?.url} />
+          <RichMediaElement
+            {...image}
+            alt={image?.alt || ""}
+            layout={"responsive"}
+          />
         </Box>
 
         <Box gridArea="text" justify={"start"} align={"start"}>

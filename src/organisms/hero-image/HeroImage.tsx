@@ -1,9 +1,10 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import ImageProps from "../../../types/ImageProps";
 import Section from "../../layout/section/Section";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroImageProps {
@@ -14,34 +15,8 @@ export interface HeroImageProps {
 const columns = {
   small: ["auto"],
   medium: ["auto"],
-  large: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
-  xlarge: [
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-    "flex",
-  ],
+  large: Array(12).fill("flex"),
+  xlarge: Array(12).fill("flex"),
 };
 
 const rows = {
@@ -71,7 +46,13 @@ const gridAreas = {
 };
 
 const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
-  <Box>
+  <Box
+    width={"100%"}
+    background={"light-1"}
+    pad={{
+      top: "xlarge",
+    }}
+  >
     <Section>
       <ResponsiveGrid
         margin={{
@@ -89,17 +70,21 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
               textAlign={"center"}
               level={"1"}
               margin={{
-                top: "xlarge",
+                top: "small",
+                horizontal: "auto",
               }}
               alignSelf={"stretch"}
               size="small"
-              responsive={false}
             >
               {RichText.asText(title)}
             </Heading>
           )}
           <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-            {image?.url && <Image src={image.url} />}
+            <RichMediaElement
+              {...image}
+              alt={image?.alt || ""}
+              layout={"responsive"}
+            />
           </Box>
         </React.Fragment>
       </ResponsiveGrid>

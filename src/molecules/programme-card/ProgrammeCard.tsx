@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Heading, Image, Paragraph } from "grommet";
+import { Card, CardBody, CardHeader, Heading, Paragraph } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import { colorPalette } from "../../theme/pila";
+import RichMediaElement from "../rich-media-element/RichMediaElement";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Icon from "./Icon";
@@ -33,10 +34,18 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
       direction={"column"}
     >
       <CardHeader justify={"center"}>
-        {image ? <Image {...image} alt={""} width={"100%"} /> : <StyledIcon />}
+        {image ? (
+          <RichMediaElement
+            {...image}
+            alt={image?.alt || ""}
+            layout={"responsive"}
+          />
+        ) : (
+          <StyledIcon />
+        )}
       </CardHeader>
       <CardBody
-        margin={{ top: "medium" }}
+        margin={{ top: "large" }}
         pad={{
           top: "medium",
         }}

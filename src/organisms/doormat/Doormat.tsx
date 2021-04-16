@@ -1,4 +1,4 @@
-import { Box, Footer, Text } from "grommet";
+import { Box, Footer, Paragraph } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
@@ -25,10 +25,10 @@ const DoormatList: React.FC<DoormatListProps> = ({ label, links }) => {
   return (
     <React.Fragment>
       {label && Array.isArray(links) && (
-        <Box gap="medium">
-          <Text weight="bold" size="medium">
+        <Box gap="medium" margin={{ bottom: "large" }}>
+          <Paragraph style={{ fontWeight: 500 }} size="medium">
             {label}
-          </Text>{" "}
+          </Paragraph>
           <Box>
             {links.map(({ label, link }, index) => (
               <RoutedTextLink

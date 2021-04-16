@@ -22,7 +22,7 @@
     "html",
     "prettier",
     "simple-import-sort",
-    "json-format"
+    "unused-imports"
   ],
   "settings": {
     "import/resolver": {
@@ -35,6 +35,7 @@
     }
   },
   "rules": {
+    "unused-imports/no-unused-imports-ts": 2,
     "func-names": [
       "error",
       "never"
@@ -48,7 +49,9 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-types": "error",
     "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "no-throw-literal": "error"
   },
   "parserOptions": {

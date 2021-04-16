@@ -3,14 +3,19 @@ import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
 import { Client } from "../prismic";
+import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
+import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
+import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import ResponsiveGrid from "../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../src/organisms/seo/Seo";
 import PageData from "../types/PageData";
 import PageType from "../types/PageTypes";
 import QueryType from "../types/QueryType";
 
-type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
+type ContactPageProps = NotificationLinkedProps;
+
+type PageProps = PageData<unknown, ContactPageProps> & JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = (props) => {
   const {
@@ -19,7 +24,11 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
   } = props.data;
+
+  useNotification(notification);
+  useNavigationLightTheme();
 
   return (
     <Section>
@@ -42,6 +51,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: QueryType.SINGLE,
   type: PageType.FORM,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export default Page;

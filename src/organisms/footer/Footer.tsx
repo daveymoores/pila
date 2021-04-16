@@ -1,4 +1,4 @@
-import { Anchor, Box, Grid, Text } from "grommet";
+import { Anchor, Box, Grid, ResponsiveContext, Text } from "grommet";
 import {
   CreativeCommons,
   FacebookOption,
@@ -77,21 +77,44 @@ const Social: React.FC<{ socialIcons?: SocialIconProps[] }> = ({
   </Box>
 );
 
-const Footer: React.FC<FooterProps> = ({ copyright, social_icons }) => (
-  <Box background="brand-dark" pad={{ top: "small", bottom: "small" }}>
-    <Section>
-      <Grid columns={"1"} rows={"1"}>
-        <Box direction={"row"} align={"center"} justify={"between"}>
-          {copyright && (
-            <Text textAlign="center" size="xsmall" style={{ opacity: 0.8 }}>
-              {RichText.render(copyright)}
-            </Text>
-          )}
-          {social_icons && <Social socialIcons={social_icons} />}
-        </Box>
-      </Grid>
-    </Section>
-  </Box>
-);
+const Footer: React.FC<FooterProps> = ({ copyright, social_icons }) => {
+  const size = React.useContext(ResponsiveContext);
+  const isMobileDevice = size !== "large";
+  return (
+    <Box
+      background="brand-dark"
+      pad={{ top: "small", bottom: "small" }}
+      responsive={false}
+    >
+      <Section>
+        <Grid
+          columns={size === "small" ? "auto" : ["auto", "auto"]}
+          rows={["auto", "auto"]}
+          pad={size === "small" ? { top: "large", bottom: "large" } : undefined}
+        >
+          <Box
+            direction={"row"}
+            align={"center"}
+            justify={size === "small" ? "center" : "start"}
+            pad={size === "small" ? { bottom: "medium" } : undefined}
+          >
+            {copyright && (
+              <Text
+                textAlign={size === "small" ? "center" : "start"}
+                size={"xsmall"}
+                style={{ opacity: 0.8 }}
+              >
+                {RichText.render(copyright)}
+              </Text>
+            )}
+          </Box>
+          <Box align={isMobileDevice ? "center" : "end"}>
+            {social_icons && <Social socialIcons={social_icons} />}
+          </Box>
+        </Grid>
+      </Section>
+    </Box>
+  );
+};
 
 export default Footer;

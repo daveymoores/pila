@@ -1,0 +1,39 @@
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "ImageBlock",
+    "primary": {
+      "sectionTitle": "matrix synergistic networks",
+      "image": {
+        "dimensions": {
+          "width": 1472,
+          "height": 1014
+        },
+        "alt": "Placeholder image",
+        "copyright": null,
+        "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=1472&h=1014&fit=crop",
+        "mobile": {
+          "dimensions": {
+            "width": 736,
+            "height": 507
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?w=736&h=507&fit=crop"
+        }
+      },
+      "caption": [
+        {
+          "type": "paragraph",
+          "text": "Cillum commodo id officia Lorem non sint ex cupidatat. Sint anim do ex ut nulla ea incididunt duis occaecat enim amet nostrud cillum aliqua ut. Eu et veniam aliquip laboris quis dolor cupidatat enim velit.",
+          "spans": []
+        }
+      ]
+    },
+    "items": [],
+    "slice_type": "image_block"
+  }
+]

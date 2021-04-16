@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import * as Slices from './slices'
-import * as EssentialSlices from 'essential-slices/src/slices'
+import { Slices as EssentialSlices } from 'essential-slices'
 
 const __allSlices = {  ...EssentialSlices, ...Slices, }
 

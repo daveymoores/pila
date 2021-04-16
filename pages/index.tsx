@@ -6,9 +6,15 @@ import { Client } from "../prismic";
 import { FullWidthImageSectionProps } from "../slices/FullWidthImageSection";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
-import { PoweredByResearchSectionProps } from "../slices/PoweredByResearchSection";
+import {
+  LearningModule,
+  PoweredByResearchSectionProps,
+} from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver.js";
+import NotificationContext from "../src/context/NotificationContext";
+import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
+import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
@@ -24,9 +30,11 @@ type HomepageSlices = ImageWithTextSectionProps &
   PoweredByResearchSectionProps &
   ThanksToInstitutionsSectionProps;
 
+type HomepageProps = HomepageHeroProps & NotificationLinkedProps;
+
 type PageProps = JSX.IntrinsicAttributes &
-  PageData<HomepageSlices, HomepageHeroProps> & {
-    learningModules: any;
+  PageData<HomepageSlices, HomepageProps> & {
+    learningModules: LearningModule[];
   };
 
 const Page: React.FC<PageProps> = ({
@@ -34,6 +42,8 @@ const Page: React.FC<PageProps> = ({
   slices,
   learningModules,
 }: PageProps) => {
+  const { setNotificationProps } = React.useContext(NotificationContext);
+
   const parsedSlices = slices.map((slice) => {
     if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
       return { ...slice, learningModules };
@@ -47,8 +57,12 @@ const Page: React.FC<PageProps> = ({
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
     ...restData
   } = data;
+
+  useNavigationDarkTheme();
+  setNotificationProps(notification?.data);
 
   return (
     <React.Fragment>
@@ -69,6 +83,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: QueryType.SINGLE,
   type: PageType.HOME,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export default Page;

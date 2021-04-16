@@ -1,19 +1,28 @@
 import { Box, Heading } from "grommet";
+import { GetStaticPropsResult } from "next";
 import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
+import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
+import useNotification from "../../src/hooks/useNotification";
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/organisms/programme-card/ProgrammeCard";
+import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
+import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
+import { HeroImageProps } from "../../src/organisms/hero-image/HeroImage";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
+import QueryType from "../../types/QueryType";
 import { LearningModuleProps } from "./[learning_module]";
 
-type PageProps = PageData<unknown, unknown> & JSX.IntrinsicAttributes;
+type LearningModuleHomePageProps = HeroImageProps & NotificationLinkedProps;
+
+type PageProps = PageData<unknown, LearningModuleHomePageProps> &
+  JSX.IntrinsicAttributes;
 
 const columns = {
   small: ["auto"],
@@ -36,7 +45,11 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
   } = props.data || {};
+
+  useNotification(notification);
+  useNavigationLightTheme();
 
   const learningModules = React.useContext(LearningModulesContext);
 
@@ -45,7 +58,7 @@ const Page: React.FC<PageProps> = (props) => {
       width={"100%"}
       background={"light-1"}
       pad={{
-        top: "xlarge",
+        top: "medium",
         bottom: "xlarge",
       }}
     >
@@ -57,14 +70,17 @@ const Page: React.FC<PageProps> = (props) => {
         openGraphTitle={openGraphTitle}
       />
       <Section>
-        <Box gridArea="title" margin={{ bottom: "large" }} align={"center"}>
+        <Box
+          gridArea="title"
+          pad={{ top: "xlarge", bottom: "xlarge" }}
+          align={"center"}
+        >
           <Heading
             textAlign={"start"}
             level={"1"}
             alignSelf={"stretch"}
             size="small"
-            responsive={false}
-            margin={{ top: "xlarge", bottom: "large" }}
+            margin={{ top: "xlarge", bottom: "medium" }}
           >
             Learning Modules
           </Heading>
@@ -91,11 +107,21 @@ const Page: React.FC<PageProps> = (props) => {
     </Box>
   );
 };
+interface StaticContextProps {
+  params: Record<string, unknown>;
+}
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
-  queryType: "single",
-  type: PageType.LEARNING_MODULE_HOME,
-});
+export const getStaticProps = async (
+  context: StaticContextProps
+): Promise<GetStaticPropsResult<PageProps>> => {
+  const { props } = await useGetStaticProps({
+    client: Client(),
+    queryType: QueryType.SINGLE,
+    type: PageType.LEARNING_MODULE_HOME,
+    params: { fetchLinks: ["notification.body, notification.showGlobal"] },
+  })(context);
+
+  return { props: { ...props, slices: null } };
+};
 
 export default Page;

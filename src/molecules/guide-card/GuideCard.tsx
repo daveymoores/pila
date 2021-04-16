@@ -1,11 +1,11 @@
-import { Box, Card, Grid, Paragraph, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import { Box, Card, Paragraph, ResponsiveContext } from "grommet";
+import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 export enum CardVariant {
   SMALL = "small",
@@ -63,7 +63,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
           >
             <React.Fragment>
               <Paragraph
-                style={{ fontWeight: "bold" }}
+                style={{ fontWeight: 500 }}
                 color={isSmall ? colorPalette.dark_blue : colorPalette.grey}
                 size={size !== "small" ? "medium" : "small"}
               >
@@ -114,7 +114,7 @@ const StyledResponsiveGrid = styled(ResponsiveGrid)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
 `;
 
 export default GuideCard;

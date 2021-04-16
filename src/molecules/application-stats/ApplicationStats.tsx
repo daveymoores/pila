@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
+import { fontWeights } from "../../theme/pila";
 
 type ApplicationStats = Pick<
   AssessmentApplicationMainProps,
@@ -25,7 +26,7 @@ const ApplicationStats: React.FC<ApplicationStats> = ({
 
 const StyledDt = styled.dt`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: ${fontWeights.bold};
   margin-right: 5px;
 `;
 

@@ -4,10 +4,14 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
-import AssessmentApplicationContext from "../../../src/context/AssessmentApplicationContext";
+import { CtaBanner } from "../../../slices";
+import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
+import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
+import useNotification from "../../../src/hooks/useNotification";
 import Section from "../../../src/layout/section/Section";
-import GuideCard from "../../../src/molecules/GuideCard/GuideCard";
+import GuideCard from "../../../src/molecules/guide-card/GuideCard";
+import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
 import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
 import ModuleHero, {
   ModuleHeroProps,
@@ -16,10 +20,7 @@ import Seo from "../../../src/organisms/seo/Seo";
 import CustomType from "../../../types/CustomType";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import {
-  AssessmentApplicationMainProps,
-  AssessmentApplicationProps,
-} from "./[assessment_application]";
+import { AssessmentApplicationMainProps } from "./[assessment_application]";
 
 interface GuideItem {
   guideTitle: RichTextBlock[];
@@ -34,7 +35,9 @@ interface GuideGroup {
   };
 }
 
-export interface LearningModuleProps extends ModuleHeroProps {
+export interface LearningModuleProps
+  extends ModuleHeroProps,
+    CTABannerAlternateProps {
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
@@ -44,7 +47,9 @@ export interface LearningModuleProps extends ModuleHeroProps {
   }[];
 }
 
-type PageProps = PageData<unknown, LearningModuleProps> &
+type LearningModulePageProps = LearningModuleProps & NotificationLinkedProps;
+
+type PageProps = PageData<unknown, LearningModulePageProps> &
   JSX.IntrinsicAttributes;
 
 const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
@@ -55,13 +60,22 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guideLink,
     guidesBody,
     guidesTitle,
+    ctaSectionTitle,
+    ctaSectionButtonOneLabel,
+    ctaSectionButtonOneLink,
+    ctaSectionButtonTwoLabel,
+    ctaSectionButtonTwoLink,
     slices,
     metaDescription,
     metaTitle,
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
+    notification,
   } = data;
+
+  useNotification(notification);
+  useNavigationLightTheme();
 
   const learningModules = React.useContext(LearningModulesContext);
 
@@ -154,6 +168,19 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
           </Box>
         </Section>
       </Box>
+      {ctaSectionTitle && ctaSectionButtonOneLink && ctaSectionButtonOneLabel && (
+        <CtaBanner
+          slice={{
+            primary: {
+              title: ctaSectionTitle,
+              buttonOneLink: ctaSectionButtonOneLink,
+              buttonOneLabel: ctaSectionButtonOneLabel,
+              buttonTwoLink: ctaSectionButtonTwoLink,
+              buttonTwoLabel: ctaSectionButtonTwoLabel,
+            },
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -162,6 +189,7 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.LEARNING_MODULE,
   uid: ({ params }) => params.learning_module,
+  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export const getStaticPaths = useGetStaticPaths({

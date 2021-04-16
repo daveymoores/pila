@@ -1,5 +1,5 @@
+import { LearningModuleProps } from "../../pages/learning-modules/[learning_module]";
 import CustomType from "../../types/CustomType";
-import { LearningModuleProps } from "../learning-modules/[learning_module]";
 
 export interface ModuleApplications {
   module: string | undefined;

@@ -1,12 +1,11 @@
-import { LearningModule } from "../../slices/PoweredByResearchSection";
+import { LearningModuleProps } from "../../pages/learning-modules/[learning_module]";
 import CustomType from "../../types/CustomType";
-import { LearningModuleProps } from "../learning-modules/[learning_module]";
-import parseLearningModules from "./parseLearningModules";
+import parseLearningModules from "../parse-learning-modules/parseLearningModules";
 
 export const resolveModuleFromUID = (
   uid: string | undefined,
   modules: CustomType<LearningModuleProps>[]
-) => {
+): string | undefined => {
   const parsedModules = parseLearningModules(modules);
   return parsedModules.find(
     (parsedModule): boolean =>

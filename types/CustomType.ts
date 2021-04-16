@@ -1,12 +1,18 @@
+import { RichTextBlock } from "prismic-reactjs";
+
 import PageType from "./PageTypes";
 
-interface CustomType<T = unknown> {
+type GenericPageProps = {
+  title: RichTextBlock[];
+};
+
+interface CustomType<T = GenericPageProps> {
   id: string;
   uid: string;
-  url: null;
+  url: string | undefined;
   type: PageType;
   href: string;
-  tags: unknown[];
+  tags: string[];
   first_publication_date: string;
   last_publication_date: string;
   slugs: string[];

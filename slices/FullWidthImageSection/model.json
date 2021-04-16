@@ -53,6 +53,19 @@
             ]
           },
           "type": "Select"
+        },
+        "bottomPadding": {
+          "config": {
+            "label": "Bottom Padding",
+            "placeholder": "Option to change the bottom padding",
+            "options": [
+              "xlarge",
+              "large",
+              "medium"
+            ],
+            "default_value": "xlarge"
+          },
+          "type": "Select"
         }
       },
       "items": {}

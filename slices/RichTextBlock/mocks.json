@@ -1,0 +1,46 @@
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "RichTextBlock",
+    "primary": {
+      "sectionTitle": "streamline cutting-edge e-commerce",
+      "body": [
+        {
+          "type": "heading1",
+          "text": "Morph 24/365 channels",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Esse ad voluptate irure non.",
+          "spans": []
+        },
+        {
+          "type": "heading1",
+          "text": "E-enable impactful systems",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Id do anim est aliqua aute minim eu elit.",
+          "spans": []
+        },
+        {
+          "type": "heading1",
+          "text": "Visualize strategic e-markets",
+          "spans": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Anim anim incididunt velit non officia irure adipisicing dolor.",
+          "spans": []
+        }
+      ]
+    },
+    "items": [],
+    "slice_type": "rich_text_block"
+  }
+]

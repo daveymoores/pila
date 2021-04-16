@@ -192,7 +192,10 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                     round={"medium"}
                     overflow={"hidden"}
                   >
-                    <Image src={selectedTaskData.primary.taskImage?.url} />
+                    <Image
+                      src={selectedTaskData.primary.taskImage?.url}
+                      width={"100%"}
+                    />
                   </Box>
                 )}
                 {selectedTaskData?.primary?.taskBody && (
