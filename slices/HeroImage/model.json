@@ -22,8 +22,17 @@
         "image": {
           "config": {
             "label": "Image",
-            "constraint": {},
-            "thumbnails": []
+            "constraint": {
+              "width": 1472,
+              "height": 882
+            },
+            "thumbnails": [
+              {
+                "name": "mobile",
+                "width": 736,
+                "height": 441
+              }
+            ]
           },
           "type": "Image"
         }

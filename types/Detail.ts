@@ -20,6 +20,7 @@ export type DetailPageData = CTABannerAlternateProps &
     category: { categories: Link & { data: { name: string } } };
     associatedContent: { link: Link }[];
     parent: Link;
+    uid: string;
   };
 
 export interface LinkedDetailPageProps

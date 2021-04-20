@@ -9,5 +9,6 @@ module.exports = withTM({
   },
   images: {
     domains: ["images.prismic.io"],
+    deviceSizes: [600, 900, 1400],
   },
 });

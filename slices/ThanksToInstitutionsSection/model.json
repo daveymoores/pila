@@ -24,7 +24,10 @@
         "logo": {
           "config": {
             "label": "",
-            "constraint": {},
+            "constraint": {
+              "width": 550,
+              "height": 316
+            },
             "thumbnails": []
           },
           "type": "Image"

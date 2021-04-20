@@ -84,6 +84,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
               {...image}
               alt={image?.alt || ""}
               layout={"responsive"}
+              priority
             />
           </Box>
         </React.Fragment>

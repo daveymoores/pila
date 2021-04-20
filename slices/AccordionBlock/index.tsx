@@ -31,7 +31,7 @@ const ImageBlock: FC<{ slice: AccordionBlockProps }> = ({ slice }) => {
       as={"section"}
       pad={{ top: "none", bottom: "xlarge" }}
     >
-      <Accordion>
+      <Accordion responsive={false}>
         {items &&
           items.map((item: Item, index: number) => (
             <StyledAccordionPanel key={index} label={item.title}>
@@ -47,6 +47,10 @@ const ImageBlock: FC<{ slice: AccordionBlockProps }> = ({ slice }) => {
 
 const StyledAccordionPanel = styled(AccordionPanel)`
   padding: 1.5em 0;
+
+  h5 {
+    font-size: 18px;
+  }
 `;
 
 export default ImageBlock;

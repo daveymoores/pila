@@ -9,40 +9,49 @@
       "eyebrowHeadline": [
         {
           "type": "paragraph",
-          "text": "Proident eiusmod et qui enim ipsum ex. Tempor aliqua non ut elit reprehenderit fugiat dolor ut voluptate non deserunt. Ipsum reprehenderit sunt voluptate ullamco.",
+          "text": "Commodo incididunt ut do aute adipisicing. Ex nostrud laboris culpa. Excepteur aliquip qui sint ut ullamco quis proident esse nostrud laborum nostrud eu quis sit.",
           "spans": []
         }
       ],
       "title": [
         {
           "type": "paragraph",
-          "text": "Elit aliqua voluptate velit pariatur nulla ex sint qui quis culpa anim aliquip commodo. Aliqua elit sit ullamco. Qui nostrud dolore do et duis.",
+          "text": "Laborum velit tempor do nisi cupidatat.",
           "spans": []
         }
       ],
       "description": [
         {
           "type": "paragraph",
-          "text": "Dolor eiusmod veniam commodo aliquip. Cillum veniam cillum excepteur aliqua aliqua. Nostrud occaecat fugiat officia.",
+          "text": "Cupidatat et ut et qui tempor nisi aliqua est ad in officia labore. Nostrud culpa nisi incididunt dolore non ullamco qui amet duis.",
           "spans": []
         }
       ],
       "image": {
         "dimensions": {
-          "width": 900,
-          "height": 500
+          "width": 936,
+          "height": 1044
         },
         "alt": "Placeholder image",
         "copyright": null,
-        "url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=900&h=500&fit=crop"
+        "url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=936&h=1044&fit=crop",
+        "mobile": {
+          "dimensions": {
+            "width": 468,
+            "height": 522
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=468&h=522&fit=crop"
+        }
       },
       "imageSide": "image_left",
-      "linkLabel": "facilitate dynamic applications",
+      "linkLabel": "e-enable collaborative markets",
       "link": {
         "link_type": "Web",
-        "url": "http://twitter.com"
+        "url": "https://prismic.io"
       },
-      "backgroundColor": "grey"
+      "backgroundColor": "white"
     },
     "items": [],
     "slice_type": "image_with_text_section"
