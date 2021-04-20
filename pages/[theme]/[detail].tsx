@@ -10,7 +10,7 @@ import Seo from "../../src/organisms/seo/Seo";
 import DetailPageProps from "../../types/Detail";
 import PageType from "../../types/PageTypes";
 
-const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
+const Page: React.FC<DetailPageProps> = ({ data, slices, uid }) => {
   const {
     metaDescription,
     metaTitle,
@@ -38,7 +38,7 @@ const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <HeroDetail {...restProps} slices={slices} />
+      <HeroDetail {...restProps} uid={uid} slices={slices} />
       {ctaSectionTitle && (
         <CtaBanner
           slice={{

@@ -2,6 +2,7 @@ import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
+import { RichText } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
@@ -14,7 +15,7 @@ import CustomType from "../../types/CustomType";
 import DetailPageProps, { DetailPageData } from "../../types/Detail";
 import PageType from "../../types/PageTypes";
 
-const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
+const Page: React.FC<DetailPageProps> = ({ data, slices, uid }) => {
   const {
     metaDescription,
     metaTitle,
@@ -42,8 +43,8 @@ const Page: React.FC<DetailPageProps> = ({ data, slices }) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <HeroDetail {...restProps} slices={slices} />
-      {ctaSectionTitle && (
+      <HeroDetail {...restProps} uid={uid} slices={slices} />
+      {ctaSectionTitle && RichText.asText(ctaSectionTitle) && (
         <CtaBanner
           slice={{
             primary: {
@@ -91,7 +92,7 @@ export const getStaticProps = async (
   const client = Client();
   let associatedContent;
 
-  if (associatedContentIds) {
+  if (!associatedContentIds.some((content) => !content)) {
     try {
       associatedContent =
         (((await client.query(
@@ -108,7 +109,11 @@ export const getStaticProps = async (
   return {
     props: {
       ...props,
-      data: { ...props.data, associatedContent: associatedContent?.results },
+      data: {
+        ...props.data,
+        associatedContent: associatedContent?.results || [],
+      },
+      uid: context.params.guide,
     },
   };
 };

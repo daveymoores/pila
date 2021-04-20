@@ -138,7 +138,7 @@ export const Router = {
     },
     {
       type: PageType.DETAIL,
-      path: "/:parent?/:uid",
+      path: "/:parent/:uid",
       resolvers: {
         parent: "parent",
       },
