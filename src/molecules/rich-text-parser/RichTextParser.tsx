@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 import { hrefResolver, linkResolver } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
-import LearningModulesContext from "../../context/LearningModulesContext";
+import useLinkResolver from "../../hooks/useLinkResolver";
 
 interface RichTextProps {
   body: RichTextBlock[];
@@ -56,9 +56,6 @@ export const htmlSerializer = (
   children: React.ReactNode[],
   key: string
 ): React.ReactElement | null => {
-  // TODO - put learning modules into linkResolver
-  const learningModules = React.useContext(LearningModulesContext);
-
   switch (type) {
     case Elements.heading1:
       return (
@@ -131,16 +128,7 @@ export const htmlSerializer = (
       );
     case Elements.hyperlink: // Link
       if (element.data.link_type === "Document") {
-        const [as, setAs] = React.useState("");
-        const learningModules = React.useContext(LearningModulesContext);
-
-        React.useEffect(() => {
-          const getLinkResolverValue = async () => {
-            const path = await linkResolver(element.data);
-            setAs(path);
-          };
-          getLinkResolverValue();
-        }, []);
+        const as = useLinkResolver(element.data);
         // Only for internal links add the new onClick that will imperatively route to the appropriate page
         const props = Object.assign({
           onClick: onClickHandler(hrefResolver(element.data), as),

@@ -27,8 +27,12 @@ interface AuthContext {
 const authContext: Context<AuthContext> = createContext<AuthContext>({
   auth: null,
   loading: true,
-  signInWithGoogle: async () => {},
-  signOut: async () => {},
+  signInWithGoogle: async () => {
+    //noop
+  },
+  signOut: async () => {
+    //noop
+  },
 });
 
 const formatAuthState = (user: firebase.User): Auth => ({
