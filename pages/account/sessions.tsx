@@ -6,8 +6,8 @@ import useSWR from "swr";
 
 import fetcher from "../../helpers/fetcher/fetcher";
 import { useAuth } from "../../lib/auth";
-import { RoutedTextLink } from "../../prismic";
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
+import TextLink from "../../src/atoms/text-link/TextLink";
 import { useNavigationDarkTheme } from "../../src/hooks/useNavigationTheme";
 import Section from "../../src/layout/section/Section";
 import SessionCard from "../../src/molecules/session-card/SessionCard";
@@ -100,7 +100,7 @@ const Page: React.FC = () => {
                 <CardBody>
                   <Box as={"ul"}>
                     <Box margin={{ bottom: "small" }} as={"li"}>
-                      <StyledRoutedTextLink
+                      <StyledTextLink
                         label={"Sessions"}
                         link={{
                           type: PageType.SESSION,
@@ -108,7 +108,7 @@ const Page: React.FC = () => {
                       />
                     </Box>
                     <Box as={"li"}>
-                      <StyledRoutedTextLink
+                      <StyledTextLink
                         label={"Profile"}
                         link={{
                           type: PageType.ACCOUNT,
@@ -208,7 +208,7 @@ const StyledSessionCard = styled(SessionCard)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
 `;
 
-const StyledRoutedTextLink = styled(RoutedTextLink)`
+const StyledTextLink = styled(TextLink)`
   color: ${colorPalette.dark_blue};
 `;
 

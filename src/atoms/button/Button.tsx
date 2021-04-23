@@ -1,12 +1,10 @@
 import { Button as GrommetButton, ButtonProps } from "grommet";
-import Link from "next/link";
 import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 import styled from "styled-components";
 
-import { hrefResolver, linkResolver } from "../../../prismic";
-import LearningModulesContext from "../../context/LearningModulesContext";
 import { colorPalette, fontWeights } from "../../theme/pila";
+import RoutedLink from "../routed-link/RoutedLink";
 
 export enum ButtonSizes {
   small = "small",
@@ -31,17 +29,12 @@ export const Button: React.FC<CustomButtonProps> = ({
   size = ButtonSizes.large,
   ...rest
 }) => {
-  const learningModules = React.useContext(LearningModulesContext);
   return (
-    <Link
-      href={hrefResolver(link) || "/"}
-      as={linkResolver(link, learningModules)}
-      passHref
-    >
+    <RoutedLink link={link}>
       <ButtonWithRef size={size} onClick={onClick} {...rest}>
         {label}
       </ButtonWithRef>
-    </Link>
+    </RoutedLink>
   );
 };
 

@@ -2,9 +2,9 @@ import { Card, Heading, Paragraph } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
-import { RoutedTextLink } from "../../../prismic";
 import PageType from "../../../types/PageTypes";
 import { colorPalette } from "../../theme/pila";
+import TextLink from "../text-link/TextLink";
 
 const PreviewCard: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const PreviewCard: React.FC = () => {
         You are viewing in Preview Mode.
       </Heading>
       <Paragraph margin={{ top: "xsmall" }}>
-        <StyledRoutedTextLink
+        <StyledTextLink
           label={"Click here to exit"}
           link={{
             type: PageType.EXIT_PREVIEW,
@@ -28,7 +28,7 @@ const PreviewCard: React.FC = () => {
   );
 };
 
-const StyledRoutedTextLink = styled(RoutedTextLink)`
+const StyledTextLink = styled(TextLink)`
   font-weight: 500;
   color: white;
   font-size: 16px;

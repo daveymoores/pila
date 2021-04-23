@@ -31,6 +31,7 @@ const Seo: React.FC<SeoProps> = ({
   openGraphImage,
 }) => {
   const { ogFormatOne, ogFormatTwo } = openGraphImage || {};
+
   let ogImages: OpenGraphImages[] = [];
   if (ogFormatOne?.url) {
     ogImages = [

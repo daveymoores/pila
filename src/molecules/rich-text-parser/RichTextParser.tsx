@@ -131,13 +131,20 @@ export const htmlSerializer = (
       );
     case Elements.hyperlink: // Link
       if (element.data.link_type === "Document") {
+        const [as, setAs] = React.useState("");
+        const learningModules = React.useContext(LearningModulesContext);
+
+        React.useEffect(() => {
+          const getLinkResolverValue = async () => {
+            const path = await linkResolver(element.data, learningModules);
+            setAs(path);
+          };
+          getLinkResolverValue();
+        }, []);
         // Only for internal links add the new onClick that will imperatively route to the appropriate page
         const props = Object.assign({
-          onClick: onClickHandler(
-            hrefResolver(element.data),
-            linkResolver(element.data, learningModules)
-          ),
-          href: linkResolver(element.data, learningModules),
+          onClick: onClickHandler(hrefResolver(element.data), as),
+          href: as,
         });
         return React.createElement(
           "a",

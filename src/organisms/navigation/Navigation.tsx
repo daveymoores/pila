@@ -17,12 +17,12 @@ import styled from "styled-components";
 
 import { useAuth } from "../../../lib/auth";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
-import { RoutedTextLink } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
+import TextLink from "../../atoms/text-link/TextLink";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import NavigationThemeContext from "../../context/NavigationThemeContext";
 import OffCanvasContext from "../../context/OffCanvasContext";
@@ -148,7 +148,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     animate={isOpen ? "active" : "inactive"}
                   >
                     <Box direction={"row"} align={"center"} pad={"xlarge"}>
-                      <StyledRoutedTextLink
+                      <StyledTextLink
                         link={{
                           type: PageType.ACCOUNT,
                         }}
@@ -228,7 +228,7 @@ const Navigation: React.FC<NavigationProps> = ({
                       />
                       {links &&
                         links.map(({ link, label }, index) => (
-                          <StyledRoutedTextLink
+                          <StyledTextLink
                             key={index}
                             link={link}
                             label={label}
@@ -237,7 +237,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     </Box>
                     <Box direction={"row"} align={"center"}>
                       {auth && (
-                        <StyledRoutedTextLink
+                        <StyledTextLink
                           link={{
                             type: PageType.ACCOUNT,
                           }}
@@ -324,13 +324,13 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const StyledRoutedTextLink = styled(RoutedTextLink)`
+const StyledTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
   color: var(--nav-theme);
 `;
 
-const StyledRoutedMobileTextLink = styled(RoutedTextLink)`
+const StyledRoutedMobileTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
   color: white;

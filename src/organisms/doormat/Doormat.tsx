@@ -2,8 +2,8 @@ import { Box, Footer, Paragraph } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
-import { RoutedTextLink } from "../../../prismic";
 import RepeatableLink from "../../../types/RepeatableLink";
+import TextLink from "../../atoms/text-link/TextLink";
 import Section from "../../layout/section/Section";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -31,7 +31,7 @@ const DoormatList: React.FC<DoormatListProps> = ({ label, links }) => {
           </Paragraph>
           <Box>
             {links.map(({ label, link }, index) => (
-              <RoutedTextLink
+              <TextLink
                 key={index}
                 label={label}
                 link={link}

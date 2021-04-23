@@ -19,8 +19,7 @@ export type DetailPageData = CTABannerAlternateProps &
     heroImage?: ImageProps;
     category: { categories: Link & { data: { name: string } } };
     associatedContent: { link: Link }[];
-    parent: Link;
-    uid: string;
+    parent: Link & { data: { title: RichTextBlock[] } };
   };
 
 export interface LinkedDetailPageProps
@@ -28,7 +27,8 @@ export interface LinkedDetailPageProps
   associatedContent: CustomType[];
 }
 
-type DetailPageProps = JSX.IntrinsicAttributes &
-  PageData<DetailPageSlices, LinkedDetailPageProps>;
+type DetailPageProps = JSX.IntrinsicAttributes & {
+  params: Record<string, unknown>;
+} & PageData<DetailPageSlices, LinkedDetailPageProps>;
 
 export default DetailPageProps;

@@ -2,20 +2,21 @@ import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import Prismic from "prismic-javascript";
-import { RichText } from "prismic-reactjs";
+import { Link, RichText } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
+import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
 import DetailPageProps, { DetailPageData } from "../../types/Detail";
 import PageType from "../../types/PageTypes";
 
-const Page: React.FC<DetailPageProps> = ({ data, slices, uid }) => {
+const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
   const {
     metaDescription,
     metaTitle,
@@ -34,6 +35,22 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, uid }) => {
   useNotification(notification);
   useNavigationLightTheme();
 
+  const breadcrumbLinks: BreadcrumbItem[] = [
+    {
+      link: {
+        type: PageType.GUIDE_HOME,
+        uid: "guide_home",
+      },
+      label: "Guides",
+    },
+    {
+      link: { type: PageType.GUIDE, uid: params?.guide as Link["uid"] },
+      label: restProps.title
+        ? RichText.asText(restProps.title)
+        : "[GUIDE_PAGE_TITLE]",
+    },
+  ];
+
   return (
     <React.Fragment>
       <Seo
@@ -43,7 +60,11 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, uid }) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <HeroDetail {...restProps} uid={uid} slices={slices} />
+      <HeroDetail
+        {...restProps}
+        breadcrumbLinks={breadcrumbLinks}
+        slices={slices}
+      />
       {ctaSectionTitle && RichText.asText(ctaSectionTitle) && (
         <CtaBanner
           slice={{
@@ -113,7 +134,7 @@ export const getStaticProps = async (
         ...props.data,
         associatedContent: associatedContent?.results || [],
       },
-      uid: context.params.guide,
+      params: context.params,
     },
   };
 };
