@@ -195,7 +195,7 @@ export const getStaticProps = useGetStaticProps({
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.LEARNING_MODULE,
-  fallback: true, // process.env.NODE_ENV === 'development',
+  fallback: false,
   formatPath: ({ uid }) => ({ params: { learning_module: uid } }),
 });
 

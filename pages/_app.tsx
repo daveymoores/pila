@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
+import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
@@ -135,6 +136,13 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
               <AssessmentApplicationContext.Provider
                 value={pageProps?.assessmentApplication}
               >
+                <Head>
+                  <script
+                    async
+                    defer
+                    src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
+                  />
+                </Head>
                 <DefaultSeo
                   title={title}
                   description={description}

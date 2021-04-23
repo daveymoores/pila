@@ -153,7 +153,7 @@ export const getStaticPaths = async (): Promise<StaticContextProps> => {
   return useGetStaticPaths({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
-    fallback: true, // process.env.NODE_ENV === 'development',
+    fallback: false,
     formatPath: ({ uid, data }: PageProps): Params => {
       if (data.module.uid) {
         return {

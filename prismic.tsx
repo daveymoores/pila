@@ -51,7 +51,7 @@ export const linkResolver = async (link: LinkProps): Promise<string> => {
     [PageType.LEARNING_MODULE]: `/learning-modules/${link.uid}`,
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
-    [PageType.ERROR]: "/error",
+    [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
     [PageType.SESSION]: "/account/sessions",
   };
@@ -72,7 +72,7 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.LEARNING_MODULE]: "/learning-modules/[learning-module]",
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
-    [PageType.ERROR]: "/error",
+    [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
     [PageType.SESSION]: "/account/sessions",
   };

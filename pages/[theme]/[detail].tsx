@@ -130,7 +130,7 @@ interface Params {
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.DETAIL,
-  fallback: true, // process.env.NODE_ENV === 'development',
+  fallback: false,
   formatPath: ({ uid, data }: DetailPageProps): Params => {
     if (data.parent.uid) {
       return { params: { theme: data.parent.uid, detail: uid } };

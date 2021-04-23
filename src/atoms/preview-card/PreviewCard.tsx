@@ -10,10 +10,10 @@ const PreviewCard: React.FC = () => {
   return (
     <StyledCard
       background={colorPalette.redCrayola}
-      elevation={"large"}
-      pad={"medium"}
+      elevation={"medium"}
+      pad={"small"}
     >
-      <Heading level={4} size={"small"}>
+      <Heading level={5} size={"small"} responsive={false}>
         You are viewing in Preview Mode.
       </Heading>
       <Paragraph margin={{ top: "xsmall" }}>
@@ -38,20 +38,19 @@ const StyledCard = styled(Card)`
   z-index: 3;
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
   border-radius: 0;
   width: 100%;
-  min-height: 100px;
   justify-content: center;
-  padding-left: 4vw;
-  padding-right: 4vw;
+  padding: 4vw;
+  text-align: right;
 
   @media (min-width: 600px) {
-    border-radius: 24px;
-    bottom: 60px;
-    left: 60px;
+    border-radius: 16px;
+    bottom: 20px;
+    right: 20px;
     width: auto;
-    padding: 24px;
+    padding: 20px;
   }
 `;
 

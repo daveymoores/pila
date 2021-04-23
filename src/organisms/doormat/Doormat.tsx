@@ -64,7 +64,6 @@ const Doormat: React.FC<DoormatProps> = ({
   >
     <Section>
       <StyledResponsiveGrid
-        margin="medium"
         rows={{
           small: ["auto", "auto", "auto", "auto"],
           medium: ["auto", "auto", "auto"],
