@@ -3,6 +3,7 @@ import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import { Link, RichText } from "prismic-reactjs";
 import React from "react";
 
+import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
@@ -105,7 +106,18 @@ export const getStaticProps = async (
     },
   })(context);
 
-  return { props: { ...props, params: context.params } };
+  const associatedContent = await fetchAssociatedContent();
+
+  return {
+    props: {
+      ...props,
+      data: {
+        ...props.data,
+        associatedContent: associatedContent?.results || [],
+      },
+      params: context.params,
+    },
+  };
 };
 
 interface Params {

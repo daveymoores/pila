@@ -1,10 +1,9 @@
-import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import Prismic from "prismic-javascript";
 import { Link, RichText } from "prismic-reactjs";
 import React from "react";
 
+import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
 import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
@@ -12,8 +11,7 @@ import useNotification from "../../src/hooks/useNotification";
 import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
-import CustomType from "../../types/CustomType";
-import DetailPageProps, { DetailPageData } from "../../types/Detail";
+import DetailPageProps from "../../types/Detail";
 import PageType from "../../types/PageTypes";
 
 const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
@@ -88,10 +86,6 @@ interface StaticContextProps {
   };
 }
 
-interface Response extends Omit<ApiSearchResponse, "results"> {
-  results: CustomType[];
-}
-
 export const getStaticProps = async (
   context: StaticContextProps
 ): Promise<GetStaticPropsResult<DetailPageProps>> => {
@@ -107,25 +101,7 @@ export const getStaticProps = async (
     },
   })(context);
 
-  const associatedContentIds = (
-    (props.data.associatedContent as DetailPageData["associatedContent"]) || []
-  ).map(({ link }) => link.id);
-  const client = Client();
-  let associatedContent;
-
-  if (!associatedContentIds.some((content) => !content)) {
-    try {
-      associatedContent =
-        (((await client.query(
-          //TODO - why is associatedContent possibly undefined
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          Prismic.Predicates.in("document.id", associatedContentIds)
-        )) as unknown) as Response) || {};
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
+  const associatedContent = await fetchAssociatedContent();
 
   return {
     props: {
