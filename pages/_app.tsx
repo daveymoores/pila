@@ -4,11 +4,13 @@ import "../styles/globals.css";
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
+import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
+import { AuthProvider } from "../lib/auth";
 import { Client } from "../prismic";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
@@ -116,56 +118,65 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   });
 
   return (
-    <OffCanvasContext.Provider
-      value={{
-        isOpen,
-        setIsOpen: setIsOpen,
-      }}
-    >
-      <NavigationThemeContext.Provider
+    <AuthProvider>
+      <OffCanvasContext.Provider
         value={{
-          theme: navigationTheme,
-          setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
+          isOpen,
+          setIsOpen: setIsOpen,
         }}
       >
-        <NotificationProvider notifications={pageProps.notification}>
-          <LearningModulesContext.Provider value={learningModules}>
-            <AssessmentApplicationContext.Provider
-              value={pageProps?.assessmentApplication}
-            >
-              <DefaultSeo
-                title={title}
-                description={description}
-                openGraph={{
-                  type: "website",
-                  locale: "en_GB",
-                  url,
-                  site_name,
-                }}
-                twitter={{
-                  handle,
-                  site: "@site",
-                  cardType: "summary_large_image",
-                }}
-                facebook={{
-                  appId,
-                }}
-              />
-              <PilaTheme userAgent={pageProps.userAgent}>
-                <Scaffold
-                  navigation={(pageProps?.navigation || [])[0]?.data}
-                  doormat={(pageProps?.doormat || [])[0]?.data}
-                  footer={(pageProps?.footer || [])[0]?.data}
-                >
-                  <Component {...pageProps} />
-                </Scaffold>
-                {pageProps.isPreview && <PreviewCard />}
-              </PilaTheme>
-            </AssessmentApplicationContext.Provider>
-          </LearningModulesContext.Provider>
-        </NotificationProvider>
-      </NavigationThemeContext.Provider>
-    </OffCanvasContext.Provider>
+        <NavigationThemeContext.Provider
+          value={{
+            theme: navigationTheme,
+            setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
+          }}
+        >
+          <NotificationProvider notifications={pageProps.notification}>
+            <LearningModulesContext.Provider value={learningModules}>
+              <AssessmentApplicationContext.Provider
+                value={pageProps?.assessmentApplication}
+              >
+                <Head>
+                  <script
+                    async
+                    defer
+                    src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
+                  />
+                </Head>
+                <DefaultSeo
+                  title={title}
+                  description={description}
+                  openGraph={{
+                    type: "website",
+                    locale: "en_GB",
+                    url,
+                    site_name,
+                  }}
+                  twitter={{
+                    handle,
+                    site: "@site",
+                    cardType: "summary_large_image",
+                  }}
+                  facebook={{
+                    appId,
+                  }}
+                />
+                <PilaTheme userAgent={pageProps.userAgent}>
+                  <Scaffold
+                    navigation={(pageProps?.navigation || [])[0]?.data}
+                    doormat={(pageProps?.doormat || [])[0]?.data}
+                    footer={(pageProps?.footer || [])[0]?.data}
+                  >
+                    <Component {...pageProps} />
+                  </Scaffold>
+                  {pageProps.isPreview && <PreviewCard />}
+                </PilaTheme>
+              </AssessmentApplicationContext.Provider>
+            </LearningModulesContext.Provider>
+          </NotificationProvider>
+        </NavigationThemeContext.Provider>
+      </OffCanvasContext.Provider>
+    </AuthProvider>
   );
 };
 
@@ -173,7 +184,6 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 // @ts-ignore
 PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
-  console.log(appProps);
   const userAgent = appContext.ctx.req?.headers["user-agent"];
   const client = Client();
   let data;

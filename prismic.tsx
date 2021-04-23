@@ -1,14 +1,8 @@
-import { Anchor, AnchorProps } from "grommet";
-import Link from "next/link";
 import Prismic from "prismic-javascript";
+import ApiSearchResponse from "prismic-javascript/types/ApiSearchResponse";
 import { Link as LinkProps } from "prismic-reactjs";
-import React, { ForwardedRef } from "react";
 
-import resolveModuleFromUID from "./helpers/resolve-module-from-uid/resolveModuleFromUID";
-import { LearningModuleProps } from "./pages/learning-modules/[learning_module]";
 import smConfig from "./sm.json";
-import LearningModulesContext from "./src/context/LearningModulesContext";
-import CustomType from "./types/CustomType";
 import PageType from "./types/PageTypes";
 
 export const apiEndpoint = smConfig.apiEndpoint;
@@ -19,24 +13,45 @@ export const accessToken = "";
 
 // -- Link resolution rules
 // Manages the url links to internal Prismic documents
-export const linkResolver = (
-  link: LinkProps,
-  modules: CustomType<LearningModuleProps>[]
-): string => {
+export const linkResolver = async (link: LinkProps): Promise<string> => {
+  const client = Client();
+  let path = "";
+
+  if (link.type === PageType.DETAIL && link.uid) {
+    try {
+      const data =
+        (((await client.query(
+          Prismic.Predicates.at("my.detail_page.uid", link.uid)
+        )) as unknown) as ApiSearchResponse) || {};
+      path = data.results[0].url || "";
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  if (link.type === PageType.ASSESSMENT_APPLICATION && link.uid) {
+    try {
+      const data =
+        (((await client.query(
+          Prismic.Predicates.at("my.assessment_application.uid", link.uid)
+        )) as unknown) as ApiSearchResponse) || {};
+      path = data.results[0].url || "";
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   const resolver: { [key: string]: string } = {
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
-    [PageType.DETAIL]: `/${link.uid}`,
+    [PageType.DETAIL]: path,
     [PageType.GUIDE]: `/guides/${link.uid}`,
-    [PageType.ASSESSMENT_APPLICATION]: `/learning-modules/${resolveModuleFromUID(
-      link.uid,
-      modules
-    )}/${link.uid}`,
+    [PageType.ASSESSMENT_APPLICATION]: `/learning-modules${path}`,
     [PageType.LEARNING_MODULE]: `/learning-modules/${link.uid}`,
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
-    [PageType.ERROR]: "/error",
+    [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
     [PageType.SESSION]: "/account/sessions",
   };
@@ -57,7 +72,7 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.LEARNING_MODULE]: "/learning-modules/[learning-module]",
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",
-    [PageType.ERROR]: "/error",
+    [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
     [PageType.SESSION]: "/account/sessions",
   };
@@ -65,57 +80,6 @@ export const hrefResolver = (link: LinkProps): string => {
   return resolver[link.type || PageType.ERROR];
 };
 
-interface CustomLinkProps extends AnchorProps {
-  label: string;
-  link: LinkProps;
-  onClick?: () => void;
-}
-
-interface GrommetLinkProps extends AnchorProps {
-  onClick?: () => void;
-  children: string;
-}
-
-export const RoutedTextLink: React.FC<CustomLinkProps> = ({
-  label,
-  link,
-  onClick,
-  ...rest
-}) => {
-  const learningModules = React.useContext(LearningModulesContext);
-
-  return (
-    <Link
-      href={hrefResolver(link)}
-      as={linkResolver(link, learningModules)}
-      passHref
-    >
-      <GrommetLink onClick={onClick} {...rest}>
-        {label}
-      </GrommetLink>
-    </Link>
-  );
-};
-
-// eslint-disable-next-line react/display-name
-const GrommetLink = React.forwardRef(
-  (
-    { onClick, href, children, ...rest }: GrommetLinkProps,
-    ref: ForwardedRef<HTMLAnchorElement>
-  ) => {
-    return (
-      <Anchor
-        label={children}
-        href={href}
-        onClick={onClick}
-        {...rest}
-        ref={ref}
-      />
-    );
-  }
-);
-
-// TODO - fix Router
 export const Router = {
   routes: [
     { type: PageType.HOME, path: "/" },
@@ -138,7 +102,7 @@ export const Router = {
     },
     {
       type: PageType.DETAIL,
-      path: "/:parent?/:uid",
+      path: "/:parent/:uid",
       resolvers: {
         parent: "parent",
       },

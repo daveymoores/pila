@@ -62,7 +62,7 @@ export const getStaticProps = useGetStaticProps({
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.THEME,
-  fallback: true, // process.env.NODE_ENV === 'development',
+  fallback: false,
   formatPath: ({ uid }) => ({ params: { theme: uid } }),
 });
 

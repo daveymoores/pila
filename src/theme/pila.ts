@@ -573,6 +573,7 @@ const pila = {
     },
     heading: {
       level: "5",
+      size: "18px",
     },
   },
 };
