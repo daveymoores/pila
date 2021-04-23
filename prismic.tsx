@@ -2,10 +2,7 @@ import Prismic from "prismic-javascript";
 import ApiSearchResponse from "prismic-javascript/types/ApiSearchResponse";
 import { Link as LinkProps } from "prismic-reactjs";
 
-import resolveModuleFromUID from "./helpers/resolve-module-from-uid/resolveModuleFromUID";
-import { LearningModuleProps } from "./pages/learning-modules/[learning_module]";
 import smConfig from "./sm.json";
-import CustomType from "./types/CustomType";
 import PageType from "./types/PageTypes";
 
 export const apiEndpoint = smConfig.apiEndpoint;
@@ -16,10 +13,7 @@ export const accessToken = "";
 
 // -- Link resolution rules
 // Manages the url links to internal Prismic documents
-export const linkResolver = async (
-  link: LinkProps,
-  modules: CustomType<LearningModuleProps>[]
-): Promise<string> => {
+export const linkResolver = async (link: LinkProps): Promise<string> => {
   const client = Client();
   let path = "";
 
@@ -30,21 +24,30 @@ export const linkResolver = async (
           Prismic.Predicates.at("my.detail_page.uid", link.uid)
         )) as unknown) as ApiSearchResponse) || {};
       path = data.results[0].url || "";
-      console.log(path);
     } catch (err) {
       throw new Error(err);
     }
   }
+
+  if (link.type === PageType.ASSESSMENT_APPLICATION && link.uid) {
+    try {
+      const data =
+        (((await client.query(
+          Prismic.Predicates.at("my.assessment_application.uid", link.uid)
+        )) as unknown) as ApiSearchResponse) || {};
+      path = data.results[0].url || "";
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   const resolver: { [key: string]: string } = {
     [PageType.EXIT_PREVIEW]: "/api/exit-preview",
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
     [PageType.DETAIL]: path,
     [PageType.GUIDE]: `/guides/${link.uid}`,
-    [PageType.ASSESSMENT_APPLICATION]: `/learning-modules/${resolveModuleFromUID(
-      link.uid,
-      modules
-    )}/${link.uid}`,
+    [PageType.ASSESSMENT_APPLICATION]: `/learning-modules${path}`,
     [PageType.LEARNING_MODULE]: `/learning-modules/${link.uid}`,
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",

@@ -1,13 +1,9 @@
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import Prismic from "prismic-javascript";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
-import parseLearningModules, {
-  ModuleApplications,
-} from "../../../helpers/parse-learning-modules/parseLearningModules";
 import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
@@ -17,11 +13,9 @@ import { NotificationLinkedProps } from "../../../src/molecules/notification/Not
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
-import CustomType from "../../../types/CustomType";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
-import { LearningModuleProps } from "./index";
 
 export enum Difficulty {
   EASY = "Easy",
@@ -33,6 +27,7 @@ export enum Difficulty {
 
 export interface AssessmentApplicationMainProps
   extends CTABannerAlternateProps {
+  module: Link;
   title: RichTextBlock[];
   uid: string;
   applicationLink: Link;
@@ -155,30 +150,24 @@ export const getStaticProps = async (
 };
 
 export const getStaticPaths = async (): Promise<StaticContextProps> => {
-  const client = Client();
-  const modules =
-    (await client.query(
-      Prismic.Predicates.at("document.type", "learning_module"),
-      {}
-    )) || {};
-
-  const moduleApplications = parseLearningModules(
-    (modules.results as unknown) as CustomType<LearningModuleProps>[]
-  );
-
   return useGetStaticPaths({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
     fallback: true, // process.env.NODE_ENV === 'development',
-    formatPath: (props) => {
-      const app = moduleApplications.find((module: ModuleApplications) =>
-        (module?.applications || []).find((app: string) => app === props.uid)
-      );
+    formatPath: ({ uid, data }: PageProps): Params => {
+      if (data.module.uid) {
+        return {
+          params: {
+            assessment_application: uid,
+            learning_module: data.module.uid,
+          },
+        };
+      }
 
+      // TODO - display 404 here
       return {
         params: {
-          assessment_application: props.uid,
-          learning_module: app?.module || "",
+          assessment_application: uid,
         },
       };
     },

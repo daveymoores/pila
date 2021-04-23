@@ -136,7 +136,7 @@ export const htmlSerializer = (
 
         React.useEffect(() => {
           const getLinkResolverValue = async () => {
-            const path = await linkResolver(element.data, learningModules);
+            const path = await linkResolver(element.data);
             setAs(path);
           };
           getLinkResolverValue();
@@ -159,8 +159,7 @@ export const htmlSerializer = (
         const relAttr = element.data.target ? { rel: "noopener" } : {};
         const props = Object.assign(
           {
-            href:
-              element.data.url || linkResolver(element.data, learningModules),
+            href: element.data.url || linkResolver(element.data),
           },
           targetAttr,
           relAttr
