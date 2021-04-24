@@ -1,11 +1,12 @@
-import firebase from "./firebase";
-const firestore = firebase.firestore();
+import { getFirestoreInstance } from "./firebase";
 
-export function updateUser(uid: string, data: any) {
+export async function updateUser(uid: string, data: any) {
+  const firestore = await getFirestoreInstance();
   return firestore.collection("users").doc(uid).update(data);
 }
 
-export function createUser(uid: string, data: any) {
+export async function createUser(uid: string, data: any) {
+  const firestore = await getFirestoreInstance();
   return firestore
     .collection("users")
     .doc(uid)

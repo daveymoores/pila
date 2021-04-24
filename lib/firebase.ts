@@ -4,6 +4,14 @@ import "firebase/firestore";
 
 import firebase from "firebase/app";
 
+export async function getFirestoreInstance() {
+  if (!firebase.firestore) {
+    await import("firebase/firestore");
+  }
+
+  return firebase.firestore();
+}
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,

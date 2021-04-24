@@ -1,13 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  Box,
-  BoxProps,
-  Header,
-  Image,
-  Menu,
-  Nav,
-  ResponsiveContext,
-} from "grommet";
+import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
@@ -22,6 +14,10 @@ import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
+import {
+  MobileOnly,
+  TabletUp,
+} from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import TextLink from "../../atoms/text-link/TextLink";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import NavigationThemeContext from "../../context/NavigationThemeContext";
@@ -114,176 +110,154 @@ const Navigation: React.FC<NavigationProps> = ({
     >
       <Section>
         <ResponsiveGrid rows="1" columns={"1"}>
-          <ResponsiveContext.Consumer>
-            {(size) =>
-              size === "small" ? (
-                <Box justify="start" direction={"row"}>
-                  <StyledLogoBox onClick={() => router.push(`/`)}>
-                    <StyledLogo />
-                  </StyledLogoBox>
-                  <Box
-                    margin={{ left: "auto" }}
-                    background={
-                      isOpen ? colorPalette.blue : colorPalette.yellow
-                    }
-                    round={"50%"}
-                    style={{
-                      position: "relative",
-                      zIndex: 3,
+          <MobileOnly>
+            <Box justify="start" direction={"row"}>
+              <StyledLogoBox onClick={() => router.push(`/`)}>
+                <StyledLogo />
+              </StyledLogoBox>
+              <Box
+                margin={{ left: "auto" }}
+                background={isOpen ? colorPalette.blue : colorPalette.yellow}
+                round={"50%"}
+                style={{
+                  position: "relative",
+                  zIndex: 3,
+                }}
+              >
+                <Hamburger
+                  rounded={true}
+                  size={24}
+                  color={isOpen ? "white" : colorPalette.dark_blue}
+                  label="Show menu"
+                  toggled={isOpen}
+                  toggle={setIsOpen}
+                />
+              </Box>
+              <MobileNavigation
+                initial={"initial"}
+                variants={variants}
+                transition={spring}
+                animate={isOpen ? "active" : "inactive"}
+              >
+                <Box direction={"row"} align={"center"} pad={"xlarge"}>
+                  <StyledTextLink
+                    link={{
+                      type: PageType.ACCOUNT,
                     }}
-                  >
-                    <Hamburger
-                      rounded={true}
-                      size={24}
-                      color={isOpen ? "white" : colorPalette.dark_blue}
-                      label="Show menu"
-                      toggled={isOpen}
-                      toggle={setIsOpen}
+                    label={"login"}
+                  />
+                  <Button
+                    primary
+                    margin={{ left: "medium" }}
+                    size={ButtonSizes.small}
+                    color={colorPalette.periwinkleCrayola}
+                    label={"sign up"}
+                    link={{
+                      type: PageType.SESSION,
+                    }}
+                  />
+                </Box>
+                <Box as={"ul"} pad={"xlarge"}>
+                  {links &&
+                    links.map(({ label, link }, index) => (
+                      <Box key={index} as={"li"} margin={{ bottom: "medium" }}>
+                        <StyledRoutedMobileTextLink
+                          key={index}
+                          link={link}
+                          label={label}
+                        />
+                      </Box>
+                    ))}
+                  <Divider as={"li"}>
+                    <Box
+                      as={"span"}
+                      margin={{ top: "large", bottom: "medium" }}
+                    >
+                      Modules
+                    </Box>
+                  </Divider>
+                  {mobileModuleLinks &&
+                    mobileModuleLinks.map(({ label, link }, index) => (
+                      <Box key={index} as={"li"} margin={{ bottom: "medium" }}>
+                        <StyledRoutedMobileTextLink
+                          key={index}
+                          link={link}
+                          label={label}
+                        />
+                      </Box>
+                    ))}
+                </Box>
+              </MobileNavigation>
+            </Box>
+          </MobileOnly>
+          <TabletUp>
+            <Box justify="start" direction="row" gap="medium" align={"center"}>
+              <StyledLogoBox onClick={() => router.push(`/`)}>
+                <StyledLogo />
+              </StyledLogoBox>
+              <Nav
+                direction="row"
+                align={"center"}
+                justify={"between"}
+                flex={"grow"}
+              >
+                <Box direction={"row"} align={"center"}>
+                  <StyledMenu
+                    label={modules_dropdown_label}
+                    items={moduleNavigationItems}
+                  />
+                  {links &&
+                    links.map(({ link, label }, index) => (
+                      <StyledTextLink key={index} link={link} label={label} />
+                    ))}
+                </Box>
+                <Box direction={"row"} align={"center"}>
+                  {auth && (
+                    <StyledTextLink
+                      link={{
+                        type: PageType.ACCOUNT,
+                      }}
+                      label={"sign out"}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        signOut();
+                      }}
                     />
-                  </Box>
-                  <MobileNavigation
-                    initial={"initial"}
-                    variants={variants}
-                    transition={spring}
-                    animate={isOpen ? "active" : "inactive"}
-                  >
-                    <Box direction={"row"} align={"center"} pad={"xlarge"}>
-                      <StyledTextLink
-                        link={{
-                          type: PageType.ACCOUNT,
-                        }}
-                        label={"login"}
-                      />
-                      <Button
-                        primary
-                        margin={{ left: "medium" }}
-                        size={ButtonSizes.small}
-                        color={colorPalette.periwinkleCrayola}
-                        label={"sign up"}
-                        link={{
-                          type: PageType.SESSION,
-                        }}
-                      />
+                  )}
+                  {isEmpty(auth) ? (
+                    <Button
+                      primary
+                      margin={{ left: "medium" }}
+                      size={ButtonSizes.small}
+                      color={
+                        theme === NavigationTheme.LIGHT
+                          ? colorPalette.blue
+                          : colorPalette.periwinkleCrayola
+                      }
+                      label={"sign up"}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        signInWithGoogle();
+                      }}
+                      link={{
+                        type: PageType.SESSION,
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      width={"40px"}
+                      height={"40px"}
+                      round={"50%"}
+                      overflow={"hidden"}
+                      margin={{ left: "medium" }}
+                    >
+                      <Image src={auth?.photoUrl || undefined} />
                     </Box>
-                    <Box as={"ul"} pad={"xlarge"}>
-                      {links &&
-                        links.map(({ label, link }, index) => (
-                          <Box
-                            key={index}
-                            as={"li"}
-                            margin={{ bottom: "medium" }}
-                          >
-                            <StyledRoutedMobileTextLink
-                              key={index}
-                              link={link}
-                              label={label}
-                            />
-                          </Box>
-                        ))}
-                      <Divider as={"li"}>
-                        <Box
-                          as={"span"}
-                          margin={{ top: "large", bottom: "medium" }}
-                        >
-                          Modules
-                        </Box>
-                      </Divider>
-                      {mobileModuleLinks &&
-                        mobileModuleLinks.map(({ label, link }, index) => (
-                          <Box
-                            key={index}
-                            as={"li"}
-                            margin={{ bottom: "medium" }}
-                          >
-                            <StyledRoutedMobileTextLink
-                              key={index}
-                              link={link}
-                              label={label}
-                            />
-                          </Box>
-                        ))}
-                    </Box>
-                  </MobileNavigation>
+                  )}
                 </Box>
-              ) : (
-                <Box
-                  justify="start"
-                  direction="row"
-                  gap="medium"
-                  align={"center"}
-                >
-                  <StyledLogoBox onClick={() => router.push(`/`)}>
-                    <StyledLogo />
-                  </StyledLogoBox>
-                  <Nav
-                    direction="row"
-                    align={"center"}
-                    justify={"between"}
-                    flex={"grow"}
-                  >
-                    <Box direction={"row"} align={"center"}>
-                      <StyledMenu
-                        label={modules_dropdown_label}
-                        items={moduleNavigationItems}
-                      />
-                      {links &&
-                        links.map(({ link, label }, index) => (
-                          <StyledTextLink
-                            key={index}
-                            link={link}
-                            label={label}
-                          />
-                        ))}
-                    </Box>
-                    <Box direction={"row"} align={"center"}>
-                      {auth && (
-                        <StyledTextLink
-                          link={{
-                            type: PageType.ACCOUNT,
-                          }}
-                          label={"sign out"}
-                          onClick={(event) => {
-                            event.preventDefault();
-                            signOut();
-                          }}
-                        />
-                      )}
-                      {isEmpty(auth) ? (
-                        <Button
-                          primary
-                          margin={{ left: "medium" }}
-                          size={ButtonSizes.small}
-                          color={
-                            theme === NavigationTheme.LIGHT
-                              ? colorPalette.blue
-                              : colorPalette.periwinkleCrayola
-                          }
-                          label={"sign up"}
-                          onClick={(event) => {
-                            event.preventDefault();
-                            signInWithGoogle();
-                          }}
-                          link={{
-                            type: PageType.SESSION,
-                          }}
-                        />
-                      ) : (
-                        <Box
-                          width={"40px"}
-                          height={"40px"}
-                          round={"50%"}
-                          overflow={"hidden"}
-                          margin={{ left: "medium" }}
-                        >
-                          <Image src={auth?.photoUrl || undefined} />
-                        </Box>
-                      )}
-                    </Box>
-                  </Nav>
-                </Box>
-              )
-            }
-          </ResponsiveContext.Consumer>
+              </Nav>
+            </Box>
+          </TabletUp>
         </ResponsiveGrid>
       </Section>
     </StyledHeader>
