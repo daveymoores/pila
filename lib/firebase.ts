@@ -1,11 +1,10 @@
-import "firebase/auth";
-import "firebase/functions";
-import "firebase/firestore";
-
 import firebase from "firebase/app";
 
 export async function getFirestoreInstance() {
   if (!firebase.firestore) {
+    await import("firebase/app");
+    await import("firebase/auth");
+    await import("firebase/functions");
     await import("firebase/firestore");
   }
 

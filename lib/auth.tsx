@@ -20,8 +20,8 @@ interface Auth {
 interface AuthContext {
   auth: Auth | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
-  signOut: () => Promise<void>;
+  signInWithGoogle: () => Promise<void> | undefined;
+  signOut: () => Promise<void> | undefined;
 }
 
 const authContext: Context<AuthContext> = createContext<AuthContext>({
@@ -44,6 +44,20 @@ const formatAuthState = (user: firebase.User): Auth => ({
 });
 
 function useProvideAuth() {
+  const [firebaseAuth, setFirebaseAuth] = useState<firebase.auth.Auth | null>(
+    null
+  );
+
+  useEffect(() => {
+    import("firebase/auth")
+      .then(() => {
+        const appAuth = firebase.auth();
+        setFirebaseAuth(appAuth);
+      })
+      .catch((error) => {
+        console.error("Unable to lazy-load firebase/auth:", error);
+      });
+  }, []);
   const [auth, setAuth] = useState<Auth | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -73,21 +87,24 @@ function useProvideAuth() {
   };
 
   const signInWithGoogle = () => {
+    if (!firebaseAuth) return;
     setLoading(true);
-    return firebase
-      .auth()
+
+    return firebaseAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(signedIn);
   };
 
   const signOut = () => {
-    return firebase.auth().signOut().then(clear);
+    if (!firebaseAuth) return;
+    return firebaseAuth.signOut().then(clear);
   };
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(handleAuthChange);
+    if (!firebaseAuth) return;
+    const unsubscribe = firebaseAuth.onAuthStateChanged(handleAuthChange);
     return () => unsubscribe();
-  }, []);
+  }, [firebaseAuth]);
 
   return {
     auth,
