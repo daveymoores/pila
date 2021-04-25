@@ -1,28 +1,25 @@
-import { Card, CardBody, CardHeader, Heading, Paragraph } from "grommet";
+import { Card, CardBody, Heading, Paragraph } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
 import { colorPalette } from "../../theme/pila";
-import RichMediaElement from "../rich-media-element/RichMediaElement";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import Icon from "./Icon";
 
 interface ProgrammeCardProps {
-  image?: ImageProps;
   link?: Link;
   title?: RichTextBlock[];
   body?: RichTextBlock[];
+  icon?: ImageProps;
 }
 
 const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
-  image,
   link,
   title,
   body,
+  icon,
 }) => {
   /* TODO - move "View Module" to dictionary */
   return (
@@ -33,19 +30,9 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
       round={"medium"}
       direction={"column"}
     >
-      <CardHeader justify={"center"}>
-        {image ? (
-          <RichMediaElement
-            {...image}
-            alt={image?.alt || ""}
-            layout={"responsive"}
-          />
-        ) : (
-          <StyledIcon />
-        )}
-      </CardHeader>
+      <LearningModuleIcon icon={icon} />
       <CardBody
-        margin={{ top: "large" }}
+        margin={{ top: "medium" }}
         pad={{
           top: "medium",
         }}
@@ -89,10 +76,6 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 
 const StyledCard = styled(Card)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
-`;
-
-const StyledIcon = styled(Icon)`
-  max-width: 200px;
 `;
 
 export default ProgrammeCard;

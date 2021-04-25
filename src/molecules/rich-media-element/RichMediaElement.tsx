@@ -20,6 +20,7 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
   dimensions,
   layout,
   mobile,
+  className,
   ...restProps
 }) => {
   const size = useContext(ResponsiveContext);
@@ -47,6 +48,7 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         layout={layout}
+        className={className}
         unoptimized
       />
     );
@@ -60,6 +62,7 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
       objectFit="cover"
       width={props.width as ReactText}
       height={props.height as ReactText}
+      className={className}
       unoptimized
     />
   );

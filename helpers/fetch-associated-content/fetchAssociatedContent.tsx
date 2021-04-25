@@ -8,6 +8,7 @@ const fetchAssociatedContent = async (
   associatedContent: DetailPageData["associatedContent"] = []
 ) => {
   const associatedContentIds = associatedContent.map(({ link }) => link.id);
+
   const client = Client();
   let associatedContentData;
 

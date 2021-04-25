@@ -18,6 +18,7 @@ import ModuleHero, {
 } from "../../../src/organisms/module-hero/ModuleHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import CustomType from "../../../types/CustomType";
+import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 import { AssessmentApplicationMainProps } from "./[assessment_application]";
@@ -38,6 +39,7 @@ interface GuideGroup {
 export interface LearningModuleProps
   extends ModuleHeroProps,
     CTABannerAlternateProps {
+  icon?: ImageProps;
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
@@ -56,6 +58,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
     title,
     body,
+    icon,
     guideDownload,
     guideLink,
     guidesBody,
@@ -98,6 +101,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         body={body}
         guideDownload={guideDownload}
         guideLink={guideLink}
+        icon={icon}
       />
       <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
         <Section>

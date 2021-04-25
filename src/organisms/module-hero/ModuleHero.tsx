@@ -1,11 +1,11 @@
 import { Box, Heading, Paragraph, ResponsiveContext } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
-import styled from "styled-components";
 
+import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
-import Icon from "../../molecules/programme-card/Icon";
+import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
 import { colorPalette } from "../../theme/pila";
 import HeroText from "../hero-text/HeroText";
 
@@ -15,6 +15,7 @@ export interface ModuleHeroProps {
   body?: RichTextBlock[];
   guideDownload?: Link;
   guideLink?: Link;
+  icon?: ImageProps;
 }
 
 const ModuleHero: React.FC<ModuleHeroProps> = ({
@@ -23,6 +24,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
   body,
   guideDownload,
   guideLink,
+  icon,
 }) => {
   const size = React.useContext(ResponsiveContext);
 
@@ -43,11 +45,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
       ]}
       title={
         <React.Fragment>
-          {size === "small" && (
-            <Box width={{ max: "200px" }}>
-              <StyledIcon />
-            </Box>
-          )}
+          {size === "small" && <LearningModuleIcon icon={icon} />}
           {title && (
             <Heading
               textAlign={"start"}
@@ -72,7 +70,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
       info={
         <React.Fragment>
           <Box width={{ max: "200px" }}>
-            {size !== "small" && <StyledIcon />}
+            {size !== "small" && <LearningModuleIcon icon={icon} />}
             <Paragraph margin={{ top: "medium", bottom: "medium" }}>
               Learn more from the Computational Thinking framework
             </Paragraph>
@@ -100,9 +98,5 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
     />
   );
 };
-
-const StyledIcon = styled(Icon)`
-  width: 100%;
-`;
 
 export default ModuleHero;

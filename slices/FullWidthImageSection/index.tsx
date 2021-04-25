@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import Section from "../../src/layout/section/Section";
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent, {
   TextContentProps,
@@ -53,7 +54,6 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
           >
             <StyledBox
               justify={"center"}
-              background={`url(${image.url})`}
               round={"medium"}
               margin={{
                 horizontal: size === "small" ? "4vw" : "large",
@@ -61,7 +61,9 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
                 bottom: bottomPadding || "xlarge",
               }}
               pad={{ vertical: size === "large" ? "100px" : "xlarge" }}
+              style={{ position: "relative" }}
             >
+              <RichMediaElement layout={"fill"} url={image.url} />
               <Section justify={size === "small" ? "start" : "center"} flex>
                 <ResponsiveGrid
                   margin={{ vertical: size === "small" ? "4vw" : "large" }}

@@ -94,6 +94,7 @@ const Page: React.FC<PageProps> = (props) => {
                 key={module.id}
                 title={module.data?.title}
                 body={module.data?.bodyShort}
+                icon={module.data?.icon}
                 link={{
                   uid: module.uid,
                   type: module.type,

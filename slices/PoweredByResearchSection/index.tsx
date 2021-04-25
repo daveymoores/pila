@@ -9,6 +9,7 @@ import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
 import CustomType from "../../types/CustomType";
+import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Primary {
@@ -22,6 +23,7 @@ export interface LearningModule {
   body: RichTextBlock[];
   bodyShort: RichTextBlock[];
   applications: CustomType<AssessmentApplicationProps>[];
+  icon: ImageProps;
 }
 
 export interface PoweredByResearchSectionProps extends Slice<Primary, never> {
@@ -61,6 +63,7 @@ const PoweredByResearchSection: FC<{
                 key={module.id}
                 title={module.data?.title}
                 body={module.data?.bodyShort}
+                icon={module.data?.icon}
                 link={{
                   uid: module.uid,
                   type: module.type,

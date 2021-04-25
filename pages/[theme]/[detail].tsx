@@ -106,7 +106,9 @@ export const getStaticProps = async (
     },
   })(context);
 
-  const associatedContent = await fetchAssociatedContent();
+  const associatedContent = await fetchAssociatedContent(
+    props.data.associatedContent
+  );
 
   return {
     props: {
