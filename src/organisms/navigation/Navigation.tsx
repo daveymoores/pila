@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { LazyMotion, m as framerMotion } from "framer-motion";
 import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
@@ -103,122 +103,140 @@ const Navigation: React.FC<NavigationProps> = ({
     stiffness: 2000,
   };
 
+  const loadFeatures = () =>
+    import("./framer-motion-features").then((res) => res.default);
+
   return (
-    <StyledHeader
-      height="115px"
-      style={
-        {
-          "--nav-theme": `${
-            theme === NavigationTheme.LIGHT ? colorPalette.dark_blue : "white"
-          }`,
-        } as React.CSSProperties
-      }
-    >
-      <Section>
-        <ResponsiveGrid rows="1" columns={"1"}>
-          <MobileOnly>
-            <Box justify="start" direction={"row"}>
-              <StyledLogoBox onClick={() => router.push(`/`)}>
-                <StyledLogo />
-              </StyledLogoBox>
-              <Box
-                margin={{ left: "auto" }}
-                background={isOpen ? colorPalette.blue : colorPalette.yellow}
-                round={"50%"}
-                style={{
-                  position: "relative",
-                  zIndex: 3,
-                }}
-              >
-                <Hamburger
-                  rounded={true}
-                  size={24}
-                  color={isOpen ? "white" : colorPalette.dark_blue}
-                  label="Show menu"
-                  toggled={isOpen}
-                  toggle={setIsOpen}
-                />
+    <LazyMotion features={loadFeatures}>
+      <StyledHeader
+        height="115px"
+        style={
+          {
+            "--nav-theme": `${
+              theme === NavigationTheme.LIGHT ? colorPalette.dark_blue : "white"
+            }`,
+          } as React.CSSProperties
+        }
+      >
+        <Section>
+          <ResponsiveGrid rows="1" columns={"1"}>
+            <MobileOnly>
+              <Box justify="start" direction={"row"}>
+                <StyledLogoBox onClick={() => router.push(`/`)}>
+                  <StyledLogo />
+                </StyledLogoBox>
+                <Box
+                  margin={{ left: "auto" }}
+                  background={isOpen ? colorPalette.blue : colorPalette.yellow}
+                  round={"50%"}
+                  style={{
+                    position: "relative",
+                    zIndex: 3,
+                  }}
+                >
+                  <Hamburger
+                    rounded={true}
+                    size={24}
+                    color={isOpen ? "white" : colorPalette.dark_blue}
+                    label="Show menu"
+                    toggled={isOpen}
+                    toggle={setIsOpen}
+                  />
+                </Box>
+                <MobileNavigation
+                  initial={"initial"}
+                  variants={variants}
+                  transition={spring}
+                  animate={isOpen ? "active" : "inactive"}
+                >
+                  <Box direction={"row"} align={"center"} pad={"xlarge"}>
+                    <AuthButtons
+                      auth={auth}
+                      signOut={signOut}
+                      theme={NavigationTheme.DARK}
+                      signInWithGoogle={signInWithGoogle}
+                    />
+                  </Box>
+                  <Box as={"ul"} pad={"xlarge"}>
+                    {links &&
+                      links.map(({ label, link }, index) => (
+                        <Box
+                          key={index}
+                          as={"li"}
+                          margin={{ bottom: "medium" }}
+                        >
+                          <StyledRoutedMobileTextLink
+                            key={index}
+                            link={link}
+                            label={label}
+                          />
+                        </Box>
+                      ))}
+                    <Divider as={"li"}>
+                      <Box
+                        as={"span"}
+                        margin={{ top: "large", bottom: "medium" }}
+                      >
+                        Modules
+                      </Box>
+                    </Divider>
+                    {mobileModuleLinks &&
+                      mobileModuleLinks.map(({ label, link }, index) => (
+                        <Box
+                          key={index}
+                          as={"li"}
+                          margin={{ bottom: "medium" }}
+                        >
+                          <StyledRoutedMobileTextLink
+                            key={index}
+                            link={link}
+                            label={label}
+                          />
+                        </Box>
+                      ))}
+                  </Box>
+                </MobileNavigation>
               </Box>
-              <MobileNavigation
-                initial={"initial"}
-                variants={variants}
-                transition={spring}
-                animate={isOpen ? "active" : "inactive"}
+            </MobileOnly>
+            <TabletUp>
+              <Box
+                justify="start"
+                direction="row"
+                gap="medium"
+                align={"center"}
               >
-                <Box direction={"row"} align={"center"} pad={"xlarge"}>
+                <StyledLogoBox onClick={() => router.push(`/`)}>
+                  <StyledLogo />
+                </StyledLogoBox>
+                <Nav
+                  direction="row"
+                  align={"center"}
+                  justify={"between"}
+                  flex={"grow"}
+                >
+                  <Box direction={"row"} align={"center"}>
+                    <StyledMenu
+                      label={modules_dropdown_label}
+                      items={moduleNavigationItems}
+                    />
+                    {links &&
+                      links.map(({ link, label }, index) => (
+                        <StyledTextLink key={index} link={link} label={label} />
+                      ))}
+                  </Box>
                   <AuthButtons
                     auth={auth}
                     signOut={signOut}
-                    theme={NavigationTheme.DARK}
+                    theme={theme}
                     signInWithGoogle={signInWithGoogle}
                   />
-                </Box>
-                <Box as={"ul"} pad={"xlarge"}>
-                  {links &&
-                    links.map(({ label, link }, index) => (
-                      <Box key={index} as={"li"} margin={{ bottom: "medium" }}>
-                        <StyledRoutedMobileTextLink
-                          key={index}
-                          link={link}
-                          label={label}
-                        />
-                      </Box>
-                    ))}
-                  <Divider as={"li"}>
-                    <Box
-                      as={"span"}
-                      margin={{ top: "large", bottom: "medium" }}
-                    >
-                      Modules
-                    </Box>
-                  </Divider>
-                  {mobileModuleLinks &&
-                    mobileModuleLinks.map(({ label, link }, index) => (
-                      <Box key={index} as={"li"} margin={{ bottom: "medium" }}>
-                        <StyledRoutedMobileTextLink
-                          key={index}
-                          link={link}
-                          label={label}
-                        />
-                      </Box>
-                    ))}
-                </Box>
-              </MobileNavigation>
-            </Box>
-          </MobileOnly>
-          <TabletUp>
-            <Box justify="start" direction="row" gap="medium" align={"center"}>
-              <StyledLogoBox onClick={() => router.push(`/`)}>
-                <StyledLogo />
-              </StyledLogoBox>
-              <Nav
-                direction="row"
-                align={"center"}
-                justify={"between"}
-                flex={"grow"}
-              >
-                <Box direction={"row"} align={"center"}>
-                  <StyledMenu
-                    label={modules_dropdown_label}
-                    items={moduleNavigationItems}
-                  />
-                  {links &&
-                    links.map(({ link, label }, index) => (
-                      <StyledTextLink key={index} link={link} label={label} />
-                    ))}
-                </Box>
-                <AuthButtons
-                  auth={auth}
-                  signOut={signOut}
-                  theme={theme}
-                  signInWithGoogle={signInWithGoogle}
-                />
-              </Nav>
-            </Box>
-          </TabletUp>
-        </ResponsiveGrid>
-      </Section>
-    </StyledHeader>
+                </Nav>
+              </Box>
+            </TabletUp>
+          </ResponsiveGrid>
+        </Section>
+      </StyledHeader>
+    </LazyMotion>
   );
 };
 
@@ -324,7 +342,7 @@ const StyledRoutedMobileTextLink = styled(TextLink)`
   color: white;
 `;
 
-const MobileNavigation = styled(motion.div)`
+const MobileNavigation = styled(framerMotion.div)`
   position: fixed;
   top: 0;
   left: 0;
