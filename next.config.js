@@ -1,8 +1,5 @@
 const withPlugins = require("next-compose-plugins");
-const withTM = require("next-transpile-modules")([
-  "next-slicezone",
-  "essential-slices",
-])({
+const withTM = require("next-transpile-modules")(["next-slicezone"])({
   future: {
     webpack5: true,
   },

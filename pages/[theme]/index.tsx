@@ -4,7 +4,7 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
-import resolver from "../../sm-resolver.js";
+import resolver from "../../sm-resolver";
 import useNotification from "../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroImage, {

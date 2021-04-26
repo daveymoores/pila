@@ -11,7 +11,7 @@ import {
   PoweredByResearchSectionProps,
 } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
-import resolver from "../sm-resolver.js";
+import resolver from "../sm-resolver";
 import useNotification from "../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
