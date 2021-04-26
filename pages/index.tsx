@@ -12,7 +12,6 @@ import {
 } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver.js";
-import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
 import useNotification from "../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
@@ -59,7 +58,6 @@ const Page: React.FC<PageProps> = ({
     ...restData
   } = data;
 
-  useNavigationDarkTheme();
   useNotification(notification);
 
   return (

@@ -5,7 +5,6 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
-import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
 import Section from "../../src/layout/section/Section";
 import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
@@ -49,7 +48,6 @@ const Page: React.FC<PageProps> = (props) => {
   } = props.data || {};
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   const learningModules = React.useContext(LearningModulesContext);
 

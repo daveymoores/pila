@@ -3,7 +3,6 @@ import { useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
 
 import { Client } from "../prismic";
-import { useNavigationLightTheme } from "../src/hooks/useNavigationTheme";
 import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
@@ -28,7 +27,6 @@ const Page: React.FC<PageProps> = (props) => {
   } = props.data;
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   return (
     <Section>

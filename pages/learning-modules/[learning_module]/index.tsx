@@ -7,7 +7,6 @@ import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
-import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import useNotification from "../../../src/hooks/useNotification";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/guide-card/GuideCard";
@@ -78,7 +77,6 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   } = data;
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   const learningModules = React.useContext(LearningModulesContext);
 

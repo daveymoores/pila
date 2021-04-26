@@ -7,7 +7,7 @@ import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
-import { useAuth } from "../../../lib/auth";
+import { AuthContext, useAuth } from "../../../lib/auth";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
 import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
@@ -20,7 +20,6 @@ import {
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import TextLink from "../../atoms/text-link/TextLink";
 import LearningModulesContext from "../../context/LearningModulesContext";
-import NavigationThemeContext from "../../context/NavigationThemeContext";
 import OffCanvasContext from "../../context/OffCanvasContext";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
@@ -36,14 +35,21 @@ export interface NavigationProps {
   modules_dropdown_label: string;
 }
 
+// TODO - fix this as other paths can match
+const darkThemePages = (route: string) =>
+  route === "/" || new RegExp("account|sessions").test(route);
+
 const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
   const { auth, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
-  const { theme } = React.useContext(NavigationThemeContext);
   const router = useRouter();
+
+  const theme = darkThemePages(router.pathname)
+    ? NavigationTheme.DARK
+    : NavigationTheme.LIGHT;
 
   React.useEffect(() => {
     if (isOpen) setIsOpen(false);
@@ -140,21 +146,11 @@ const Navigation: React.FC<NavigationProps> = ({
                 animate={isOpen ? "active" : "inactive"}
               >
                 <Box direction={"row"} align={"center"} pad={"xlarge"}>
-                  <StyledTextLink
-                    link={{
-                      type: PageType.ACCOUNT,
-                    }}
-                    label={"login"}
-                  />
-                  <Button
-                    primary
-                    margin={{ left: "medium" }}
-                    size={ButtonSizes.small}
-                    color={colorPalette.periwinkleCrayola}
-                    label={"sign up"}
-                    link={{
-                      type: PageType.SESSION,
-                    }}
+                  <AuthButtons
+                    auth={auth}
+                    signOut={signOut}
+                    theme={NavigationTheme.DARK}
+                    signInWithGoogle={signInWithGoogle}
                   />
                 </Box>
                 <Box as={"ul"} pad={"xlarge"}>
@@ -211,50 +207,12 @@ const Navigation: React.FC<NavigationProps> = ({
                       <StyledTextLink key={index} link={link} label={label} />
                     ))}
                 </Box>
-                <Box direction={"row"} align={"center"}>
-                  {auth && (
-                    <StyledTextLink
-                      link={{
-                        type: PageType.ACCOUNT,
-                      }}
-                      label={"sign out"}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        signOut();
-                      }}
-                    />
-                  )}
-                  {isEmpty(auth) ? (
-                    <Button
-                      primary
-                      margin={{ left: "medium" }}
-                      size={ButtonSizes.small}
-                      color={
-                        theme === NavigationTheme.LIGHT
-                          ? colorPalette.blue
-                          : colorPalette.periwinkleCrayola
-                      }
-                      label={"sign up"}
-                      onClick={(event) => {
-                        event.preventDefault();
-                        signInWithGoogle();
-                      }}
-                      link={{
-                        type: PageType.SESSION,
-                      }}
-                    />
-                  ) : (
-                    <Box
-                      width={"40px"}
-                      height={"40px"}
-                      round={"50%"}
-                      overflow={"hidden"}
-                      margin={{ left: "medium" }}
-                    >
-                      <Image src={auth?.photoUrl || undefined} />
-                    </Box>
-                  )}
-                </Box>
+                <AuthButtons
+                  auth={auth}
+                  signOut={signOut}
+                  theme={theme}
+                  signInWithGoogle={signInWithGoogle}
+                />
               </Nav>
             </Box>
           </TabletUp>
@@ -263,6 +221,62 @@ const Navigation: React.FC<NavigationProps> = ({
     </StyledHeader>
   );
 };
+
+interface AuthButtonProps
+  extends Pick<AuthContext, "auth" | "signInWithGoogle" | "signOut"> {
+  theme: NavigationTheme;
+}
+
+const AuthButtons: React.FC<AuthButtonProps> = ({
+  auth,
+  signOut,
+  theme,
+  signInWithGoogle,
+}) => (
+  <Box direction={"row"} align={"center"}>
+    {auth && (
+      <StyledTextLink
+        link={{
+          type: PageType.ACCOUNT,
+        }}
+        margin={{ right: "medium" }}
+        label={"sign out"}
+        onClick={(event) => {
+          event.preventDefault();
+          signOut();
+        }}
+        color={
+          theme === NavigationTheme.LIGHT
+            ? colorPalette.dark_blue
+            : colorPalette.white
+        }
+      />
+    )}
+    {isEmpty(auth) ? (
+      <Button
+        primary
+        size={ButtonSizes.small}
+        color={
+          theme === NavigationTheme.LIGHT
+            ? colorPalette.blue
+            : colorPalette.periwinkleCrayola
+        }
+        label={"sign up"}
+        onClick={(event) => {
+          event.preventDefault();
+          signInWithGoogle();
+        }}
+        link={{
+          type: PageType.SESSION,
+        }}
+      />
+    ) : (
+      <Box width={"40px"} height={"40px"} round={"50%"} overflow={"hidden"}>
+        <Image src={auth?.photoUrl || undefined} />
+      </Box>
+    )}
+  </Box>
+);
 
 const Divider = styled(Box)<BoxProps>`
   color: ${colorPalette.grey};
@@ -301,7 +315,7 @@ const StyledMenu = styled(Menu)`
 const StyledTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
-  color: var(--nav-theme);
+  color: ${(props) => props.color || `var(--nav-theme)`};
 `;
 
 const StyledRoutedMobileTextLink = styled(TextLink)`

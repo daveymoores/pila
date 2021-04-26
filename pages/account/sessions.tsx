@@ -8,7 +8,6 @@ import fetcher from "../../helpers/fetcher/fetcher";
 import { useAuth } from "../../lib/auth";
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import TextLink from "../../src/atoms/text-link/TextLink";
-import { useNavigationDarkTheme } from "../../src/hooks/useNavigationTheme";
 import Section from "../../src/layout/section/Section";
 import SessionCard from "../../src/molecules/session-card/SessionCard";
 import HeroText from "../../src/organisms/hero-text/HeroText";
@@ -51,7 +50,6 @@ const areas = {
 };
 
 const Page: React.FC = () => {
-  useNavigationDarkTheme();
   const { auth, loading } = useAuth();
   const router = useRouter();
 

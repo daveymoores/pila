@@ -6,7 +6,6 @@ import React from "react";
 import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
-import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
 import useNotification from "../../src/hooks/useNotification";
 import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
@@ -32,7 +31,6 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
   } = data || {};
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   const breadcrumbLinks: BreadcrumbItem[] = [
     {

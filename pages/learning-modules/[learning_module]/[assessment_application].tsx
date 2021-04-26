@@ -7,7 +7,6 @@ import { ApplicationStats } from "../../../helpers/get-application-averages/getA
 import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
-import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import useNotification from "../../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
@@ -87,7 +86,6 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
   } = data || {};
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   return (
     <React.Fragment>

@@ -1,4 +1,4 @@
-import { Box, Heading, Paragraph, ResponsiveContext } from "grommet";
+import { Box, Heading, Paragraph } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
@@ -6,6 +6,10 @@ import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
+import {
+  MobileOnly,
+  TabletUp,
+} from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import { colorPalette } from "../../theme/pila";
 import HeroText from "../hero-text/HeroText";
 
@@ -26,8 +30,6 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
   guideLink,
   icon,
 }) => {
-  const size = React.useContext(ResponsiveContext);
-
   return (
     <HeroText
       links={[
@@ -45,32 +47,59 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
       ]}
       title={
         <React.Fragment>
-          {size === "small" && <LearningModuleIcon icon={icon} />}
+          <MobileOnly>
+            <LearningModuleIcon icon={icon} />
+          </MobileOnly>
           {title && (
-            <Heading
-              textAlign={"start"}
-              level={"1"}
-              alignSelf={"stretch"}
-              size="small"
-              margin={{
-                top: size === "small" ? "xlarge" : "none",
-                bottom: "medium",
-              }}
-            >
-              {RichText.asText(title)}
-            </Heading>
+            <React.Fragment>
+              <MobileOnly>
+                <Heading
+                  textAlign={"start"}
+                  level={"1"}
+                  alignSelf={"stretch"}
+                  size="small"
+                  margin={{
+                    top: "xlarge",
+                    bottom: "medium",
+                  }}
+                >
+                  {RichText.asText(title)}
+                </Heading>
+              </MobileOnly>
+              <TabletUp>
+                <Heading
+                  textAlign={"start"}
+                  level={"1"}
+                  alignSelf={"stretch"}
+                  size="small"
+                  margin={{
+                    top: "none",
+                    bottom: "medium",
+                  }}
+                >
+                  {RichText.asText(title)}
+                </Heading>
+              </TabletUp>
+            </React.Fragment>
           )}
           {body && (
-            <Paragraph size={size === "small" ? "medium" : "large"}>
-              {RichText.asText(body)}
-            </Paragraph>
+            <React.Fragment>
+              <MobileOnly>
+                <Paragraph size={"medium"}>{RichText.asText(body)}</Paragraph>
+              </MobileOnly>
+              <TabletUp>
+                <Paragraph size={"large"}>{RichText.asText(body)}</Paragraph>
+              </TabletUp>
+            </React.Fragment>
           )}
         </React.Fragment>
       }
       info={
         <React.Fragment>
           <Box width={{ max: "200px" }}>
-            {size !== "small" && <LearningModuleIcon icon={icon} />}
+            <TabletUp>
+              <LearningModuleIcon icon={icon} />
+            </TabletUp>
             <Paragraph margin={{ top: "medium", bottom: "medium" }}>
               Learn more from the Computational Thinking framework
             </Paragraph>

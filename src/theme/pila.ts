@@ -8,6 +8,7 @@ export const colorPalette = {
   grey: "#6e7a8d",
   periwinkleCrayola: "#D5DCF9",
   redCrayola: "#F52F57",
+  white: "#FFFFFF",
 };
 
 export const fontWeights = {

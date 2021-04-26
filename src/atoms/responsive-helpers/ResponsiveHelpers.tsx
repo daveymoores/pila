@@ -35,4 +35,13 @@ const DesktopUp = styled.div`
   }
 `;
 
-export { DesktopUp, MobileOnly, TabletOnly, TabletUp };
+const MobileTabletOnly = styled.div`
+  width: 100%;
+  display: block;
+
+  @media only screen and (min-width: 901px) {
+    display: none;
+  }
+`;
+
+export { DesktopUp, MobileOnly, MobileTabletOnly, TabletOnly, TabletUp };

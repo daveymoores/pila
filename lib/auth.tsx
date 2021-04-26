@@ -17,7 +17,7 @@ interface Auth {
   token: string | null;
 }
 
-interface AuthContext {
+export interface AuthContext {
   auth: Auth | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void> | undefined;
