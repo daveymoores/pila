@@ -32,7 +32,7 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
   const {
     primary: { image, textPosition, bottomPadding, ...textContentProps },
   } = slice;
-  console.log(bottomPadding);
+
   return (
     <ResponsiveContext.Consumer>
       {(size) => {

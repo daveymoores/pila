@@ -88,5 +88,21 @@
     }
   },
   "HeroImage": {},
-  "ThanksToInstitutionsSection": {}
+  "ThanksToInstitutionsSection": {},
+  "StepsSection": {
+    "items": {
+      "body": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "title": {
+        "config": {
+          "patternType": "HEADING",
+          "blocks": 1
+        }
+      }
+    }
+  }
 }

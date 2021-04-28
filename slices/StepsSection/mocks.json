@@ -1,1 +1,146 @@
-[{"id":"default-slice","name":"Default slice","docURL":"...","version":"sktwi1xtmkfgx8626","description":"StepsSection","primary":{"title":[{"type":"heading1","text":"integrate killer platforms","spans":[]}]},"items":[{"title":[{"type":"heading1","text":"drive granular paradigms","spans":[]}],"body":[{"type":"paragraph","text":"Irure adipisicing dolore cillum officia officia deserunt consectetur enim proident ea aliquip aute nisi nisi. Exercitation laboris magna aute tempor voluptate esse minim ipsum mollit deserunt quis ad fugiat ipsum.","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/917926e0-4ebc-4f8a-92e2-70e0168486b3_fz5ClUtxziI.jpg?w=900&h=500&fit=crop"}},{"title":[{"type":"heading1","text":"morph interactive channels","spans":[]}],"body":[{"type":"paragraph","text":"Non aliquip cupidatat eiusmod ex dolore.\nConsequat eu do excepteur. Voluptate enim Lorem id velit tempor aliqua esse aliqua Lorem occaecat tempor ut aute adipisicing. Sunt laborum culpa laboris esse sit nostrud incididunt amet sit anim.","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/a97d6a71-8f4d-412e-94f5-22e8675713c2_Tir2gkW3mYs.jpg?w=900&h=500&fit=crop"}},{"title":[{"type":"heading1","text":"unleash interactive experiences","spans":[]}],"body":[{"type":"paragraph","text":"Anim exercitation quis culpa aliquip tempor sint veniam amet sunt eu fugiat ex pariatur velit tempor. Ea non magna quis excepteur. Proident aute aute culpa qui voluptate laboris.","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/a088b747-ac0d-4ed4-9407-b9555a3de82e_o9Y-bfgbtjg.jpg?w=900&h=500&fit=crop"}},{"title":[{"type":"heading1","text":"optimize impactful e-services","spans":[]}],"body":[{"type":"paragraph","text":"Sint pariatur nisi pariatur voluptate aliqua elit aliqua eiusmod laborum aliqua nulla labore consequat.\nDeserunt cillum enim commodo et dolor. Ut nostrud culpa ut nulla commodo aliqua fugiat id eiusmod aliqua voluptate aute incididunt.\nEsse aliquip ad officia in ullamco minim. Et occaecat laboris sunt est elit enim incididunt ullamco esse eiusmod. Magna quis officia anim sit ut.","spans":[]}],"image":{"dimensions":{"width":900,"height":500},"alt":"Placeholder image","copyright":null,"url":"https://images.prismic.io/important-sm-images/6b114b05-c3fd-46b7-bf07-079bcfc3fcce_QHy3ixe40Ic.jpg?w=900&h=500&fit=crop"}}],"slice_type":"steps_section"}]
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "StepsSection",
+    "primary": {
+      "title": [
+        {
+          "type": "paragraph",
+          "text": "Aute deserunt ut amet cupidatat officia adipisicing enim amet incididunt. Consequat nisi ut dolor sunt.",
+          "spans": []
+        }
+      ]
+    },
+    "items": [
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Target bleeding-edge partnerships",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Amet ipsum velit consequat laborum mollit quis reprehenderit. Consequat anim in nulla ad voluptate commodo Lorem tempor sunt laborum non reprehenderit aliqua culpa deserunt. Ut anim sunt Lorem ipsum dolore eiusmod commodo.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 400,
+            "height": 400
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1551739440-5dd934d3a94a?w=400&h=400&fit=crop"
+        }
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Reinvent bricks-and-clicks web-readiness",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Cillum velit proident minim aliqua sint. Ad laborum anim elit aliqua consequat cillum. Culpa minim veniam do exercitation velit ullamco aliqua tempor id irure deserunt aliqua.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 400,
+            "height": 400
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1494173853739-c21f58b16055?w=400&h=400&fit=crop"
+        }
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Scale cross-platform paradigms",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Reprehenderit laborum anim occaecat Lorem ex amet. Ut voluptate proident ea incididunt nostrud ut mollit occaecat veniam amet sit nulla in et esse. Laborum consequat nisi laborum veniam aliquip laboris esse amet in sit.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 400,
+            "height": 400
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1560457079-9a6532ccb118?w=400&h=400&fit=crop"
+        }
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Evolve customized deliverables",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Deserunt irure laboris commodo officia non cupidatat officia ullamco officia. Magna ad ea est laboris amet dolore ut amet laboris sit quis eu aliquip consectetur enim.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 400,
+            "height": 400
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1560762484-813fc97650a0?w=400&h=400&fit=crop"
+        }
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Transition virtual supply-chains",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Pariatur est esse ea proident in mollit magna eiusmod.",
+            "spans": []
+          }
+        ],
+        "image": {
+          "dimensions": {
+            "width": 400,
+            "height": 400
+          },
+          "alt": "Placeholder image",
+          "copyright": null,
+          "url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400&h=400&fit=crop"
+        }
+      }
+    ],
+    "slice_type": "steps_section"
+  }
+]
