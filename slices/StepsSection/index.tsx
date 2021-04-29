@@ -25,47 +25,43 @@ interface Primary {
 export type ImageBlockProps = Slice<Primary, Item>;
 
 const columns = {
-  small: ["auto"],
-  medium: ["auto"],
+  small: Array(4).fill("flex"),
+  medium: Array(6).fill("flex"),
   large: Array(12).fill("flex"),
   xlarge: Array(12).fill("flex"),
 };
 
 const rows = {
   small: ["auto", "auto"],
-  medium: ["auto", "auto"],
+  medium: ["auto"],
   large: ["auto"],
   xlarge: ["auto"],
 };
 
 const gridAreas = (imageSide: ImagePosition) => ({
   small: [
-    { name: "image", start: [0, 0], end: [1, 0] },
-    { name: "text", start: [0, 1], end: [1, 1] },
+    { name: "image", start: [1, 0], end: [2, 0] },
+    { name: "text", start: [0, 1], end: [3, 1] },
   ],
-  medium: [
-    { name: "image", start: [0, 0], end: [1, 0] },
-    { name: "text", start: [0, 1], end: [1, 1] },
-  ],
+  medium:
+    imageSide === ImagePosition.imageRight
+      ? [
+          { name: "text", start: [0, 0], end: [3, 0] },
+          { name: "image", start: [4, 0], end: [5, 0] },
+        ]
+      : [
+          { name: "image", start: [0, 0], end: [1, 0] },
+          { name: "text", start: [2, 0], end: [5, 0] },
+        ],
   large:
     imageSide === ImagePosition.imageRight
       ? [
-          { name: "image", start: [6, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [4, 0] },
+          { name: "text", start: [1, 0], end: [8, 0] },
+          { name: "image", start: [9, 0], end: [11, 0] },
         ]
       : [
-          { name: "image", start: [0, 0], end: [5, 0] },
-          { name: "text", start: [7, 0], end: [11, 0] },
-        ],
-  xlarge:
-    imageSide === ImagePosition.imageRight
-      ? [
-          { name: "image", start: [7, 0], end: [11, 0] },
-          { name: "text", start: [0, 0], end: [4, 0] },
-        ]
-      : [
-          { name: "image", start: [0, 0], end: [5, 0] },
-          { name: "text", start: [7, 0], end: [11, 0] },
+          { name: "image", start: [0, 0], end: [2, 0] },
+          { name: "text", start: [3, 0], end: [10, 0] },
         ],
 });
 
@@ -90,11 +86,41 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
               key={index}
               columns={columns}
               areas={gridAreas(
-                index % 2 ? ImagePosition.imageRight : ImagePosition.imageLeft
+                index % 2 == 0
+                  ? ImagePosition.imageLeft
+                  : ImagePosition.imageRight
               )}
               rows={rows}
+              margin={"large"}
+              align={"start"}
             >
-              <Box gridArea={"image"}>
+              <Box gridArea={"image"} style={{ position: "relative" }}>
+                <Box
+                  round={"50%"}
+                  background={colorPalette.white}
+                  pad={"small"}
+                  elevation={"large"}
+                  height={"45px"}
+                  width={"45px"}
+                  justify={"center"}
+                  align={"center"}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: index % 2 == 0 ? 0 : "auto",
+                    right: index % 2 == 0 ? "auto" : 0,
+                    zIndex: 1,
+                    textAlign: "center",
+                    transform: `translate3d(${
+                      index % 2 == 0 ? -30 : 30
+                    }%, -40%, 0)`,
+                    boxShadow: "0 8px 16px 0 rgb(0 0 0 / 5%)",
+                  }}
+                >
+                  <Heading level={3} size={"20px"}>
+                    {index + 1}
+                  </Heading>
+                </Box>
                 {item.image?.url && (
                   <RichMediaElement
                     {...item.image}
@@ -105,10 +131,18 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
               </Box>
               <Box
                 gridArea="text"
-                round={"large"}
+                round={"medium"}
                 background={colorPalette.white}
                 pad="large"
               >
+                <Heading
+                  level={"4"}
+                  size="small"
+                  margin={{ bottom: "small" }}
+                  alignSelf={"stretch"}
+                >
+                  {RichText.asText(item.title)}
+                </Heading>
                 <StyledRichText body={item.body} />
               </Box>
             </ResponsiveGrid>
@@ -123,11 +157,10 @@ const StyledBox = styled(Box)`
 `;
 
 const StyledRichText = styled(RichTextParser)`
-  padding-top: 1em;
-
   > * {
     color: ${colorPalette.grey};
     font-size: 16px;
+    line-height: 24px;
   }
 `;
 

@@ -8,16 +8,22 @@ import { ModuleHeroProps } from "../../organisms/module-hero/ModuleHero";
 const LearningModuleIcon: React.FC<Pick<ModuleHeroProps, "icon">> = ({
   icon,
 }) => (
-  <Box justify={"center"} style={{ position: "relative" }} height={"8em"}>
+  <StyledBox justify={"center"} style={{ position: "relative" }} height={"8em"}>
     {icon && (
       <StyledRichMediaElement {...icon} alt={icon?.alt || ""} layout={"fill"} />
     )}
-  </Box>
+  </StyledBox>
 );
 
 const StyledRichMediaElement = styled(RichMediaElement)`
   object-fit: contain !important;
   max-width: 200px;
+`;
+
+const StyledBox = styled(Box)`
+  @media only screen and (max-width: 600px) {
+    margin: 20px;
+  }
 `;
 
 export default LearningModuleIcon;
