@@ -4,25 +4,23 @@ import "../styles/globals.css";
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
+import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
+import { AuthProvider } from "../lib/auth";
 import { Client } from "../prismic";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
-import NavigationThemeContext from "../src/context/NavigationThemeContext";
 import { NotificationProvider } from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
 import { NotificationProps } from "../src/molecules/notification/Notification";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
-import {
-  NavigationProps,
-  NavigationTheme,
-} from "../src/organisms/navigation/Navigation";
+import { NavigationProps } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
@@ -64,9 +62,6 @@ interface Response extends Omit<ApiSearchResponse, "results"> {
 // @ts-ignore
 const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const { Component, pageProps } = props;
-  const [navigationTheme, setNavigationTheme] = React.useState<NavigationTheme>(
-    NavigationTheme.LIGHT
-  );
 
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -116,16 +111,11 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   });
 
   return (
-    <OffCanvasContext.Provider
-      value={{
-        isOpen,
-        setIsOpen: setIsOpen,
-      }}
-    >
-      <NavigationThemeContext.Provider
+    <AuthProvider>
+      <OffCanvasContext.Provider
         value={{
-          theme: navigationTheme,
-          setTheme: (theme: NavigationTheme) => setNavigationTheme(theme),
+          isOpen,
+          setIsOpen: setIsOpen,
         }}
       >
         <NotificationProvider notifications={pageProps.notification}>
@@ -133,6 +123,13 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
             <AssessmentApplicationContext.Provider
               value={pageProps?.assessmentApplication}
             >
+              <Head>
+                <script
+                  async
+                  defer
+                  src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
+                />
+              </Head>
               <DefaultSeo
                 title={title}
                 description={description}
@@ -164,8 +161,8 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
             </AssessmentApplicationContext.Provider>
           </LearningModulesContext.Provider>
         </NotificationProvider>
-      </NavigationThemeContext.Provider>
-    </OffCanvasContext.Provider>
+      </OffCanvasContext.Provider>
+    </AuthProvider>
   );
 };
 
@@ -173,7 +170,6 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 // @ts-ignore
 PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
-  console.log(appProps);
   const userAgent = appContext.ctx.req?.headers["user-agent"];
   const client = Client();
   let data;

@@ -35,14 +35,17 @@
             "label": "Body",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "paragraph,strong,em"
+            "single": "paragraph,strong,em,hyperlink"
           },
           "type": "StructuredText"
         },
         "image": {
           "config": {
             "label": "Image",
-            "constraint": {},
+            "constraint": {
+              "width": 400,
+              "height": 400
+            },
             "thumbnails": []
           },
           "type": "Image"

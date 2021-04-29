@@ -72,7 +72,10 @@ const gridAreas = {
 };
 
 interface ApplicationSectionProps
-  extends Omit<AssessmentApplicationMainProps, "body" | "applicationLink"> {
+  extends Omit<
+    AssessmentApplicationMainProps,
+    "body" | "applicationLink" | "module"
+  > {
   index: number;
 }
 

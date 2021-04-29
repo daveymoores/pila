@@ -7,7 +7,6 @@ import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
-import { useNavigationLightTheme } from "../../../src/hooks/useNavigationTheme";
 import useNotification from "../../../src/hooks/useNotification";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/guide-card/GuideCard";
@@ -18,6 +17,7 @@ import ModuleHero, {
 } from "../../../src/organisms/module-hero/ModuleHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import CustomType from "../../../types/CustomType";
+import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
 import { AssessmentApplicationMainProps } from "./[assessment_application]";
@@ -38,6 +38,7 @@ interface GuideGroup {
 export interface LearningModuleProps
   extends ModuleHeroProps,
     CTABannerAlternateProps {
+  icon?: ImageProps;
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
@@ -56,6 +57,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
     title,
     body,
+    icon,
     guideDownload,
     guideLink,
     guidesBody,
@@ -75,7 +77,6 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   } = data;
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   const learningModules = React.useContext(LearningModulesContext);
 
@@ -98,6 +99,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         body={body}
         guideDownload={guideDownload}
         guideLink={guideLink}
+        icon={icon}
       />
       <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
         <Section>
@@ -195,7 +197,7 @@ export const getStaticProps = useGetStaticProps({
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.LEARNING_MODULE,
-  fallback: true, // process.env.NODE_ENV === 'development',
+  fallback: false,
   formatPath: ({ uid }) => ({ params: { learning_module: uid } }),
 });
 

@@ -1,20 +1,25 @@
-import { motion } from "framer-motion";
-import { Box, BoxProps, Header, Menu, Nav, ResponsiveContext } from "grommet";
+import { LazyMotion, m as framerMotion } from "framer-motion";
+import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
+import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
 import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
+import { AuthContext, useAuth } from "../../../lib/auth";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
-import { RoutedTextLink } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Logo from "../../atoms/logo/Logo";
+import {
+  MobileOnly,
+  TabletUp,
+} from "../../atoms/responsive-helpers/ResponsiveHelpers";
+import TextLink from "../../atoms/text-link/TextLink";
 import LearningModulesContext from "../../context/LearningModulesContext";
-import NavigationThemeContext from "../../context/NavigationThemeContext";
 import OffCanvasContext from "../../context/OffCanvasContext";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
@@ -30,13 +35,21 @@ export interface NavigationProps {
   modules_dropdown_label: string;
 }
 
+// TODO - fix this as other paths can match
+const darkThemePages = (route: string) =>
+  route === "/" || new RegExp("account|sessions").test(route);
+
 const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
+  const { auth, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
-  const { theme } = React.useContext(NavigationThemeContext);
   const router = useRouter();
+
+  const theme = darkThemePages(router.pathname)
+    ? NavigationTheme.DARK
+    : NavigationTheme.LIGHT;
 
   React.useEffect(() => {
     if (isOpen) setIsOpen(false);
@@ -90,172 +103,198 @@ const Navigation: React.FC<NavigationProps> = ({
     stiffness: 2000,
   };
 
+  const loadFeatures = () =>
+    import("./framer-motion-features").then((res) => res.default);
+
   return (
-    <StyledHeader
-      height="xsmall"
-      style={
-        {
-          "--nav-theme": `${
-            theme === NavigationTheme.LIGHT ? colorPalette.dark_blue : "white"
-          }`,
-        } as React.CSSProperties
-      }
-    >
-      <Section>
-        <ResponsiveGrid rows="1" columns={"1"}>
-          <ResponsiveContext.Consumer>
-            {(size) =>
-              size === "small" ? (
-                <Box justify="start" direction={"row"}>
-                  <StyledLogoBox onClick={() => router.push(`/`)}>
-                    <StyledLogo />
-                  </StyledLogoBox>
-                  <Box
-                    margin={{ left: "auto" }}
-                    background={
-                      isOpen ? colorPalette.blue : colorPalette.yellow
-                    }
-                    round={"50%"}
-                    style={{
-                      position: "relative",
-                      zIndex: 3,
-                    }}
-                  >
-                    <Hamburger
-                      rounded={true}
-                      size={24}
-                      color={isOpen ? "white" : colorPalette.dark_blue}
-                      label="Show menu"
-                      toggled={isOpen}
-                      toggle={setIsOpen}
+    <LazyMotion features={loadFeatures}>
+      <StyledHeader
+        height="115px"
+        style={
+          {
+            "--nav-theme": `${
+              theme === NavigationTheme.LIGHT ? colorPalette.dark_blue : "white"
+            }`,
+          } as React.CSSProperties
+        }
+      >
+        <Section>
+          <ResponsiveGrid rows="1" columns={"1"}>
+            <MobileOnly>
+              <Box justify="start" direction={"row"}>
+                <StyledLogoBox onClick={() => router.push(`/`)}>
+                  <StyledLogo />
+                </StyledLogoBox>
+                <Box
+                  margin={{ left: "auto" }}
+                  background={isOpen ? colorPalette.blue : colorPalette.yellow}
+                  round={"50%"}
+                  style={{
+                    position: "relative",
+                    zIndex: 3,
+                  }}
+                >
+                  <Hamburger
+                    rounded={true}
+                    size={24}
+                    color={isOpen ? "white" : colorPalette.dark_blue}
+                    label="Show menu"
+                    toggled={isOpen}
+                    toggle={setIsOpen}
+                  />
+                </Box>
+                <MobileNavigation
+                  initial={"initial"}
+                  variants={variants}
+                  transition={spring}
+                  animate={isOpen ? "active" : "inactive"}
+                >
+                  <Box direction={"row"} align={"center"} pad={"xlarge"}>
+                    <AuthButtons
+                      auth={auth}
+                      signOut={signOut}
+                      theme={NavigationTheme.DARK}
+                      signInWithGoogle={signInWithGoogle}
                     />
                   </Box>
-                  <MobileNavigation
-                    initial={"initial"}
-                    variants={variants}
-                    transition={spring}
-                    animate={isOpen ? "active" : "inactive"}
-                  >
-                    <Box direction={"row"} align={"center"} pad={"xlarge"}>
-                      <StyledRoutedTextLink
-                        link={{
-                          type: PageType.ACCOUNT,
-                        }}
-                        label={"login"}
-                      />
-                      <Button
-                        primary
-                        margin={{ left: "medium" }}
-                        size={ButtonSizes.small}
-                        color={colorPalette.periwinkleCrayola}
-                        label={"sign up"}
-                        link={{
-                          type: PageType.SESSION,
-                        }}
-                      />
-                    </Box>
-                    <Box as={"ul"} pad={"xlarge"}>
-                      {links &&
-                        links.map(({ label, link }, index) => (
-                          <Box
-                            key={index}
-                            as={"li"}
-                            margin={{ bottom: "medium" }}
-                          >
-                            <StyledRoutedMobileTextLink
-                              key={index}
-                              link={link}
-                              label={label}
-                            />
-                          </Box>
-                        ))}
-                      <Divider as={"li"}>
+                  <Box as={"ul"} pad={"xlarge"}>
+                    {links &&
+                      links.map(({ label, link }, index) => (
                         <Box
-                          as={"span"}
-                          margin={{ top: "large", bottom: "medium" }}
+                          key={index}
+                          as={"li"}
+                          margin={{ bottom: "medium" }}
                         >
-                          Modules
-                        </Box>
-                      </Divider>
-                      {mobileModuleLinks &&
-                        mobileModuleLinks.map(({ label, link }, index) => (
-                          <Box
-                            key={index}
-                            as={"li"}
-                            margin={{ bottom: "medium" }}
-                          >
-                            <StyledRoutedMobileTextLink
-                              key={index}
-                              link={link}
-                              label={label}
-                            />
-                          </Box>
-                        ))}
-                    </Box>
-                  </MobileNavigation>
-                </Box>
-              ) : (
-                <Box
-                  justify="start"
-                  direction="row"
-                  gap="medium"
-                  align={"center"}
-                >
-                  <StyledLogoBox onClick={() => router.push(`/`)}>
-                    <StyledLogo />
-                  </StyledLogoBox>
-                  <Nav
-                    direction="row"
-                    align={"center"}
-                    justify={"between"}
-                    flex={"grow"}
-                  >
-                    <Box direction={"row"} align={"center"}>
-                      <StyledMenu
-                        label={modules_dropdown_label}
-                        items={moduleNavigationItems}
-                      />
-                      {links &&
-                        links.map(({ link, label }, index) => (
-                          <StyledRoutedTextLink
+                          <StyledRoutedMobileTextLink
                             key={index}
                             link={link}
                             label={label}
                           />
-                        ))}
-                    </Box>
-                    <Box direction={"row"} align={"center"}>
-                      <StyledRoutedTextLink
-                        link={{
-                          type: PageType.ACCOUNT,
-                        }}
-                        label={"login"}
-                      />
-                      <Button
-                        primary
-                        margin={{ left: "medium" }}
-                        size={ButtonSizes.small}
-                        color={
-                          theme === NavigationTheme.LIGHT
-                            ? colorPalette.blue
-                            : colorPalette.periwinkleCrayola
-                        }
-                        label={"sign up"}
-                        link={{
-                          type: PageType.SESSION,
-                        }}
-                      />
-                    </Box>
-                  </Nav>
-                </Box>
-              )
-            }
-          </ResponsiveContext.Consumer>
-        </ResponsiveGrid>
-      </Section>
-    </StyledHeader>
+                        </Box>
+                      ))}
+                    <Divider as={"li"}>
+                      <Box
+                        as={"span"}
+                        margin={{ top: "large", bottom: "medium" }}
+                      >
+                        Modules
+                      </Box>
+                    </Divider>
+                    {mobileModuleLinks &&
+                      mobileModuleLinks.map(({ label, link }, index) => (
+                        <Box
+                          key={index}
+                          as={"li"}
+                          margin={{ bottom: "medium" }}
+                        >
+                          <StyledRoutedMobileTextLink
+                            key={index}
+                            link={link}
+                            label={label}
+                          />
+                        </Box>
+                      ))}
+                  </Box>
+                </MobileNavigation>
+              </Box>
+            </MobileOnly>
+            <TabletUp>
+              <Box
+                justify="start"
+                direction="row"
+                gap="medium"
+                align={"center"}
+              >
+                <StyledLogoBox onClick={() => router.push(`/`)}>
+                  <StyledLogo />
+                </StyledLogoBox>
+                <Nav
+                  direction="row"
+                  align={"center"}
+                  justify={"between"}
+                  flex={"grow"}
+                >
+                  <Box direction={"row"} align={"center"}>
+                    <StyledMenu
+                      label={modules_dropdown_label}
+                      items={moduleNavigationItems}
+                    />
+                    {links &&
+                      links.map(({ link, label }, index) => (
+                        <StyledTextLink key={index} link={link} label={label} />
+                      ))}
+                  </Box>
+                  <AuthButtons
+                    auth={auth}
+                    signOut={signOut}
+                    theme={theme}
+                    signInWithGoogle={signInWithGoogle}
+                  />
+                </Nav>
+              </Box>
+            </TabletUp>
+          </ResponsiveGrid>
+        </Section>
+      </StyledHeader>
+    </LazyMotion>
   );
 };
+
+interface AuthButtonProps
+  extends Pick<AuthContext, "auth" | "signInWithGoogle" | "signOut"> {
+  theme: NavigationTheme;
+}
+
+const AuthButtons: React.FC<AuthButtonProps> = ({
+  auth,
+  signOut,
+  theme,
+  signInWithGoogle,
+}) => (
+  <Box direction={"row"} align={"center"}>
+    {auth && (
+      <StyledTextLink
+        link={{
+          type: PageType.ACCOUNT,
+        }}
+        margin={{ right: "medium" }}
+        label={"sign out"}
+        onClick={(event) => {
+          event.preventDefault();
+          signOut();
+        }}
+        color={
+          theme === NavigationTheme.LIGHT
+            ? colorPalette.dark_blue
+            : colorPalette.white
+        }
+      />
+    )}
+    {isEmpty(auth) ? (
+      <Button
+        primary
+        size={ButtonSizes.small}
+        color={
+          theme === NavigationTheme.LIGHT
+            ? colorPalette.blue
+            : colorPalette.periwinkleCrayola
+        }
+        label={"sign up"}
+        onClick={(event) => {
+          event.preventDefault();
+          signInWithGoogle();
+        }}
+        link={{
+          type: PageType.SESSION,
+        }}
+      />
+    ) : (
+      <Box width={"40px"} height={"40px"} round={"50%"} overflow={"hidden"}>
+        <Image src={auth?.photoUrl || undefined} />
+      </Box>
+    )}
+  </Box>
+);
 
 const Divider = styled(Box)<BoxProps>`
   color: ${colorPalette.grey};
@@ -291,19 +330,19 @@ const StyledMenu = styled(Menu)`
   }
 `;
 
-const StyledRoutedTextLink = styled(RoutedTextLink)`
+const StyledTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
-  color: var(--nav-theme);
+  color: ${(props) => props.color || `var(--nav-theme)`};
 `;
 
-const StyledRoutedMobileTextLink = styled(RoutedTextLink)`
+const StyledRoutedMobileTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
   color: white;
 `;
 
-const MobileNavigation = styled(motion.div)`
+const MobileNavigation = styled(framerMotion.div)`
   position: fixed;
   top: 0;
   left: 0;

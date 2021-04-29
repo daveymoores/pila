@@ -4,15 +4,17 @@ import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import { RoutedTextLink } from "../../../prismic";
+import TextLink from "../../atoms/text-link/TextLink";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
 
+export interface BreadcrumbItem {
+  link: Link;
+  label: string;
+}
+
 export interface BreadcrumbProps {
-  links: {
-    link: Link;
-    label: string;
-  }[];
+  links: BreadcrumbItem[];
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
@@ -85,12 +87,12 @@ const StyledBox = styled(Box)`
   }
 `;
 
-const StyledLink = styled(RoutedTextLink)`
+const StyledLink = styled(TextLink)`
   opacity: 0.5;
   font-size: 14px;
 `;
 
-const StyledMobileLink = styled(RoutedTextLink)`
+const StyledMobileLink = styled(TextLink)`
   font-size: inherit;
 `;
 

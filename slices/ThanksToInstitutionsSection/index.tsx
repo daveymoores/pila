@@ -1,9 +1,10 @@
-import { Box, Card, Grid, Heading, Image } from "grommet";
+import { Box, Card, Grid, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
 import Section from "../../src/layout/section/Section";
+import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
@@ -59,7 +60,13 @@ const ThanksToInstitutionsSection: FC<{
             justify={"center"}
             elevation={"none"}
           >
-            <Image src={logo.url} width={"100%"} />
+            <Box
+              style={{ position: "relative" }}
+              width={"100%"}
+              height={"100%"}
+            >
+              <StyledRichMediaElement url={logo.url} layout={"fill"} />
+            </Box>
           </StyledCard>
         ))}
       </ResponsiveGrid>
@@ -69,6 +76,10 @@ const ThanksToInstitutionsSection: FC<{
 
 const StyledCard = styled(Card)`
   min-height: 225px;
+`;
+
+const StyledRichMediaElement = styled(RichMediaElement)`
+  object-fit: contain !important;
 `;
 
 export default ThanksToInstitutionsSection;

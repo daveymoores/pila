@@ -1,13 +1,17 @@
+import { ResponsiveContext } from "grommet";
 import Image, { ImageProps } from "next/image";
-import React, { ReactText } from "react";
+import React, { ReactText, useContext } from "react";
 import styled from "styled-components";
+
+import PrismicImageProps from "../../../types/ImageProps";
 
 interface RichMediaElementProps
   extends Omit<ImageProps, "alt" | "layout" | "src"> {
-  alt: string;
-  layout: "fill" | "responsive" | "intrinsic" | "fixed";
+  alt?: string;
   url?: string;
+  layout: "fill" | "responsive" | "intrinsic" | "fixed";
   dimensions?: { height: number; width: number };
+  mobile?: PrismicImageProps;
 }
 
 const RichMediaElement: React.FC<RichMediaElementProps> = ({
@@ -15,18 +19,37 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
   alt = "",
   dimensions,
   layout,
+  mobile,
+  className,
   ...restProps
 }) => {
+  const size = useContext(ResponsiveContext);
+  const shouldRenderMobileImage =
+    size === "mobile" && mobile && "dimensions" in mobile;
+
+  const props = {
+    alt: shouldRenderMobileImage ? mobile?.alt : alt,
+    src: shouldRenderMobileImage ? mobile?.url : url,
+    height: shouldRenderMobileImage
+      ? mobile?.dimensions?.height
+      : dimensions?.height,
+    width: shouldRenderMobileImage
+      ? mobile?.dimensions?.width
+      : dimensions?.width,
+  };
+
   if (layout === "fill") {
     return (
       <StyledImage
         {...restProps}
-        src={url || ""}
-        alt={alt || ""}
+        src={props.src || ""}
+        alt={props.alt || ""}
         objectFit="cover"
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         layout={layout}
+        className={className}
+        unoptimized
       />
     );
   }
@@ -37,8 +60,10 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
       src={url || ""}
       alt={alt || ""}
       objectFit="cover"
-      width={dimensions?.width as ReactText}
-      height={dimensions?.height as ReactText}
+      width={props.width as ReactText}
+      height={props.height as ReactText}
+      className={className}
+      unoptimized
     />
   );
 };

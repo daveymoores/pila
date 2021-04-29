@@ -53,4 +53,5 @@ table {
   url('/fonts/fontspring-demo-greycliffcf-bold-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }

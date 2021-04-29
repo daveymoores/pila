@@ -1,5 +1,11 @@
-import { Grid, GridProps, ResponsiveContext } from "grommet";
+import { Grid, GridProps } from "grommet";
 import React from "react";
+
+import {
+  DesktopUp,
+  MobileOnly,
+  TabletOnly,
+} from "../../atoms/responsive-helpers/ResponsiveHelpers";
 
 type GridOption = string[][] | string[];
 
@@ -20,44 +26,31 @@ interface ResponsiveProps
   areas?: GridOptions<AreaOption>;
 }
 
-// Example
-// -----------------------------------------
-// const columns: GridOptions<GridOption> = {
-//   small: ["auto"],
-//   medium: ["auto", "auto"],
-//   large: ["auto", "auto", "auto"],
-//   xlarge: ["auto", "auto", "auto"],
-// };
-//
-// const rows: GridOptions<GridOption> = {
-//   small: ["xsmall", "xsmall", "xsmall"],
-//   medium: ["xsmall", "xsmall"],
-//   large: ["xsmall"],
-//   xlarge: ["xsmall"],
-// };
-//
-// const fixedGridAreas: GridOptions<AreaOption> = {
-//   small: [
-//     { name: "header", start: [0, 0], end: [0, 0] },
-//     { name: "test", start: [0, 1], end: [0, 1] },
-//     { name: "test1", start: [0, 2], end: [0, 2] },
-//   ],
-//   medium: [
-//     { name: "header", start: [0, 0], end: [1, 0] },
-//     { name: "test", start: [0, 1], end: [0, 1] },
-//     { name: "test1", start: [1, 1], end: [1, 1] },
-//   ],
-//   large: [
-//     { name: "header", start: [0, 0], end: [0, 0] },
-//     { name: "test", start: [1, 0], end: [1, 0] },
-//     { name: "test1", start: [2, 0], end: [2, 0] },
-//   ],
-//   xlarge: [
-//     { name: "header", start: [0, 0], end: [0, 0] },
-//     { name: "test", start: [1, 0], end: [1, 0] },
-//     { name: "test1", start: [2, 0], end: [2, 0] },
-//   ],
-// };
+interface BreakpointGrid extends ResponsiveProps {
+  size: "small" | "medium" | "large";
+}
+
+const BreakpointGrid: React.FC<BreakpointGrid> = ({
+  gap,
+  areas,
+  rows,
+  columns,
+  size,
+  children,
+  ...rest
+}) => (
+  <Grid
+    gap={gap || (size === "small" ? "medium" : size)}
+    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    areas={areas && !Array.isArray(areas) && areas[size] ? areas[size] : areas}
+    rows={typeof rows !== "string" ? rows[size] : rows}
+    columns={typeof columns !== "string" ? columns[size] : columns}
+    {...rest}
+  >
+    {children}
+  </Grid>
+);
 
 const ResponsiveGrid: React.FC<ResponsiveProps> = ({
   children,
@@ -67,47 +60,44 @@ const ResponsiveGrid: React.FC<ResponsiveProps> = ({
   gap,
   ...props
 }) => (
-  <ResponsiveContext.Consumer>
-    {(size) => {
-      // console.log(`Grid size: ${size}`);
-      let columnsVal = columns;
-      if (typeof columns !== "string") {
-        if (columns[size as keyof GridOptions<GridOption>]) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          columnsVal = columns[size as keyof GridOptions<GridOption>];
-        }
-      }
-
-      let rowsVal = rows;
-      if (typeof rows !== "string") {
-        if (rows[size as keyof GridOptions<GridOption>]) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          rowsVal = rows[size as keyof GridOptions<GridOption>];
-        }
-      }
-
-      let areasVal = areas;
-      if (areas && !Array.isArray(areas)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        areasVal = areas[size as keyof GridOptions<AreaOption>];
-      }
-
-      return (
-        <Grid
-          {...props}
-          gap={gap || (size === "small" ? "medium" : size)}
-          areas={(!areasVal ? undefined : areasVal) as GridProps["areas"]}
-          rows={(!rowsVal ? size : rowsVal) as GridProps["rows"]}
-          columns={(!columnsVal ? size : columnsVal) as GridProps["columns"]}
-        >
-          {children}
-        </Grid>
-      );
-    }}
-  </ResponsiveContext.Consumer>
+  <React.Fragment>
+    <MobileOnly>
+      <BreakpointGrid
+        columns={columns}
+        rows={rows}
+        areas={areas}
+        gap={gap}
+        size={"small"}
+        {...props}
+      >
+        {children}
+      </BreakpointGrid>
+    </MobileOnly>
+    <TabletOnly>
+      <BreakpointGrid
+        columns={columns}
+        rows={rows}
+        areas={areas}
+        gap={gap}
+        size={"medium"}
+        {...props}
+      >
+        {children}
+      </BreakpointGrid>
+    </TabletOnly>
+    <DesktopUp>
+      <BreakpointGrid
+        columns={columns}
+        rows={rows}
+        areas={areas}
+        gap={gap}
+        size={"large"}
+        {...props}
+      >
+        {children}
+      </BreakpointGrid>
+    </DesktopUp>
+  </React.Fragment>
 );
 
 export default ResponsiveGrid;

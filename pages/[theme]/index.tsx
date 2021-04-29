@@ -4,8 +4,7 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
-import resolver from "../../sm-resolver.js";
-import { useNavigationLightTheme } from "../../src/hooks/useNavigationTheme";
+import resolver from "../../sm-resolver";
 import useNotification from "../../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroImage, {
@@ -35,7 +34,6 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
   } = data || {};
 
   useNotification(notification);
-  useNavigationLightTheme();
 
   return (
     <React.Fragment>
@@ -62,7 +60,7 @@ export const getStaticProps = useGetStaticProps({
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.THEME,
-  fallback: true, // process.env.NODE_ENV === 'development',
+  fallback: false,
   formatPath: ({ uid }) => ({ params: { theme: uid } }),
 });
 

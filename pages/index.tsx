@@ -11,9 +11,8 @@ import {
   PoweredByResearchSectionProps,
 } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
-import resolver from "../sm-resolver.js";
-import NotificationContext from "../src/context/NotificationContext";
-import { useNavigationDarkTheme } from "../src/hooks/useNavigationTheme";
+import resolver from "../sm-resolver";
+import useNotification from "../src/hooks/useNotification";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
   HomepageHeroProps,
@@ -42,8 +41,6 @@ const Page: React.FC<PageProps> = ({
   slices,
   learningModules,
 }: PageProps) => {
-  const { setNotificationProps } = React.useContext(NotificationContext);
-
   const parsedSlices = slices.map((slice) => {
     if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
       return { ...slice, learningModules };
@@ -61,8 +58,7 @@ const Page: React.FC<PageProps> = ({
     ...restData
   } = data;
 
-  useNavigationDarkTheme();
-  setNotificationProps(notification?.data);
+  useNotification(notification);
 
   return (
     <React.Fragment>

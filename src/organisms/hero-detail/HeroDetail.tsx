@@ -1,14 +1,18 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import SliceZone from "next-slicezone";
 import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import { RoutedTextLink } from "../../../prismic";
 import resolver from "../../../sm-resolver";
 import CustomType from "../../../types/CustomType";
 import { DetailPageSlices, LinkedDetailPageProps } from "../../../types/Detail";
+import TextLink from "../../atoms/text-link/TextLink";
 import Section from "../../layout/section/Section";
+import Breadcrumb, {
+  BreadcrumbItem,
+} from "../../molecules/breadcrumb/breadcrumb";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -18,6 +22,7 @@ export interface HeroDetailProps
     "title" | "heroImage" | "category" | "associatedContent"
   > {
   slices: DetailPageSlices[];
+  breadcrumbLinks: BreadcrumbItem[];
 }
 
 const columns = {
@@ -71,6 +76,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   heroImage,
   associatedContent,
   slices,
+  breadcrumbLinks,
 }) => {
   const contents =
     slices &&
@@ -85,20 +91,6 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
       ];
     }, []);
 
-  // const breadcrumbLinks = [
-  //   {
-  //     link: {
-  //       type: PageType.LEARNING_MODULE_HOME,
-  //       uid: "learning_module_home",
-  //     },
-  //     label: "Learning Modules",
-  //   },
-  //   {
-  //     link: { type: PageType.GUIDE, uid },
-  //     label: title ? RichText.asText(title) : "",
-  //   },
-  // ];
-
   return (
     <React.Fragment>
       <Box
@@ -108,7 +100,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           top: "xlarge",
         }}
       >
-        {/*{breadcrumbLinks && <Breadcrumb links={breadcrumbLinks} />}*/}
+        {breadcrumbLinks && <Breadcrumb links={breadcrumbLinks} />}
         <Section>
           <ResponsiveGrid
             margin={{
@@ -125,8 +117,20 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           >
             <React.Fragment>
               {heroImage ? (
-                <Box gridArea={"hero"} overflow={"hidden"} round={"medium"}>
-                  {heroImage?.url && <Image src={heroImage.url} />}
+                <Box
+                  gridArea={"hero"}
+                  overflow={"hidden"}
+                  round={"medium"}
+                  margin={{ bottom: "-4em" }}
+                >
+                  {heroImage?.url && (
+                    <RichMediaElement
+                      {...heroImage}
+                      alt={heroImage?.alt || ""}
+                      layout={"responsive"}
+                      priority
+                    />
+                  )}
                 </Box>
               ) : (
                 title && (
@@ -149,8 +153,10 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
       </Box>
       <Section>
         <ResponsiveGrid
+          pad={{ top: heroImage?.url ? "5em" : "none" }}
           margin={{
             top: "large",
+            bottom: "xlarge",
           }}
           columns={columns}
           rows={{
@@ -213,7 +219,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                 )}
               {associatedContent &&
                 associatedContent.map((content: CustomType, index: number) => (
-                  <StyledRoutedTextLink
+                  <StyledTextLink
                     key={index}
                     link={content}
                     label={
@@ -239,7 +245,7 @@ const textButtonStyles = `
   padding-bottom: 1em;
 `;
 
-const StyledRoutedTextLink = styled(RoutedTextLink)`
+const StyledTextLink = styled(TextLink)`
   ${textButtonStyles}
 `;
 

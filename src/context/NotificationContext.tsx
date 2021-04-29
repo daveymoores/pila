@@ -22,21 +22,11 @@ export const NotificationProvider: React.FC<{
     setNotificationProps,
   ] = React.useState<NotificationProps>({});
 
-  const [
-    globalNotification,
-    setGlobalNotification,
-  ] = React.useState<NotificationProps>({});
-
-  React.useEffect(() => {
-    if (!notifications) return;
-
-    setGlobalNotification(
-      notifications.find(
-        (notification: CustomType<NotificationProps>) =>
-          notification.data?.showGlobal
-      )?.data || {}
-    );
-  }, [notifications]);
+  const globalNotification =
+    notifications.find(
+      (notification: CustomType<NotificationProps>) =>
+        notification.data?.showGlobal
+    )?.data || {};
 
   return (
     <NotificationContext.Provider
