@@ -2,6 +2,7 @@ import { Anchor, AnchorProps } from "grommet";
 import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 
+import useWebMedia from "../../hooks/useWebMedia";
 import RoutedLink from "../routed-link/RoutedLink";
 
 interface CustomLinkProps extends AnchorProps {
@@ -21,6 +22,16 @@ export const TextLink: React.FC<CustomLinkProps> = ({
   onClick,
   ...rest
 }) => {
+  const handleClick = useWebMedia(link);
+
+  if (link.link_type === "Media" || link.link_type === "Web") {
+    return (
+      <GrommetLink onClick={handleClick} {...rest}>
+        {label}
+      </GrommetLink>
+    );
+  }
+
   return (
     <RoutedLink link={link}>
       <GrommetLink onClick={onClick} {...rest}>

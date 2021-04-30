@@ -3,6 +3,7 @@ import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 import styled from "styled-components";
 
+import useWebMedia from "../../hooks/useWebMedia";
 import { colorPalette, fontWeights } from "../../theme/pila";
 import RoutedLink from "../routed-link/RoutedLink";
 
@@ -22,13 +23,23 @@ interface GrommetButtonProps extends ButtonProps {
   children: string;
 }
 
-export const Button: React.FC<CustomButtonProps> = ({
+const Button: React.FC<CustomButtonProps> = ({
   label,
   link,
   onClick,
   size = ButtonSizes.large,
   ...rest
 }) => {
+  const handleClick = useWebMedia(link);
+
+  if (link.link_type === "Media" || link.link_type === "Web") {
+    return (
+      <ButtonWithRef size={size} onClick={handleClick} {...rest}>
+        {label}
+      </ButtonWithRef>
+    );
+  }
+
   return (
     <RoutedLink link={link}>
       <ButtonWithRef size={size} onClick={onClick} {...rest}>

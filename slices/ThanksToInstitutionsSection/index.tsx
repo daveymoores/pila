@@ -54,7 +54,7 @@ const ThanksToInstitutionsSection: FC<{
         {(slice.items || []).map(({ logo }, index) => (
           <StyledCard
             key={index}
-            pad={"large"}
+            pad={"medium"}
             background={"light-1"}
             round={"medium"}
             justify={"center"}
