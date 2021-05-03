@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "slicemachine": "start-slicemachine --port 9999",
     "storybook": "start-storybook -p 8888",
     "build-storybook": "build-storybook",
