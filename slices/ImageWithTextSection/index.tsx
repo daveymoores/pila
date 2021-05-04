@@ -15,7 +15,7 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 type Primary = TextContentProps & {
-  image: ImageProps;
+  image?: ImageProps;
   imageSide: ImagePosition;
   backgroundColor: BackgroundColor;
 };

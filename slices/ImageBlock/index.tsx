@@ -10,9 +10,9 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 type Primary = {
-  image: ImageProps;
-  caption: RichTextBlock[];
-  sectionTitle: string;
+  image?: ImageProps;
+  caption?: RichTextBlock[];
+  sectionTitle?: string;
 };
 
 export type ImageBlockProps = Slice<Primary, never>;
@@ -36,7 +36,7 @@ const ImageBlock: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
           />
         )}
       </Box>
-      <StyledRichText body={primary.caption} />
+      {primary.caption && <StyledRichText body={primary.caption} />}
     </Box>
   );
 };

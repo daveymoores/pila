@@ -30,6 +30,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
   guideLink,
   icon,
 }) => {
+  const parsedTitle = title ? RichText.asText(title) : "[LEARNING_MODULE]";
   return (
     <HeroText
       links={[
@@ -42,7 +43,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
         },
         {
           link: { type: PageType.LEARNING_MODULE, uid },
-          label: title ? RichText.asText(title) : "",
+          label: parsedTitle,
         },
       ]}
       title={
@@ -50,38 +51,37 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
           <MobileOnly>
             <LearningModuleIcon icon={icon} />
           </MobileOnly>
-          {title && (
-            <React.Fragment>
-              <MobileOnly>
-                <Heading
-                  textAlign={"start"}
-                  level={"1"}
-                  alignSelf={"stretch"}
-                  size="small"
-                  margin={{
-                    top: "xlarge",
-                    bottom: "medium",
-                  }}
-                >
-                  {RichText.asText(title)}
-                </Heading>
-              </MobileOnly>
-              <TabletUp>
-                <Heading
-                  textAlign={"start"}
-                  level={"1"}
-                  alignSelf={"stretch"}
-                  size="small"
-                  margin={{
-                    top: "none",
-                    bottom: "medium",
-                  }}
-                >
-                  {RichText.asText(title)}
-                </Heading>
-              </TabletUp>
-            </React.Fragment>
-          )}
+
+          <React.Fragment>
+            <MobileOnly>
+              <Heading
+                textAlign={"start"}
+                level={"1"}
+                alignSelf={"stretch"}
+                size="small"
+                margin={{
+                  top: "xlarge",
+                  bottom: "medium",
+                }}
+              >
+                {parsedTitle}
+              </Heading>
+            </MobileOnly>
+            <TabletUp>
+              <Heading
+                textAlign={"start"}
+                level={"1"}
+                alignSelf={"stretch"}
+                size="small"
+                margin={{
+                  top: "none",
+                  bottom: "medium",
+                }}
+              >
+                {parsedTitle}
+              </Heading>
+            </TabletUp>
+          </React.Fragment>
           {body && (
             <React.Fragment>
               <MobileOnly>
@@ -101,7 +101,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
               <LearningModuleIcon icon={icon} />
             </TabletUp>
             <Paragraph margin={{ top: "medium", bottom: "medium" }}>
-              Learn more from the Computational Thinking framework
+              Learn more from the {parsedTitle} framework
             </Paragraph>
             <Box direction={"row"} justify={"around"}>
               {guideDownload && (

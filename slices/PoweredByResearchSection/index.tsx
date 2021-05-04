@@ -88,19 +88,21 @@ const PoweredByResearchSection: FC<{
                 }}
                 rows={"auto"}
               >
-                {learningModules.map((module) => (
-                  <ProjectCard
-                    key={module.id}
-                    title={module.data?.title}
-                    body={module.data?.bodyShort}
-                    icon={module.data?.icon}
-                    link={{
-                      uid: module.uid,
-                      type: module.type,
-                      id: module.id,
-                    }}
-                  />
-                ))}
+                {learningModules
+                  .filter((module, index) => index <= 1)
+                  .map((module) => (
+                    <ProjectCard
+                      key={module.id}
+                      title={module.data?.title}
+                      body={module.data?.bodyShort}
+                      icon={module.data?.icon}
+                      link={{
+                        uid: module.uid,
+                        type: module.type,
+                        id: module.id,
+                      }}
+                    />
+                  ))}
               </ResponsiveGrid>
             </Box>
           </React.Fragment>

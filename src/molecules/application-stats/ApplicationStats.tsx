@@ -16,11 +16,11 @@ const ApplicationStats: React.FC<ApplicationStats> = ({
 }) => (
   <Box as="dl" justify={"start"} align={"center"} direction={"row"}>
     <StyledDt>Units:</StyledDt>
-    <StyledDd>{applicationsStats.units}</StyledDd>
+    <StyledDd>{applicationsStats?.units}</StyledDd>
     <StyledDt>Difficulty:</StyledDt>
-    <StyledDd>{applicationsStats.difficulty}</StyledDd>
+    <StyledDd>{applicationsStats?.difficulty}</StyledDd>
     <StyledDt>Age:</StyledDt>
-    <StyledDd>{applicationsStats.age}</StyledDd>
+    <StyledDd>{applicationsStats?.age}</StyledDd>
   </Box>
 );
 

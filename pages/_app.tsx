@@ -77,29 +77,29 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const learningModules: CustomType<LearningModuleProps>[] = (
     (pageProps?.learningModules as CustomType<LearningModuleProps>[]) || []
   ).map((learningModule) => {
-    const applications = (learningModule.data?.applications || []).reduce(
-      (acc: LearningModuleProps["applications"], { assessmentApplication }) => {
-        const appAverages = assessmentApplicationAverages.find(
-          (app) => app.uid === assessmentApplication.uid
-        );
+    const applications = (pageProps?.assessmentApplications || []).reduce(
+      (
+        acc: CustomType<AssessmentApplicationProps>[],
+        application: CustomType<AssessmentApplicationProps>
+      ) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (application.data?.module.uid === learningModule.uid) {
+          const applicationsStats = assessmentApplicationAverages.find(
+            (app) => app.uid === application.uid
+          );
 
-        const applicationData = (pageProps?.assessmentApplications || []).find(
-          (application: CustomType<AssessmentApplicationProps>) =>
-            application.uid === assessmentApplication.uid
-        );
-
-        if (!applicationData) return acc;
-
-        return [
-          ...acc,
-          {
-            assessmentApplication: {
-              ...assessmentApplication,
-              ...applicationData.data,
-              applicationsStats: appAverages,
+          return [
+            ...acc,
+            {
+              ...application.data,
+              uid: application.uid,
+              applicationsStats,
             },
-          },
-        ];
+          ];
+        }
+
+        return acc;
       },
       []
     );
@@ -185,7 +185,10 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           "doormat",
           "footer",
           "seo",
-        ])
+        ]),
+        {
+          orderings: "[document.first_publication_date]",
+        }
       )) as unknown) as Response) || {};
   } catch (err) {
     throw new Error(err);

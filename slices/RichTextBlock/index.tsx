@@ -6,15 +6,15 @@ import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser"
 import Slice from "../../types/Slice";
 
 type Primary = {
-  body: RichTextBlock[];
-  sectionTitle: string;
+  body?: RichTextBlock[];
+  sectionTitle?: string;
 };
 
 export type RichTextBlokProps = Slice<Primary, never>;
 
 const RichTextBlok: FC<{ slice: RichTextBlokProps }> = ({ slice }) => {
   const { primary } = slice;
-  const sectionTitle: string = slice.primary.sectionTitle;
+  const { sectionTitle, body } = primary;
 
   return (
     <Box
@@ -22,7 +22,7 @@ const RichTextBlok: FC<{ slice: RichTextBlokProps }> = ({ slice }) => {
       as={"section"}
       pad={{ top: "none", bottom: "large" }}
     >
-      <RichTextParser {...primary} />
+      {body && <RichTextParser body={body} />}
     </Box>
   );
 };

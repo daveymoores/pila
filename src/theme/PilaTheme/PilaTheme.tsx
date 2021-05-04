@@ -26,7 +26,6 @@ interface PilaTheme {
 }
 
 const PilaTheme: React.FC<PilaTheme> = ({ children, userAgent }) => {
-  console.log("PilaTheme userAgent: ", userAgent);
   return (
     <Grommet
       theme={customBreakpoints}

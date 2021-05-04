@@ -3,6 +3,7 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
+import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
 import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -34,10 +35,9 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
     (module: CustomType<LearningModuleProps>) =>
       module.uid === learningModuleUid
   );
-  const { assessmentApplication } =
-    module?.data?.applications.find(
-      (app) => app.assessmentApplication.uid === uid
-    ) || {};
+  const assessmentApplication:
+    | AssessmentApplicationMainProps
+    | undefined = module?.data?.applications.find((app) => app.uid === uid);
 
   return (
     <React.Fragment>
@@ -103,7 +103,7 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
           </React.Fragment>
         }
       />
-      {assessmentApplication?.applicationsStats && (
+      {assessmentApplication && assessmentApplication.applicationsStats && (
         <Box pad={{ top: "small", bottom: "small" }} background={"#e8e8e8"}>
           <Section>
             <ApplicationStats
