@@ -132,7 +132,7 @@ export const getStaticPaths = useGetStaticPaths({
   type: PageType.DETAIL,
   fallback: false,
   formatPath: ({ uid, data }: DetailPageProps): Params => {
-    if (data.parent.uid) {
+    if (data.parent?.uid) {
       return { params: { theme: data.parent.uid, detail: uid } };
     }
     // TODO - display 404 here

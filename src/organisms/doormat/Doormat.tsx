@@ -1,4 +1,5 @@
-import { Box, Footer, Paragraph } from "grommet";
+import { Anchor, Box, Footer, Paragraph } from "grommet";
+import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 
@@ -80,6 +81,13 @@ const Doormat: React.FC<DoormatProps> = ({
         <DoormatList label={list_one_label} links={list_one_links} />
         <DoormatList label={list_two_label} links={list_two_links} />
         <DoormatList label={list_three_label} links={list_three_links} />
+        <Box align={"end"}>
+          <Anchor
+            href={"https://vercel.com/?utm_source=pila-app&utm_campaign=oss"}
+          >
+            <Image src={"/powered-by-vercel.svg"} width={"212"} height={"44"} />
+          </Anchor>
+        </Box>
       </StyledResponsiveGrid>
     </Section>
   </StyledFooter>

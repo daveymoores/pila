@@ -26,20 +26,20 @@ export enum Difficulty {
 
 export interface AssessmentApplicationMainProps
   extends CTABannerAlternateProps {
-  module: Link;
-  title: RichTextBlock[];
+  title?: RichTextBlock[];
   uid: string;
-  applicationLink: Link;
-  body: RichTextBlock[];
-  shortBody: RichTextBlock[];
-  video: Link;
-  image: ImageProps;
-  downloadLinks: {
-    label: string;
-    downloadLink: Link;
-    link: Link;
+  applicationLink?: Link;
+  body?: RichTextBlock[];
+  shortBody?: RichTextBlock[];
+  video?: Link;
+  image?: ImageProps;
+  downloadLinks?: {
+    label?: string;
+    downloadLink?: Link;
+    link?: Link;
   }[];
-  applicationsStats: ApplicationStats;
+  applicationsStats?: ApplicationStats;
+  module?: Link;
 }
 
 export interface Task {
@@ -153,7 +153,7 @@ export const getStaticPaths = async (): Promise<StaticContextProps> => {
     type: PageType.ASSESSMENT_APPLICATION,
     fallback: false,
     formatPath: ({ uid, data }: PageProps): Params => {
-      if (data.module.uid) {
+      if (data.module?.uid) {
         return {
           params: {
             assessment_application: uid,

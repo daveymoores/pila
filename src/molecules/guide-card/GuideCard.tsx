@@ -13,9 +13,9 @@ export enum CardVariant {
 }
 
 interface GuideCardProps {
-  title: string;
-  downloadLink: Link;
-  pageLink: Link;
+  title?: string;
+  downloadLink?: Link;
+  pageLink?: Link;
   variant?: CardVariant;
 }
 
@@ -86,20 +86,24 @@ const GuideCard: React.FC<GuideCardProps> = ({
                 </Box>
               )}
               <Box direction={"row"} align={"center"} justify={"end"}>
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  label={"Download"}
-                  link={downloadLink}
-                />
-                <Button
-                  primary
-                  color={colorPalette.blue}
-                  size={ButtonSizes.small}
-                  label={"View"}
-                  link={pageLink}
-                  margin={{ left: size !== "small" ? "medium" : "small" }}
-                />
+                {downloadLink && (
+                  <Button
+                    color={colorPalette.green}
+                    size={ButtonSizes.small}
+                    label={"Download"}
+                    link={downloadLink}
+                  />
+                )}
+                {pageLink && (
+                  <Button
+                    primary
+                    color={colorPalette.blue}
+                    size={ButtonSizes.small}
+                    label={"View"}
+                    link={pageLink}
+                    margin={{ left: size !== "small" ? "medium" : "small" }}
+                  />
+                )}
               </Box>
             </React.Fragment>
           </StyledResponsiveGrid>

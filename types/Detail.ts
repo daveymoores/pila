@@ -17,14 +17,14 @@ export type DetailPageData = CTABannerAlternateProps &
   NotificationLinkedProps & {
     title?: RichTextBlock[];
     heroImage?: ImageProps;
-    category: { categories: Link & { data: { name: string } } };
-    associatedContent: { link: Link }[];
-    parent: Link & { data: { title: RichTextBlock[] } };
+    category?: { categories: Link & { data: { name: string } } };
+    associatedContent?: { link: Link }[];
+    parent?: Link & { data: { title: RichTextBlock[] } };
   };
 
 export interface LinkedDetailPageProps
   extends Omit<DetailPageData, "associatedContent"> {
-  associatedContent: CustomType[];
+  associatedContent?: CustomType[];
 }
 
 type DetailPageProps = JSX.IntrinsicAttributes & {

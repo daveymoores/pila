@@ -60,7 +60,7 @@ const Page: React.FC = () => {
   }, [auth, loading]);
 
   const { data } = useSWR(auth ? ["/api/user", auth.token] : null, fetcher);
-  console.log("data", data);
+
   return (
     <React.Fragment>
       <HeroText

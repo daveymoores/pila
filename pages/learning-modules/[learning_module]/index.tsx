@@ -38,14 +38,13 @@ interface GuideGroup {
 export interface LearningModuleProps
   extends ModuleHeroProps,
     CTABannerAlternateProps {
+  parent?: Link;
   icon?: ImageProps;
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
   slices?: GuideGroup[];
-  applications: {
-    assessmentApplication: AssessmentApplicationMainProps;
-  }[];
+  applications: AssessmentApplicationMainProps[];
 }
 
 type LearningModulePageProps = LearningModuleProps & NotificationLinkedProps;
@@ -105,21 +104,20 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         <Section>
           <Heading size={"small"}>Assessment applications</Heading>
           {module?.data?.applications &&
-            module?.data?.applications.map(
-              ({ assessmentApplication: app }, index) => (
-                <ApplicationSection
-                  key={index}
-                  index={index}
-                  uid={app.uid}
-                  title={app.title}
-                  applicationsStats={app.applicationsStats}
-                  shortBody={app.shortBody}
-                  video={app.video}
-                  image={app.image}
-                  downloadLinks={app.downloadLinks}
-                />
-              )
-            )}
+            module?.data?.applications.map((app, index) => (
+              <ApplicationSection
+                key={index}
+                index={index}
+                uid={app.uid}
+                title={app.title}
+                applicationsStats={app.applicationsStats}
+                shortBody={app.shortBody}
+                video={app.video}
+                image={app.image}
+                downloadLinks={app.downloadLinks}
+                module={app.module}
+              />
+            ))}
         </Section>
       </Box>
       <Box width={"100%"} background={"light-1"}>

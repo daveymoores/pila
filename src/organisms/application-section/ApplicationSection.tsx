@@ -72,10 +72,7 @@ const gridAreas = {
 };
 
 interface ApplicationSectionProps
-  extends Omit<
-    AssessmentApplicationMainProps,
-    "body" | "applicationLink" | "module"
-  > {
+  extends Omit<AssessmentApplicationMainProps, "body" | "applicationLink"> {
   index: number;
 }
 
@@ -110,13 +107,19 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         </Box>
 
         <Box gridArea="text" justify={"start"} align={"start"}>
-          <StyledHeading size={"small"}>{RichText.asText(title)}</StyledHeading>
+          {title && (
+            <StyledHeading size={"small"}>
+              {RichText.asText(title)}
+            </StyledHeading>
+          )}
           <Box margin={{ top: "medium", bottom: "large" }}>
             <ApplicationStats applicationsStats={applicationsStats} />
           </Box>
-          <Paragraph margin={{ bottom: "large" }} size={"small"}>
-            {RichText.asText(shortBody)}
-          </Paragraph>
+          {shortBody && (
+            <Paragraph margin={{ bottom: "large" }} size={"small"}>
+              {RichText.asText(shortBody)}
+            </Paragraph>
+          )}
           {downloadLinks &&
             downloadLinks.map(({ label, link, downloadLink }, index) => (
               <GuideCard

@@ -23,6 +23,8 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
   className,
   ...restProps
 }) => {
+  if (!url) return null;
+
   const size = useContext(ResponsiveContext);
   const shouldRenderMobileImage =
     size === "mobile" && mobile && "dimensions" in mobile;
