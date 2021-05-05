@@ -1,6 +1,6 @@
 # PILA
 
-PILA is a not-for-profit, open-source platform for innovative learning assessments (PILA). This new platform aims to promote the use of technology-enhanced tasks for improving the assessment of students’ learning skills around the world – both for summative and formative purposes. Teachers can use PILA to monitor their students’ learning and gain insights into the concepts students understood (or struggled with) and the self-regulated learning skills they successfully applied to open tasks. Each module includes a dynamic assessment system, with adaptive features that direct students to suitably-challenging tasks and provide students with feedback and support.
+PILA is a not-for-profit, open-source platform for innovative learning assessments (PILA). This new platform aims to promote the use of technology-enhanced tasks for improving the assessment of students’ learning skills around the world – both for summative and formative purposes. Teachers can use PILA to monitor their students’ learning and gain insights into the concepts students understood (or struggled with) and the learning skills they successfully applied to open tasks. Each module includes a dynamic assessment system, with adaptive features that provide students with feedback and support.
 
 ## Installation 
 
