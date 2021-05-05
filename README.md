@@ -20,7 +20,7 @@ yarn install
 
 ### Set up your .env file
 
-1. Copy `.env.example` to `.env.local`;
+1. Copy `.env.example` to `.env.local`
 2. Fill the `.env.local` with the correct credentials.
 
 
