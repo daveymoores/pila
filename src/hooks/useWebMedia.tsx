@@ -1,7 +1,9 @@
 import { Link } from "prismic-reactjs";
 import React from "react";
 
-const useWebMedia = (link: Link) => {
+const useWebMedia = (link: Link | undefined) => {
+  if (!link) return;
+
   return async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
     if (link.link_type === "Web") {
