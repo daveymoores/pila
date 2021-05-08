@@ -14,7 +14,7 @@ export enum ButtonSizes {
 
 interface CustomButtonProps extends ButtonProps {
   label: string;
-  link: LinkProps;
+  link?: LinkProps;
   onClick?: (event: React.SyntheticEvent) => void;
 }
 
@@ -31,6 +31,14 @@ const Button: React.FC<CustomButtonProps> = ({
   ...rest
 }) => {
   const handleClick = useWebMedia(link);
+
+  if (!link) {
+    return (
+      <ButtonWithRef size={size} onClick={onClick} {...rest}>
+        {label}
+      </ButtonWithRef>
+    );
+  }
 
   if (link.link_type === "Media" || link.link_type === "Web") {
     return (

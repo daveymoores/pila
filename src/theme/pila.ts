@@ -33,8 +33,8 @@ const pila = {
   global: {
     colors: {
       brand: {
-        dark: "#2E32DB",
-        light: "#2E32DB",
+        dark: colorPalette.blue,
+        light: colorPalette.blue,
       },
       "brand-dark": {
         light: "#2427B4",
@@ -221,21 +221,34 @@ const pila = {
   radioButton: {
     size: "24px",
   },
+  select: {
+    extend: {
+      fontSize: "16px",
+    },
+    container: {
+      text: { size: "small" },
+    },
+  },
   formField: {
     border: {
-      color: "active-background",
+      color: colorPalette.grey,
       error: {
         color: {
           dark: "white",
           light: "status-critical",
         },
       },
-      position: "outer",
+      position: "inner",
       style: "solid",
       side: "all",
     },
+    placeholder: {
+      size: "16px",
+    },
     content: {
-      pad: "medium",
+      background: colorPalette.white,
+      pad: "xlarge",
+      size: "16px",
     },
     disabled: {
       background: {
@@ -245,15 +258,19 @@ const pila = {
     },
     error: {
       color: "status-critical",
+      background: colorPalette.white,
+      size: "16px",
       margin: {
         vertical: "xsmall",
-        horizontal: "small",
+        horizontal: "none",
       },
     },
     help: {
       color: "dark-3",
+      size: "16px",
       margin: {
-        start: "small",
+        vertical: "xsmall",
+        start: "none",
       },
     },
     info: {
@@ -264,18 +281,15 @@ const pila = {
       },
     },
     label: {
+      weight: "500",
+      size: "16px",
       margin: {
-        vertical: "xsmall",
-        horizontal: "small",
+        bottom: "small",
+        start: "none",
       },
-      size: "small",
-    },
-    margin: {
-      bottom: "large",
     },
     round: "10px",
   },
-  email: "daveymoores@gmail.com",
   date: "2021-02-12T13:05:50.889Z",
   calendar: {
     small: {
