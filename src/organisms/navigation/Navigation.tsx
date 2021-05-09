@@ -43,10 +43,10 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
-  const { auth, loading, signOut, signInWithGoogle } = useAuth();
+  const { auth, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const router = useRouter();
-  console.log("loading > ", loading);
+
   const theme = darkThemePages(router.pathname)
     ? NavigationTheme.DARK
     : NavigationTheme.LIGHT;
