@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import nookies from "nookies";
 import React, {
   Context,
   createContext,
@@ -8,7 +10,6 @@ import React, {
 
 import { createUser } from "./db";
 import firebase from "./firebase";
-
 interface Auth {
   uid: string;
   email: string | null;
@@ -44,6 +45,7 @@ const formatAuthState = (user: firebase.User): Auth => ({
 });
 
 function useProvideAuth() {
+  const router = useRouter();
   const [firebaseAuth, setFirebaseAuth] = useState<firebase.auth.Auth | null>(
     null
   );
@@ -59,17 +61,21 @@ function useProvideAuth() {
       });
   }, []);
   const [auth, setAuth] = useState<Auth | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleAuthChange = async (authState: firebase.User | null) => {
     if (!authState) {
+      setAuth(null);
+      nookies.set(undefined, "token", "", { path: "/" });
       return;
     }
 
     const formattedAuth = formatAuthState(authState);
     formattedAuth.token = await authState.getIdToken();
+    nookies.set(undefined, "token", formattedAuth.token, { path: "/" });
     setAuth(formattedAuth);
     setLoading(false);
+    router.push("/account/sessions");
   };
 
   const signedIn = async (response: firebase.auth.UserCredential) => {
@@ -83,7 +89,8 @@ function useProvideAuth() {
 
   const clear = () => {
     setAuth(null);
-    setLoading(true);
+    setLoading(false);
+    router.push("/");
   };
 
   const signInWithGoogle = () => {

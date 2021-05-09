@@ -7,7 +7,6 @@ import {
   Heading,
   Layer,
   Select,
-  Spinner,
   Text,
   TextArea,
   TextInput,
@@ -20,6 +19,7 @@ import styled from "styled-components";
 
 import { Client } from "../prismic";
 import Button from "../src/atoms/button/Button";
+import Loader from "../src/atoms/loader/Loader";
 import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
@@ -165,21 +165,7 @@ const Page: React.FC<PageProps> = (props) => {
         </Box>
       </Section>
       <Section margin={"auto"}>
-        {loading && (
-          <Layer>
-            <Card
-              align="center"
-              justify="center"
-              gap="small"
-              direction="row"
-              alignSelf="center"
-              pad="large"
-            >
-              <Spinner />
-              <Text>Loading...</Text>
-            </Card>
-          </Layer>
-        )}
+        {loading && <Loader />}
         <Box
           width={{ max: "736px", width: "100%" }}
           margin={{ horizontal: "auto", bottom: "xlarge" }}

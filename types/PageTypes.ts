@@ -13,11 +13,11 @@ enum PrismicPageTypes {
   FOOTER = "footer",
   SEO = "seo",
   NOTIFICATION = "notification",
+  SESSIONS = "sessions",
 }
 
 enum InternalPageTypes {
   ACCOUNT = "account",
-  SESSION = "session",
   ERROR = "error",
   EXIT_PREVIEW = "exit_preview",
 }

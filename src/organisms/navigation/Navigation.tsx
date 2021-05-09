@@ -43,10 +43,10 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
-  const { auth, signOut, signInWithGoogle } = useAuth();
+  const { auth, loading, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const router = useRouter();
-
+  console.log("loading > ", loading);
   const theme = darkThemePages(router.pathname)
     ? NavigationTheme.DARK
     : NavigationTheme.LIGHT;
@@ -250,51 +250,68 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
   signOut,
   theme,
   signInWithGoogle,
-}) => (
-  <Box direction={"row"} align={"center"}>
-    {auth && (
-      <StyledTextLink
-        link={{
-          type: PageType.ACCOUNT,
-        }}
-        margin={{ right: "medium" }}
-        label={"sign out"}
-        onClick={(event) => {
-          event.preventDefault();
-          signOut();
-        }}
-        color={
-          theme === NavigationTheme.LIGHT
-            ? colorPalette.dark_blue
-            : colorPalette.white
-        }
-      />
-    )}
-    {isEmpty(auth) ? (
-      <Button
-        primary
-        size={ButtonSizes.small}
-        color={
-          theme === NavigationTheme.LIGHT
-            ? colorPalette.blue
-            : colorPalette.periwinkleCrayola
-        }
-        label={"sign up"}
-        onClick={(event) => {
-          event.preventDefault();
-          signInWithGoogle();
-        }}
-        link={{
-          type: PageType.SESSION,
-        }}
-      />
-    ) : (
-      <Box width={"40px"} height={"40px"} round={"50%"} overflow={"hidden"}>
-        <Image src={auth?.photoUrl || undefined} />
-      </Box>
-    )}
-  </Box>
-);
+}) => {
+  const router = useRouter();
+  return (
+    <Box direction={"row"} align={"center"}>
+      {auth && (
+        <StyledMenu
+          label={`Hi, ${auth.name}`}
+          items={[
+            {
+              label: "Sessions",
+              href: `/account/sessions`,
+              onClick: (event: SyntheticEvent) => {
+                event.preventDefault();
+                router.push(`/account/sessions`);
+              },
+            },
+            {
+              label: "Account",
+              href: `/account`,
+              onClick: (event: SyntheticEvent) => {
+                event.preventDefault();
+                router.push(`/account`);
+              },
+            },
+            {
+              label: "sign out",
+              href: `/`,
+              onClick: (event: SyntheticEvent) => {
+                event.preventDefault();
+                router.push(`/`);
+                signOut();
+              },
+            },
+          ]}
+        />
+      )}
+      {isEmpty(auth) ? (
+        <Button
+          primary
+          size={ButtonSizes.small}
+          color={
+            theme === NavigationTheme.LIGHT
+              ? colorPalette.blue
+              : colorPalette.periwinkleCrayola
+          }
+          label={"sign up"}
+          onClick={(event) => {
+            event.preventDefault();
+            signInWithGoogle();
+          }}
+          link={{
+            type: PageType.SESSIONS,
+          }}
+        />
+      ) : (
+        <Box width={"40px"} height={"40px"} round={"50%"} overflow={"hidden"}>
+          <Image src={auth?.photoUrl || undefined} />
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 const Divider = styled(Box)<BoxProps>`
   color: ${colorPalette.grey};

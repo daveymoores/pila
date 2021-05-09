@@ -21,15 +21,6 @@ const pila = {
   rounding: 10,
   spacing: 24,
   defaultMode: "light",
-  menu: {
-    icons: {
-      color: "#1D2430",
-      extend: `
-          font-size: 16px;
-          font-weight: ${fontWeights.bold};
-      `,
-    },
-  },
   global: {
     colors: {
       brand: {
@@ -227,6 +218,15 @@ const pila = {
     },
     container: {
       text: { size: "small" },
+    },
+  },
+  menu: {
+    extend: `
+          font-size: 16px;
+          font-weight: ${fontWeights.bold};
+      `,
+    icons: {
+      color: "#1D2430",
     },
   },
   formField: {
