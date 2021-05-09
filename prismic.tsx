@@ -53,7 +53,7 @@ export const linkResolver = async (link: LinkProps): Promise<string> => {
     [PageType.FORM]: "/contact",
     [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
-    [PageType.SESSION]: "/account/sessions",
+    [PageType.SESSIONS]: "/account/sessions",
   };
 
   return resolver[link.type || PageType.ERROR];
@@ -74,7 +74,7 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.FORM]: "/contact",
     [PageType.ERROR]: "/404",
     [PageType.ACCOUNT]: "/account",
-    [PageType.SESSION]: "/account/sessions",
+    [PageType.SESSIONS]: "/account/sessions",
   };
 
   return resolver[link.type || PageType.ERROR];
@@ -109,6 +109,7 @@ export const Router = {
     },
     { type: PageType.GUIDE, path: "/guides/:uid" },
     { type: PageType.FORM, path: "/contact" },
+    { type: PageType.SESSIONS, path: "/account/sessions" },
   ],
   href: (type: PageType): string | undefined => {
     const route = Router.routes.find((r) => r.type === type);

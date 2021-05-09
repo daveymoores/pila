@@ -14,6 +14,8 @@ export enum CardVariant {
 
 interface GuideCardProps {
   title: string;
+  date?: string;
+  participants?: number;
   dashboardLink: Link;
   moduleLink: Link;
   variant?: CardVariant;
@@ -22,6 +24,8 @@ interface GuideCardProps {
 
 const SessionCard: React.FC<GuideCardProps> = ({
   title,
+  date,
+  participants,
   dashboardLink,
   moduleLink,
   className,
@@ -71,7 +75,7 @@ const SessionCard: React.FC<GuideCardProps> = ({
                   </dt>
                   <dd>
                     <StyledParagraph size={"xsmall"} color={colorPalette.grey}>
-                      16
+                      {participants}
                     </StyledParagraph>
                   </dd>
                 </dl>
@@ -83,7 +87,7 @@ const SessionCard: React.FC<GuideCardProps> = ({
                   </dt>
                   <dd>
                     <StyledParagraph size={"xsmall"} color={colorPalette.grey}>
-                      22/06/21
+                      {date}
                     </StyledParagraph>
                   </dd>
                 </dl>

@@ -2,6 +2,8 @@ import { Main } from "grommet";
 import isEmpty from "lodash/isEmpty";
 import React from "react";
 
+import { useAuth } from "../../../lib/auth";
+import Loader from "../../atoms/loader/Loader";
 import NotificationContext from "../../context/NotificationContext";
 import Notification from "../../molecules/notification/Notification";
 import Doormat, { DoormatProps } from "../doormat/Doormat";
@@ -21,10 +23,11 @@ const Scaffold: React.FC<ScaffoldProps> = ({
   doormat,
   footer,
 }) => {
+  const { loading } = useAuth();
   const { notificationProps } = React.useContext(NotificationContext);
-
   return (
     <React.Fragment>
+      {loading && <Loader />}
       {!isEmpty(notificationProps) && <Notification {...notificationProps} />}
       <Navigation {...navigation} />
       <Main>{children}</Main>

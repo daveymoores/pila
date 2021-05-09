@@ -1,7 +1,6 @@
-import { Box, Card, Heading, Image, Paragraph } from "grommet";
+import { Box, Card, Heading, Image, Paragraph, Spinner } from "grommet";
 import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
-import Loader from "react-loader-spinner";
 import styled from "styled-components";
 
 import {
@@ -145,13 +144,7 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
             margin={{ top: "large" }}
             justify={"stretch"}
           >
-            <StyledLoader
-              visible={loading}
-              type="TailSpin"
-              color={colorPalette.green}
-              height={40}
-              width={40}
-            />
+            {loading && <StyledLoader />}
             {!loading && (
               <React.Fragment>
                 {selectedTaskData?.primary?.taskTitle && (
@@ -181,7 +174,7 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                     color={colorPalette.blue}
                     label={"Start task"}
                     link={{
-                      type: PageType.SESSION,
+                      type: PageType.SESSIONS,
                     }}
                   />
                 </Box>
@@ -212,7 +205,7 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
   );
 };
 
-const StyledLoader = styled(Loader)`
+const StyledLoader = styled(Spinner)`
   position: absolute;
   left: 50%;
   top: 50%;
