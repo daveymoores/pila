@@ -5,7 +5,6 @@ import {
   FormField,
   Grid,
   Heading,
-  Layer,
   Select,
   Text,
   TextArea,
@@ -24,6 +23,7 @@ import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
 import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import RichTextParser from "../src/molecules/rich-text-parser/RichTextParser";
+import Modal from "../src/organisms/modal/Modal";
 import Seo from "../src/organisms/seo/Seo";
 import { colorPalette } from "../src/theme/pila";
 import PageData from "../types/PageData";
@@ -106,8 +106,6 @@ const Page: React.FC<PageProps> = (props) => {
     RichTextBlock[]
   >();
 
-  const onClose = () => location.reload();
-
   useNotification(notification);
 
   React.useEffect(() => {
@@ -171,54 +169,14 @@ const Page: React.FC<PageProps> = (props) => {
           margin={{ horizontal: "auto", bottom: "xlarge" }}
         >
           {success && submissionSuccess && (
-            <Layer
-              onClickOutside={onClose}
-              onEsc={onClose}
-              background={"transparent"}
-            >
-              <Card
-                background={"brand"}
-                align="center"
-                justify="center"
-                gap="small"
-                alignSelf="center"
-                pad="large"
-                width={{ min: "400px" }}
-              >
-                <StyledRichTextParser body={submissionSuccess} />
-                <Button
-                  margin={{ top: "medium" }}
-                  label="Close"
-                  color={colorPalette.green}
-                  onClick={onClose}
-                />
-              </Card>
-            </Layer>
+            <Modal>
+              <StyledRichTextParser body={submissionSuccess} />
+            </Modal>
           )}
           {error && submissionError && (
-            <Layer
-              onClickOutside={onClose}
-              onEsc={onClose}
-              background={"transparent"}
-            >
-              <Card
-                background={"brand"}
-                align="center"
-                justify="center"
-                gap="small"
-                alignSelf="center"
-                pad="large"
-                width={{ min: "400px" }}
-              >
-                <StyledRichTextParser body={submissionError} />
-                <Button
-                  label="Close"
-                  margin={{ top: "medium" }}
-                  color={colorPalette.green}
-                  onClick={onClose}
-                />
-              </Card>
-            </Layer>
+            <Modal>
+              <StyledRichTextParser body={submissionError} />
+            </Modal>
           )}
           <Form
             value={value}
