@@ -262,7 +262,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
     <Box direction={"row"} align={"center"}>
       {auth && (
         <StyledMenu
-          label={`Hi, ${auth.name}`}
+          label={auth.name}
           items={[
             {
               label: "Sessions",
