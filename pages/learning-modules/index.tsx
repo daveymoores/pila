@@ -5,9 +5,7 @@ import React from "react";
 
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
-import useNotification from "../../src/hooks/useNotification";
 import Section from "../../src/layout/section/Section";
-import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
 import { HeroImageProps } from "../../src/organisms/hero-image/HeroImage";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
@@ -18,7 +16,7 @@ import PageType from "../../types/PageTypes";
 import QueryType from "../../types/QueryType";
 import { LearningModuleProps } from "./[learning_module]";
 
-type LearningModuleHomePageProps = HeroImageProps & NotificationLinkedProps;
+type LearningModuleHomePageProps = HeroImageProps;
 
 type PageProps = PageData<unknown, LearningModuleHomePageProps> &
   JSX.IntrinsicAttributes;
@@ -44,10 +42,7 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
   } = props.data || {};
-
-  useNotification(notification);
 
   const learningModules = React.useContext(LearningModulesContext);
 
@@ -117,7 +112,6 @@ export const getStaticProps = async (
     client: Client(),
     queryType: QueryType.SINGLE,
     type: PageType.LEARNING_MODULE_HOME,
-    params: { fetchLinks: ["notification.body, notification.showGlobal"] },
   })(context);
 
   return { props: { ...props, slices: null } };

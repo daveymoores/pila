@@ -4,19 +4,16 @@ import React from "react";
 
 import getAccountServerSideProps from "../../next/get-server-side-props/account";
 import Button from "../../src/atoms/button/Button";
-import useNotification from "../../src/hooks/useNotification";
 import AccountLayout from "../../src/organisms/account-layout/AccountLayout";
 import Modal from "../../src/organisms/modal/Modal";
 import { colorPalette } from "../../src/theme/pila";
 import { SessionPageProps } from "./sessions";
 
 const Page: React.FC<SessionPageProps> = (props) => {
-  const { name, greeting, notification } = props.data;
+  const { name, greeting } = props.data;
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>();
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
-
-  useNotification(notification);
 
   const deleteUser = async () => {
     try {

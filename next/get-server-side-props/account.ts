@@ -24,8 +24,7 @@ const getAccountServerSideProps = async (ctx: GetServerSidePropsContext) => {
     try {
       data =
         (((await client.query(
-          Prismic.Predicates.at("document.type", "sessions"),
-          { fetchLinks: ["notification.body, notification.showGlobal"] }
+          Prismic.Predicates.at("document.type", "sessions")
         )) as unknown) as Response) || {};
     } catch (err) {
       throw new Error(err);

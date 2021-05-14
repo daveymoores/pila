@@ -19,9 +19,7 @@ import styled from "styled-components";
 import { Client } from "../prismic";
 import Button from "../src/atoms/button/Button";
 import Loader from "../src/atoms/loader/Loader";
-import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
-import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import RichTextParser from "../src/molecules/rich-text-parser/RichTextParser";
 import Modal from "../src/organisms/modal/Modal";
 import Seo from "../src/organisms/seo/Seo";
@@ -67,7 +65,7 @@ interface ContactPageMainProps {
 
 type FormValues = { [key: string]: string };
 
-type ContactPageProps = ContactPageMainProps & NotificationLinkedProps;
+type ContactPageProps = ContactPageMainProps;
 
 type PageProps = PageData<unknown, ContactPageProps> & JSX.IntrinsicAttributes;
 
@@ -78,7 +76,6 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
     title,
     submissionSuccess,
     submissionError,
@@ -105,8 +102,6 @@ const Page: React.FC<PageProps> = (props) => {
   const [queryDescription, setQueryDescription] = React.useState<
     RichTextBlock[]
   >();
-
-  useNotification(notification);
 
   React.useEffect(() => {
     if (queries && queryType) {
@@ -288,7 +283,6 @@ export const getStaticProps = async (
     client: Client(),
     queryType: QueryType.SINGLE,
     type: PageType.FORM,
-    params: { fetchLinks: ["notification.body, notification.showGlobal"] },
   })(context);
 
   return { props: { ...props, slices: null } };

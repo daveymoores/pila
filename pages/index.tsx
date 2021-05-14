@@ -12,8 +12,6 @@ import {
 } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import resolver from "../sm-resolver";
-import useNotification from "../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
@@ -29,7 +27,7 @@ type HomepageSlices = ImageWithTextSectionProps &
   PoweredByResearchSectionProps &
   ThanksToInstitutionsSectionProps;
 
-type HomepageProps = HomepageHeroProps & NotificationLinkedProps;
+type HomepageProps = HomepageHeroProps;
 
 type PageProps = JSX.IntrinsicAttributes &
   PageData<HomepageSlices, HomepageProps> & {
@@ -54,11 +52,8 @@ const Page: React.FC<PageProps> = ({
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
     ...restData
   } = data;
-
-  useNotification(notification);
 
   return (
     <React.Fragment>
@@ -79,7 +74,6 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   queryType: QueryType.SINGLE,
   type: PageType.HOME,
-  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export default Page;

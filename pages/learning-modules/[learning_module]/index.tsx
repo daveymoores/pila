@@ -7,10 +7,8 @@ import { Client } from "../../../prismic";
 import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
-import useNotification from "../../../src/hooks/useNotification";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/guide-card/GuideCard";
-import { NotificationLinkedProps } from "../../../src/molecules/notification/Notification";
 import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
 import ModuleHero, {
   ModuleHeroProps,
@@ -47,7 +45,7 @@ export interface LearningModuleProps
   applications: AssessmentApplicationMainProps[];
 }
 
-type LearningModulePageProps = LearningModuleProps & NotificationLinkedProps;
+type LearningModulePageProps = LearningModuleProps;
 
 type PageProps = PageData<unknown, LearningModulePageProps> &
   JSX.IntrinsicAttributes;
@@ -72,10 +70,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
   } = data;
-
-  useNotification(notification);
 
   const learningModules = React.useContext(LearningModulesContext);
 
@@ -189,7 +184,6 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.LEARNING_MODULE,
   uid: ({ params }) => params.learning_module,
-  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export const getStaticPaths = useGetStaticPaths({

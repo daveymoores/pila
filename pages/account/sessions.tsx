@@ -6,8 +6,6 @@ import styled from "styled-components";
 import KLClient from "../../know-learning-api/knowLearningApiClient";
 import getAccountServerSideProps from "../../next/get-server-side-props/account";
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
-import useNotification from "../../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import SessionCard from "../../src/molecules/session-card/SessionCard";
 import AccountLayout from "../../src/organisms/account-layout/AccountLayout";
@@ -26,7 +24,7 @@ interface SessionsPageMainProps {
   noSessionsText: RichTextBlock[];
 }
 
-export type SessionsPageProps = SessionsPageMainProps & NotificationLinkedProps;
+export type SessionsPageProps = SessionsPageMainProps;
 
 export type SessionPageProps = PageData<unknown, SessionsPageProps> &
   JSX.IntrinsicAttributes;
@@ -38,11 +36,9 @@ const parseDate = (dateTime: string) => {
 };
 
 const Page: React.FC<SessionPageProps> = (props) => {
-  const { name, greeting, noSessionsText, notification } = props.data;
+  const { name, greeting, noSessionsText } = props.data;
   const [sessions, setSessions] = React.useState<Session[]>();
   const [error, setError] = React.useState<string>();
-
-  useNotification(notification);
 
   React.useEffect(() => {
     KLClient.watchSessions(
