@@ -3,6 +3,8 @@ import { Link as LinkProps } from "prismic-reactjs";
 import React, { ForwardedRef } from "react";
 import styled from "styled-components";
 
+import { useAuth } from "../../../lib/auth";
+import PageType from "../../../types/PageTypes";
 import useWebMedia from "../../hooks/useWebMedia";
 import { colorPalette, fontWeights } from "../../theme/pila";
 import RoutedLink from "../routed-link/RoutedLink";
@@ -30,6 +32,7 @@ const Button: React.FC<CustomButtonProps> = ({
   size = ButtonSizes.large,
   ...rest
 }) => {
+  const { auth, loading, signInWithGoogle } = useAuth();
   const handleClick = useWebMedia(link);
 
   if (!link) {
@@ -45,6 +48,28 @@ const Button: React.FC<CustomButtonProps> = ({
       <ButtonWithRef size={size} onClick={handleClick} {...rest}>
         {label}
       </ButtonWithRef>
+    );
+  }
+
+  if (link.type === PageType.SESSIONS) {
+    const buttonLabel = auth ? "Start a new session" : label;
+    return (
+      <RoutedLink link={link}>
+        <ButtonWithRef
+          size={size}
+          onClick={
+            !auth
+              ? (event) => {
+                  event.preventDefault();
+                  signInWithGoogle();
+                }
+              : undefined
+          }
+          {...rest}
+        >
+          {buttonLabel}
+        </ButtonWithRef>
+      </RoutedLink>
     );
   }
 
