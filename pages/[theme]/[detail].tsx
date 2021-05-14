@@ -6,7 +6,6 @@ import React from "react";
 import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
 import { Client } from "../../prismic";
 import { CtaBanner } from "../../slices";
-import useNotification from "../../src/hooks/useNotification";
 import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
@@ -25,12 +24,9 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
     ctaSectionButtonOneLabel,
     ctaSectionButtonTwoLink,
     ctaSectionButtonTwoLabel,
-    notification,
     parent,
     ...restProps
   } = data || {};
-
-  useNotification(notification);
 
   const breadcrumbLinks: BreadcrumbItem[] = [
     {
@@ -96,11 +92,7 @@ export const getStaticProps = async (
     type: PageType.DETAIL,
     uid: ({ params }) => params.detail,
     params: {
-      fetchLinks: [
-        "category.name",
-        "theme_page.title",
-        "notification.body, notification.showGlobal",
-      ],
+      fetchLinks: ["category.name", "theme_page.title"],
     },
   })(context);
 

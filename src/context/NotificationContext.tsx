@@ -1,26 +1,35 @@
 import isEmpty from "lodash/isEmpty";
-import React, { Dispatch, SetStateAction } from "react";
+import isEqual from "lodash/isEqual";
+import { useRouter } from "next/router";
+import React from "react";
 
 import CustomType from "../../types/CustomType";
 import { NotificationProps } from "../molecules/notification/Notification";
 
 interface NotificationContextProps {
   notificationProps: NotificationProps;
-  setNotificationProps: Dispatch<SetStateAction<NotificationProps>>;
 }
 
 const NotificationContext = React.createContext<NotificationContextProps>({
   notificationProps: {},
-  setNotificationProps: () => null,
 });
 
 export const NotificationProvider: React.FC<{
   notifications: CustomType<NotificationProps>[];
 }> = ({ children, notifications }) => {
-  const [
-    notificationProps,
-    setNotificationProps,
-  ] = React.useState<NotificationProps>({});
+  const route = useRouter();
+
+  const routeTypes: (string | string[] | undefined)[] = Object.values(
+    route.query
+  );
+
+  const routeNotification = notifications.filter((notification) => {
+    const url = notification.data?.document?.url;
+    if (!url) return;
+
+    const urlPaths = url.split("/").filter((path) => path);
+    return route.asPath.includes(url) && isEqual(urlPaths, routeTypes);
+  });
 
   const globalNotification =
     notifications.find(
@@ -32,9 +41,8 @@ export const NotificationProvider: React.FC<{
     <NotificationContext.Provider
       value={{
         notificationProps: isEmpty(globalNotification)
-          ? notificationProps
+          ? routeNotification[0]?.data || {}
           : globalNotification,
-        setNotificationProps: setNotificationProps,
       }}
     >
       {children}

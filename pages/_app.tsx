@@ -187,6 +187,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           "seo",
         ]),
         {
+          fetchLinks: ["document.slug", "document.type"],
           orderings: "[document.first_publication_date]",
         }
       )) as unknown) as Response) || {};

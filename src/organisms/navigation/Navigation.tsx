@@ -1,5 +1,5 @@
 import { LazyMotion, m as framerMotion } from "framer-motion";
-import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
+import { Box, BoxProps, Header, Image, Menu, Nav, Spinner } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
@@ -43,7 +43,7 @@ const Navigation: React.FC<NavigationProps> = ({
   links,
   modules_dropdown_label,
 }) => {
-  const { auth, signOut, signInWithGoogle } = useAuth();
+  const { auth, loading, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const router = useRouter();
 
@@ -151,6 +151,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 >
                   <Box direction={"row"} align={"center"} pad={"xlarge"}>
                     <AuthButtons
+                      loading={loading}
                       auth={auth}
                       signOut={signOut}
                       theme={NavigationTheme.DARK}
@@ -228,6 +229,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     auth={auth}
                     signOut={signOut}
                     theme={theme}
+                    loading={loading}
                     signInWithGoogle={signInWithGoogle}
                   />
                 </Nav>
@@ -241,7 +243,10 @@ const Navigation: React.FC<NavigationProps> = ({
 };
 
 interface AuthButtonProps
-  extends Pick<AuthContext, "auth" | "signInWithGoogle" | "signOut"> {
+  extends Pick<
+    AuthContext,
+    "auth" | "signInWithGoogle" | "signOut" | "loading"
+  > {
   theme: NavigationTheme;
 }
 
@@ -250,6 +255,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
   signOut,
   theme,
   signInWithGoogle,
+  loading,
 }) => {
   const router = useRouter();
   return (
@@ -267,7 +273,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
               },
             },
             {
-              label: "Account",
+              label: "Profile",
               href: `/account`,
               onClick: (event: SyntheticEvent) => {
                 event.preventDefault();
@@ -286,7 +292,16 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
           ]}
         />
       )}
-      {isEmpty(auth) ? (
+      {loading && (
+        <Spinner
+          color={
+            theme === NavigationTheme.LIGHT
+              ? colorPalette.blue
+              : colorPalette.periwinkleCrayola
+          }
+        />
+      )}
+      {isEmpty(auth) && !loading ? (
         <Button
           primary
           size={ButtonSizes.small}

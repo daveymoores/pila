@@ -70,6 +70,24 @@ function useProvideAuth() {
       return;
     }
 
+    try {
+      const result = await fetch("/api/user", {
+        method: "GET",
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+      });
+
+      const data = await result.json();
+
+      //token is valid, don't redirect to sessions page
+      const formattedAuth = formatAuthState(authState);
+      setAuth(formattedAuth);
+      setLoading(false);
+      if (data.uid) return;
+    } catch (err) {
+      console.error(err);
+    }
+
     const formattedAuth = formatAuthState(authState);
     formattedAuth.token = await authState.getIdToken();
     nookies.set(undefined, "token", formattedAuth.token, { path: "/" });
@@ -99,7 +117,7 @@ function useProvideAuth() {
 
     return firebaseAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(signedIn);
+      .then(signedIn, clear);
   };
 
   const signOut = () => {

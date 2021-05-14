@@ -3,25 +3,21 @@ import { CircleInformation } from "grommet-icons";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import CustomType from "../../../types/CustomType";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";
-
-export interface NotificationLinkedProps {
-  notification: {
-    data: NotificationProps;
-  };
-}
 
 export interface NotificationProps {
   notificationId?: string;
   body?: RichTextBlock[];
   showGlobal?: boolean;
+  document?: CustomType<any>;
 }
 
 const Notification: React.FC<NotificationProps> = ({ body }) => {
   return (
     <Box
-      background={colorPalette.dark_blue}
+      background={colorPalette.night_blue}
       pad={{ vertical: "medium" }}
       responsive={false}
     >

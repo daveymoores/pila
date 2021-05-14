@@ -5,7 +5,6 @@ import {
   FormField,
   Grid,
   Heading,
-  Layer,
   Select,
   Text,
   TextArea,
@@ -20,10 +19,9 @@ import styled from "styled-components";
 import { Client } from "../prismic";
 import Button from "../src/atoms/button/Button";
 import Loader from "../src/atoms/loader/Loader";
-import useNotification from "../src/hooks/useNotification";
 import Section from "../src/layout/section/Section";
-import { NotificationLinkedProps } from "../src/molecules/notification/Notification";
 import RichTextParser from "../src/molecules/rich-text-parser/RichTextParser";
+import Modal from "../src/organisms/modal/Modal";
 import Seo from "../src/organisms/seo/Seo";
 import { colorPalette } from "../src/theme/pila";
 import PageData from "../types/PageData";
@@ -67,7 +65,7 @@ interface ContactPageMainProps {
 
 type FormValues = { [key: string]: string };
 
-type ContactPageProps = ContactPageMainProps & NotificationLinkedProps;
+type ContactPageProps = ContactPageMainProps;
 
 type PageProps = PageData<unknown, ContactPageProps> & JSX.IntrinsicAttributes;
 
@@ -78,7 +76,6 @@ const Page: React.FC<PageProps> = (props) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
     title,
     submissionSuccess,
     submissionError,
@@ -105,10 +102,6 @@ const Page: React.FC<PageProps> = (props) => {
   const [queryDescription, setQueryDescription] = React.useState<
     RichTextBlock[]
   >();
-
-  const onClose = () => location.reload();
-
-  useNotification(notification);
 
   React.useEffect(() => {
     if (queries && queryType) {
@@ -171,54 +164,14 @@ const Page: React.FC<PageProps> = (props) => {
           margin={{ horizontal: "auto", bottom: "xlarge" }}
         >
           {success && submissionSuccess && (
-            <Layer
-              onClickOutside={onClose}
-              onEsc={onClose}
-              background={"transparent"}
-            >
-              <Card
-                background={"brand"}
-                align="center"
-                justify="center"
-                gap="small"
-                alignSelf="center"
-                pad="large"
-                width={{ min: "400px" }}
-              >
-                <StyledRichTextParser body={submissionSuccess} />
-                <Button
-                  margin={{ top: "medium" }}
-                  label="Close"
-                  color={colorPalette.green}
-                  onClick={onClose}
-                />
-              </Card>
-            </Layer>
+            <Modal>
+              <StyledRichTextParser body={submissionSuccess} />
+            </Modal>
           )}
           {error && submissionError && (
-            <Layer
-              onClickOutside={onClose}
-              onEsc={onClose}
-              background={"transparent"}
-            >
-              <Card
-                background={"brand"}
-                align="center"
-                justify="center"
-                gap="small"
-                alignSelf="center"
-                pad="large"
-                width={{ min: "400px" }}
-              >
-                <StyledRichTextParser body={submissionError} />
-                <Button
-                  label="Close"
-                  margin={{ top: "medium" }}
-                  color={colorPalette.green}
-                  onClick={onClose}
-                />
-              </Card>
-            </Layer>
+            <Modal>
+              <StyledRichTextParser body={submissionError} />
+            </Modal>
           )}
           <Form
             value={value}
@@ -330,7 +283,6 @@ export const getStaticProps = async (
     client: Client(),
     queryType: QueryType.SINGLE,
     type: PageType.FORM,
-    params: { fetchLinks: ["notification.body, notification.showGlobal"] },
   })(context);
 
   return { props: { ...props, slices: null } };

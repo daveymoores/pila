@@ -5,8 +5,6 @@ import React from "react";
 import { Client } from "../../prismic";
 import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
 import resolver from "../../sm-resolver";
-import useNotification from "../../src/hooks/useNotification";
-import { NotificationLinkedProps } from "../../src/molecules/notification/Notification";
 import HeroImage, {
   HeroImageProps,
 } from "../../src/organisms/hero-image/HeroImage";
@@ -17,7 +15,7 @@ import PageType from "../../types/PageTypes";
 // TODO - add missing prismic here
 type ThemesPageSlices = ImageWithTextSectionProps;
 
-type ThemesPageProps = HeroImageProps & NotificationLinkedProps;
+type ThemesPageProps = HeroImageProps;
 
 type PageProps = JSX.IntrinsicAttributes &
   PageData<ThemesPageSlices, ThemesPageProps>;
@@ -29,11 +27,8 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    notification,
     ...restData
   } = data || {};
-
-  useNotification(notification);
 
   return (
     <React.Fragment>
@@ -54,7 +49,6 @@ export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.THEME,
   uid: ({ params }) => params.theme,
-  params: { fetchLinks: ["notification.body, notification.showGlobal"] },
 });
 
 export const getStaticPaths = useGetStaticPaths({
