@@ -1,15 +1,12 @@
 import { LazyMotion, m as framerMotion } from "framer-motion";
-import { Box, BoxProps, Header, Image, Menu, Nav, Spinner } from "grommet";
+import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
 import { useRouter } from "next/router";
-import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
 import { AuthContext, useAuth } from "../../../lib/auth";
-import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
-import CustomType from "../../../types/CustomType";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -19,8 +16,8 @@ import {
   TabletUp,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import TextLink from "../../atoms/text-link/TextLink";
-import LearningModulesContext from "../../context/LearningModulesContext";
 import OffCanvasContext from "../../context/OffCanvasContext";
+import useLinkResolver from "../../hooks/useLinkResolver";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
@@ -30,9 +27,16 @@ export enum NavigationTheme {
   DARK,
 }
 
+interface NavigationSlice {
+  items: RepeatableLink[];
+  primary: {
+    navigationItemLabel: string;
+  };
+}
+
 export interface NavigationProps {
-  links: RepeatableLink[];
-  modules_dropdown_label: string;
+  signedOutMenuItems: NavigationSlice[];
+  signedInMenuItems: NavigationSlice[];
 }
 
 // TODO - fix this as other paths can match
@@ -40,8 +44,8 @@ const darkThemePages = (route: string) =>
   route === "/" || new RegExp("account|sessions").test(route);
 
 const Navigation: React.FC<NavigationProps> = ({
-  links,
-  modules_dropdown_label,
+  signedOutMenuItems,
+  signedInMenuItems,
 }) => {
   const { auth, loading, signOut, signInWithGoogle } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
@@ -54,36 +58,6 @@ const Navigation: React.FC<NavigationProps> = ({
   React.useEffect(() => {
     if (isOpen) setIsOpen(false);
   }, [router.asPath]);
-
-  const learningModules: CustomType<LearningModuleProps>[] = React.useContext(
-    LearningModulesContext
-  );
-
-  const moduleNavigationItems =
-    learningModules &&
-    learningModules.map((module) => ({
-      label: module.data?.title
-        ? RichText.asText(module.data.title)
-        : module.uid,
-      href: `/learning-modules/${module.uid}`,
-      onClick: (event: SyntheticEvent) => {
-        event.preventDefault();
-        router.push(`/learning-modules/${module.uid}`);
-      },
-    }));
-
-  const mobileModuleLinks: RepeatableLink[] =
-    learningModules &&
-    learningModules.map((module) => ({
-      label: module.data?.title
-        ? RichText.asText(module.data.title)
-        : module.uid,
-      link: {
-        type: PageType.LEARNING_MODULE,
-        link_type: "Document",
-        uid: module.uid,
-      },
-    }));
 
   const variants = {
     initial: {
@@ -105,6 +79,8 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const loadFeatures = () =>
     import("./framer-motion-features").then((res) => res.default);
+
+  const menuLinks = !isEmpty(auth) ? signedOutMenuItems : signedInMenuItems;
 
   return (
     <LazyMotion features={loadFeatures}>
@@ -158,42 +134,34 @@ const Navigation: React.FC<NavigationProps> = ({
                       signInWithGoogle={signInWithGoogle}
                     />
                   </Box>
+
                   <Box as={"ul"} pad={"xlarge"}>
-                    {links &&
-                      links.map(({ label, link }, index) => (
-                        <Box
-                          key={index}
-                          as={"li"}
-                          margin={{ bottom: "medium" }}
-                        >
-                          <StyledRoutedMobileTextLink
-                            key={index}
-                            link={link}
-                            label={label}
-                          />
-                        </Box>
-                      ))}
-                    <Divider as={"li"}>
-                      <Box
-                        as={"span"}
-                        margin={{ top: "large", bottom: "medium" }}
-                      >
-                        Modules
-                      </Box>
-                    </Divider>
-                    {mobileModuleLinks &&
-                      mobileModuleLinks.map(({ label, link }, index) => (
-                        <Box
-                          key={index}
-                          as={"li"}
-                          margin={{ bottom: "medium" }}
-                        >
-                          <StyledRoutedMobileTextLink
-                            key={index}
-                            link={link}
-                            label={label}
-                          />
-                        </Box>
+                    {menuLinks &&
+                      menuLinks.map(({ items, primary }, index) => (
+                        <React.Fragment key={index}>
+                          <Divider as={"li"}>
+                            <Box
+                              as={"span"}
+                              margin={{ top: "large", bottom: "medium" }}
+                            >
+                              {primary.navigationItemLabel}
+                            </Box>
+                          </Divider>
+                          {items &&
+                            items.map(({ label, link }, index) => (
+                              <Box
+                                key={index}
+                                as={"li"}
+                                margin={{ bottom: "medium" }}
+                              >
+                                <StyledRoutedMobileTextLink
+                                  key={index}
+                                  link={link}
+                                  label={label}
+                                />
+                              </Box>
+                            ))}
+                        </React.Fragment>
                       ))}
                   </Box>
                 </MobileNavigation>
@@ -216,13 +184,16 @@ const Navigation: React.FC<NavigationProps> = ({
                   flex={"grow"}
                 >
                   <Box direction={"row"} align={"center"}>
-                    <StyledMenu
-                      label={modules_dropdown_label}
-                      items={moduleNavigationItems}
-                    />
-                    {links &&
-                      links.map(({ link, label }, index) => (
-                        <StyledTextLink key={index} link={link} label={label} />
+                    {menuLinks &&
+                      menuLinks.map(({ items, primary }, index) => (
+                        <StyledMenu
+                          key={index}
+                          label={primary.navigationItemLabel}
+                          items={items.map((item) => ({
+                            ...item,
+                            href: useLinkResolver(item.link),
+                          }))}
+                        />
                       ))}
                   </Box>
                   <AuthButtons
@@ -255,53 +226,53 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
   signOut,
   theme,
   signInWithGoogle,
-  loading,
 }) => {
   const router = useRouter();
+  const authLinks = [
+    {
+      label: "Sessions",
+      type: PageType.SESSIONS,
+      href: `/account/sessions`,
+      onClick: (event: SyntheticEvent) => {
+        event.preventDefault();
+        router.push(`/account/sessions`);
+      },
+    },
+    {
+      label: "Profile",
+      type: PageType.ACCOUNT,
+      href: `/account`,
+      onClick: (event: SyntheticEvent) => {
+        event.preventDefault();
+        router.push(`/account`);
+      },
+    },
+    {
+      label: "sign out",
+      href: `/`,
+      onClick: (event: SyntheticEvent) => {
+        event.preventDefault();
+        router.push(`/`);
+        signOut();
+      },
+    },
+  ];
+
+  const mobileAuthLinks: RepeatableLink[] = authLinks.map((link) => ({
+    label: link.label,
+    link: {
+      type: link.type,
+      link_type: "Document",
+    },
+    onClick: link.onClick,
+  }));
+
   return (
-    <Box direction={"row"} align={"center"}>
-      {auth && (
-        <StyledMenu
-          label={auth.name}
-          items={[
-            {
-              label: "Sessions",
-              href: `/account/sessions`,
-              onClick: (event: SyntheticEvent) => {
-                event.preventDefault();
-                router.push(`/account/sessions`);
-              },
-            },
-            {
-              label: "Profile",
-              href: `/account`,
-              onClick: (event: SyntheticEvent) => {
-                event.preventDefault();
-                router.push(`/account`);
-              },
-            },
-            {
-              label: "sign out",
-              href: `/`,
-              onClick: (event: SyntheticEvent) => {
-                event.preventDefault();
-                router.push(`/`);
-                signOut();
-              },
-            },
-          ]}
-        />
-      )}
-      {loading && (
-        <Spinner
-          color={
-            theme === NavigationTheme.LIGHT
-              ? colorPalette.blue
-              : colorPalette.periwinkleCrayola
-          }
-        />
-      )}
-      {isEmpty(auth) && !loading ? (
+    <Box direction={isEmpty(auth) ? "column" : "row"} align={"center"}>
+      <TabletUp>
+        {auth && <StyledMenu label={auth.name} items={authLinks} />}
+      </TabletUp>
+      {isEmpty(auth) ? (
         <Button
           primary
           size={ButtonSizes.small}
@@ -320,8 +291,34 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
           }}
         />
       ) : (
-        <Box width={"40px"} height={"40px"} round={"50%"} overflow={"hidden"}>
-          <Image src={auth?.photoUrl || undefined} />
+        <Box>
+          <Box
+            width={{ min: "40px", max: "40px" }}
+            height={{ min: "40px", max: "40px" }}
+            round={"50%"}
+            overflow={"hidden"}
+          >
+            <Image src={auth?.photoUrl || undefined} />
+          </Box>
+          <MobileOnly>
+            <Box as={"ul"}>
+              <Divider as={"li"}>
+                <Box as={"span"} margin={{ top: "large", bottom: "medium" }}>
+                  {auth?.name}
+                </Box>
+              </Divider>
+              {mobileAuthLinks &&
+                mobileAuthLinks.map(({ link, label }, index) => (
+                  <Box key={index} as={"li"} margin={{ bottom: "medium" }}>
+                    <StyledRoutedMobileTextLink
+                      key={index}
+                      link={link}
+                      label={label}
+                    />
+                  </Box>
+                ))}
+            </Box>
+          </MobileOnly>
         </Box>
       )}
     </Box>
@@ -340,8 +337,9 @@ const StyledHeader = styled(Header)`
 `;
 
 const StyledLogoBox = styled(Box)`
-  width: 110px;
-  height: 40px;
+  min-width: 120px;
+  max-width: 120px;
+  height: 50px;
   margin-right: 40px;
 `;
 

@@ -32,7 +32,7 @@ const Button: React.FC<CustomButtonProps> = ({
   size = ButtonSizes.large,
   ...rest
 }) => {
-  const { auth, loading, signInWithGoogle } = useAuth();
+  const { auth, signInWithGoogle } = useAuth();
   const handleClick = useWebMedia(link);
 
   if (!link) {

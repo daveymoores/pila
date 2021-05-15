@@ -24,6 +24,14 @@ export const TextLink: React.FC<CustomLinkProps> = ({
 }) => {
   const handleClick = useWebMedia(link);
 
+  if (onClick) {
+    return (
+      <GrommetLink onClick={onClick} {...rest}>
+        {label}
+      </GrommetLink>
+    );
+  }
+
   if (link.link_type === "Media" || link.link_type === "Web") {
     return (
       <GrommetLink onClick={handleClick} {...rest}>
