@@ -3,7 +3,9 @@ import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import getFileExtension from "../../../helpers/get-file-extension/getFileExtension";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import DownloadIcon from "../../atoms/download-icon/DownloadIcon";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette, fontWeights } from "../../theme/pila";
 
@@ -29,10 +31,10 @@ const GuideCard: React.FC<GuideCardProps> = ({
 
   const columns = isSmall
     ? {
-        small: ["1/2", "1/2"],
-        medium: ["1/2", "1/2"],
-        large: ["1/2", "1/2"],
-        xlarge: ["1/2", "1/2"],
+        small: ["flex", "auto"],
+        medium: ["flex", "auto"],
+        large: ["flex", "auto"],
+        xlarge: ["flex", "auto"],
       }
     : {
         small: ["1/2", "1/2"],
@@ -47,7 +49,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
         <Card
           width={"100%"}
           elevation={"none"}
-          pad={isSmall ? "small" : "medium"}
+          pad={isSmall ? "small" : size === "large" ? "medium" : "small"}
           background={isSmall ? "light-1" : "white"}
           direction={"row"}
           align={"center"}
@@ -69,7 +71,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
               >
                 {title}
               </Paragraph>
-              {size !== "small" && !isSmall && (
+              {size !== "small" && !isSmall && downloadLink?.url && (
                 <Box align={"center"} justify={"center"}>
                   <dl>
                     <dt>
@@ -79,7 +81,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
                     </dt>
                     <dd>
                       <StyledParagraph size={"small"} color={colorPalette.grey}>
-                        PDF
+                        {getFileExtension(downloadLink.url)}
                       </StyledParagraph>
                     </dd>
                   </dl>
@@ -90,8 +92,8 @@ const GuideCard: React.FC<GuideCardProps> = ({
                   <Button
                     color={colorPalette.green}
                     size={ButtonSizes.small}
-                    label={"Download"}
                     link={downloadLink}
+                    icon={<DownloadIcon url={downloadLink.url} />}
                   />
                 )}
                 {pageLink && (
@@ -101,7 +103,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
                     size={ButtonSizes.small}
                     label={"View"}
                     link={pageLink}
-                    margin={{ left: size !== "small" ? "medium" : "small" }}
+                    margin={{ left: "small" }}
                   />
                 )}
               </Box>

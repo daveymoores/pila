@@ -13,8 +13,8 @@ export const colorPalette = {
 };
 
 export const fontWeights = {
-  bold: "500",
-  normal: "400",
+  bold: 500,
+  normal: 400,
 };
 
 const pila = {

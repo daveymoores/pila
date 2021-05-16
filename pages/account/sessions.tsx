@@ -48,7 +48,9 @@ const Page: React.FC<SessionPageProps> = (props) => {
           setError(error);
           return;
         }
-        setSessions(sessions);
+        setSessions(
+          sessions.sort((a, b) => parseInt(a.date) - parseInt(b.date)).reverse()
+        );
       }
     );
   }, []);
@@ -104,11 +106,19 @@ const Page: React.FC<SessionPageProps> = (props) => {
               >
                 Your most recent session
               </Heading>
-              <StyledSessionCard
-                title={"Karel the dog"}
-                dashboardLink={{ url: "" }}
-                moduleLink={{ url: "" }}
-              />
+              {[sessions.shift()].map(
+                (session, index) =>
+                  session && (
+                    <StyledSessionCard
+                      key={index}
+                      title={session.name}
+                      participants={session.participants.length}
+                      date={parseDate(session.date)}
+                      dashboardLink={{ url: "" }}
+                      moduleLink={{ url: "" }}
+                    />
+                  )
+              )}
             </Box>
             <Box>
               <Heading

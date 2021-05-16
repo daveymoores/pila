@@ -8,12 +8,14 @@ import LearningModulesContext from "../../src/context/LearningModulesContext";
 import Section from "../../src/layout/section/Section";
 import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
 import { HeroImageProps } from "../../src/organisms/hero-image/HeroImage";
+import HeroText from "../../src/organisms/hero-text/HeroText";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import Seo from "../../src/organisms/seo/Seo";
 import CustomType from "../../types/CustomType";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
 import QueryType from "../../types/QueryType";
+import { Theme } from "../../types/Theme";
 import { LearningModuleProps } from "./[learning_module]";
 
 type LearningModuleHomePageProps = HeroImageProps;
@@ -51,7 +53,6 @@ const Page: React.FC<PageProps> = (props) => {
       width={"100%"}
       background={"light-1"}
       pad={{
-        top: "medium",
         bottom: "xlarge",
       }}
     >
@@ -62,23 +63,20 @@ const Page: React.FC<PageProps> = (props) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <Section>
-        <Box
-          gridArea="title"
-          pad={{ top: "xlarge", bottom: "xlarge" }}
-          align={"center"}
-        >
+      <HeroText
+        title={
           <Heading
             textAlign={"start"}
             level={"1"}
             alignSelf={"stretch"}
             size="small"
-            margin={{ top: "xlarge", bottom: "medium" }}
+            margin={{ top: "medium" }}
           >
             Learning Modules
           </Heading>
-        </Box>
-      </Section>
+        }
+        variant={Theme.LIGHT}
+      />
       <Section>
         <Box margin={{ bottom: "xlarge" }}>
           <ResponsiveGrid columns={columns} rows={rows} align={"stretch"}>

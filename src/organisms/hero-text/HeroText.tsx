@@ -1,5 +1,6 @@
-import { Box, ResponsiveContext } from "grommet";
+import { Box } from "grommet";
 import React from "react";
+import styled from "styled-components";
 
 import { Theme } from "../../../types/Theme";
 import Section from "../../layout/section/Section";
@@ -54,8 +55,6 @@ const HeroText: React.FC<HeroText> = ({
   title,
   info,
 }) => {
-  const size = React.useContext(ResponsiveContext);
-
   return (
     <Box
       width={"100%"}
@@ -66,29 +65,45 @@ const HeroText: React.FC<HeroText> = ({
     >
       {links && <Breadcrumb links={links} />}
       <Section>
-        <ResponsiveGrid
+        <StyledResponsiveGrid
           margin={{
-            top: "xlarge",
             bottom: "large",
           }}
           columns={columns}
           rows={rows}
           areas={gridAreas}
+          hasLinks={!!links?.length}
         >
-          <Box
-            gridArea="title"
-            align={"center"}
-            margin={{ bottom: size === "small" ? "medium" : "none" }}
-          >
-            {title}
-          </Box>
-          <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
-            {info}
-          </Box>
-        </ResponsiveGrid>
+          <React.Fragment>
+            <StyledBox gridArea="title" align={"center"}>
+              {title}
+            </StyledBox>
+            {info && (
+              <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
+                {info}
+              </Box>
+            )}
+          </React.Fragment>
+        </StyledResponsiveGrid>
       </Section>
     </Box>
   );
 };
+
+const StyledBox = styled(Box)`
+  margin: 48px 0 0;
+
+  @media only screen and (min-width: 601px) {
+    margin: 24px 0 0;
+  }
+`;
+
+const StyledResponsiveGrid = styled(ResponsiveGrid)<{ hasLinks: boolean }>`
+  margin-top: ${(props) => (props.hasLinks ? "0px" : "96px")};
+
+  @media only screen and (min-width: 601px) {
+    margin-top: 96px;
+  }
+`;
 
 export default HeroText;

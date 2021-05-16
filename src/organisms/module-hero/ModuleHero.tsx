@@ -5,6 +5,7 @@ import React from "react";
 import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
+import DownloadIcon from "../../atoms/download-icon/DownloadIcon";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
 import {
   MobileOnly,
@@ -51,7 +52,6 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
           <MobileOnly>
             <LearningModuleIcon icon={icon} />
           </MobileOnly>
-
           <React.Fragment>
             <MobileOnly>
               <Heading
@@ -103,21 +103,23 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
             <Paragraph margin={{ top: "medium", bottom: "medium" }}>
               Learn more from the {parsedTitle} framework
             </Paragraph>
-            <Box direction={"row"} justify={"around"}>
+            <Box direction={"row"} justify={"center"}>
               {guideDownload && (
                 <Button
                   color={colorPalette.green}
                   size={ButtonSizes.small}
-                  label={"View"}
                   link={guideDownload}
+                  icon={<DownloadIcon url={guideDownload.url} />}
                 />
               )}
               {guideLink && (
                 <Button
-                  color={colorPalette.green}
+                  primary
+                  color={colorPalette.blue}
                   size={ButtonSizes.small}
                   label={"View"}
                   link={guideLink}
+                  margin={{ left: "small" }}
                 />
               )}
             </Box>
