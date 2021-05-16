@@ -5,7 +5,7 @@ import React from "react";
 
 import CustomType from "../../../types/CustomType";
 import Section from "../../layout/section/Section";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 export interface NotificationProps {
   notificationId?: string;
@@ -27,7 +27,11 @@ const Notification: React.FC<NotificationProps> = ({ body }) => {
           {body && (
             <Box
               pad={{ left: "medium" }}
-              style={{ fontSize: "14px", lineHeight: "18px" }}
+              style={{
+                fontSize: "14px",
+                lineHeight: "18px",
+                fontWeight: fontWeights.bold,
+              }}
             >
               {RichText.render(body)}
             </Box>

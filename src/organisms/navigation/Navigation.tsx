@@ -80,7 +80,25 @@ const Navigation: React.FC<NavigationProps> = ({
   const loadFeatures = () =>
     import("./framer-motion-features").then((res) => res.default);
 
-  const menuLinks = !isEmpty(auth) ? signedOutMenuItems : signedInMenuItems;
+  const signedOutRoutedMenuLinks = signedOutMenuItems.map((navigationItem) => ({
+    ...navigationItem,
+    items: navigationItem.items.map((item) => ({
+      ...item,
+      href: useLinkResolver(item.link),
+    })),
+  }));
+
+  const signedInRoutedMenuLinks = signedInMenuItems.map((navigationItem) => ({
+    ...navigationItem,
+    items: navigationItem.items.map((item) => ({
+      ...item,
+      href: useLinkResolver(item.link),
+    })),
+  }));
+
+  const routedMenuItems = !isEmpty(auth)
+    ? signedOutRoutedMenuLinks
+    : signedInRoutedMenuLinks;
 
   return (
     <LazyMotion features={loadFeatures}>
@@ -136,33 +154,32 @@ const Navigation: React.FC<NavigationProps> = ({
                   </Box>
 
                   <Box as={"ul"} pad={"xlarge"}>
-                    {menuLinks &&
-                      menuLinks.map(({ items, primary }, index) => (
-                        <React.Fragment key={index}>
-                          <Divider as={"li"}>
+                    {routedMenuItems.map(({ items, primary }, index) => (
+                      <React.Fragment key={index}>
+                        <Divider as={"li"}>
+                          <Box
+                            as={"span"}
+                            margin={{ top: "large", bottom: "medium" }}
+                          >
+                            {primary.navigationItemLabel}
+                          </Box>
+                        </Divider>
+                        {items &&
+                          items.map(({ label, link }, index) => (
                             <Box
-                              as={"span"}
-                              margin={{ top: "large", bottom: "medium" }}
+                              key={index}
+                              as={"li"}
+                              margin={{ bottom: "medium" }}
                             >
-                              {primary.navigationItemLabel}
-                            </Box>
-                          </Divider>
-                          {items &&
-                            items.map(({ label, link }, index) => (
-                              <Box
+                              <StyledRoutedMobileTextLink
                                 key={index}
-                                as={"li"}
-                                margin={{ bottom: "medium" }}
-                              >
-                                <StyledRoutedMobileTextLink
-                                  key={index}
-                                  link={link}
-                                  label={label}
-                                />
-                              </Box>
-                            ))}
-                        </React.Fragment>
-                      ))}
+                                link={link}
+                                label={label}
+                              />
+                            </Box>
+                          ))}
+                      </React.Fragment>
+                    ))}
                   </Box>
                 </MobileNavigation>
               </Box>
@@ -184,17 +201,13 @@ const Navigation: React.FC<NavigationProps> = ({
                   flex={"grow"}
                 >
                   <Box direction={"row"} align={"center"}>
-                    {menuLinks &&
-                      menuLinks.map(({ items, primary }, index) => (
-                        <StyledMenu
-                          key={index}
-                          label={primary.navigationItemLabel}
-                          items={items.map((item) => ({
-                            ...item,
-                            href: useLinkResolver(item.link),
-                          }))}
-                        />
-                      ))}
+                    {routedMenuItems.map(({ items, primary }, index) => (
+                      <StyledMenu
+                        key={index}
+                        label={primary.navigationItemLabel}
+                        items={items}
+                      />
+                    ))}
                   </Box>
                   <AuthButtons
                     auth={auth}
