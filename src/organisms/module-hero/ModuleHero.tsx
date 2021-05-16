@@ -52,7 +52,6 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
           <MobileOnly>
             <LearningModuleIcon icon={icon} />
           </MobileOnly>
-
           <React.Fragment>
             <MobileOnly>
               <Heading

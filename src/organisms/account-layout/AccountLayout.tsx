@@ -67,9 +67,8 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
             level={"1"}
             alignSelf={"stretch"}
             size="small"
-            responsive={false}
             color={"dark"}
-            margin={{ top: "medium", bottom: "medium" }}
+            margin={{ top: "medium" }}
           >
             {greeting}
           </Heading>
@@ -96,9 +95,8 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
                   level={"1"}
                   alignSelf={"stretch"}
                   size="small"
-                  responsive={false}
                   color={"dark"}
-                  margin={{ bottom: "medium" }}
+                  margin={{ vertical: "medium" }}
                 >
                   {title}
                 </Heading>
