@@ -65,7 +65,12 @@ const SessionCard: React.FC<GuideCardProps> = ({
             pad={{ left: "small" }}
           >
             <React.Fragment>
-              <Grid columns={["2/3", "1/3"]} rows={["auto"]}>
+              <Grid
+                columns={["2/3", "1/3"]}
+                rows={["auto"]}
+                gap={"none"}
+                align={"center"}
+              >
                 <Box pad={{ right: "large" }}>
                   <Paragraph
                     style={{ fontWeight: 500 }}

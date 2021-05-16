@@ -82,18 +82,32 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const signedOutRoutedMenuLinks = signedOutMenuItems.map((navigationItem) => ({
     ...navigationItem,
-    items: navigationItem.items.map((item) => ({
-      ...item,
-      href: useLinkResolver(item.link),
-    })),
+    items: navigationItem.items.map((item) => {
+      const href = useLinkResolver(item.link);
+      return {
+        ...item,
+        href: useLinkResolver(item.link),
+        onClick: (event: SyntheticEvent) => {
+          event.preventDefault();
+          router.push(href);
+        },
+      };
+    }),
   }));
 
   const signedInRoutedMenuLinks = signedInMenuItems.map((navigationItem) => ({
     ...navigationItem,
-    items: navigationItem.items.map((item) => ({
-      ...item,
-      href: useLinkResolver(item.link),
-    })),
+    items: navigationItem.items.map((item) => {
+      const href = useLinkResolver(item.link);
+      return {
+        ...item,
+        href: useLinkResolver(item.link),
+        onClick: (event: SyntheticEvent) => {
+          event.preventDefault();
+          router.push(href);
+        },
+      };
+    }),
   }));
 
   const routedMenuItems = !isEmpty(auth)
@@ -371,12 +385,6 @@ const StyledMenu = styled(Menu)`
     stroke: var(--nav-theme);
     fill: var(--nav-theme);
   }
-`;
-
-const StyledTextLink = styled(TextLink)`
-  font-size: 16px;
-  font-weight: ${fontWeights.bold};
-  color: ${(props) => props.color || `var(--nav-theme)`};
 `;
 
 const StyledRoutedMobileTextLink = styled(TextLink)`
