@@ -2,12 +2,15 @@
 import "../styles/globals.css";
 
 import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
+import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
+import CookieNotice from "react-cookienotice";
+import styled from "styled-components";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { AuthProvider } from "../lib/auth";
@@ -156,6 +159,11 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                 >
                   <Component {...pageProps} />
                 </Scaffold>
+                {process.browser && (
+                  <StyledBox>
+                    <CookieNotice darkTheme={false} />
+                  </StyledBox>
+                )}
                 {pageProps.isPreview && <PreviewCard />}
               </PilaTheme>
             </AssessmentApplicationContext.Provider>
@@ -243,5 +251,18 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     },
   };
 };
+
+const StyledBox = styled(Box)`
+  @media (max-width: 768px) {
+    * {
+      font-size: 15px !important;
+    }
+
+    .react-cookienotice-wrapper {
+      border-radius: 24px !important;
+      margin: 16px;
+    }
+  }
+`;
 
 export default PilaApp;

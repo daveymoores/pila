@@ -167,7 +167,10 @@ const Navigation: React.FC<NavigationProps> = ({
                     />
                   </Box>
 
-                  <Box as={"ul"} pad={"xlarge"}>
+                  <Box
+                    as={"ul"}
+                    pad={{ horizontal: "xlarge", bottom: "xlarge" }}
+                  >
                     {routedMenuItems.map(({ items, primary }, index) => (
                       <React.Fragment key={index}>
                         <Divider as={"li"}>
@@ -402,6 +405,7 @@ const MobileNavigation = styled(framerMotion.div)`
   height: 100%;
   background-color: ${colorPalette.dark_blue};
   z-index: 2;
+  overflow-y: scroll;
 `;
 
 export default Navigation;

@@ -1,5 +1,5 @@
-import { Box, Heading } from "grommet";
-import { RichTextBlock } from "prismic-reactjs";
+import { Box, Heading, ResponsiveContext } from "grommet";
+import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
@@ -22,6 +22,10 @@ interface SessionsPageMainProps {
   name: string;
   greeting: string;
   noSessionsText: RichTextBlock[];
+  startSessionLabel: string;
+  startSessionLink: Link;
+  exploreModulesLabel: string;
+  exploreModulesLink: Link;
 }
 
 export type SessionsPageProps = SessionsPageMainProps;
@@ -36,9 +40,18 @@ const parseDate = (dateTime: string) => {
 };
 
 const Page: React.FC<SessionPageProps> = (props) => {
-  const { name, greeting, noSessionsText } = props.data;
+  const {
+    name,
+    greeting,
+    noSessionsText,
+    startSessionLabel,
+    startSessionLink,
+    exploreModulesLabel,
+    exploreModulesLink,
+  } = props.data;
   const [sessions, setSessions] = React.useState<Session[]>();
   const [error, setError] = React.useState<string>();
+  const size = React.useContext(ResponsiveContext);
 
   React.useEffect(() => {
     KLClient.watchSessions(
@@ -70,31 +83,31 @@ const Page: React.FC<SessionPageProps> = (props) => {
             <RichTextParser body={noSessionsText} />
           </Box>
         )}
-        <Box direction={"row"}>
-          <Button
-            margin={{ right: "small" }}
-            primary
-            color={colorPalette.green}
-            size={ButtonSizes.large}
-            type="button"
-            label={"start a new session"}
-            link={{
-              link_type: "Web",
-              url: "http://knowlearning.org",
-            }}
-          />
-          <Button
-            margin={{ right: "small" }}
-            primary
-            color={colorPalette.blue}
-            size={ButtonSizes.large}
-            type="button"
-            label={"Explore modules"}
-            link={{
-              link_type: "Web",
-              url: "http://knowlearning.org",
-            }}
-          />
+        <Box direction={size === "small" ? "column" : "row"}>
+          {startSessionLabel && startSessionLink && (
+            <Button
+              margin={{
+                right: size === "small" ? "none" : "small",
+                bottom: size === "small" ? "small" : "none",
+              }}
+              primary
+              color={colorPalette.green}
+              size={ButtonSizes.large}
+              type="button"
+              label={startSessionLabel}
+              link={startSessionLink}
+            />
+          )}
+          {exploreModulesLabel && exploreModulesLink && (
+            <Button
+              primary
+              color={colorPalette.blue}
+              size={ButtonSizes.large}
+              type="button"
+              label={exploreModulesLabel}
+              link={exploreModulesLink}
+            />
+          )}
         </Box>
         {sessions && (
           <Box margin={{ top: "large" }}>
