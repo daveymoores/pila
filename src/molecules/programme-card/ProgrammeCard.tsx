@@ -49,14 +49,14 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
           </Heading>
         )}
         {body && (
-          <Paragraph
+          <StyledParagraph
             margin={{
               top: "medium",
             }}
             fill
           >
             {RichText.asText(body)}
-          </Paragraph>
+          </StyledParagraph>
         )}
         {link && (
           <Button
@@ -76,6 +76,13 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 
 const StyledCard = styled(Card)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  @media only screen and (max-width: 600px) {
+    font-size: 16px;
+    line-height: 24px;
+  }
 `;
 
 export default ProgrammeCard;

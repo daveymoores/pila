@@ -1,7 +1,8 @@
 import { Link, RichTextBlock } from "prismic-reactjs";
 
 import { AccordionBlockProps } from "../slices/AccordionBlock";
-import { CTABannerAlternateProps } from "../slices/CtaBanner";
+import { CTABannerAlternateProps, CtaBannerProps } from "../slices/CtaBanner";
+import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageBlockProps } from "../slices/ImageBlock";
 import { RichTextBlokProps } from "../slices/RichTextBlock";
 import CustomType from "./CustomType";
@@ -12,12 +13,15 @@ export type DetailPageSlices = RichTextBlokProps &
   ImageBlockProps &
   AccordionBlockProps;
 
+type BannerSlices = CtaBannerProps & HighlightBannerProps;
+
 export type DetailPageData = CTABannerAlternateProps & {
   title?: RichTextBlock[];
   heroImage?: ImageProps;
   category?: { categories: Link & { data: { name: string } } };
   associatedContent?: { link: Link }[];
   parent?: Link & { data: { title: RichTextBlock[] } };
+  bannerSlices: BannerSlices[];
 };
 
 export interface LinkedDetailPageProps

@@ -1,5 +1,6 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
+declare module "react-cookienotice";
 declare module "../../know-learning-api/knowLearningApiClient";
 declare module "next-slicezone";
 declare module "next-slicezone/resolver";

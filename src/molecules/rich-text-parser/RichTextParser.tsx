@@ -182,6 +182,11 @@ const StyledParagraph = styled(Paragraph)`
   &:last-of-type {
     margin-bottom: 0;
   }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 16px;
+    line-height: 24px;
+  }
 `;
 
 const StyledOrderedList = styled(Box)`

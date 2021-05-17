@@ -1,11 +1,11 @@
-import { GetStaticPropsResult } from "next";
-import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import SliceZone from "next-slicezone";
+import { useGetStaticPaths } from "next-slicezone/hooks";
 import { Link, RichText } from "prismic-reactjs";
 import React from "react";
 
-import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
+import getStaticDetailProps from "../../next/get-static-props/detail";
 import { Client } from "../../prismic";
-import { CtaBanner } from "../../slices";
+import resolver from "../../sm-resolver";
 import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
@@ -19,12 +19,8 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
     openGraphDescription,
     openGraphImage,
     openGraphTitle,
-    ctaSectionTitle,
-    ctaSectionButtonOneLink,
-    ctaSectionButtonOneLabel,
-    ctaSectionButtonTwoLink,
-    ctaSectionButtonTwoLabel,
     parent,
+    bannerSlices,
     ...restProps
   } = data || {};
 
@@ -60,19 +56,7 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
         breadcrumbLinks={breadcrumbLinks}
         slices={slices}
       />
-      {ctaSectionTitle && (
-        <CtaBanner
-          slice={{
-            primary: {
-              title: ctaSectionTitle,
-              buttonOneLink: ctaSectionButtonOneLink,
-              buttonOneLabel: ctaSectionButtonOneLabel,
-              buttonTwoLink: ctaSectionButtonTwoLink,
-              buttonTwoLabel: ctaSectionButtonTwoLabel,
-            },
-          }}
-        />
-      )}
+      <SliceZone slices={bannerSlices} resolver={resolver} />
     </React.Fragment>
   );
 };
@@ -84,33 +68,10 @@ interface StaticContextProps {
   };
 }
 
-export const getStaticProps = async (
-  context: StaticContextProps
-): Promise<GetStaticPropsResult<DetailPageProps>> => {
-  const { props } = await useGetStaticProps({
-    client: Client(),
-    type: PageType.DETAIL,
-    uid: ({ params }) => params.detail,
-    params: {
-      fetchLinks: ["category.name", "theme_page.title"],
-    },
-  })(context);
-
-  const associatedContent = await fetchAssociatedContent(
-    props.data.associatedContent
+export const getStaticProps = (context: StaticContextProps) =>
+  getStaticDetailProps<StaticContextProps, DetailPageProps>(PageType.DETAIL)(
+    context
   );
-
-  return {
-    props: {
-      ...props,
-      data: {
-        ...props.data,
-        associatedContent: associatedContent?.results || [],
-      },
-      params: context.params,
-    },
-  };
-};
 
 interface Params {
   params: {
