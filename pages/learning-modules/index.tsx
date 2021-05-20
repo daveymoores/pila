@@ -1,6 +1,7 @@
 import { Box, Heading } from "grommet";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticProps } from "next-slicezone/hooks";
+import { RichText } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../prismic";
@@ -39,6 +40,7 @@ const rows = {
 
 const Page: React.FC<PageProps> = (props) => {
   const {
+    title,
     metaDescription,
     metaTitle,
     openGraphDescription,
@@ -63,20 +65,22 @@ const Page: React.FC<PageProps> = (props) => {
         openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
-      <HeroText
-        title={
-          <Heading
-            textAlign={"start"}
-            level={"1"}
-            alignSelf={"stretch"}
-            size="small"
-            margin={{ top: "medium" }}
-          >
-            Learning Modules
-          </Heading>
-        }
-        variant={Theme.LIGHT}
-      />
+      {title && (
+        <HeroText
+          title={
+            <Heading
+              textAlign={"start"}
+              level={"1"}
+              alignSelf={"stretch"}
+              size="small"
+              margin={{ top: "medium" }}
+            >
+              {RichText.asText(title)}
+            </Heading>
+          }
+          variant={Theme.LIGHT}
+        />
+      )}
       <Section>
         <Box margin={{ bottom: "xlarge" }}>
           <ResponsiveGrid columns={columns} rows={rows} align={"stretch"}>

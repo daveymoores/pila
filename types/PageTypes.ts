@@ -14,6 +14,7 @@ enum PrismicPageTypes {
   SEO = "seo",
   NOTIFICATION = "notification",
   SESSIONS = "sessions",
+  DICTIONARY = "dictionary",
 }
 
 enum InternalPageTypes {
