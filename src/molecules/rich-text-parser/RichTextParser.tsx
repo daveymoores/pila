@@ -1,4 +1,4 @@
-import { Box, Heading, Paragraph } from "grommet";
+import { Anchor, Box, Heading, Paragraph } from "grommet";
 import { useRouter } from "next/router";
 import { RichTextBlock } from "prismic-reactjs";
 import { RichText } from "prismic-reactjs";
@@ -134,11 +134,7 @@ export const htmlSerializer = (
           onClick: onClickHandler(hrefResolver(element.data), as),
           href: as,
         });
-        return React.createElement(
-          "a",
-          propsWithUniqueKey(props, key),
-          children
-        );
+        return <Anchor {...props}>{children}</Anchor>;
       } else {
         // Default link handling
         const targetAttr = element.data.target
@@ -152,11 +148,7 @@ export const htmlSerializer = (
           targetAttr,
           relAttr
         );
-        return React.createElement(
-          "a",
-          propsWithUniqueKey(props, key),
-          children
-        );
+        return <Anchor {...props}>{children}</Anchor>;
       }
 
     default:

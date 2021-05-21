@@ -1,7 +1,6 @@
 // pages/_app.js
 import "../styles/globals.css";
 
-import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
@@ -32,6 +31,7 @@ import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
+import PrismicResponse from "../types/PrismicResponse";
 import { LearningModuleProps } from "./learning-modules/[learning_module]";
 import { AssessmentApplicationProps } from "./learning-modules/[learning_module]/[assessment_application]";
 
@@ -55,17 +55,15 @@ export interface PageProps {
   seo: CustomType<DefaultSeoProps>[] | [];
 }
 
-interface Response extends Omit<ApiSearchResponse, "results"> {
-  results: CustomType<
-    LearningModuleProps &
-      NavigationProps &
-      DoormatProps &
-      FooterProps &
-      DefaultSeoProps &
-      AssessmentApplicationProps &
-      DictionaryProps
-  >[];
-}
+type Response = PrismicResponse<
+  LearningModuleProps &
+    NavigationProps &
+    DoormatProps &
+    FooterProps &
+    DefaultSeoProps &
+    AssessmentApplicationProps &
+    DictionaryProps
+>;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

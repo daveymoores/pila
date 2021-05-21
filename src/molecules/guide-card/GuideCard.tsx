@@ -3,9 +3,10 @@ import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import getFileExtension from "../../../helpers/get-file-extension/getFileExtension";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import DownloadIcon from "../../atoms/download-icon/DownloadIcon";
+import { MobileOnly } from "../../atoms/responsive-helpers/ResponsiveHelpers";
+import DictionaryContext from "../../context/DictionaryContext";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette, fontWeights } from "../../theme/pila";
 
@@ -19,6 +20,7 @@ interface GuideCardProps {
   downloadLink?: Link;
   pageLink?: Link;
   variant?: CardVariant;
+  guideCategory?: string;
 }
 
 const GuideCard: React.FC<GuideCardProps> = ({
@@ -26,7 +28,9 @@ const GuideCard: React.FC<GuideCardProps> = ({
   downloadLink,
   pageLink,
   variant = CardVariant.LARGE,
+  guideCategory,
 }) => {
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
   const isSmall = variant === CardVariant.SMALL;
 
   const columns = isSmall
@@ -34,13 +38,11 @@ const GuideCard: React.FC<GuideCardProps> = ({
         small: ["flex", "auto"],
         medium: ["flex", "auto"],
         large: ["flex", "auto"],
-        xlarge: ["flex", "auto"],
       }
     : {
         small: ["1/2", "1/2"],
-        medium: ["1/3", "1/3", "1/3"],
-        large: ["1/3", "1/3", "1/3"],
-        xlarge: ["1/3", "1/3", "1/3"],
+        medium: guideCategory ? ["1/2", "1/4", "1/4"] : ["2/3", "1/3"],
+        large: guideCategory ? ["1/2", "1/4", "1/4"] : ["2/3", "1/3"],
       };
 
   return (
@@ -64,24 +66,31 @@ const GuideCard: React.FC<GuideCardProps> = ({
             pad={{ left: "small" }}
           >
             <React.Fragment>
-              <Paragraph
-                style={{ fontWeight: 500 }}
-                color={isSmall ? colorPalette.dark_blue : colorPalette.grey}
-                size={size !== "small" ? "medium" : "small"}
-              >
-                {title}
-              </Paragraph>
-              {size !== "small" && !isSmall && downloadLink?.url && (
-                <Box align={"center"} justify={"center"}>
+              <Box direction={"column"}>
+                {guideCategory && (
+                  <MobileOnly>
+                    <StyledMobileCategory>{guideCategory}</StyledMobileCategory>
+                  </MobileOnly>
+                )}
+                <Paragraph
+                  style={{ fontWeight: 500 }}
+                  color={isSmall ? colorPalette.dark_blue : colorPalette.grey}
+                  size={size !== "small" ? "medium" : "small"}
+                >
+                  {title}
+                </Paragraph>
+              </Box>
+              {size !== "small" && !isSmall && guideCategory && (
+                <Box align={"start"} justify={"center"}>
                   <dl>
                     <dt>
-                      <Paragraph size={"small"} color={colorPalette.grey}>
-                        Format
+                      <Paragraph size={"xsmall"} color={colorPalette.grey}>
+                        {getDictionaryValue("Guide Type")}
                       </Paragraph>
                     </dt>
                     <dd>
                       <StyledParagraph size={"small"} color={colorPalette.grey}>
-                        {getFileExtension(downloadLink.url)}
+                        {guideCategory}
                       </StyledParagraph>
                     </dd>
                   </dl>
@@ -114,6 +123,13 @@ const GuideCard: React.FC<GuideCardProps> = ({
     </ResponsiveContext.Consumer>
   );
 };
+
+const StyledMobileCategory = styled(Paragraph)`
+  font-size: 12px;
+  font-weight: ${fontWeights.bold};
+  color: ${colorPalette.grey};
+  opacity: 0.6;
+`;
 
 const StyledResponsiveGrid = styled(ResponsiveGrid)`
   width: 100%;

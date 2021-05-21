@@ -73,7 +73,6 @@ const Page: React.FC<PageProps> = (props) => {
               level={"1"}
               alignSelf={"stretch"}
               size="small"
-              margin={{ top: "medium" }}
             >
               {RichText.asText(title)}
             </Heading>

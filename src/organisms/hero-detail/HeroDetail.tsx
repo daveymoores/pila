@@ -1,4 +1,4 @@
-import { Box, Heading } from "grommet";
+import { Anchor, Box, Heading, Paragraph } from "grommet";
 import SliceZone from "next-slicezone";
 import { RichText } from "prismic-reactjs";
 import React from "react";
@@ -7,13 +7,21 @@ import styled from "styled-components";
 import resolver from "../../../sm-resolver";
 import CustomType from "../../../types/CustomType";
 import { DetailPageSlices, LinkedDetailPageProps } from "../../../types/Detail";
+import { GuidePageData } from "../../../types/Guide";
+import PageType from "../../../types/PageTypes";
+import {
+  MobileOnly,
+  TabletUp,
+} from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import TextLink from "../../atoms/text-link/TextLink";
+import DictionaryContext from "../../context/DictionaryContext";
 import Section from "../../layout/section/Section";
 import Breadcrumb, {
   BreadcrumbItem,
 } from "../../molecules/breadcrumb/breadcrumb";
+import GuideTitle from "../../molecules/guide-title/GuideTitle";
 import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
-import { colorPalette } from "../../theme/pila";
+import { colorPalette, fontWeights } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroDetailProps
@@ -23,6 +31,8 @@ export interface HeroDetailProps
   > {
   slices: DetailPageSlices[];
   breadcrumbLinks: BreadcrumbItem[];
+  guide_category?: GuidePageData["guide_category"];
+  associatedContentLabel: string;
 }
 
 const columns = {
@@ -77,7 +87,12 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   associatedContent,
   slices,
   breadcrumbLinks,
+  guide_category,
+  associatedContentLabel,
 }) => {
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+  const guideCategory = guide_category?.data?.title;
+
   const contents =
     slices &&
     slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
@@ -115,45 +130,71 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
             }}
             areas={heroGridAreas(!!heroImage)}
           >
-            <React.Fragment>
-              {heroImage ? (
+            <Box gridArea={"hero"}>
+              {heroImage?.dimensions ? (
                 <Box
-                  gridArea={"hero"}
                   overflow={"hidden"}
                   round={"medium"}
                   margin={{ bottom: "-4em" }}
                 >
-                  {heroImage?.url && (
-                    <RichMediaElement
-                      {...heroImage}
-                      alt={heroImage?.alt || ""}
-                      layout={"responsive"}
-                      priority
-                    />
-                  )}
+                  <RichMediaElement
+                    {...heroImage}
+                    alt={heroImage?.alt || ""}
+                    layout={"responsive"}
+                    priority
+                  />
                 </Box>
               ) : (
                 title && (
-                  <Heading
-                    gridArea="hero"
-                    level={"1"}
+                  <ResponsiveGrid
+                    gridArea={"hero"}
                     margin={{
-                      top: "small",
+                      top: "large",
+                      bottom: "medium",
                     }}
-                    alignSelf={"stretch"}
-                    size="medium"
+                    columns={columns}
+                    rows={{
+                      small: ["auto", "auto", "auto"],
+                      medium: ["auto"],
+                      large: ["auto"],
+                      xlarge: ["auto"],
+                    }}
+                    areas={contentGridAreas}
                   >
-                    {RichText.asText(title)}
-                  </Heading>
+                    <Box gridArea={"contents"} />
+                    <Box gridArea={"main"}>
+                      {guideCategory && (
+                        <Paragraph
+                          size={"small"}
+                          color={colorPalette.grey}
+                          style={{ fontWeight: fontWeights.bold }}
+                        >
+                          {guide_category?.data?.title}
+                        </Paragraph>
+                      )}
+                      <Heading
+                        gridArea="hero"
+                        level={"1"}
+                        margin={{
+                          top: "small",
+                        }}
+                        alignSelf={"stretch"}
+                        size="small"
+                      >
+                        {RichText.asText(title)}
+                      </Heading>
+                    </Box>
+                    <Box gridArea={"associated-content"} />
+                  </ResponsiveGrid>
                 )
               )}
-            </React.Fragment>
+            </Box>
           </ResponsiveGrid>
         </Section>
       </Box>
       <Section>
         <ResponsiveGrid
-          pad={{ top: heroImage?.url ? "5em" : "none" }}
+          pad={{ top: heroImage?.url ? "5em" : "large" }}
           margin={{
             top: "large",
             bottom: "xlarge",
@@ -168,45 +209,42 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
           areas={contentGridAreas}
         >
           <Box gridArea={"contents"}>
-            <Box height={"100%"}>
-              <Box style={{ top: 0, position: "sticky" }}>
-                {contents && contents.some((link) => link.title) && (
-                  <Heading
-                    size={"small"}
-                    level={4}
-                    margin={{ bottom: "medium" }}
-                  >
-                    Contents
-                  </Heading>
+            <MobileOnly>
+              <GuideTitle
+                title={title}
+                heroImage={heroImage}
+                guideCategory={guideCategory}
+              />
+            </MobileOnly>
+            <StyledLinkBox>
+              {contents && contents.some((link) => link.title) && (
+                <Heading size={"small"} level={4} margin={{ bottom: "medium" }}>
+                  {getDictionaryValue("Contents")}
+                </Heading>
+              )}
+              {contents &&
+                contents.map(
+                  (link: Contents, index: number) =>
+                    link.slug && (
+                      <StyledAnchor key={index} href={`#${link.slug}`}>
+                        {link.title}
+                      </StyledAnchor>
+                    )
                 )}
-                {contents &&
-                  contents.map((link: Contents, index: number) => (
-                    <StyledAnchor key={index} href={`#${link.slug}`}>
-                      {link.title}
-                    </StyledAnchor>
-                  ))}
-              </Box>
-            </Box>
+            </StyledLinkBox>
           </Box>
           <Box gridArea={"main"}>
-            {heroImage && (
-              <Heading
-                gridArea="text"
-                level={"1"}
-                margin={{
-                  top: "none",
-                  bottom: "large",
-                }}
-                alignSelf={"stretch"}
-                size="medium"
-              >
-                {title && RichText.asText(title)}
-              </Heading>
-            )}
+            <TabletUp>
+              <GuideTitle
+                title={title}
+                heroImage={heroImage}
+                guideCategory={guideCategory}
+              />
+            </TabletUp>
             <SliceZone slices={slices} resolver={resolver} />
           </Box>
           <Box gridArea={"associated-content"} style={{ position: "relative" }}>
-            <Box style={{ top: 0, position: "sticky" }}>
+            <StyledLinkBox>
               {associatedContent &&
                 associatedContent.some(({ data }) => data?.title) && (
                   <Heading
@@ -214,22 +252,34 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                     level={4}
                     margin={{ bottom: "medium" }}
                   >
-                    Associated content
+                    {associatedContentLabel ||
+                      getDictionaryValue("Associated Content")}
                   </Heading>
                 )}
               {associatedContent &&
                 associatedContent.map((content: CustomType, index: number) => (
-                  <StyledTextLink
-                    key={index}
-                    link={content}
-                    label={
-                      content.data?.title
-                        ? RichText.asText(content.data?.title)
-                        : ""
-                    }
-                  />
+                  <React.Fragment>
+                    {content.type === PageType.GUIDE && (
+                      <Paragraph
+                        size={"xsmall"}
+                        color={colorPalette.dark_blue}
+                        style={{ fontWeight: fontWeights.bold }}
+                      >
+                        {getDictionaryValue("Guide")}
+                      </Paragraph>
+                    )}
+                    <StyledTextLink
+                      key={index}
+                      link={content}
+                      label={
+                        content.data?.title
+                          ? RichText.asText(content.data?.title)
+                          : ""
+                      }
+                    />
+                  </React.Fragment>
                 ))}
-            </Box>
+            </StyledLinkBox>
           </Box>
         </ResponsiveGrid>
       </Section>
@@ -249,8 +299,20 @@ const StyledTextLink = styled(TextLink)`
   ${textButtonStyles}
 `;
 
-const StyledAnchor = styled.a`
+const StyledAnchor = styled(Anchor)`
   ${textButtonStyles}
+`;
+
+const StyledLinkBox = styled(Box)`
+  padding: 20px;
+  border-radius: 15px;
+  background-color: ${colorPalette.periwinkleCrayola};
+
+  @media only screen and (min-width: 601px) {
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
 `;
 
 export default HeroDetail;

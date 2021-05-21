@@ -18,15 +18,20 @@ const getStaticDetailProps = <T extends BaseStaticContextProps, K>(
     type: pageType,
     uid: ({ params }) => (isGuidePage ? params.guide : params.detail),
     params: {
-      fetchLinks: isGuidePage
-        ? ["category.name"]
-        : ["category.name", "theme_page.title"],
+      fetchLinks: isGuidePage ? ["guide_category.title"] : ["theme_page.title"],
     },
   })(context);
 
-  const associatedContent = await fetchAssociatedContent(
-    props.data.associatedContent
-  );
+  let associatedContent;
+
+  try {
+    const associatedContentData = props?.data?.associatedContent;
+    associatedContent =
+      associatedContentData &&
+      (await fetchAssociatedContent(props.data.associatedContent));
+  } catch (err) {
+    console.error(err);
+  }
 
   return {
     props: {

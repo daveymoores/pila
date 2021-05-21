@@ -46,6 +46,7 @@ export const linkResolver = async (link: LinkProps): Promise<string> => {
     [PageType.HOME]: "/",
     [PageType.THEME]: `/${link.uid}`,
     [PageType.DETAIL]: path,
+    [PageType.GUIDE_HOME]: `/guides`,
     [PageType.GUIDE]: `/guides/${link.uid}`,
     [PageType.ASSESSMENT_APPLICATION]: `/learning-modules${path}`,
     [PageType.LEARNING_MODULE]: `/learning-modules/${link.uid}`,
@@ -66,6 +67,7 @@ export const hrefResolver = (link: LinkProps): string => {
     [PageType.HOME]: "/",
     [PageType.THEME]: `/[theme]`,
     [PageType.DETAIL]: `/[theme]/[detail]`,
+    [PageType.GUIDE_HOME]: `/guides`,
     [PageType.GUIDE]: `/guides/[guide]`,
     [PageType.ASSESSMENT_APPLICATION]:
       "/learning-modules/[learning-module]/[assessment-application]",
@@ -107,6 +109,7 @@ export const Router = {
         parent: "parent",
       },
     },
+    { type: PageType.GUIDE_HOME, path: `/guides` },
     { type: PageType.GUIDE, path: "/guides/:uid" },
     { type: PageType.FORM, path: "/contact" },
     { type: PageType.SESSIONS, path: "/account/sessions" },

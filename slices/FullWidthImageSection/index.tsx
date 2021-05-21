@@ -50,28 +50,38 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
           <Box
             width={"100%"}
             align={"center"}
-            pad={{ horizontal: size === "large" ? "large" : "4vw" }}
+            pad={{
+              top: size === "small" ? "200px" : "0px",
+              horizontal: size === "large" ? "large" : "4vw",
+            }}
           >
             <StyledBox
               justify={"center"}
               round={"medium"}
               margin={{
                 horizontal: size === "small" ? "4vw" : "large",
-                top: "xlarge",
+                top: size === "small" ? "none" : "xlarge",
                 bottom: bottomPadding || "xlarge",
               }}
-              pad={{ vertical: size === "large" ? "100px" : "xlarge" }}
+              pad={{
+                bottom: size === "small" ? "300px" : "xlarge",
+                vertical: size === "large" ? "100px" : "xlarge",
+              }}
               style={{ position: "relative" }}
             >
               <RichMediaElement layout={"fill"} url={image.url} />
               <Section justify={size === "small" ? "start" : "center"} flex>
                 <ResponsiveGrid
-                  margin={{ vertical: size === "small" ? "4vw" : "large" }}
+                  margin={{
+                    top: size === "small" ? "-200px" : "large",
+                    vertical: size === "small" ? "4vw" : "large",
+                  }}
                   columns={columns}
                   rows="1"
                   justify={
                     textPosition === TextPosition.textLeft ? "start" : "end"
                   }
+                  gap={size === "small" ? "none" : undefined}
                 >
                   <StyledTextContent
                     {...textContentProps}

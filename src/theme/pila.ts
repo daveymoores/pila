@@ -7,7 +7,7 @@ export const colorPalette = {
   light_green: "#6BEAC9",
   yellow: "#FFE06E",
   grey: "#6e7a8d",
-  periwinkleCrayola: "#D5DCF9",
+  periwinkleCrayola: "#e7ecff",
   redCrayola: "#F52F57",
   white: "#FFFFFF",
 };
@@ -359,6 +359,9 @@ const pila = {
         },
       },
     },
+  },
+  anchor: {
+    fontWeight: fontWeights.bold,
   },
   heading: {
     level: {

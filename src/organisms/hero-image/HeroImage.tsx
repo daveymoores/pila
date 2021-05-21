@@ -1,6 +1,7 @@
 import { Box, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
+import styled from "styled-components";
 
 import ImageProps from "../../../types/ImageProps";
 import Section from "../../layout/section/Section";
@@ -56,7 +57,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
     <Section>
       <ResponsiveGrid
         margin={{
-          top: "xlarge",
+          top: "small",
           bottom: "xlarge",
         }}
         columns={columns}
@@ -65,19 +66,19 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
       >
         <React.Fragment>
           {title && (
-            <Heading
+            <StyledHeading
               gridArea="text"
               textAlign={"center"}
               level={"1"}
               margin={{
-                top: "small",
+                top: "xlarge",
                 horizontal: "auto",
               }}
               alignSelf={"stretch"}
               size="small"
             >
               {RichText.asText(title)}
-            </Heading>
+            </StyledHeading>
           )}
           <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
             <RichMediaElement
@@ -92,5 +93,11 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
     </Section>
   </Box>
 );
+
+const StyledHeading = styled(Heading)`
+  @media only screen and (max-width: 600px) {
+    margin-top: 96px;
+  }
+`;
 
 export default HeroImage;
