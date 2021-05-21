@@ -1,9 +1,12 @@
 import { Box, Heading } from "grommet";
 import React from "react";
 
+import DictionaryContext from "../src/context/DictionaryContext";
 import Section from "../src/layout/section/Section";
 
 const Custom404: React.FC = () => {
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+
   return (
     <Section>
       <Box height={{ min: "60vh" }} justify={"center"} align={"center"}>
@@ -11,7 +14,7 @@ const Custom404: React.FC = () => {
           404
         </Heading>
         <Heading margin={{ top: "medium" }} level={2} size={"small"}>
-          Page not found
+          {getDictionaryValue("Page not found")}
         </Heading>
       </Box>
     </Section>

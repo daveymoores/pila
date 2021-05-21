@@ -14,6 +14,7 @@ enum PrismicPageTypes {
   SEO = "seo",
   NOTIFICATION = "notification",
   SESSIONS = "sessions",
+  DICTIONARY = "dictionary",
 }
 
 enum InternalPageTypes {
@@ -22,6 +23,7 @@ enum InternalPageTypes {
   EXIT_PREVIEW = "exit_preview",
 }
 
+// TODO - add this to prismic (maybe)
 enum ExternalPageTypes {
   KNOW_LEARNING = "know_learning",
 }

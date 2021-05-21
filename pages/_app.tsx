@@ -1,7 +1,6 @@
 // pages/_app.js
 import "../styles/globals.css";
 
-import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
 import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
@@ -17,6 +16,10 @@ import { AuthProvider } from "../lib/auth";
 import { Client } from "../prismic";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
+import {
+  DictionaryProps,
+  DictionaryProvider,
+} from "../src/context/DictionaryContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import { NotificationProvider } from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
@@ -28,6 +31,7 @@ import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
+import PrismicResponse from "../types/PrismicResponse";
 import { LearningModuleProps } from "./learning-modules/[learning_module]";
 import { AssessmentApplicationProps } from "./learning-modules/[learning_module]/[assessment_application]";
 
@@ -44,22 +48,22 @@ export interface PageProps {
   assessmentApplications: CustomType<AssessmentApplicationProps>[] | [];
   learningModules: CustomType<LearningModuleProps>[] | [];
   notification: CustomType<NotificationProps>[] | [];
+  dictionary: CustomType<DictionaryProps>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
   doormat: CustomType<DoormatProps>[] | [];
   footer: CustomType<FooterProps>[] | [];
   seo: CustomType<DefaultSeoProps>[] | [];
 }
 
-interface Response extends Omit<ApiSearchResponse, "results"> {
-  results: CustomType<
-    LearningModuleProps &
-      NavigationProps &
-      DoormatProps &
-      FooterProps &
-      DefaultSeoProps &
-      AssessmentApplicationProps
-  >[];
-}
+type Response = PrismicResponse<
+  LearningModuleProps &
+    NavigationProps &
+    DoormatProps &
+    FooterProps &
+    DefaultSeoProps &
+    AssessmentApplicationProps &
+    DictionaryProps
+>;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -121,54 +125,56 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
           setIsOpen: setIsOpen,
         }}
       >
-        <NotificationProvider notifications={pageProps.notification}>
-          <LearningModulesContext.Provider value={learningModules}>
-            <AssessmentApplicationContext.Provider
-              value={pageProps?.assessmentApplication}
-            >
-              <Head>
-                <script
-                  async
-                  defer
-                  src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
+        <DictionaryProvider dictionaryValues={pageProps.dictionary}>
+          <NotificationProvider notifications={pageProps.notification}>
+            <LearningModulesContext.Provider value={learningModules}>
+              <AssessmentApplicationContext.Provider
+                value={pageProps?.assessmentApplication}
+              >
+                <Head>
+                  <script
+                    async
+                    defer
+                    src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
+                  />
+                </Head>
+                <DefaultSeo
+                  title={title}
+                  description={description}
+                  openGraph={{
+                    type: "website",
+                    locale: "en_GB",
+                    url,
+                    site_name,
+                  }}
+                  twitter={{
+                    handle,
+                    site: "@site",
+                    cardType: "summary_large_image",
+                  }}
+                  facebook={{
+                    appId,
+                  }}
                 />
-              </Head>
-              <DefaultSeo
-                title={title}
-                description={description}
-                openGraph={{
-                  type: "website",
-                  locale: "en_GB",
-                  url,
-                  site_name,
-                }}
-                twitter={{
-                  handle,
-                  site: "@site",
-                  cardType: "summary_large_image",
-                }}
-                facebook={{
-                  appId,
-                }}
-              />
-              <PilaTheme userAgent={pageProps.userAgent}>
-                <Scaffold
-                  navigation={(pageProps?.navigation || [])[0]?.data}
-                  doormat={(pageProps?.doormat || [])[0]?.data}
-                  footer={(pageProps?.footer || [])[0]?.data}
-                >
-                  <Component {...pageProps} />
-                </Scaffold>
-                {process.browser && (
-                  <StyledBox>
-                    <CookieNotice darkTheme={false} />
-                  </StyledBox>
-                )}
-                {pageProps.isPreview && <PreviewCard />}
-              </PilaTheme>
-            </AssessmentApplicationContext.Provider>
-          </LearningModulesContext.Provider>
-        </NotificationProvider>
+                <PilaTheme userAgent={pageProps.userAgent}>
+                  <Scaffold
+                    navigation={(pageProps?.navigation || [])[0]?.data}
+                    doormat={(pageProps?.doormat || [])[0]?.data}
+                    footer={(pageProps?.footer || [])[0]?.data}
+                  >
+                    <Component {...pageProps} />
+                  </Scaffold>
+                  {process.browser && (
+                    <StyledBox>
+                      <CookieNotice darkTheme={false} />
+                    </StyledBox>
+                  )}
+                  {pageProps.isPreview && <PreviewCard />}
+                </PilaTheme>
+              </AssessmentApplicationContext.Provider>
+            </LearningModulesContext.Provider>
+          </NotificationProvider>
+        </DictionaryProvider>
       </OffCanvasContext.Provider>
     </AuthProvider>
   );
@@ -189,6 +195,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           "assessment_application",
           "learning_module",
           "notification",
+          "dictionary",
           "navigation",
           "doormat",
           "footer",
@@ -216,6 +223,8 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           return { ...acc, navigation: [...acc.navigation, result] };
         case PageType.NOTIFICATION:
           return { ...acc, notification: [...acc.notification, result] };
+        case PageType.DICTIONARY:
+          return { ...acc, dictionary: [...acc.dictionary, result] };
         case PageType.LEARNING_MODULE:
           return {
             ...acc,
@@ -234,6 +243,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
       assessmentApplications: [],
       learningModules: [],
       notification: [],
+      dictionary: [],
       navigation: [],
       doormat: [],
       footer: [],

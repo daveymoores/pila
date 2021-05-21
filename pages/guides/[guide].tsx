@@ -10,9 +10,10 @@ import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
 import DetailPageProps from "../../types/Detail";
+import GuidePageProps from "../../types/Guide";
 import PageType from "../../types/PageTypes";
 
-const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
+const Page: React.FC<GuidePageProps> = ({ data, slices, params }) => {
   const {
     metaDescription,
     metaTitle,
@@ -27,7 +28,7 @@ const Page: React.FC<DetailPageProps> = ({ data, slices, params }) => {
     {
       link: {
         type: PageType.GUIDE_HOME,
-        uid: "guide_home",
+        uid: "guides_home",
       },
       label: "Guides",
     },

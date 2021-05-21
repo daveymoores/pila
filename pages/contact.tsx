@@ -19,6 +19,7 @@ import styled from "styled-components";
 import { Client } from "../prismic";
 import Button from "../src/atoms/button/Button";
 import Loader from "../src/atoms/loader/Loader";
+import DictionaryContext from "../src/context/DictionaryContext";
 import Section from "../src/layout/section/Section";
 import RichTextParser from "../src/molecules/rich-text-parser/RichTextParser";
 import Modal from "../src/organisms/modal/Modal";
@@ -84,6 +85,8 @@ const Page: React.FC<PageProps> = (props) => {
     queries,
     fields,
   } = props.data || {};
+
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
 
   const initialValues = (fields || []).reduce((acc, field) => {
     if (!field.fieldName) return acc;
@@ -262,7 +265,7 @@ const Page: React.FC<PageProps> = (props) => {
                 size="small"
                 color="status-critical"
               >
-                * Required Field
+                {getDictionaryValue("* Required field")}
               </Text>
             </Box>
           </Form>
