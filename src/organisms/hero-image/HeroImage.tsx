@@ -1,5 +1,5 @@
 import { Box, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
+import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
@@ -11,6 +11,7 @@ import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 export interface HeroImageProps {
   title?: RichTextBlock[];
   image?: ImageProps;
+  video?: Link;
 }
 
 const columns = {
@@ -37,16 +38,16 @@ const gridAreas = {
     { name: "image", start: [0, 1], end: [1, 1] },
   ],
   large: [
-    { name: "text", start: [3, 0], end: [8, 0] },
+    { name: "text", start: [2, 0], end: [9, 0] },
     { name: "image", start: [2, 1], end: [9, 1] },
   ],
   xlarge: [
-    { name: "text", start: [3, 0], end: [8, 0] },
+    { name: "text", start: [2, 0], end: [9, 0] },
     { name: "image", start: [2, 1], end: [9, 1] },
   ],
 };
 
-const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
+const HeroImage: React.FC<HeroImageProps> = ({ title, image, video }) => (
   <Box
     width={"100%"}
     background={"light-1"}
@@ -83,6 +84,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image }) => (
           <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
             <RichMediaElement
               {...image}
+              video={video}
               alt={image?.alt || ""}
               layout={"responsive"}
               priority

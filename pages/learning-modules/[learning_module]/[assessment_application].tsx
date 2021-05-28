@@ -45,7 +45,7 @@ export interface Task {
   primary: {
     taskTitle: RichTextBlock[];
     taskImage: ImageProps;
-    videoLink: Link;
+    taskVideo: Link;
     taskBody: RichTextBlock[];
     taskLink: Link;
     taskDifficulty: Difficulty;

@@ -101,6 +101,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         <Box gridArea="image" round={"medium"} overflow={"hidden"}>
           <RichMediaElement
             {...image}
+            video={video}
             alt={image?.alt || ""}
             layout={"responsive"}
           />
