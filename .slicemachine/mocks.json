@@ -45,7 +45,16 @@
       }
     }
   },
-  "FullWidthImageSection": {},
+  "FullWidthImageSection": {
+    "primary": {
+      "description": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
+  },
   "RichTextBlock": {
     "primary": {
       "body": {
