@@ -1,12 +1,15 @@
 import { ResponsiveContext } from "grommet";
 import Image, { ImageProps } from "next/image";
+import { Link } from "prismic-reactjs";
 import React, { ReactText, useContext } from "react";
+import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 
 import PrismicImageProps from "../../../types/ImageProps";
 
 interface RichMediaElementProps
   extends Omit<ImageProps, "alt" | "layout" | "src"> {
+  video?: Link;
   alt?: string;
   url?: string;
   layout: "fill" | "responsive" | "intrinsic" | "fixed";
@@ -15,6 +18,7 @@ interface RichMediaElementProps
 }
 
 const RichMediaElement: React.FC<RichMediaElementProps> = ({
+  video,
   url,
   alt = "",
   dimensions,
@@ -23,6 +27,19 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
   className,
   ...restProps
 }) => {
+  if (video && video.url) {
+    return (
+      <ResponsiveWrapper>
+        <ReactPlayer
+          className="react-player"
+          url={video.url}
+          width="100%"
+          height="100%"
+        />
+      </ResponsiveWrapper>
+    );
+  }
+
   if (!url) return null;
 
   const size = useContext(ResponsiveContext);
@@ -76,6 +93,17 @@ const StyledImage = styled(Image)`
 
   @media only screen and (max-width: 600px) {
     border-radius: 12px;
+  }
+`;
+
+const ResponsiveWrapper = styled.div`
+  position: relative;
+  padding-top: 56.25%;
+
+  > .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 `;
 

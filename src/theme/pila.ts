@@ -372,7 +372,7 @@ const pila = {
         small: {
           size: "38px",
           height: "46px",
-          maxWidth: "600px",
+          maxWidth: "800px",
         },
         medium: {
           size: "42px",

@@ -12,12 +12,13 @@
       "description": "FullWidthImageSection",
       "primary": {
         "description": {
-          "type": "StructuredText",
           "config": {
-            "single": "paragraph",
             "label": "Description",
-            "placeholder": "A nice description of your feature"
-          }
+            "placeholder": "A nice description of your feature",
+            "allowTargetBlank": true,
+            "single": "paragraph,strong,em,list-item,o-list-item,heading3,hyperlink"
+          },
+          "type": "StructuredText"
         },
         "linkLabel": {
           "config": {

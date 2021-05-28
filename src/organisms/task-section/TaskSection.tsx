@@ -1,4 +1,4 @@
-import { Box, Card, Heading, Image, Paragraph, Spinner } from "grommet";
+import { Box, Card, Heading, Paragraph, Spinner } from "grommet";
 import { RichText } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
@@ -12,6 +12,7 @@ import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Category from "../../atoms/category/Category";
 import Section from "../../layout/section/Section";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import TaskStats from "../../molecules/task-stats/TaskStats";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
@@ -185,9 +186,11 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                     round={"medium"}
                     overflow={"hidden"}
                   >
-                    <Image
-                      src={selectedTaskData.primary.taskImage?.url}
-                      width={"100%"}
+                    <RichMediaElement
+                      {...selectedTaskData.primary.taskImage}
+                      video={selectedTaskData.primary.taskVideo}
+                      alt={selectedTaskData.primary.taskImage?.alt || ""}
+                      layout={"responsive"}
                     />
                   </Box>
                 )}

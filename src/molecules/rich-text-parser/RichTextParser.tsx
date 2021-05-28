@@ -134,7 +134,11 @@ export const htmlSerializer = (
           onClick: onClickHandler(hrefResolver(element.data), as),
           href: as,
         });
-        return <Anchor {...props}>{children}</Anchor>;
+        return (
+          <Anchor key={key} {...props}>
+            {children}
+          </Anchor>
+        );
       } else {
         // Default link handling
         const targetAttr = element.data.target
@@ -148,7 +152,11 @@ export const htmlSerializer = (
           targetAttr,
           relAttr
         );
-        return <Anchor {...props}>{children}</Anchor>;
+        return (
+          <Anchor key={key} {...props}>
+            {children}
+          </Anchor>
+        );
       }
 
     default:

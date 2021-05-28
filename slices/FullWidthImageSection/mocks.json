@@ -9,11 +9,11 @@
       "description": [
         {
           "type": "paragraph",
-          "text": "Veniam fugiat irure labore in anim eiusmod elit aliquip ea do ullamco ex.",
+          "text": "Ut ullamco do incididunt quis proident voluptate Lorem Lorem deserunt esse nisi cillum.",
           "spans": []
         }
       ],
-      "linkLabel": "recontextualize bricks-and-clicks supply-chains",
+      "linkLabel": "incubate back-end functionalities",
       "link": {
         "link_type": "Web",
         "url": "https://prismic.io"
@@ -25,7 +25,7 @@
         },
         "alt": "Placeholder image",
         "copyright": null,
-        "url": "https://images.unsplash.com/photo-1593642532973-d31b6557fa68?w=1371&h=912&fit=crop",
+        "url": "https://images.unsplash.com/photo-1494173853739-c21f58b16055?w=1371&h=912&fit=crop",
         "mobile": {
           "dimensions": {
             "width": 685,
@@ -33,11 +33,11 @@
           },
           "alt": "Placeholder image",
           "copyright": null,
-          "url": "https://images.unsplash.com/photo-1593642532973-d31b6557fa68?w=685&h=800&fit=crop"
+          "url": "https://images.unsplash.com/photo-1494173853739-c21f58b16055?w=685&h=800&fit=crop"
         }
       },
       "textPosition": "text_left",
-      "bottomPadding": "large"
+      "bottomPadding": "xlarge"
     },
     "items": [],
     "slice_type": "full_width_image_section"
