@@ -45,10 +45,6 @@ const onClickHandler = (href: string, as: string) => {
   };
 };
 
-const propsWithUniqueKey = (props: Record<string, unknown>, key: string) => {
-  return Object.assign(props || {}, { key });
-};
-
 export const htmlSerializer = (
   type: string,
   element: CustomType<any>,

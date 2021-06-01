@@ -202,9 +202,10 @@ const Page: React.FC<PageProps> = (props) => {
             <Box align="start" margin={{ bottom: "large" }}>
               {queries && (
                 <Box>
-                  <FormField label={queriesLabel} htmlFor="select">
+                  <FormField label={queriesLabel} htmlFor="queryType">
                     <Select
-                      id="select"
+                      name={"queryType"}
+                      id="queryType"
                       size={"small"}
                       placeholder={queriesPlaceholder}
                       options={queries.map((queryItem) => queryItem.query)}
