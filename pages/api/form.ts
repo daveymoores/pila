@@ -6,27 +6,33 @@ if (process.env.SENDGRID_API_KEY) {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { firstName, lastName, email, phone, subject, message } = JSON.parse(
-    req.body
-  );
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    subject,
+    message,
+    queryType,
+  } = JSON.parse(req.body);
 
-  const text = `
-    From: ${firstName} ${lastName}
-    Phone: ${phone}
-    Enquiry type:
-
-    Message:
-    ${message}
-  `;
+  const messageData = {
+    to: process.env.PILA_EMAIL as string,
+    from: process.env.PILA_EMAIL as string,
+    templateId: process.env.SENDGRID_TEMPLATE_ID as string,
+    dynamic_template_data: {
+      email,
+      firstName,
+      lastName,
+      phone,
+      subject,
+      message,
+      queryType,
+    },
+  };
 
   try {
-    await sgMail.send({
-      to: "daveymoores@gmail.com",
-      from: email,
-      subject,
-      text,
-    });
-
+    await sgMail.send(messageData);
     res.json({ message: `Email has been sent` });
   } catch (error) {
     console.error(error);

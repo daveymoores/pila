@@ -258,7 +258,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                 )}
               {associatedContent &&
                 associatedContent.map((content: CustomType, index: number) => (
-                  <React.Fragment>
+                  <React.Fragment key={index}>
                     {content.type === PageType.GUIDE && (
                       <Paragraph
                         size={"xsmall"}
