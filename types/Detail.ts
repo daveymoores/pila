@@ -5,13 +5,15 @@ import { CtaBannerProps } from "../slices/CtaBanner";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageBlockProps } from "../slices/ImageBlock";
 import { RichTextBlokProps } from "../slices/RichTextBlock";
+import { VideoBlockProps } from "../slices/VideoBlock";
 import CustomType from "./CustomType";
 import ImageProps from "./ImageProps";
 import PageData from "./PageData";
 
 export type DetailPageSlices = RichTextBlokProps &
   ImageBlockProps &
-  AccordionBlockProps;
+  AccordionBlockProps &
+  VideoBlockProps;
 
 export type DetailBannerSlices = CtaBannerProps & HighlightBannerProps;
 

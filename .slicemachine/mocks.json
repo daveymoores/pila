@@ -113,5 +113,18 @@
         }
       }
     }
+  },
+  "VideoBlock": {
+    "primary": {
+      "caption": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      },
+      "sectionTitle": {
+        "content": null
+      }
+    }
   }
 }

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "default-slice",
+    "name": "Default slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "VideoBlock",
+    "primary": {
+      "sectionTitle": "optimize next-generation metrics",
+      "video": {
+        "link_type": "Web",
+        "url": "https://slicemachine.dev"
+      },
+      "caption": [
+        {
+          "type": "paragraph",
+          "text": "Dolor qui mollit ullamco sit ad exercitation ullamco reprehenderit consequat velit deserunt et. Culpa id ipsum et Lorem ex culpa amet aliquip officia.",
+          "spans": []
+        }
+      ]
+    },
+    "items": [],
+    "slice_type": "video_block"
+  }
+]
