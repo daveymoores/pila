@@ -4,8 +4,6 @@ import "../styles/globals.css";
 import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
-import Head from "next/head";
-import { DefaultSeo } from "next-seo";
 import Prismic from "prismic-javascript";
 import React from "react";
 import CookieNotice from "react-cookienotice";
@@ -23,6 +21,7 @@ import {
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import { NotificationProvider } from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
+import Head from "../src/molecules/head/Head";
 import { NotificationProps } from "../src/molecules/notification/Notification";
 import { DoormatProps } from "../src/organisms/doormat/Doormat";
 import { FooterProps } from "../src/organisms/footer/Footer";
@@ -131,30 +130,13 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
               <AssessmentApplicationContext.Provider
                 value={pageProps?.assessmentApplication}
               >
-                <Head>
-                  <script
-                    async
-                    defer
-                    src="https://static.cdn.prismic.io/prismic.js?new=true&repo=pila"
-                  />
-                </Head>
-                <DefaultSeo
+                <Head
                   title={title}
                   description={description}
-                  openGraph={{
-                    type: "website",
-                    locale: "en_GB",
-                    url,
-                    site_name,
-                  }}
-                  twitter={{
-                    handle,
-                    site: "@site",
-                    cardType: "summary_large_image",
-                  }}
-                  facebook={{
-                    appId,
-                  }}
+                  url={url}
+                  site_name={site_name}
+                  handle={handle}
+                  appId={appId}
                 />
                 <PilaTheme userAgent={pageProps.userAgent}>
                   <Scaffold

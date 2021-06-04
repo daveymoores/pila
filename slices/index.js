@@ -13,3 +13,4 @@ export { default as RichTextBlock } from "./RichTextBlock";
 export { default as RichTextSection } from "./RichTextSection";
 export { default as StepsSection } from "./StepsSection";
 export { default as ThanksToInstitutionsSection } from "./ThanksToInstitutionsSection";
+export { default as VideoBlock } from "./VideoBlock";
