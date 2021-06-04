@@ -26,7 +26,11 @@ export interface LearningModule {
   icon: ImageProps;
 }
 
-export interface PoweredByResearchSectionProps extends Slice<Primary, never> {
+export interface PoweredByResearchSectionProps
+  extends Slice<
+    Primary,
+    { module: Pick<CustomType<AssessmentApplicationProps>, "id"> }
+  > {
   learningModules: CustomType<LearningModule>[];
 }
 
@@ -61,7 +65,12 @@ const gridAreas = {
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
-  const { primary, learningModules } = slice;
+  const { primary, items, learningModules } = slice;
+
+  const filteredModules = learningModules.filter((module) =>
+    items?.some((item) => item.module.id === module.id)
+  );
+
   return (
     <StyledBox
       background="light-1"
@@ -88,7 +97,7 @@ const PoweredByResearchSection: FC<{
                 }}
                 rows={"auto"}
               >
-                {learningModules
+                {filteredModules
                   .filter((module, index) => index <= 1)
                   .map((module) => (
                     <ProjectCard
