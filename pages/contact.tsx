@@ -246,6 +246,7 @@ const Page: React.FC<PageProps> = (props) => {
                           id={field.fieldName}
                           placeholder={field.fieldHelp}
                           name={field.fieldName}
+                          type={field.fieldName === "email" ? "email" : "text"}
                         />
                       ) : (
                         <TextArea
