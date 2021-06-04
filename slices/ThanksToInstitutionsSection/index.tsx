@@ -65,7 +65,7 @@ const ThanksToInstitutionsSection: FC<{
               width={"100%"}
               height={"100%"}
             >
-              <StyledRichMediaElement url={logo.url} layout={"fill"} />
+              <StyledRichMediaElement {...logo} layout={"fill"} />
             </Box>
           </StyledCard>
         ))}

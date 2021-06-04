@@ -10,7 +10,7 @@ import PrismicImageProps from "../../../types/ImageProps";
 interface RichMediaElementProps
   extends Omit<ImageProps, "alt" | "layout" | "src"> {
   video?: Link;
-  alt?: string;
+  alt?: string | null;
   url?: string;
   layout: "fill" | "responsive" | "intrinsic" | "fixed";
   dimensions?: { height: number; width: number };
@@ -44,7 +44,7 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
 
   const size = useContext(ResponsiveContext);
   const shouldRenderMobileImage =
-    size === "mobile" && mobile && "dimensions" in mobile;
+    size === "small" && mobile && "dimensions" in mobile;
 
   const props = {
     alt: shouldRenderMobileImage ? mobile?.alt : alt,
