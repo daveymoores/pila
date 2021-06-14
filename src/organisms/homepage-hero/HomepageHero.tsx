@@ -10,6 +10,7 @@ import {
   MobileTabletOnly,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import Section from "../../layout/section/Section";
+import Motif from "../../motif/Motif";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -37,55 +38,62 @@ const HeroContents: React.FC<HeroContentsProps> = ({
   linklabel,
   image,
   isMobileDevice = false,
-}) => (
-  <StyledBox
-    background={colorPalette.blue}
-    justify={"center"}
-    overflow={"hidden"}
-    height={isMobileDevice ? "100vh" : "95vh"}
-  >
-    <Section justify={isMobileDevice ? "start" : "center"}>
-      <ResponsiveGrid rows={"2"} columns={columns}>
-        <Box
-          align={"start"}
-          height={isMobileDevice ? "auto" : "45vh"}
-          justify={"start"}
-        >
-          <Heading
-            level={"1"}
-            margin={{
-              top: isMobileDevice ? "120px" : "none",
-              bottom: "large",
-            }}
-            alignSelf={"stretch"}
-            size={"small"}
-            responsive={true}
+}) => {
+  const motifWrapperRef = React.useRef<HTMLDivElement>(null);
+
+  return (
+    <StyledBox
+      background={colorPalette.blue}
+      justify={"center"}
+      overflow={"hidden"}
+      height={isMobileDevice ? "100vh" : "95vh"}
+      ref={motifWrapperRef}
+      style={{ overflow: "hidden", position: "relative" }}
+    >
+      <Motif containerRef={motifWrapperRef} color={"#2a2ec7"} />
+      <StyledSection justify={isMobileDevice ? "start" : "center"}>
+        <ResponsiveGrid rows={"2"} columns={columns}>
+          <Box
+            align={"start"}
+            height={isMobileDevice ? "auto" : "45vh"}
+            justify={"start"}
           >
-            {RichText.asText(title)}
-          </Heading>
-          {link && linklabel && (
-            <Button
-              primary
-              color={colorPalette.yellow}
-              size={ButtonSizes.large}
-              type="button"
-              label={linklabel}
-              link={link}
+            <Heading
+              level={"1"}
+              margin={{
+                top: isMobileDevice ? "120px" : "none",
+                bottom: "large",
+              }}
+              alignSelf={"stretch"}
+              size={"small"}
+              responsive={true}
+            >
+              {RichText.asText(title)}
+            </Heading>
+            {link && linklabel && (
+              <Button
+                primary
+                color={colorPalette.yellow}
+                size={ButtonSizes.large}
+                type="button"
+                label={linklabel}
+                link={link}
+              />
+            )}
+          </Box>
+          <ImageContainer width={{ max: "600px" }}>
+            <ImageBox
+              elevation={"xxxlarge"}
+              background={`url(${image?.url})`}
+              style={{ right: isMobileDevice ? "-24vw" : "0" }}
+              margin={{ top: isMobileDevice ? "large" : "none" }}
             />
-          )}
-        </Box>
-        <ImageContainer width={{ max: "600px" }}>
-          <ImageBox
-            elevation={"xxxlarge"}
-            background={`url(${image?.url})`}
-            style={{ right: isMobileDevice ? "-24vw" : "0" }}
-            margin={{ top: isMobileDevice ? "large" : "none" }}
-          />
-        </ImageContainer>
-      </ResponsiveGrid>
-    </Section>
-  </StyledBox>
-);
+          </ImageContainer>
+        </ResponsiveGrid>
+      </StyledSection>
+    </StyledBox>
+  );
+};
 
 const HomepageHero: React.FC<HomepageHeroProps> = (props) => {
   return (
@@ -99,6 +107,11 @@ const HomepageHero: React.FC<HomepageHeroProps> = (props) => {
     </React.Fragment>
   );
 };
+
+const StyledSection = styled(Section)`
+  position: relative;
+  overflow: hidden;
+`;
 
 const StyledBox = styled(Box)`
   min-height: 700px;

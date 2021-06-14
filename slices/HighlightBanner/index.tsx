@@ -12,6 +12,7 @@ import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
+import Motif from "../../src/motif/Motif";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
 import Slice from "../../types/Slice";
@@ -39,6 +40,7 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
     },
   } = slice;
   const size = React.useContext(ResponsiveContext);
+  const motifWrapperRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Section justify={"center"} flex>
@@ -50,8 +52,14 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
           align={"center"}
           justify={"center"}
           margin={{ top: "xlarge", bottom: "xlarge" }}
+          style={{ position: "relative" }}
+          ref={motifWrapperRef}
         >
-          <CardHeader direction={"column"}>
+          <Motif containerRef={motifWrapperRef} color={"#58C6AA"} />
+          <CardHeader
+            direction={"column"}
+            style={{ position: "relative", zIndex: 1 }}
+          >
             {title && (
               <Heading
                 level={"1"}
@@ -80,6 +88,7 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
             justify={"stretch"}
             align={"stretch"}
             flex={"shrink"}
+            style={{ position: "relative", zIndex: 1 }}
           >
             {buttonOneLink && buttonOneLabel && (
               <Button
