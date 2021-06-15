@@ -1,11 +1,13 @@
+import { AnimatePresence } from "framer-motion";
 import { Box, Heading, ResponsiveContext } from "grommet";
 import { Link, RichTextBlock } from "prismic-reactjs";
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
 import KLClient from "../../know-learning-api/knowLearningApiClient";
 import getAccountServerSideProps from "../../next/get-server-side-props/account";
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
+import DictionaryContext from "../../src/context/DictionaryContext";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import SessionCard from "../../src/molecules/session-card/SessionCard";
 import AccountLayout from "../../src/organisms/account-layout/AccountLayout";
@@ -49,9 +51,16 @@ const Page: React.FC<SessionPageProps> = (props) => {
     exploreModulesLabel,
     exploreModulesLink,
   } = props.data;
+  const [maxSessions, setMaxSessions] = React.useState(5);
   const [sessions, setSessions] = React.useState<Session[]>();
   const [error, setError] = React.useState<string>();
   const size = React.useContext(ResponsiveContext);
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+
+  const handleLoad = React.useCallback((event: SyntheticEvent) => {
+    event.preventDefault();
+    setMaxSessions((maxSessions: number) => maxSessions + 5);
+  }, []);
 
   React.useEffect(() => {
     KLClient.watchSessions(
@@ -69,6 +78,8 @@ const Page: React.FC<SessionPageProps> = (props) => {
   }, []);
 
   const fetching = sessions === undefined;
+
+  const [mostRecentSession, ...restSessions] = sessions || [];
 
   return (
     <AccountLayout
@@ -117,21 +128,15 @@ const Page: React.FC<SessionPageProps> = (props) => {
                 size={"small"}
                 margin={{ bottom: "medium", top: "large" }}
               >
-                Your most recent session
+                {getDictionaryValue("Your current session")}
               </Heading>
-              {[sessions.shift()].map(
-                (session, index) =>
-                  session && (
-                    <StyledSessionCard
-                      key={index}
-                      title={session.name}
-                      participants={session.participants.length}
-                      date={parseDate(session.date)}
-                      dashboardLink={{ url: "" }}
-                      moduleLink={{ url: "" }}
-                    />
-                  )
-              )}
+              <StyledSessionCard
+                title={mostRecentSession.name}
+                participants={mostRecentSession.participants.length}
+                date={parseDate(mostRecentSession.date)}
+                dashboardLink={{ url: "" }}
+                moduleLink={{ url: "" }}
+              />
             </Box>
             <Box>
               <Heading
@@ -139,19 +144,51 @@ const Page: React.FC<SessionPageProps> = (props) => {
                 size={"small"}
                 margin={{ bottom: "medium", top: "large" }}
               >
-                Your past sessions
+                {getDictionaryValue("Your most recent session")}
               </Heading>
-              {sessions.map((session, index) => (
-                <SessionCard
-                  key={index}
-                  title={session.name}
-                  participants={session.participants.length}
-                  date={parseDate(session.date)}
-                  dashboardLink={{ url: "" }}
-                  moduleLink={{ url: "" }}
-                />
-              ))}
+              <StyledSessionCard
+                title={mostRecentSession.name}
+                participants={mostRecentSession.participants.length}
+                date={parseDate(mostRecentSession.date)}
+                dashboardLink={{ url: "" }}
+                moduleLink={{ url: "" }}
+              />
             </Box>
+            <Box>
+              <Heading
+                level={4}
+                size={"small"}
+                margin={{ bottom: "medium", top: "large" }}
+              >
+                {getDictionaryValue("Your past sessions")}
+              </Heading>
+              <AnimatePresence>
+                {restSessions.map((session, index) => {
+                  if (index <= maxSessions - 1) {
+                    return (
+                      <SessionCard
+                        key={index}
+                        title={session.name}
+                        participants={session.participants.length}
+                        date={parseDate(session.date)}
+                        dashboardLink={{ url: "" }}
+                        moduleLink={{ url: "" }}
+                      />
+                    );
+                  }
+                })}
+              </AnimatePresence>
+            </Box>
+            {restSessions.length > maxSessions && (
+              <Button
+                primary
+                color={colorPalette.blue}
+                size={ButtonSizes.large}
+                type="button"
+                label={"load more sessions"}
+                onClick={handleLoad}
+              />
+            )}
           </Box>
         )}
       </React.Fragment>

@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
+import { useRouter } from "next/router";
 import Prismic from "prismic-javascript";
 import React from "react";
 import CookieNotice from "react-cookienotice";
@@ -11,6 +12,7 @@ import styled from "styled-components";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { AuthProvider } from "../lib/auth";
+import * as ga from "../lib/ga";
 import { Client } from "../prismic";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
@@ -68,8 +70,18 @@ type Response = PrismicResponse<
 // @ts-ignore
 const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const { Component, pageProps } = props;
-
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      ga.pageView(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
   const { url, site_name, handle, appId, title, description } =
     (pageProps.seo || [])[0]?.data || {};
