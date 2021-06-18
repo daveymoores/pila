@@ -18,7 +18,10 @@ const sequences = [
 
 const items = [0, 1];
 
-const Pattern: React.FC<{ color: string }> = ({ color }) => {
+export const Pattern: React.FC<{ color: string; className?: string }> = ({
+  className,
+  color,
+}) => {
   const sequenceLength = animationSequences.sequence1[0].length;
   const [parentIndex, setParentIndex] = React.useState(getRandomInt(0));
   const [isAnimating, setIsAnimating] = React.useState(false);
@@ -72,9 +75,10 @@ const Pattern: React.FC<{ color: string }> = ({ color }) => {
 
   return (
     <Container
+      className={className}
       onMouseEnter={onInteractionHandler}
       onMouseLeave={onInteractionHandler}
-      style={{ "--base": `25px` } as CSSProperties}
+      style={{ "--base": `40px` } as CSSProperties}
     >
       <PoleWrapper>
         {items.map((item) => (

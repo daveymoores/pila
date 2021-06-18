@@ -93,18 +93,18 @@ const Pole1: React.FC<PoleProps> = ({
 const StyledPole = styled(motion.div)<{ color: string }>`
   background-color: ${(props) => props.color};
   height: calc(2 * var(--base));
-  width: calc(0.5 * var(--base));
+  width: calc(0.6 * var(--base));
   border-radius: calc(0.5 * var(--base));
   position: absolute;
 `;
 
 const StyledPole2 = styled(motion.div)`
-  height: calc(0.5 * var(--base));
+  height: calc(0.6 * var(--base));
   width: calc(2 * var(--base));
 `;
 
 const StyledPole3 = styled(motion.div)`
-  width: calc(0.5 * var(--base));
+  width: calc(0.6 * var(--base));
   height: calc(2 * var(--base));
 `;
 

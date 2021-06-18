@@ -15,6 +15,7 @@ import { colorPalette } from "../../src/theme/pila";
 import PageData from "../../types/PageData";
 
 interface Session {
+  id: string;
   name: string;
   participants: string[];
   date: string;
@@ -28,6 +29,7 @@ interface SessionsPageMainProps {
   startSessionLink: Link;
   exploreModulesLabel: string;
   exploreModulesLink: Link;
+  viewSessionLink: Link;
 }
 
 export type SessionsPageProps = SessionsPageMainProps;
@@ -41,6 +43,12 @@ const parseDate = (dateTime: string) => {
   return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 };
 
+const getSessionLink = (link: Link, session: Session): Link => ({
+  link_type: "Web",
+  target: "_blank",
+  url: `${link.url?.replace(/^\/+/, "")}/${session.id}`,
+});
+
 const Page: React.FC<SessionPageProps> = (props) => {
   const {
     name,
@@ -50,6 +58,7 @@ const Page: React.FC<SessionPageProps> = (props) => {
     startSessionLink,
     exploreModulesLabel,
     exploreModulesLink,
+    viewSessionLink,
   } = props.data;
   const [maxSessions, setMaxSessions] = React.useState(5);
   const [sessions, setSessions] = React.useState<Session[]>();
@@ -134,8 +143,7 @@ const Page: React.FC<SessionPageProps> = (props) => {
                 title={mostRecentSession.name}
                 participants={mostRecentSession.participants.length}
                 date={parseDate(mostRecentSession.date)}
-                dashboardLink={{ url: "" }}
-                moduleLink={{ url: "" }}
+                sessionLink={getSessionLink(viewSessionLink, mostRecentSession)}
               />
             </Box>
             <Box>
@@ -150,8 +158,7 @@ const Page: React.FC<SessionPageProps> = (props) => {
                 title={mostRecentSession.name}
                 participants={mostRecentSession.participants.length}
                 date={parseDate(mostRecentSession.date)}
-                dashboardLink={{ url: "" }}
-                moduleLink={{ url: "" }}
+                sessionLink={getSessionLink(viewSessionLink, mostRecentSession)}
               />
             </Box>
             <Box>
@@ -171,8 +178,10 @@ const Page: React.FC<SessionPageProps> = (props) => {
                         title={session.name}
                         participants={session.participants.length}
                         date={parseDate(session.date)}
-                        dashboardLink={{ url: "" }}
-                        moduleLink={{ url: "" }}
+                        sessionLink={getSessionLink(
+                          viewSessionLink,
+                          mostRecentSession
+                        )}
                       />
                     );
                   }

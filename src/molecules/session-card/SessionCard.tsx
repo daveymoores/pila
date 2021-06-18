@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Box, Card, Grid, Paragraph } from "grommet";
-import { Book, Dashboard, Group } from "grommet-icons";
+import { Group } from "grommet-icons";
 import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -8,10 +8,10 @@ import styled from "styled-components";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import {
   DesktopUp,
-  MobileOnly,
   TabletOnly,
   TabletUp,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
+import DictionaryContext from "../../context/DictionaryContext";
 import ResponsiveGrid from "../../organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette, fontWeights } from "../../theme/pila";
 
@@ -24,8 +24,7 @@ interface GuideCardProps {
   title: string;
   date?: string;
   participants?: number;
-  dashboardLink: Link;
-  moduleLink: Link;
+  sessionLink: Link;
   variant?: CardVariant;
   className?: string;
 }
@@ -34,10 +33,11 @@ const SessionCard: React.FC<GuideCardProps> = ({
   title,
   date,
   participants,
-  dashboardLink,
-  moduleLink,
+  sessionLink,
   className,
 }) => {
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+
   const columns = {
     small: ["flex", "flex"],
     medium: ["flex", "flex"],
@@ -93,7 +93,7 @@ const SessionCard: React.FC<GuideCardProps> = ({
                       </TabletOnly>
                       <DesktopUp>
                         <Paragraph size={"xsmall"} color={colorPalette.grey}>
-                          Participants
+                          {getDictionaryValue("Participants")}
                         </Paragraph>
                       </DesktopUp>
                     </dt>
@@ -111,7 +111,7 @@ const SessionCard: React.FC<GuideCardProps> = ({
                 <dl>
                   <dt>
                     <Paragraph size={"xsmall"} color={colorPalette.grey}>
-                      Date
+                      {getDictionaryValue("Date")}
                     </Paragraph>
                   </dt>
                   <dd>
@@ -124,42 +124,14 @@ const SessionCard: React.FC<GuideCardProps> = ({
             </Grid>
 
             <Box direction={"row"} align={"center"} justify={"end"}>
-              <MobileOnly style={{ width: "auto" }}>
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  link={dashboardLink}
-                  icon={<Dashboard color={colorPalette.white} />}
-                />
-              </MobileOnly>
-              <TabletUp style={{ width: "auto" }}>
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  label={"dashboard"}
-                  link={dashboardLink}
-                />
-              </TabletUp>
-              <MobileOnly style={{ width: "auto" }}>
-                <Button
-                  primary
-                  color={colorPalette.blue}
-                  size={ButtonSizes.small}
-                  icon={<Book color={colorPalette.white} />}
-                  link={moduleLink}
-                  margin={{ left: "small" }}
-                />
-              </MobileOnly>
-              <TabletUp style={{ width: "auto" }}>
-                <Button
-                  primary
-                  color={colorPalette.blue}
-                  size={ButtonSizes.small}
-                  label={"module"}
-                  link={moduleLink}
-                  margin={{ left: "small" }}
-                />
-              </TabletUp>
+              <Button
+                primary
+                color={colorPalette.blue}
+                size={ButtonSizes.small}
+                label={getDictionaryValue("view session")}
+                link={sessionLink}
+                margin={{ left: "small" }}
+              />
             </Box>
           </React.Fragment>
         </StyledResponsiveGrid>

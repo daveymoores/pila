@@ -6,16 +6,18 @@ import {
   Paragraph,
   ResponsiveContext,
 } from "grommet";
+import dynamic from "next/dynamic";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
-import Motif from "../../src/motif/Motif";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
 import Slice from "../../types/Slice";
+
+const Motif = dynamic(() => import("../../src/motif/Motif"));
 
 type Primary = {
   title: RichTextBlock[];

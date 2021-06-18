@@ -1,4 +1,5 @@
 import { Box, Heading } from "grommet";
+import dynamic from "next/dynamic";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -10,9 +11,10 @@ import {
   MobileTabletOnly,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import Section from "../../layout/section/Section";
-import Motif from "../../motif/Motif";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
+
+const Motif = dynamic(() => import("../../motif/Motif"));
 
 export interface HomepageHeroProps {
   title: RichTextBlock[];

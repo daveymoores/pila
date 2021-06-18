@@ -18,6 +18,8 @@ Sessions will an array of session objects of the form:
 }
 */
 
+import getRandomInt from "../src/motif/helpers/getRandomInt";
+
 const adjectives = [
   "country",
   "wonky",
@@ -63,6 +65,7 @@ function generateSession() {
     name: generateName(),
     participants: generateParticipants(),
     date: timestamp,
+    id: getRandomInt(5000).toString(),
   };
 }
 

@@ -13,11 +13,11 @@ export interface DictionaryProps {
 }
 
 interface DictionaryContextProps {
-  getDictionaryValue: (arg: string) => string | null;
+  getDictionaryValue: (arg: string) => string | undefined;
 }
 
 const NavigationThemeContext = React.createContext<DictionaryContextProps>({
-  getDictionaryValue: () => null,
+  getDictionaryValue: () => undefined,
 });
 
 const getPlaceholderValue = (key: string) =>
