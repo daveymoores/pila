@@ -84,6 +84,7 @@ export default class extends Document {
           `,
             }}
           />
+          <script src="https://www.google.com/recaptcha/api.js" async defer />
         </Head>
         <body>
           <Main />

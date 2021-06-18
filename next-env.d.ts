@@ -1,5 +1,13 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
+interface ReCaptchaInstance {
+  ready: (cb: () => any) => void;
+  execute: (key: string, options: ReCaptchaExecuteOptions) => Promise<string>;
+  render: (id: string, options: ReCaptchaRenderOptions) => any;
+  getResponse: () => any[];
+}
+
+declare const grecaptcha: ReCaptchaInstance;
 declare module "react-cookienotice";
 declare module "../../know-learning-api/knowLearningApiClient";
 declare module "next-slicezone";

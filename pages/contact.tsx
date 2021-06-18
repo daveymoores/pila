@@ -182,6 +182,12 @@ const Page: React.FC<PageProps> = (props) => {
               setValue(nextValue as { [key: string]: string });
             }}
             onSubmit={async (event) => {
+              const response = grecaptcha.getResponse();
+              if (response.length === 0) {
+                alert("Please validate the Captcha test");
+                return false;
+              }
+
               try {
                 setLoading(true);
                 const response = await fetch("/api/form", {
@@ -261,7 +267,19 @@ const Page: React.FC<PageProps> = (props) => {
                 ))}
             </Grid>
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
-              <Button type="submit" label="Submit" primary />
+              <Box>
+                <div
+                  className="g-recaptcha"
+                  data-sitekey={process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA}
+                />
+                <Button
+                  margin={{ top: "medium" }}
+                  type="submit"
+                  label="Submit"
+                  primary
+                />
+              </Box>
+
               <Text
                 margin={{ left: "small" }}
                 size="small"
