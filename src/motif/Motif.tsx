@@ -10,6 +10,12 @@ import reverseTriangleSequence from "./animation-sequences/triangle/reverse";
 import getRandomInt from "./helpers/getRandomInt";
 import { Pole1, Pole2, Pole3 } from "./pole";
 
+export enum PatternVariant {
+  triangle,
+  square,
+  freeform,
+}
+
 const sequences = [
   squareSequence,
   forwardTriangleSequence,
@@ -18,10 +24,11 @@ const sequences = [
 
 const items = [0, 1];
 
-export const Pattern: React.FC<{ color: string; className?: string }> = ({
-  className,
-  color,
-}) => {
+export const Pattern: React.FC<{
+  color: string;
+  className?: string;
+  variant?: PatternVariant;
+}> = ({ className, color, variant }) => {
   const sequenceLength = animationSequences.sequence1[0].length;
   const [parentIndex, setParentIndex] = React.useState(getRandomInt(0));
   const [isAnimating, setIsAnimating] = React.useState(false);

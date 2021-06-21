@@ -10,6 +10,8 @@ export const colorPalette = {
   periwinkleCrayola: "#e7ecff",
   redCrayola: "#F52F57",
   white: "#FFFFFF",
+  patternBlue: "#2a2ec7",
+  patternGreen: "#58c6aa",
 };
 
 export const fontWeights = {

@@ -11,10 +11,15 @@ import {
   MobileTabletOnly,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import Section from "../../layout/section/Section";
+import { patternPositions } from "../../motif/pattern-positions/patternPositions";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
-const Motif = dynamic(() => import("../../motif/Motif"));
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const Pattern = dynamic(() =>
+  import("../../motif/Motif").then((mod) => mod.Pattern)
+);
 
 export interface HomepageHeroProps {
   title: RichTextBlock[];
@@ -52,7 +57,6 @@ const HeroContents: React.FC<HeroContentsProps> = ({
       ref={motifWrapperRef}
       style={{ overflow: "hidden", position: "relative" }}
     >
-      <Motif containerRef={motifWrapperRef} color={"#2a2ec7"} />
       <StyledSection justify={isMobileDevice ? "start" : "center"}>
         <ResponsiveGrid rows={"2"} columns={columns}>
           <Box
@@ -84,6 +88,16 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             )}
           </Box>
           <ImageContainer width={{ max: "600px" }}>
+            <DesktopUp>
+              {patternPositions.map(({ position, variant, color }, index) => (
+                <StyledPattern
+                  key={index}
+                  color={color}
+                  positionString={position}
+                  variant={variant}
+                />
+              ))}
+            </DesktopUp>
             <ImageBox
               elevation={"xxxlarge"}
               background={`url(${image?.url})`}
@@ -112,7 +126,6 @@ const HomepageHero: React.FC<HomepageHeroProps> = (props) => {
 
 const StyledSection = styled(Section)`
   position: relative;
-  overflow: hidden;
 `;
 
 const StyledBox = styled(Box)`
@@ -129,6 +142,11 @@ const ImageBox = styled(Box)`
 
 const ImageContainer = styled(Box)`
   position: relative;
+`;
+
+const StyledPattern = styled(Pattern)<{ positionString: string }>`
+  position: absolute;
+  ${(props) => props.positionString}
 `;
 
 export default HomepageHero;
