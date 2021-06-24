@@ -69,7 +69,7 @@ const FullWidthImageSection: FC<{ slice: FullWidthImageSectionProps }> = ({
               }}
               style={{ position: "relative" }}
             >
-              <RichMediaElement layout={"fill"} url={image.url} />
+              <RichMediaElement layout={"fill"} {...image} />
               <Section justify={size === "small" ? "start" : "center"} flex>
                 <ResponsiveGrid
                   margin={{

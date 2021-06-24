@@ -3,6 +3,7 @@ import {
   CardBody,
   CardHeader,
   Heading,
+  Image,
   Paragraph,
   ResponsiveContext,
 } from "grommet";
@@ -50,8 +51,13 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
           align={"center"}
           justify={"center"}
           margin={{ top: "xlarge", bottom: "xlarge" }}
+          style={{ position: "relative" }}
         >
-          <CardHeader direction={"column"}>
+          <HighlightPattern src={"/pattern/highlight-pattern.png"} />
+          <CardHeader
+            direction={"column"}
+            style={{ position: "relative", zIndex: 1 }}
+          >
             {title && (
               <Heading
                 level={"1"}
@@ -80,6 +86,7 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
             justify={"stretch"}
             align={"stretch"}
             flex={"shrink"}
+            style={{ position: "relative", zIndex: 1 }}
           >
             {buttonOneLink && buttonOneLabel && (
               <Button
@@ -113,6 +120,17 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
 const StyledCard = styled(Card)`
   border-radius: 25px;
   min-height: 380px;
+`;
+
+const HighlightPattern = styled(Image)`
+  width: auto;
+  height: 100%;
+  position: absolute;
+
+  @media (min-width: 1250px) {
+    height: auto;
+    width: 100%;
+  }
 `;
 
 export default HighlightBanner;

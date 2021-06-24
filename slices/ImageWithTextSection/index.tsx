@@ -1,4 +1,4 @@
-import { Box } from "grommet";
+import { Box, Image } from "grommet";
 import React, { FC } from "react";
 import styled from "styled-components";
 
@@ -78,6 +78,7 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
       background={colorMapper(backgroundColor)}
       justify={"center"}
       pad={{ vertical: "xlarge" }}
+      style={{ position: "relative", overflow: "hidden" }}
     >
       <Section>
         <ResponsiveGrid
@@ -85,7 +86,16 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
           areas={gridAreas(imageSide)}
           rows={rows}
         >
-          <Box gridArea="image" style={{ display: "grid" }}>
+          <Box
+            gridArea="image"
+            style={{ display: "grid", position: "relative" }}
+          >
+            {backgroundColor === "dark_blue" && (
+              <DarkBluePattern
+                src={"/pattern/dark-blue-pattern.png"}
+                imageSide={imageSide}
+              />
+            )}
             <RichMediaElement
               {...image}
               alt={image?.alt || ""}
@@ -100,6 +110,19 @@ const ImageWithTextSection: FC<{ slice: ImageWithTextSectionProps }> = ({
     </StyledBox>
   );
 };
+
+const DarkBluePattern = styled(Image)<{ imageSide: ImagePosition }>`
+  position: absolute;
+  width: 662px;
+  height: 1014px;
+  ${(props) =>
+    props.imageSide === ImagePosition.imageRight ? `right:-35%` : `left: -35%`};
+  ${(props) =>
+    props.imageSide === ImagePosition.imageRight &&
+    `-webkit-transform: scaleX(-1);
+  transform: scaleX(-1)`};
+  bottom: -50%;
+`;
 
 const StyledBox = styled(Box)`
   min-height: 800px;

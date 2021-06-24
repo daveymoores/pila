@@ -1,7 +1,7 @@
 import { ResponsiveContext } from "grommet";
 import Image, { ImageProps } from "next/image";
 import { Link } from "prismic-reactjs";
-import React, { ReactText, useContext } from "react";
+import React, { useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 
@@ -10,7 +10,7 @@ import PrismicImageProps from "../../../types/ImageProps";
 interface RichMediaElementProps
   extends Omit<ImageProps, "alt" | "layout" | "src"> {
   video?: Link;
-  alt?: string;
+  alt?: string | null;
   url?: string;
   layout: "fill" | "responsive" | "intrinsic" | "fixed";
   dimensions?: { height: number; width: number };
@@ -44,7 +44,7 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
 
   const size = useContext(ResponsiveContext);
   const shouldRenderMobileImage =
-    size === "mobile" && mobile && "dimensions" in mobile;
+    size === "small" && mobile && "dimensions" in mobile;
 
   const props = {
     alt: shouldRenderMobileImage ? mobile?.alt : alt,
@@ -79,8 +79,8 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
       src={url || ""}
       alt={alt || ""}
       objectFit="cover"
-      width={props.width as ReactText}
-      height={props.height as ReactText}
+      width={props.width}
+      height={props.height}
       className={className}
       unoptimized
     />

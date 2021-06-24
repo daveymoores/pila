@@ -55,3 +55,27 @@ table {
   font-style: normal;
   font-display: swap;
 }
+
+/** motif **/
+:root {
+  --base: 25px;
+  --white: #ffffff;
+  --green: #58C6AA;
+}
+
+body {
+  background-color: var(--royalBlue);
+}
+
+/*.motif_wrapper__overlay {*/
+/*  height: 600px;*/
+/*  width: 600px;*/
+/*  position: absolute;*/
+/*  left: 50%;*/
+/*  bottom: 50%;*/
+/*  transform: translate(-50%, 50%);*/
+/*  z-index: 2;*/
+/*  opacity: 1;*/
+/*}*/
+
+/** end motif **/

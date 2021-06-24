@@ -1,5 +1,6 @@
 import max from "lodash/max";
 import min from "lodash/min";
+import sum from "lodash/sum";
 
 import {
   AssessmentApplicationProps,
@@ -22,6 +23,18 @@ export interface ApplicationStats {
   age: string;
   units: number;
 }
+
+const difficultyValues = {
+  [Difficulty.EASY]: 1,
+  [Difficulty.EASY_INTERMEDIATE]: 2,
+  [Difficulty.INTERMEDIATE]: 3,
+  [Difficulty.INTERMEDIATE_ADVANCED]: 4,
+  [Difficulty.ADVANCED]: 5,
+};
+
+const getDifficultyValue = (difficulty: Difficulty): number => {
+  return difficultyValues[difficulty];
+};
 
 const groupApplicationMetrics = (
   applications: CustomType<AssessmentApplicationProps>[]
@@ -52,6 +65,22 @@ const groupApplicationMetrics = (
     ];
   }, []);
 
+const getAverageDifficulty = (difficulties: Difficulty[]): string => {
+  const totalDifficultyValue = sum(
+    difficulties.map((difficulty: Difficulty) => getDifficultyValue(difficulty))
+  );
+
+  const averageDifficultyValue = Math.floor(
+    totalDifficultyValue / difficulties.length
+  );
+
+  return (
+    Object.entries(difficultyValues).find(
+      ([, value]) => value === averageDifficultyValue
+    ) || []
+  ).shift() as string;
+};
+
 const getApplicationAverages = (
   applications: CustomType<AssessmentApplicationProps>[]
 ): ApplicationStats[] | [] => {
@@ -68,7 +97,7 @@ const getApplicationAverages = (
         ...acc,
         {
           uid: group.uid,
-          difficulty: group.difficulties[0], // TODO - get the average difficulty here
+          difficulty: getAverageDifficulty(group.difficulties),
           age: `${min(group.minimumAges)} - ${max(group.maximumAges)}`,
           units: group.units,
         },

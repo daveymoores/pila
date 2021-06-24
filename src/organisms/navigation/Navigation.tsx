@@ -364,6 +364,7 @@ const Divider = styled(Box)<BoxProps>`
 const StyledHeader = styled(Header)`
   position: absolute;
   width: 100%;
+  z-index: 2;
 `;
 
 const StyledLogoBox = styled(Box)`
