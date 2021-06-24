@@ -3,10 +3,10 @@ import {
   CardBody,
   CardHeader,
   Heading,
+  Image,
   Paragraph,
   ResponsiveContext,
 } from "grommet";
-import dynamic from "next/dynamic";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
@@ -16,8 +16,6 @@ import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import { colorPalette } from "../../src/theme/pila";
 import Slice from "../../types/Slice";
-
-const Motif = dynamic(() => import("../../src/motif/Motif"));
 
 type Primary = {
   title: RichTextBlock[];
@@ -42,7 +40,6 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
     },
   } = slice;
   const size = React.useContext(ResponsiveContext);
-  const motifWrapperRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Section justify={"center"} flex>
@@ -55,9 +52,8 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
           justify={"center"}
           margin={{ top: "xlarge", bottom: "xlarge" }}
           style={{ position: "relative" }}
-          ref={motifWrapperRef}
         >
-          <Motif containerRef={motifWrapperRef} color={"#58C6AA"} />
+          <HighlightPattern src={"/pattern/highlight-pattern.png"} />
           <CardHeader
             direction={"column"}
             style={{ position: "relative", zIndex: 1 }}
@@ -124,6 +120,17 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
 const StyledCard = styled(Card)`
   border-radius: 25px;
   min-height: 380px;
+`;
+
+const HighlightPattern = styled(Image)`
+  width: auto;
+  height: 100%;
+  position: absolute;
+
+  @media (min-width: 1250px) {
+    height: auto;
+    width: 100%;
+  }
 `;
 
 export default HighlightBanner;

@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Heading } from "grommet";
+import { Box, Grid, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
@@ -52,14 +52,7 @@ const ThanksToInstitutionsSection: FC<{
       {/*TODO - create specific logic for centered wrapping*/}
       <ResponsiveGrid columns={columns} rows={rows}>
         {(slice.items || []).map(({ logo }, index) => (
-          <StyledCard
-            key={index}
-            pad={"medium"}
-            background={"light-1"}
-            round={"medium"}
-            justify={"center"}
-            elevation={"none"}
-          >
+          <StyledCard key={index} pad={"medium"} justify={"center"}>
             <Box
               style={{ position: "relative" }}
               width={"100%"}
@@ -74,7 +67,9 @@ const ThanksToInstitutionsSection: FC<{
   </Box>
 );
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(Grid)`
+  background-color: #f8f8f8;
+  border-radius: 15px;
   min-height: 225px;
 `;
 

@@ -28,7 +28,7 @@ export const Pattern: React.FC<{
   color: string;
   className?: string;
   variant?: PatternVariant;
-}> = ({ className, color, variant }) => {
+}> = ({ className, color }) => {
   const sequenceLength = animationSequences.sequence1[0].length;
   const [parentIndex, setParentIndex] = React.useState(getRandomInt(0));
   const [isAnimating, setIsAnimating] = React.useState(false);

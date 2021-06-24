@@ -1,5 +1,4 @@
-import { Box, Heading } from "grommet";
-import dynamic from "next/dynamic";
+import { Box, Heading, Image } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -11,15 +10,8 @@ import {
   MobileTabletOnly,
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import Section from "../../layout/section/Section";
-import { patternPositions } from "../../motif/pattern-positions/patternPositions";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const Pattern = dynamic(() =>
-  import("../../motif/Motif").then((mod) => mod.Pattern)
-);
 
 export interface HomepageHeroProps {
   title: RichTextBlock[];
@@ -46,15 +38,12 @@ const HeroContents: React.FC<HeroContentsProps> = ({
   image,
   isMobileDevice = false,
 }) => {
-  const motifWrapperRef = React.useRef<HTMLDivElement>(null);
-
   return (
     <StyledBox
       background={colorPalette.blue}
       justify={"center"}
       overflow={"hidden"}
       height={isMobileDevice ? "100vh" : "95vh"}
-      ref={motifWrapperRef}
       style={{ overflow: "hidden", position: "relative" }}
     >
       <StyledSection justify={isMobileDevice ? "start" : "center"}>
@@ -88,22 +77,14 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             )}
           </Box>
           <ImageContainer width={{ max: "600px" }}>
-            <DesktopUp>
-              {patternPositions.map(({ position, variant, color }, index) => (
-                <StyledPattern
-                  key={index}
-                  color={color}
-                  positionString={position}
-                  variant={variant}
-                />
-              ))}
-            </DesktopUp>
+            <BluePattern src={"/pattern/blue-pattern.png"} />
             <ImageBox
               elevation={"xxxlarge"}
               background={`url(${image?.url})`}
               style={{ right: isMobileDevice ? "-24vw" : "0" }}
               margin={{ top: isMobileDevice ? "large" : "none" }}
             />
+            <GreenPattern src={"/pattern/green-pattern.png"} />
           </ImageContainer>
         </ResponsiveGrid>
       </StyledSection>
@@ -144,9 +125,30 @@ const ImageContainer = styled(Box)`
   position: relative;
 `;
 
-const StyledPattern = styled(Pattern)<{ positionString: string }>`
+const BluePattern = styled(Image)`
   position: absolute;
-  ${(props) => props.positionString}
+  height: 1014px;
+  width: 749px;
+  left: 0;
+
+  @media (min-width: 901px) {
+    bottom: -235px;
+    left: 62px;
+  }
+`;
+
+const GreenPattern = styled(Image)`
+  display: none;
+  position: absolute;
+  right: -222px;
+  bottom: -60px;
+  height: 501px;
+  width: 406px;
+  z-index: 1;
+
+  @media (min-width: 901px) {
+    display: block;
+  }
 `;
 
 export default HomepageHero;

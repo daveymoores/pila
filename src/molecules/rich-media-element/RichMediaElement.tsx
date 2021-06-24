@@ -1,7 +1,7 @@
 import { ResponsiveContext } from "grommet";
 import Image, { ImageProps } from "next/image";
 import { Link } from "prismic-reactjs";
-import React, { ReactText, useContext } from "react";
+import React, { useContext } from "react";
 import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 
@@ -79,8 +79,8 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
       src={url || ""}
       alt={alt || ""}
       objectFit="cover"
-      width={props.width as ReactText}
-      height={props.height as ReactText}
+      width={props.width}
+      height={props.height}
       className={className}
       unoptimized
     />
