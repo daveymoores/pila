@@ -39,9 +39,20 @@ export interface AssessmentApplicationMainProps
   }[];
   applicationsStats?: ApplicationStats;
   module?: Link;
-  taskSectionTitle: RichTextBlock[];
-  miscTaskSectionTitle: RichTextBlock[];
-  miscTaskSlices: Task[];
+  taskSectionTitle?: RichTextBlock[];
+  miscTaskSectionTitle?: RichTextBlock[];
+  miscTaskSlices?: MiscTask[];
+}
+
+export interface MiscTask {
+  items: { categories: Link & { data: { name: string } } }[];
+  primary: {
+    taskTitle: RichTextBlock[];
+    taskImage: ImageProps;
+    taskVideo: Link;
+    taskBody: RichTextBlock[];
+    taskLink: Link;
+  };
 }
 
 export interface Task {
@@ -52,10 +63,10 @@ export interface Task {
     taskVideo: Link;
     taskBody: RichTextBlock[];
     taskLink: Link;
-    taskDifficulty?: Difficulty;
-    taskLength?: number;
-    minimumAge?: number;
-    maximumAge?: number;
+    taskDifficulty: Difficulty;
+    taskLength: number;
+    minimumAge: number;
+    maximumAge: number;
   };
 }
 
@@ -109,7 +120,7 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         )}
         {miscTaskSlices && miscTaskSlices.length && (
           <TaskSection
-            slices={miscTaskSlices}
+            slices={miscTaskSlices as Task[]}
             taskSectionTitle={miscTaskSectionTitle}
           />
         )}

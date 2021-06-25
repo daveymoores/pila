@@ -52,7 +52,7 @@ const gridAreas = {
 
 interface TaskSection
   extends Pick<PageData<Task, AssessmentApplicationMainProps>, "slices"> {
-  taskSectionTitle: RichTextBlock[];
+  taskSectionTitle?: RichTextBlock[];
 }
 
 const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
@@ -80,10 +80,11 @@ const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
           align={"start"}
         >
           <Box gridArea="text" align={"stretch"}>
-            <Heading size={"small"} margin={{ bottom: "large" }}>
-              {RichText.asText(taskSectionTitle)}
-            </Heading>
-
+            {taskSectionTitle && (
+              <Heading size={"small"} margin={{ bottom: "large" }}>
+                {RichText.asText(taskSectionTitle)}
+              </Heading>
+            )}
             {slices &&
               slices.map(({ primary }, index) => {
                 if (!primary) return null;
