@@ -1,3 +1,4 @@
+import { Box } from "grommet";
 import { GetStaticPropsResult } from "next";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import { Link, RichTextBlock } from "prismic-reactjs";
@@ -38,6 +39,20 @@ export interface AssessmentApplicationMainProps
   }[];
   applicationsStats?: ApplicationStats;
   module?: Link;
+  taskSectionTitle?: RichTextBlock[];
+  miscTaskSectionTitle?: RichTextBlock[];
+  miscTaskSlices?: MiscTask[];
+}
+
+export interface MiscTask {
+  items: { categories: Link & { data: { name: string } } }[];
+  primary: {
+    taskTitle: RichTextBlock[];
+    taskImage: ImageProps;
+    taskVideo: Link;
+    taskBody: RichTextBlock[];
+    taskLink: Link;
+  };
 }
 
 export interface Task {
@@ -79,6 +94,9 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     ctaSectionButtonOneLabel,
     ctaSectionButtonTwoLink,
     ctaSectionButtonTwoLabel,
+    taskSectionTitle,
+    miscTaskSectionTitle,
+    miscTaskSlices,
   } = data || {};
 
   return (
@@ -96,7 +114,18 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         body={body}
         learningModuleUid={learningModuleUid}
       />
-      <TaskSection slices={slices} />
+      <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
+        {slices && slices.length && (
+          <TaskSection slices={slices} taskSectionTitle={taskSectionTitle} />
+        )}
+        {miscTaskSlices && miscTaskSlices.length && (
+          <TaskSection
+            slices={miscTaskSlices as Task[]}
+            taskSectionTitle={miscTaskSectionTitle}
+          />
+        )}
+      </Box>
+
       {ctaSectionTitle && (
         <CtaBanner
           slice={{

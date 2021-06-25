@@ -18,7 +18,7 @@ const RichTextBlok: FC<{ slice: RichTextBlokProps }> = ({ slice }) => {
 
   return (
     <Box
-      id={sectionTitle && sectionTitle.replace(/ /g, "-").toLowerCase()}
+      data-id={sectionTitle && sectionTitle.replace(/ /g, "-").toLowerCase()}
       as={"section"}
       pad={{ top: "none", bottom: "large" }}
     >

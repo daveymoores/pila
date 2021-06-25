@@ -106,6 +106,38 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
       ];
     }, []);
 
+  const scrollToSection = (section: Element | null = null) => {
+    if (!section) return;
+    const { top } = section.getBoundingClientRect();
+    window.scrollTo({ top: window.pageYOffset + top, behavior: "smooth" });
+  };
+
+  const findSection = (slug: string) => {
+    const sections = document.querySelectorAll(`[data-id="${slug}"]`);
+    const visibleSection = Array.from(sections).find(
+      (item) => item.getBoundingClientRect().top
+    );
+    if (!visibleSection) return;
+    return visibleSection;
+  };
+
+  React.useEffect(() => {
+    if (!window) return;
+    // check hash on first load
+    scrollToSection(findSection(window.location.href.split("#")[1]));
+
+    const listenToHashChange = (event: HashChangeEvent) => {
+      if (!event) return;
+      const { hash } = new URL(event.newURL);
+      scrollToSection(findSection(hash.split("#")[1]));
+    };
+
+    window.addEventListener("hashchange", listenToHashChange);
+    return () => {
+      window.removeEventListener("hashchange", listenToHashChange);
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <Box

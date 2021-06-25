@@ -1,5 +1,5 @@
-import { Box, Card, Heading, Paragraph, Spinner } from "grommet";
-import { RichText } from "prismic-reactjs";
+import { Box, Card, Heading } from "grommet";
+import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
@@ -8,11 +8,11 @@ import {
   Task,
 } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
 import PageData from "../../../types/PageData";
-import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Category from "../../atoms/category/Category";
 import Section from "../../layout/section/Section";
 import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
+import RichTextParser from "../../molecules/rich-text-parser/RichTextParser";
 import TaskStats from "../../molecules/task-stats/TaskStats";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
@@ -50,40 +50,29 @@ const gridAreas = {
   ],
 };
 
-type TaskSection = Pick<
-  PageData<Task, AssessmentApplicationMainProps>,
-  "slices"
->;
+interface TaskSection
+  extends Pick<PageData<Task, AssessmentApplicationMainProps>, "slices"> {
+  taskSectionTitle?: RichTextBlock[];
+}
 
-const TaskSection: React.FC<TaskSection> = ({ slices }) => {
+const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
   const [selectedTaskData, setSelectedTaskData] = React.useState<Task>();
-  const [loading, setLoading] = React.useState<boolean>();
 
   React.useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setSelectedTaskData(slices[0]);
-      setLoading(false);
-    }, 1000);
+    setSelectedTaskData(slices[0]);
   }, []);
 
   const handleClick = React.useCallback(
     (event: SyntheticEvent, cardIndex: number) => {
       event.preventDefault();
-      setLoading(true);
-
-      setTimeout(() => {
-        setSelectedTaskData(slices[cardIndex]);
-        setLoading(false);
-      }, 2000);
+      setSelectedTaskData(slices[cardIndex]);
     },
     [selectedTaskData, slices]
   );
 
   return (
     <Section>
-      <Box justify={"center"} margin={{ top: "xlarge", bottom: "xlarge" }}>
+      <Box justify={"center"} margin={{ bottom: "xlarge" }}>
         <ResponsiveGrid
           columns={columns}
           areas={gridAreas}
@@ -91,10 +80,11 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
           align={"start"}
         >
           <Box gridArea="text" align={"stretch"}>
-            <Heading size={"24px"} margin={{ bottom: "medium" }}>
-              Tasks
-            </Heading>
-
+            {taskSectionTitle && (
+              <Heading size={"small"} margin={{ bottom: "large" }}>
+                {RichText.asText(taskSectionTitle)}
+              </Heading>
+            )}
             {slices &&
               slices.map(({ primary }, index) => {
                 if (!primary) return null;
@@ -120,10 +110,11 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                     background={isSelected ? "light-1" : "none"}
                     margin={{ bottom: "medium" }}
                     onClick={(event: SyntheticEvent) =>
-                      handleClick(event, index)
+                      !isSelected && handleClick(event, index)
                     }
+                    style={{ cursor: isSelected ? "default" : "pointer" }}
                   >
-                    {isSelected && <ActiveIcon />}
+                    {slices.length > 1 && isSelected && <ActiveIcon />}
                     <Heading
                       level={3}
                       size={"21px"}
@@ -131,11 +122,13 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
                     >
                       {RichText.asText(taskTitle)}
                     </Heading>
-                    <TaskStats
-                      length={taskLength}
-                      difficulty={taskDifficulty}
-                      age={`${minimumAge} - ${maximumAge}`}
-                    />
+                    {taskLength && taskDifficulty && (
+                      <TaskStats
+                        length={taskLength}
+                        difficulty={taskDifficulty}
+                        age={`${minimumAge} - ${maximumAge}`}
+                      />
+                    )}
                   </StyledCard>
                 );
               })}
@@ -145,61 +138,53 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
             margin={{ top: "large" }}
             justify={"stretch"}
           >
-            {loading && <StyledLoader />}
-            {!loading && (
-              <React.Fragment>
-                {selectedTaskData?.primary?.taskTitle && (
-                  <Heading
-                    textAlign={"start"}
-                    level={"1"}
-                    alignSelf={"stretch"}
-                    size="small"
-                    responsive={false}
-                    margin={{ top: "medium", bottom: "medium" }}
-                  >
-                    {RichText.asText(selectedTaskData.primary.taskTitle)}
-                  </Heading>
-                )}
-                <Box direction={"row"} justify={"start"} align={"end"}>
-                  {(selectedTaskData?.items || []).map(
-                    ({ categories }, index) => {
-                      return (
-                        <Category key={index} name={categories?.data?.name} />
-                      );
-                    }
-                  )}
-                  <Button
-                    primary
-                    margin={{ left: "auto" }}
-                    size={ButtonSizes.small}
-                    color={colorPalette.blue}
-                    label={"Start task"}
-                    link={{
-                      type: PageType.SESSIONS,
-                    }}
-                  />
-                </Box>
-                {selectedTaskData?.primary?.taskImage && (
-                  <Box
-                    margin={{ top: "medium" }}
-                    gridArea="image"
-                    round={"medium"}
-                    overflow={"hidden"}
-                  >
-                    <RichMediaElement
-                      {...selectedTaskData.primary.taskImage}
-                      video={selectedTaskData.primary.taskVideo}
-                      alt={selectedTaskData.primary.taskImage?.alt || ""}
-                      layout={"responsive"}
-                    />
-                  </Box>
-                )}
-                {selectedTaskData?.primary?.taskBody && (
-                  <Paragraph size={"small"} margin={{ top: "large" }}>
-                    {RichText.asText(selectedTaskData.primary.taskBody)}
-                  </Paragraph>
-                )}
-              </React.Fragment>
+            {selectedTaskData?.primary?.taskTitle && (
+              <Heading
+                textAlign={"start"}
+                level={"3"}
+                alignSelf={"stretch"}
+                size="medium"
+                responsive={false}
+                margin={{ top: "large", bottom: "medium" }}
+              >
+                {RichText.asText(selectedTaskData.primary.taskTitle)}
+              </Heading>
+            )}
+            <Box direction={"row"} justify={"start"} align={"end"}>
+              {(selectedTaskData?.items || []).map(({ categories }, index) => {
+                if (!categories?.data?.name) return;
+                return <Category key={index} name={categories?.data?.name} />;
+              })}
+              {selectedTaskData?.primary.taskLink.url && (
+                <Button
+                  primary
+                  margin={{ left: "auto" }}
+                  size={ButtonSizes.small}
+                  color={colorPalette.blue}
+                  label={"Start task"}
+                  link={selectedTaskData?.primary.taskLink}
+                />
+              )}
+            </Box>
+            {selectedTaskData?.primary?.taskImage && (
+              <Box
+                margin={{ top: "medium" }}
+                gridArea="image"
+                round={"medium"}
+                overflow={"hidden"}
+              >
+                <RichMediaElement
+                  {...selectedTaskData.primary.taskImage}
+                  video={selectedTaskData.primary.taskVideo}
+                  alt={selectedTaskData.primary.taskImage?.alt || ""}
+                  layout={"responsive"}
+                />
+              </Box>
+            )}
+            {selectedTaskData?.primary?.taskBody && (
+              <Box margin={{ top: "large" }}>
+                <RichTextParser body={selectedTaskData.primary.taskBody} />
+              </Box>
             )}
           </ImageBox>
         </ResponsiveGrid>
@@ -207,14 +192,6 @@ const TaskSection: React.FC<TaskSection> = ({ slices }) => {
     </Section>
   );
 };
-
-const StyledLoader = styled(Spinner)`
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  pointer-events: none;
-`;
 
 const ImageBox = styled(Box)`
   position: relative;
