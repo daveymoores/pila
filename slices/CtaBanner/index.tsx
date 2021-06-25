@@ -1,6 +1,7 @@
-import { Box, Grid, Heading, ResponsiveContext } from "grommet";
+import { Box, Grid, Heading, Image, ResponsiveContext } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
+import styled from "styled-components";
 
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
@@ -80,8 +81,10 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
       height={{ min: size === "large" ? "450px" : "none" }}
       background={colorPalette.dark_blue}
       pad={{ top: "xlarge", bottom: "xlarge" }}
+      style={{ position: "relative", overflow: "hidden" }}
     >
-      <Section justify={"start"} flex>
+      <DarkBluePattern src={"/pattern/cta-section-pattern.png"} />
+      <StyledSection justify={"start"} flex>
         <ResponsiveGrid columns={columns} rows={rows} areas={areas}>
           <React.Fragment>
             {title && (
@@ -127,9 +130,20 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
             </Box>
           </React.Fragment>
         </ResponsiveGrid>
-      </Section>
+      </StyledSection>
     </Box>
   );
 };
+
+const DarkBluePattern = styled(Image)`
+  width: 626px;
+  height: 454px;
+  position: absolute;
+  top: 0;
+`;
+
+const StyledSection = styled(Section)`
+  z-index: 1;
+`;
 
 export default CtaBanner;
