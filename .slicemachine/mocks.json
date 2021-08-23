@@ -52,6 +52,9 @@
           "patternType": "PARAGRAPH",
           "blocks": 1
         }
+      },
+      "secondaryLinkLabel": {
+        "content": null
       }
     }
   },
