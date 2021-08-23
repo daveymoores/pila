@@ -9,6 +9,7 @@ import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import Section from "../../../src/layout/section/Section";
 import GuideCard from "../../../src/molecules/guide-card/GuideCard";
+import RichTextParser from "../../../src/molecules/rich-text-parser/RichTextParser";
 import ApplicationSection from "../../../src/organisms/application-section/ApplicationSection";
 import ModuleHero, {
   ModuleHeroProps,
@@ -36,12 +37,15 @@ interface GuideGroup {
 export interface LearningModuleProps
   extends ModuleHeroProps,
     CTABannerAlternateProps {
+  introduction?: RichTextBlock[];
+  bodyTitle?: string;
   parent?: Link;
   icon?: ImageProps;
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
   applicationsSectionTitle?: string;
+  applicationsSectionIntroduction?: RichTextBlock[];
   slices?: GuideGroup[];
   applications: AssessmentApplicationMainProps[];
 }
@@ -54,6 +58,8 @@ type PageProps = PageData<unknown, LearningModulePageProps> &
 const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
     title,
+    introduction,
+    bodyTitle,
     body,
     icon,
     guideDownload,
@@ -61,6 +67,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guidesBody,
     guidesTitle,
     applicationsSectionTitle,
+    applicationsSectionIntroduction,
     ctaSectionTitle,
     ctaSectionButtonOneLabel,
     ctaSectionButtonOneLink,
@@ -92,14 +99,33 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
       <ModuleHero
         uid={uid}
         title={title}
-        body={body}
+        body={introduction}
         guideDownload={guideDownload}
         guideLink={guideLink}
         icon={icon}
       />
+      {(!!body?.length || bodyTitle) && (
+        <Box pad={{ top: "xlarge", bottom: "medium" }}>
+          <Section>
+            {bodyTitle && (
+              <Heading level={"1"} size={"small"} margin={{ bottom: "medium" }}>
+                {bodyTitle}
+              </Heading>
+            )}
+            {!!body?.length && <RichTextParser body={body} />}
+          </Section>
+        </Box>
+      )}
       <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
         <Section>
-          <Heading size={"small"}>{applicationsSectionTitle}</Heading>
+          {applicationsSectionTitle && (
+            <Heading size={"small"}>{applicationsSectionTitle}</Heading>
+          )}
+          {!!applicationsSectionIntroduction?.length && (
+            <Box margin={{ top: "medium" }}>
+              <RichTextParser body={applicationsSectionIntroduction} />
+            </Box>
+          )}
           {module?.data?.applications &&
             module?.data?.applications.map((app, index) => (
               <ApplicationSection
@@ -117,54 +143,56 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
             ))}
         </Section>
       </Box>
-      <Box width={"100%"} background={"light-1"}>
-        <Section>
-          <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
-            <Box pad={{ bottom: "large" }} width={{ max: "800px" }}>
-              {guidesTitle && (
-                <Heading
-                  level={"1"}
-                  size={"small"}
-                  margin={{ bottom: "medium" }}
-                >
-                  {RichText.asText(guidesTitle)}
-                </Heading>
-              )}
-              {guidesBody && (
-                <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
-              )}
-            </Box>
-            {slices &&
-              slices.map(({ items, primary: { guideGroupTitle } }, index) => (
-                <Box key={index} margin={{ top: "small" }}>
-                  {guideGroupTitle && (
-                    <Heading
-                      level={"2"}
-                      size={"small"}
-                      margin={{ top: "small", bottom: "medium" }}
-                    >
-                      {RichText.asText(guideGroupTitle)}
-                    </Heading>
-                  )}
-                  {items &&
-                    items.map(
-                      (
-                        { guideTitle, guideDownloadLink, guidePageLink },
-                        index
-                      ) => (
-                        <GuideCard
-                          key={index}
-                          title={RichText.asText(guideTitle)}
-                          downloadLink={guideDownloadLink}
-                          pageLink={guidePageLink}
-                        />
-                      )
+      {!!slices?.length && (
+        <Box width={"100%"} background={"light-1"}>
+          <Section>
+            <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
+              <Box pad={{ bottom: "large" }} width={{ max: "800px" }}>
+                {guidesTitle && (
+                  <Heading
+                    level={"1"}
+                    size={"small"}
+                    margin={{ bottom: "medium" }}
+                  >
+                    {RichText.asText(guidesTitle)}
+                  </Heading>
+                )}
+                {guidesBody && (
+                  <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
+                )}
+              </Box>
+              {slices &&
+                slices.map(({ items, primary: { guideGroupTitle } }, index) => (
+                  <Box key={index} margin={{ top: "small" }}>
+                    {guideGroupTitle && (
+                      <Heading
+                        level={"2"}
+                        size={"small"}
+                        margin={{ top: "small", bottom: "medium" }}
+                      >
+                        {RichText.asText(guideGroupTitle)}
+                      </Heading>
                     )}
-                </Box>
-              ))}
-          </Box>
-        </Section>
-      </Box>
+                    {items &&
+                      items.map(
+                        (
+                          { guideTitle, guideDownloadLink, guidePageLink },
+                          index
+                        ) => (
+                          <GuideCard
+                            key={index}
+                            title={RichText.asText(guideTitle)}
+                            downloadLink={guideDownloadLink}
+                            pageLink={guidePageLink}
+                          />
+                        )
+                      )}
+                  </Box>
+                ))}
+            </Box>
+          </Section>
+        </Box>
+      )}
       {ctaSectionTitle && ctaSectionButtonOneLink && ctaSectionButtonOneLabel && (
         <CtaBanner
           slice={{
