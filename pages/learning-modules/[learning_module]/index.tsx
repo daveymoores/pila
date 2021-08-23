@@ -41,6 +41,7 @@ export interface LearningModuleProps
   bodyShort?: RichTextBlock[];
   guidesBody?: RichTextBlock[];
   guidesTitle?: RichTextBlock[];
+  applicationsSectionTitle?: string;
   slices?: GuideGroup[];
   applications: AssessmentApplicationMainProps[];
 }
@@ -59,6 +60,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guideLink,
     guidesBody,
     guidesTitle,
+    applicationsSectionTitle,
     ctaSectionTitle,
     ctaSectionButtonOneLabel,
     ctaSectionButtonOneLink,
@@ -97,7 +99,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
       />
       <Box pad={{ top: "xlarge", bottom: "xlarge" }}>
         <Section>
-          <Heading size={"small"}>Assessment applications</Heading>
+          <Heading size={"small"}>{applicationsSectionTitle}</Heading>
           {module?.data?.applications &&
             module?.data?.applications.map((app, index) => (
               <ApplicationSection
