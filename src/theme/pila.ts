@@ -7,6 +7,7 @@ export const colorPalette = {
   light_green: "#6BEAC9",
   yellow: "#FFE06E",
   grey: "#6e7a8d",
+  stormGrey: "#e8e8e8",
   periwinkleCrayola: "#e7ecff",
   redCrayola: "#F52F57",
   white: "#FFFFFF",

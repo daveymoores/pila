@@ -106,7 +106,6 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
             layout={"responsive"}
           />
         </Box>
-
         <Box gridArea="text" justify={"start"} align={"start"}>
           {title && (
             <StyledHeading size={"small"}>

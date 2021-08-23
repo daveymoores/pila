@@ -109,6 +109,7 @@ const TextContent: React.FC<TextContentProps> = ({
               type="button"
               label={linkLabel}
               link={link}
+              margin={{ top: "small" }}
             />
           )}
           {secondaryLinkLabel && secondaryLink && (

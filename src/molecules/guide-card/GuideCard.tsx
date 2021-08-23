@@ -15,12 +15,18 @@ export enum CardVariant {
   LARGE = "large",
 }
 
+export enum CardColor {
+  DARK = "dark",
+  LIGHT = "light",
+}
+
 interface GuideCardProps {
   title?: string;
   downloadLink?: Link;
   pageLink?: Link;
   variant?: CardVariant;
   guideCategory?: string;
+  color?: CardColor;
 }
 
 const GuideCard: React.FC<GuideCardProps> = ({
@@ -29,6 +35,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
   pageLink,
   variant = CardVariant.LARGE,
   guideCategory,
+  color = CardColor.LIGHT,
 }) => {
   const { getDictionaryValue } = React.useContext(DictionaryContext);
   const isSmall = variant === CardVariant.SMALL;
@@ -52,7 +59,13 @@ const GuideCard: React.FC<GuideCardProps> = ({
           width={"100%"}
           elevation={"none"}
           pad={isSmall ? "small" : size === "large" ? "medium" : "small"}
-          background={isSmall ? "light-1" : "white"}
+          background={
+            isSmall
+              ? color === CardColor.LIGHT
+                ? "light-1"
+                : colorPalette.stormGrey
+              : "white"
+          }
           direction={"row"}
           align={"center"}
           justify={"between"}
@@ -66,7 +79,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
             pad={{ left: "small" }}
           >
             <React.Fragment>
-              <Box direction={"column"}>
+              <Box direction={"column"} pad={{ right: "medium" }}>
                 {guideCategory && (
                   <MobileOnly>
                     <StyledMobileCategory>{guideCategory}</StyledMobileCategory>

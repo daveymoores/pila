@@ -5,11 +5,16 @@ import React from "react";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
 import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
 import CustomType from "../../../types/CustomType";
+import DownloadLink from "../../../types/DownloadLink";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModulesContext from "../../context/LearningModulesContext";
 import Section from "../../layout/section/Section";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
+import GuideCard, {
+  CardColor,
+  CardVariant,
+} from "../../molecules/guide-card/GuideCard";
 import { colorPalette } from "../../theme/pila";
 import HeroText from "../hero-text/HeroText";
 
@@ -20,6 +25,7 @@ export interface ModuleHeroProps {
   guideDownload?: Link;
   guideLink?: Link;
   learningModuleUid: string;
+  downloadLinks?: DownloadLink[];
 }
 
 const ApplicationHero: React.FC<ModuleHeroProps> = ({
@@ -27,6 +33,7 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
   title,
   body,
   learningModuleUid,
+  downloadLinks,
 }) => {
   const size = React.useContext(ResponsiveContext);
   const learningModules = React.useContext(LearningModulesContext);
@@ -100,11 +107,27 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
                 uid,
               }}
             />
+            <Box margin={{ top: "large" }}>
+              {downloadLinks &&
+                downloadLinks.map(({ label, link, downloadLink }, index) => (
+                  <GuideCard
+                    key={index}
+                    title={label}
+                    downloadLink={downloadLink}
+                    pageLink={link}
+                    variant={CardVariant.SMALL}
+                    color={CardColor.DARK}
+                  />
+                ))}
+            </Box>
           </React.Fragment>
         }
       />
       {assessmentApplication && assessmentApplication.applicationsStats && (
-        <Box pad={{ top: "small", bottom: "small" }} background={"#e8e8e8"}>
+        <Box
+          pad={{ top: "small", bottom: "small" }}
+          background={colorPalette.stormGrey}
+        >
           <Section>
             <ApplicationStats
               applicationsStats={assessmentApplication.applicationsStats}
