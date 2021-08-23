@@ -25,7 +25,8 @@
             "placeholder": "The number of items to fill a row",
             "options": [
               "3",
-              "2"
+              "2",
+              "4"
             ],
             "default_value": "3"
           },

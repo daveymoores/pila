@@ -13,7 +13,7 @@ import Slice from "../../types/Slice";
 
 interface Primary {
   title: RichTextBlock[];
-  gridLength: "2" | "3";
+  gridLength: "2" | "3" | "4";
   bottomPadding: "xlarge" | "large" | "medium";
 }
 
@@ -28,16 +28,14 @@ export type OurTeamSectionProps = Slice<Primary, Item>;
 
 const columns = (gridLength = "3") => ({
   small: ["auto"],
-  medium: ["auto", "auto"],
-  large: Array(parseInt(gridLength)).fill("auto"),
-  xlarge: Array(parseInt(gridLength)).fill("1/3"),
+  medium: ["1fr", "1fr"],
+  large: Array(parseInt(gridLength)).fill("1fr"),
 });
 
 const rows = {
   small: ["auto", "auto"],
   medium: ["auto", "auto"],
   large: ["auto"],
-  xlarge: ["auto"],
 };
 
 const OurTeamSection: FC<{
@@ -58,7 +56,7 @@ const OurTeamSection: FC<{
       </Grid>
       <ResponsiveGrid columns={columns(slice.primary.gridLength)} rows={rows}>
         {(slice.items || []).map(({ image, name, position, body }, index) => (
-          <StyledCard
+          <Card
             key={index}
             pad={"medium"}
             background={"light-1"}
@@ -66,7 +64,7 @@ const OurTeamSection: FC<{
             justify={"start"}
             elevation={"none"}
           >
-            <Grid columns={["auto", "auto"]} rows={"1"} gap={"small"}>
+            <Grid columns={["auto", "flex"]} rows={"1"} gap={"small"}>
               <Box
                 width={"40px"}
                 height={"40px"}
@@ -98,16 +96,12 @@ const OurTeamSection: FC<{
                 <StyledRichTextParser body={body} />
               </Box>
             </Grid>
-          </StyledCard>
+          </Card>
         ))}
       </ResponsiveGrid>
     </Section>
   </Box>
 );
-
-const StyledCard = styled(Card)`
-  min-height: 225px;
-`;
 
 const StyledRichTextParser = styled(RichTextParser)`
   > * {

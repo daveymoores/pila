@@ -11,6 +11,7 @@ import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
 import TaskSection from "../../../src/organisms/task-section/TaskSection";
+import DownloadLink from "../../../types/DownloadLink";
 import ImageProps from "../../../types/ImageProps";
 import PageData from "../../../types/PageData";
 import PageType from "../../../types/PageTypes";
@@ -32,11 +33,7 @@ export interface AssessmentApplicationMainProps
   shortBody?: RichTextBlock[];
   video?: Link;
   image?: ImageProps;
-  downloadLinks?: {
-    label?: string;
-    downloadLink?: Link;
-    link?: Link;
-  }[];
+  downloadLinks?: DownloadLink[];
   applicationsStats?: ApplicationStats;
   module?: Link;
   taskSectionTitle?: RichTextBlock[];
@@ -97,6 +94,7 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     taskSectionTitle,
     miscTaskSectionTitle,
     miscTaskSlices,
+    downloadLinks,
   } = data || {};
 
   return (
@@ -112,6 +110,7 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         uid={uid}
         title={title}
         body={body}
+        downloadLinks={downloadLinks}
         learningModuleUid={learningModuleUid}
       />
       <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
@@ -125,7 +124,6 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
           />
         )}
       </Box>
-
       {ctaSectionTitle && (
         <CtaBanner
           slice={{

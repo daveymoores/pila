@@ -13,6 +13,8 @@ export interface TextContentProps {
   description?: RichTextBlock[];
   link?: Link;
   linkLabel?: string;
+  secondaryLink?: Link;
+  secondaryLinkLabel?: string;
   padding?: "small" | "medium" | "large" | "none";
   background?: string;
   asCard?: boolean;
@@ -25,6 +27,8 @@ const TextContent: React.FC<TextContentProps> = ({
   description,
   link,
   linkLabel,
+  secondaryLink,
+  secondaryLinkLabel,
   asCard = false,
   padding = "none",
   background,
@@ -85,8 +89,10 @@ const TextContent: React.FC<TextContentProps> = ({
         <RichTextParser body={description} />
       </CardBody>
     )}
-    {link && linkLabel && (
+    {((link && linkLabel) || (secondaryLinkLabel && secondaryLink)) && (
       <CardFooter
+        direction={"column"}
+        align={"start"}
         pad={{
           top: "none",
           bottom: asCard ? padding : "none",
@@ -94,15 +100,30 @@ const TextContent: React.FC<TextContentProps> = ({
           right: asCard ? padding : "none",
         }}
       >
-        <Button
-          primary
-          color={colorPalette.blue}
-          size={ButtonSizes.large}
-          type="button"
-          label={linkLabel}
-          link={link}
-          margin={{ top: "medium" }}
-        />
+        <Box direction={"column"} align={"stretch"}>
+          {linkLabel && link && (
+            <Button
+              primary
+              color={colorPalette.blue}
+              size={ButtonSizes.large}
+              type="button"
+              label={linkLabel}
+              link={link}
+              margin={{ top: "small" }}
+            />
+          )}
+          {secondaryLinkLabel && secondaryLink && (
+            <Button
+              primary
+              color={colorPalette.blue}
+              size={ButtonSizes.large}
+              type="button"
+              label={secondaryLinkLabel}
+              link={secondaryLink}
+              margin={{ top: "small" }}
+            />
+          )}
+        </Box>
       </CardFooter>
     )}
   </StyledCard>
