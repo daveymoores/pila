@@ -1,5 +1,6 @@
 export { default as AccordionBlock } from "./AccordionBlock";
 export { default as CtaBanner } from "./CtaBanner";
+export { default as EmbedBlock } from "./EmbedBlock";
 export { default as FullWidthImageSection } from "./FullWidthImageSection";
 export { default as HeroImage } from "./HeroImage";
 export { default as HeroText } from "./HeroText";

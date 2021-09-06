@@ -67,9 +67,9 @@ const PoweredByResearchSection: FC<{
 }> = ({ slice }) => {
   const { primary, items, learningModules } = slice;
 
-  const filteredModules = learningModules.filter((module) =>
-    items?.some((item) => item.module.id === module.id)
-  );
+  const filteredModules = learningModules
+    .filter((module) => items?.some((item) => item.module.id === module.id))
+    .sort((a, b) => a.uid.localeCompare(b.uid));
 
   return (
     <StyledBox

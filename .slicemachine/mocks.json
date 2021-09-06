@@ -129,5 +129,18 @@
         "content": null
       }
     }
+  },
+  "EmbedBlock": {
+    "primary": {
+      "sectionTitle": {
+        "content": null
+      },
+      "embed": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
   }
 }
