@@ -1,0 +1,22 @@
+[
+  {
+    "id": "default",
+    "name": "Default Slice",
+    "docURL": "...",
+    "version": "sktwi1xtmkfgx8626",
+    "description": "Embed Block",
+    "primary": {
+      "sectionTitle": "incubate cross-media functionalities",
+      "embed": [
+        {
+          "type": "paragraph",
+          "text": "Quis Lorem incididunt reprehenderit quis ea enim laboris veniam labore magna voluptate. Id nulla sit Lorem proident minim quis laboris minim. Voluptate ipsum pariatur in reprehenderit reprehenderit labore.",
+          "spans": []
+        }
+      ],
+      "rows": 5028
+    },
+    "items": [],
+    "slice_type": "embed_block"
+  }
+]

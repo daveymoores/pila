@@ -121,11 +121,12 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
           {applicationsSectionTitle && (
             <Heading size={"small"}>{applicationsSectionTitle}</Heading>
           )}
-          {!!applicationsSectionIntroduction?.length && (
-            <Box margin={{ top: "medium" }}>
-              <RichTextParser body={applicationsSectionIntroduction} />
-            </Box>
-          )}
+          {!!applicationsSectionIntroduction?.length &&
+            !applicationsSectionIntroduction.every(({ text }) => !text) && (
+              <Box margin={{ top: "medium" }} width={{ max: "850px" }}>
+                <RichTextParser body={applicationsSectionIntroduction} />
+              </Box>
+            )}
           {module?.data?.applications &&
             module?.data?.applications.map((app, index) => (
               <ApplicationSection

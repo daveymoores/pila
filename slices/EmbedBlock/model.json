@@ -1,0 +1,41 @@
+{
+  "id": "embed_block",
+  "type": "SharedSlice",
+  "name": "EmbedBlock",
+  "description": "Embed Block",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default Slice",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "Embed Block",
+      "primary": {
+        "sectionTitle": {
+          "config": {
+            "label": "Section Title",
+            "placeholder": "Used for deep linking"
+          },
+          "type": "Text"
+        },
+        "embed": {
+          "config": {
+            "label": "Embed",
+            "placeholder": "Paste your table code here",
+            "allowTargetBlank": true,
+            "multi": "preformatted"
+          },
+          "type": "StructuredText"
+        },
+        "rows": {
+          "config": {
+            "label": "Rows",
+            "placeholder": "Give the number of table rows"
+          },
+          "type": "Number"
+        }
+      },
+      "items": {}
+    }
+  ]
+}
