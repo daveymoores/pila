@@ -50,12 +50,24 @@ const gridAreas = {
   ],
 };
 
-interface TaskSection
+interface Slices
   extends Pick<PageData<Task, AssessmentApplicationMainProps>, "slices"> {
   taskSectionTitle?: RichTextBlock[];
+  taskSectionIntroduction?: RichTextBlock[];
 }
 
-const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
+type TaskSectionData = Pick<
+  Slices,
+  "taskSectionTitle" | "taskSectionIntroduction"
+>;
+
+type TaskSection = TaskSectionData & Slices;
+
+const TaskSection: React.FC<TaskSection> = ({
+  slices,
+  taskSectionTitle,
+  taskSectionIntroduction,
+}) => {
   const [selectedTaskData, setSelectedTaskData] = React.useState<Task>();
 
   React.useEffect(() => {
@@ -73,18 +85,23 @@ const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
   return (
     <Section>
       <Box justify={"center"} margin={{ bottom: "xlarge" }}>
+        {taskSectionTitle && (
+          <Heading size={"small"} margin={{ bottom: "large" }}>
+            {RichText.asText(taskSectionTitle)}
+          </Heading>
+        )}
+        {!!taskSectionIntroduction?.length && (
+          <Box margin={{ bottom: "small" }} width={{ max: "850px" }}>
+            <RichTextParser body={taskSectionIntroduction} />
+          </Box>
+        )}
         <ResponsiveGrid
           columns={columns}
           areas={gridAreas}
           rows={rows}
           align={"start"}
         >
-          <Box gridArea="text" align={"stretch"}>
-            {taskSectionTitle && (
-              <Heading size={"small"} margin={{ bottom: "large" }}>
-                {RichText.asText(taskSectionTitle)}
-              </Heading>
-            )}
+          <Box gridArea="text" align={"stretch"} margin={{ top: "large" }}>
             {slices &&
               slices.map(({ primary }, index) => {
                 if (!primary) return null;
@@ -133,11 +150,7 @@ const TaskSection: React.FC<TaskSection> = ({ slices, taskSectionTitle }) => {
                 );
               })}
           </Box>
-          <ImageBox
-            gridArea="image"
-            margin={{ top: "large" }}
-            justify={"stretch"}
-          >
+          <ImageBox gridArea="image" justify={"stretch"}>
             {selectedTaskData?.primary?.taskTitle && (
               <Heading
                 textAlign={"start"}

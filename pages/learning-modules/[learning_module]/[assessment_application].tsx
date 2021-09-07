@@ -37,7 +37,9 @@ export interface AssessmentApplicationMainProps
   applicationsStats?: ApplicationStats;
   module?: Link;
   taskSectionTitle?: RichTextBlock[];
+  taskSectionIntroduction?: RichTextBlock[];
   miscTaskSectionTitle?: RichTextBlock[];
+  miscTaskSectionIntroduction?: RichTextBlock[];
   miscTaskSlices?: MiscTask[];
 }
 
@@ -92,7 +94,9 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     ctaSectionButtonTwoLink,
     ctaSectionButtonTwoLabel,
     taskSectionTitle,
+    taskSectionIntroduction,
     miscTaskSectionTitle,
+    miscTaskSectionIntroduction,
     miscTaskSlices,
     downloadLinks,
   } = data || {};
@@ -115,12 +119,17 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
       />
       <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
         {slices && slices.length && (
-          <TaskSection slices={slices} taskSectionTitle={taskSectionTitle} />
+          <TaskSection
+            slices={slices}
+            taskSectionTitle={taskSectionTitle}
+            taskSectionIntroduction={taskSectionIntroduction}
+          />
         )}
         {miscTaskSlices && miscTaskSlices.length && (
           <TaskSection
             slices={miscTaskSlices as Task[]}
             taskSectionTitle={miscTaskSectionTitle}
+            taskSectionIntroduction={miscTaskSectionIntroduction}
           />
         )}
       </Box>
