@@ -58,13 +58,13 @@ export default class extends Document {
           />
           <link
             rel="preload"
-            href="/fonts/fontspring-demo-greycliffcf-bold-webfont.woff2"
+            href="/fonts/font.woff2"
             as="font"
             crossOrigin=""
           />
           <link
             rel="preload"
-            href="/fonts/fontspring-demo-greycliffcf-bold-webfont.woff"
+            href="/fonts/font.woff"
             as="font"
             crossOrigin=""
           />
