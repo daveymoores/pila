@@ -104,7 +104,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         guideLink={guideLink}
         icon={icon}
       />
-      {(!!body?.length || bodyTitle) && (
+      {(!!body?.some((paragraph) => paragraph.text) || bodyTitle) && (
         <Box pad={{ top: "xlarge", bottom: "medium" }}>
           <Section>
             {bodyTitle && (
