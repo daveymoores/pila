@@ -16,6 +16,7 @@ import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 export interface HomepageHeroProps {
   title: RichTextBlock[];
   link?: Link;
+  externalHeroLink?: Link;
   linklabel?: string;
   image?: ImageProps;
 }
@@ -34,6 +35,7 @@ interface HeroContentsProps extends HomepageHeroProps {
 const HeroContents: React.FC<HeroContentsProps> = ({
   title,
   link,
+  externalHeroLink,
   linklabel,
   image,
   isMobileDevice = false,
@@ -65,14 +67,14 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             >
               {RichText.asText(title)}
             </Heading>
-            {link && linklabel && (
+            {(externalHeroLink || link) && linklabel && (
               <Button
                 primary
                 color={colorPalette.yellow}
                 size={ButtonSizes.large}
                 type="button"
                 label={linklabel}
-                link={link}
+                link={externalHeroLink || link}
               />
             )}
           </Box>
