@@ -26,6 +26,8 @@ export interface ModuleHeroProps {
   guideLink?: Link;
   learningModuleUid: string;
   downloadLinks?: DownloadLink[];
+  applicationLink?: Link;
+  applicationLinkLabel?: string;
 }
 
 const ApplicationHero: React.FC<ModuleHeroProps> = ({
@@ -34,6 +36,8 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
   body,
   learningModuleUid,
   downloadLinks,
+  applicationLink,
+  applicationLinkLabel,
 }) => {
   const size = React.useContext(ResponsiveContext);
   const learningModules = React.useContext(LearningModulesContext);
@@ -93,20 +97,19 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
         }
         info={
           <React.Fragment>
-            <Button
-              primary
-              margin={{
-                top: size === "small" ? "small" : "large",
-                right: size === "small" ? "auto" : "none",
-              }}
-              size={ButtonSizes.large}
-              color={colorPalette.blue}
-              label={"View application"}
-              link={{
-                type: PageType.ASSESSMENT_APPLICATION,
-                uid,
-              }}
-            />
+            {applicationLink && applicationLinkLabel && (
+              <Button
+                primary
+                margin={{
+                  top: size === "small" ? "small" : "large",
+                  right: size === "small" ? "auto" : "none",
+                }}
+                size={ButtonSizes.large}
+                color={colorPalette.blue}
+                label={"View application"}
+                link={applicationLink}
+              />
+            )}
             <Box margin={{ top: "large" }}>
               {downloadLinks &&
                 downloadLinks.map(({ label, link, downloadLink }, index) => (

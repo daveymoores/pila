@@ -28,6 +28,7 @@ export interface AssessmentApplicationMainProps
   extends CTABannerAlternateProps {
   title?: RichTextBlock[];
   uid: string;
+  applicationLinkLabel?: string;
   applicationLink?: Link;
   body?: RichTextBlock[];
   shortBody?: RichTextBlock[];
@@ -88,6 +89,8 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     title,
     body,
     slices,
+    applicationLink,
+    applicationLinkLabel,
     ctaSectionTitle,
     ctaSectionButtonOneLink,
     ctaSectionButtonOneLabel,
@@ -116,6 +119,8 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         body={body}
         downloadLinks={downloadLinks}
         learningModuleUid={learningModuleUid}
+        applicationLink={applicationLink}
+        applicationLinkLabel={applicationLinkLabel}
       />
       <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
         {slices && slices.length && (
