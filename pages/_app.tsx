@@ -30,6 +30,7 @@ import { FooterProps } from "../src/organisms/footer/Footer";
 import { NavigationProps } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
+import CookieNoticeProps from "../types/CookieNoticeProps";
 import CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
 import PrismicResponse from "../types/PrismicResponse";
@@ -48,6 +49,7 @@ interface DefaultSeoProps {
 export interface PageProps {
   assessmentApplications: CustomType<AssessmentApplicationProps>[] | [];
   learningModules: CustomType<LearningModuleProps>[] | [];
+  cookieNotice: CustomType<CookieNoticeProps>[] | [];
   notification: CustomType<NotificationProps>[] | [];
   dictionary: CustomType<DictionaryProps>[] | [];
   navigation: CustomType<NavigationProps>[] | [];
@@ -63,7 +65,8 @@ type Response = PrismicResponse<
     FooterProps &
     DefaultSeoProps &
     AssessmentApplicationProps &
-    DictionaryProps
+    DictionaryProps &
+    CookieNoticeProps
 >;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -160,7 +163,10 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                   </Scaffold>
                   {process.browser && (
                     <StyledBox>
-                      <CookieNotice darkTheme={false} />
+                      <CookieNotice
+                        darkTheme={false}
+                        {...(pageProps?.cookieNotice || [])[0]?.data}
+                      />
                     </StyledBox>
                   )}
                   {pageProps.isPreview && <PreviewCard />}
@@ -188,6 +194,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
         Prismic.Predicates.any("document.type", [
           "assessment_application",
           "learning_module",
+          "cookie_notice",
           "notification",
           "dictionary",
           "navigation",
@@ -219,6 +226,8 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
           return { ...acc, notification: [...acc.notification, result] };
         case PageType.DICTIONARY:
           return { ...acc, dictionary: [...acc.dictionary, result] };
+        case PageType.COOKIE_NOTICE:
+          return { ...acc, cookieNotice: [...acc.cookieNotice, result] };
         case PageType.LEARNING_MODULE:
           return {
             ...acc,
@@ -236,6 +245,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     {
       assessmentApplications: [],
       learningModules: [],
+      cookieNotice: [],
       notification: [],
       dictionary: [],
       navigation: [],
