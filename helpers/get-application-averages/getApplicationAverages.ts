@@ -40,7 +40,7 @@ const groupApplicationMetrics = (
   applications: CustomType<AssessmentApplicationProps>[]
 ): MetricGroups[] | [] =>
   applications.reduce((acc: MetricGroups[] | [], application) => {
-    if (!application.data) return acc;
+    if (!application.data?.slices) return acc;
 
     return [
       ...acc,
@@ -92,7 +92,14 @@ const getApplicationAverages = (
   return metricGroups
     .filter((group) => group)
     .reduce((acc: ApplicationStats[] | [], group: MetricGroups) => {
-      if (!group) return acc;
+      const data = [
+        group.difficulties,
+        group.minimumAges,
+        group.maximumAges,
+        group.units,
+      ];
+      if (!group || data.some((data) => !data)) return acc;
+
       return [
         ...acc,
         {

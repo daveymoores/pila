@@ -43,6 +43,8 @@ const Button: React.FC<CustomButtonProps> = ({
     );
   }
 
+  if (link.isBroken) return null;
+
   if (link.link_type === "Media" || link.link_type === "Web") {
     return (
       <ButtonWithRef size={size} onClick={handleClick} {...rest}>

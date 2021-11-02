@@ -2,6 +2,7 @@ import { Box, Heading, Paragraph } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import hasAttachedMedia from "../../../helpers/has-attached-media/hasAttachedMedia";
 import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -104,7 +105,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
               Learn more from the {parsedTitle} framework
             </Paragraph>
             <Box direction={"row"} justify={"center"}>
-              {guideDownload && (
+              {guideDownload && hasAttachedMedia(guideDownload) && (
                 <Button
                   color={colorPalette.green}
                   size={ButtonSizes.small}

@@ -1,4 +1,4 @@
-name: 'Heroku Production'
+name: 'Production checks'
 on:
   repository_dispatch:
     types: [ api-update ]

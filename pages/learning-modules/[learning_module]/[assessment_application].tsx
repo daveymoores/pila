@@ -28,6 +28,7 @@ export interface AssessmentApplicationMainProps
   extends CTABannerAlternateProps {
   title?: RichTextBlock[];
   uid: string;
+  applicationLinkLabel?: string;
   applicationLink?: Link;
   body?: RichTextBlock[];
   shortBody?: RichTextBlock[];
@@ -88,6 +89,8 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     title,
     body,
     slices,
+    applicationLink,
+    applicationLinkLabel,
     ctaSectionTitle,
     ctaSectionButtonOneLink,
     ctaSectionButtonOneLabel,
@@ -116,23 +119,29 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         body={body}
         downloadLinks={downloadLinks}
         learningModuleUid={learningModuleUid}
+        applicationLink={applicationLink}
+        applicationLinkLabel={applicationLinkLabel}
       />
-      <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
-        {slices && slices.length && (
-          <TaskSection
-            slices={slices}
-            taskSectionTitle={taskSectionTitle}
-            taskSectionIntroduction={taskSectionIntroduction}
-          />
-        )}
-        {miscTaskSlices && miscTaskSlices.length && (
-          <TaskSection
-            slices={miscTaskSlices as Task[]}
-            taskSectionTitle={miscTaskSectionTitle}
-            taskSectionIntroduction={miscTaskSectionIntroduction}
-          />
-        )}
-      </Box>
+      {!!slices?.length || !!miscTaskSlices?.length ? (
+        <Box responsive margin={{ top: "xlarge", bottom: "medium" }}>
+          {!!slices?.length && (
+            <TaskSection
+              slices={slices}
+              taskSectionTitle={taskSectionTitle}
+              taskSectionIntroduction={taskSectionIntroduction}
+            />
+          )}
+          {!!miscTaskSlices?.length && (
+            <TaskSection
+              slices={miscTaskSlices as Task[]}
+              taskSectionTitle={miscTaskSectionTitle}
+              taskSectionIntroduction={miscTaskSectionIntroduction}
+            />
+          )}
+        </Box>
+      ) : (
+        <Box background={"light-1"} pad={"small"} responsive />
+      )}
       {ctaSectionTitle && (
         <CtaBanner
           slice={{
