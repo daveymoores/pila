@@ -2,6 +2,7 @@ import { Box } from "grommet";
 import React from "react";
 import styled from "styled-components";
 
+import DictionaryContext from "../../context/DictionaryContext";
 import { fontWeights } from "../../theme/pila";
 
 interface TaskStatsProps {
@@ -10,16 +11,21 @@ interface TaskStatsProps {
   age: string;
 }
 
-const TaskStats: React.FC<TaskStatsProps> = ({ length, difficulty, age }) => (
-  <Box as="dl" justify={"start"} align={"center"} direction={"row"}>
-    <StyledDt>Length:</StyledDt>
-    <StyledDd>{length}</StyledDd>
-    <StyledDt>Difficulty:</StyledDt>
-    <StyledDd>{difficulty}</StyledDd>
-    <StyledDt>Age:</StyledDt>
-    <StyledDd>{age}</StyledDd>
-  </Box>
-);
+const TaskStats: React.FC<TaskStatsProps> = ({ length, difficulty, age }) => {
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+  return (
+    <Box as="dl" justify={"start"} align={"center"} direction={"row"}>
+      <StyledDt>{getDictionaryValue("Length")}:</StyledDt>
+      <StyledDd>
+        {length} {getDictionaryValue("minutes")}
+      </StyledDd>
+      <StyledDt>{getDictionaryValue("Difficulty")}:</StyledDt>
+      <StyledDd>{difficulty}</StyledDd>
+      <StyledDt>{getDictionaryValue("Age")}:</StyledDt>
+      <StyledDd>{age}</StyledDd>
+    </Box>
+  );
+};
 
 const StyledDt = styled.dt`
   font-size: 16px;
