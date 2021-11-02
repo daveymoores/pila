@@ -112,9 +112,13 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
               {RichText.asText(title)}
             </StyledHeading>
           )}
-          <Box margin={{ top: "medium", bottom: "large" }}>
-            <ApplicationStats applicationsStats={applicationsStats} />
-          </Box>
+          {applicationsStats ? (
+            <Box margin={{ top: "medium", bottom: "large" }}>
+              <ApplicationStats applicationsStats={applicationsStats} />
+            </Box>
+          ) : (
+            <Box margin={{ top: "medium" }} />
+          )}
           {shortBody && (
             <Paragraph margin={{ bottom: "large" }} size={"small"}>
               {RichText.asText(shortBody)}

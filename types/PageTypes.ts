@@ -15,6 +15,7 @@ enum PrismicPageTypes {
   NOTIFICATION = "notification",
   SESSIONS = "sessions",
   DICTIONARY = "dictionary",
+  COOKIE_NOTICE = "cookie_notice",
 }
 
 enum InternalPageTypes {
