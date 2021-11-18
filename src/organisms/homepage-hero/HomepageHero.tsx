@@ -1,4 +1,4 @@
-import { Box, Heading, Image } from "grommet";
+import { Box, Heading } from "grommet";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
@@ -79,14 +79,11 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             )}
           </Box>
           <ImageContainer width={{ max: "600px" }}>
-            <BluePattern src={"/pattern/blue-pattern.png"} />
             <ImageBox
               elevation={"xxxlarge"}
               background={`url(${image?.url})`}
               style={{ right: isMobileDevice ? "-24vw" : "0" }}
-              margin={{ top: isMobileDevice ? "large" : "none" }}
             />
-            <GreenPattern src={"/pattern/green-pattern.png"} />
           </ImageContainer>
         </ResponsiveGrid>
       </StyledSection>
@@ -117,40 +114,18 @@ const StyledBox = styled(Box)`
 `;
 
 const ImageBox = styled(Box)`
-  padding-top: 100%;
+  padding-top: 110%;
   width: 100%;
-  border-radius: 50%;
   position: absolute;
+
+  @media only screen and (min-width: 601px) {
+    padding-top: 115%;
+    margin-top: -10%;
+  }
 `;
 
 const ImageContainer = styled(Box)`
   position: relative;
-`;
-
-const BluePattern = styled(Image)`
-  position: absolute;
-  height: 1014px;
-  width: 749px;
-  left: 0;
-
-  @media (min-width: 901px) {
-    bottom: -235px;
-    left: 62px;
-  }
-`;
-
-const GreenPattern = styled(Image)`
-  display: none;
-  position: absolute;
-  right: -222px;
-  bottom: -60px;
-  height: 501px;
-  width: 406px;
-  z-index: 1;
-
-  @media (min-width: 901px) {
-    display: block;
-  }
 `;
 
 export default HomepageHero;
