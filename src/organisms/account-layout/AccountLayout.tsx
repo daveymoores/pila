@@ -1,13 +1,9 @@
-import { Box, Card, Heading, Layer, Paragraph, Spinner } from "grommet";
+import { Box, Heading } from "grommet";
 import React from "react";
 
 import { Theme } from "../../../types/Theme";
-import Button from "../../atoms/button/Button";
 import Section from "../../layout/section/Section";
-import AccountMenu from "../../molecules/account-menu/AccountMenu";
-import { colorPalette } from "../../theme/pila";
 import HeroText from "../hero-text/HeroText";
-import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 const columns = {
   small: Array(4).fill("flex"),
@@ -51,13 +47,8 @@ interface AccountLayoutProps {
 
 const AccountLayout: React.FC<AccountLayoutProps> = ({
   greeting,
-  title,
-  error,
-  loading,
   children,
 }) => {
-  const onClose = () => location.reload();
-
   return (
     <React.Fragment>
       <HeroText
@@ -75,70 +66,9 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
         }
         variant={Theme.DARK}
       />
-      <Box
-        width={"100%"}
-        background={"light-1"}
-        pad={{
-          top: "xlarge",
-          bottom: "xlarge",
-        }}
-      >
+      <Box width={"100%"} background={"light-1"}>
         <Section>
-          <ResponsiveGrid rows={rows} columns={columns} areas={areas}>
-            <React.Fragment>
-              <Box gridArea={"menu"}>
-                <AccountMenu />
-              </Box>
-              <Box gridArea={"content"} height={{ min: "300px" }}>
-                <Heading
-                  textAlign={"start"}
-                  level={"1"}
-                  alignSelf={"stretch"}
-                  size="small"
-                  color={"dark"}
-                  margin={{ vertical: "medium" }}
-                >
-                  {title}
-                </Heading>
-                {error && (
-                  <Layer
-                    onClickOutside={onClose}
-                    onEsc={onClose}
-                    background={"transparent"}
-                  >
-                    <Card
-                      background={"brand"}
-                      align="center"
-                      justify="center"
-                      gap="small"
-                      alignSelf="center"
-                      pad="large"
-                      width={{ min: "400px" }}
-                    >
-                      <Paragraph>error</Paragraph>
-                      <Button
-                        label="Close"
-                        margin={{ top: "medium" }}
-                        color={colorPalette.green}
-                        onClick={onClose}
-                      />
-                    </Card>
-                  </Layer>
-                )}
-                {loading ? (
-                  <Box
-                    height={{ min: "300px" }}
-                    align={"center"}
-                    justify={"center"}
-                  >
-                    <Spinner />
-                  </Box>
-                ) : (
-                  children
-                )}
-              </Box>
-            </React.Fragment>
-          </ResponsiveGrid>
+          <React.Fragment>{children}</React.Fragment>
         </Section>
       </Box>
     </React.Fragment>
