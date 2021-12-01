@@ -51,7 +51,7 @@ function useProvideAuth() {
   );
 
   useEffect(() => {
-    import("firebase/auth")
+    import("firebase/compat/auth")
       .then(() => {
         const appAuth = firebase.auth();
         setFirebaseAuth(appAuth);
@@ -93,7 +93,7 @@ function useProvideAuth() {
     nookies.set(undefined, "token", formattedAuth.token, { path: "/" });
     setAuth(formattedAuth);
     setLoading(false);
-    router.push("/account/sessions");
+    await router.push("/account/sessions");
   };
 
   const signedIn = async (response: firebase.auth.UserCredential) => {
@@ -105,10 +105,10 @@ function useProvideAuth() {
     await createUser(authedUser.uid as string, authedUser);
   };
 
-  const clear = () => {
+  const clear = async () => {
     setAuth(null);
     setLoading(false);
-    router.push("/");
+    await router.push("/");
   };
 
   const signInWithGoogle = () => {

@@ -1,11 +1,11 @@
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 
 export async function getFirestoreInstance() {
   if (!firebase.firestore) {
-    await import("firebase/app");
-    await import("firebase/auth");
-    await import("firebase/functions");
-    await import("firebase/firestore");
+    await import("firebase/compat/app");
+    await import("firebase/compat/auth");
+    await import("firebase/compat/functions");
+    await import("firebase/compat/firestore");
   }
 
   return firebase.firestore();
