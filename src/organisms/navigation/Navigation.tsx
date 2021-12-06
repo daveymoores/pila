@@ -39,7 +39,6 @@ export interface NavigationProps {
   signedInMenuItems: NavigationSlice[];
 }
 
-// TODO - fix this as other paths can match
 const darkThemePages = (route: string) =>
   route === "/" || new RegExp("account|sessions").test(route);
 

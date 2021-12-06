@@ -78,7 +78,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
   );
 };
 
-// TODO - find tokens for this
 const StyledBox = styled(Box)`
   padding-top: 50px;
 

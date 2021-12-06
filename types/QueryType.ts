@@ -1,6 +1,6 @@
 enum QueryType {
   SINGLE = "single",
-  MANY = "many", // TODO - what is not a singleton?
+  MANY = "many",
 }
 
 export default QueryType;

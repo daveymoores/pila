@@ -88,7 +88,6 @@ export const getStaticPaths = useGetStaticPaths({
     if (data.parent?.uid) {
       return { params: { theme: data.parent.uid, detail: uid } };
     }
-    // TODO - display 404 here
     return { params: { detail: uid } };
   },
 });

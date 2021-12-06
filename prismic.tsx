@@ -116,7 +116,7 @@ export const Router = {
   ],
   href: (type: PageType): string | undefined => {
     const route = Router.routes.find((r) => r.type === type);
-    return route && route.path; // TODO - why was this href?
+    return route && route.path;
   },
 };
 

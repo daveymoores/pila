@@ -18,7 +18,6 @@ const fetchAssociatedContent = async (
     try {
       associatedContentData =
         (((await client.query(
-          //TODO - why is associatedContent possibly undefined
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           Prismic.Predicates.in("document.id", associatedContentIds)

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
+import DictionaryContext from "../../context/DictionaryContext";
 import { colorPalette } from "../../theme/pila";
 
 interface ProgrammeCardProps {
@@ -21,7 +22,8 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
   body,
   icon,
 }) => {
-  /* TODO - move "View Module" to dictionary */
+  const { getDictionaryValue } = React.useContext(DictionaryContext);
+
   return (
     <StyledCard
       background={"white"}
@@ -65,7 +67,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             color={colorPalette.green}
             size={ButtonSizes.small}
             type="button"
-            label="View module"
+            label={getDictionaryValue("View module")}
             link={link}
           />
         )}

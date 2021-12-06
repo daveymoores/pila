@@ -11,7 +11,6 @@ type ApplicationStats = Pick<
   "applicationsStats"
 >;
 
-//TODO - add dictionary for reused labels
 const ApplicationStats: React.FC<ApplicationStats> = ({
   applicationsStats,
 }) => {
