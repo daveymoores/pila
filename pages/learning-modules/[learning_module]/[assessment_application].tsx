@@ -198,7 +198,6 @@ export const getStaticPaths = async (): Promise<StaticContextProps> => {
         };
       }
 
-      // TODO - display 404 here
       return {
         params: {
           assessment_application: uid,

@@ -17,7 +17,6 @@ export interface SeoMetaDataProps {
   openGraphImage?: SeoImage;
 }
 
-// TODO - find way to add payth dynamically
 interface SeoProps extends SeoMetaDataProps {
   path?: string;
 }

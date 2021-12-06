@@ -22,7 +22,7 @@ const ImageBlock: FC<{ slice: AccordionBlockProps }> = ({ slice }) => {
   const { primary, items } = slice;
   const sectionTitle = primary.sectionTitle;
 
-  // TODO - temporary fix for https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+  // Fix for https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
   if (typeof window === "undefined") return null;
 
   return (

@@ -49,7 +49,6 @@ const ThanksToInstitutionsSection: FC<{
           {RichText.asText(slice.primary.title)}
         </Heading>
       </Grid>
-      {/*TODO - create specific logic for centered wrapping*/}
       <ResponsiveGrid columns={columns} rows={rows}>
         {(slice.items || []).map(({ logo }, index) => (
           <StyledCard key={index} pad={"medium"} justify={"center"}>

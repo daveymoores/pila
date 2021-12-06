@@ -12,7 +12,6 @@ import Seo from "../../src/organisms/seo/Seo";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
 
-// TODO - add missing prismic here
 type ThemesPageSlices = ImageWithTextSectionProps;
 
 type ThemesPageProps = HeroImageProps;
