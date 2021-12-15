@@ -168,16 +168,17 @@ const TaskSection: React.FC<TaskSection> = ({
                 if (!categories?.data?.name) return;
                 return <Category key={index} name={categories?.data?.name} />;
               })}
-              {selectedTaskData?.primary.taskLink.url && (
-                <Button
-                  primary
-                  margin={{ left: "auto" }}
-                  size={ButtonSizes.small}
-                  color={colorPalette.blue}
-                  label={"Start task"}
-                  link={selectedTaskData?.primary.taskLink}
-                />
-              )}
+              {selectedTaskData?.primary.taskLink.url &&
+                selectedTaskData?.primary.startTaskButtonLabel && (
+                  <Button
+                    primary
+                    margin={{ left: "auto" }}
+                    size={ButtonSizes.small}
+                    color={colorPalette.blue}
+                    label={selectedTaskData?.primary.startTaskButtonLabel}
+                    link={selectedTaskData?.primary.taskLink}
+                  />
+                )}
             </Box>
             {selectedTaskData?.primary?.taskImage && (
               <Box
