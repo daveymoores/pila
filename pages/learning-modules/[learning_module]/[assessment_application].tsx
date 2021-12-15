@@ -51,6 +51,7 @@ export interface MiscTask {
     taskImage: ImageProps;
     taskVideo: Link;
     taskBody: RichTextBlock[];
+    startTaskButtonLabel: string;
     taskLink: Link;
   };
 }
@@ -62,6 +63,7 @@ export interface Task {
     taskImage: ImageProps;
     taskVideo: Link;
     taskBody: RichTextBlock[];
+    startTaskButtonLabel: string;
     taskLink: Link;
     taskDifficulty: Difficulty;
     taskLength: number;
