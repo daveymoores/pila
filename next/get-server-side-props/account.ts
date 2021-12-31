@@ -14,6 +14,7 @@ interface Response extends Omit<ApiSearchResponse, "results"> {
 
 const getAccountServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
+    /* TODO: Assess if these server props necessary for next rev
     const client = Client();
     const cookies = nookies.get(ctx);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
@@ -28,13 +29,13 @@ const getAccountServerSideProps = async (ctx: GetServerSidePropsContext) => {
         )) as unknown) as Response) || {};
     } catch (err) {
       throw new Error(err);
-    }
+    }*/
 
     return {
       props: {
         data: {
-          name,
-          ...data.results[0].data,
+          name: 'Singapore Demo',
+          greeting: 'Hello'
         },
       },
     };

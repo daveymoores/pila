@@ -32,7 +32,7 @@ const Button: React.FC<CustomButtonProps> = ({
   size = ButtonSizes.large,
   ...rest
 }) => {
-  const { auth, signInWithGoogle } = useAuth();
+  const { auth, signInWithEmailAndPassword } = useAuth();
   const handleClick = useWebMedia(link);
 
   if (!link) {
@@ -59,14 +59,7 @@ const Button: React.FC<CustomButtonProps> = ({
       <RoutedLink link={link}>
         <ButtonWithRef
           size={size}
-          onClick={
-            !auth
-              ? (event) => {
-                  event.preventDefault();
-                  signInWithGoogle();
-                }
-              : undefined
-          }
+          onClick={onClick}
           {...rest}
         >
           {buttonLabel}

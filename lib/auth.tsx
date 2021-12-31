@@ -21,14 +21,14 @@ interface Auth {
 export interface AuthContext {
   auth: Auth | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void> | undefined;
+  signInWithEmailAndPassword: (email: string, password: string) => Promise<void> | undefined;
   signOut: () => Promise<void> | undefined;
 }
 
 const authContext: Context<AuthContext> = createContext<AuthContext>({
   auth: null,
   loading: true,
-  signInWithGoogle: async () => {
+  signInWithEmailAndPassword: async () => {
     //noop
   },
   signOut: async () => {
@@ -111,12 +111,13 @@ function useProvideAuth() {
     await router.push("/");
   };
 
-  const signInWithGoogle = () => {
+  const signInWithEmailAndPassword = (email: string, password: string) => {
     if (!firebaseAuth) return;
     setLoading(true);
+    console.log(email, password)
 
     return firebaseAuth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .signInWithEmailAndPassword(email, password)
       .then(signedIn, clear);
   };
 
@@ -134,7 +135,7 @@ function useProvideAuth() {
   return {
     auth,
     loading,
-    signInWithGoogle,
+    signInWithEmailAndPassword,
     signOut,
   };
 }
