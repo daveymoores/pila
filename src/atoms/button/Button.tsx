@@ -57,7 +57,7 @@ const Button: React.FC<CustomButtonProps> = ({
     const buttonLabel = auth ? "Start a new session" : label;
     return (
       <RoutedLink link={link}>
-        <ButtonWithRef  size={size} onClick={onClick} {...rest}>
+        <ButtonWithRef size={size} onClick={onClick} {...rest}>
           {buttonLabel}
         </ButtonWithRef>
       </RoutedLink>
