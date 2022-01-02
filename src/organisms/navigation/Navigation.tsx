@@ -46,7 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({
   signedOutMenuItems,
   signedInMenuItems,
 }) => {
-  const { auth, loading, signOut, signInWithGoogle } = useAuth();
+  const { auth, loading, signOut, signInWithEmailAndPassword } = useAuth();
   const { isOpen, setIsOpen } = React.useContext(OffCanvasContext);
   const router = useRouter();
 
@@ -162,7 +162,7 @@ const Navigation: React.FC<NavigationProps> = ({
                       auth={auth}
                       signOut={signOut}
                       theme={NavigationTheme.DARK}
-                      signInWithGoogle={signInWithGoogle}
+                      signInWithEmailAndPassword={signInWithEmailAndPassword}
                     />
                   </Box>
 
@@ -230,7 +230,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     signOut={signOut}
                     theme={theme}
                     loading={loading}
-                    signInWithGoogle={signInWithGoogle}
+                    signInWithEmailAndPassword={signInWithEmailAndPassword}
                   />
                 </Nav>
               </Box>
@@ -245,7 +245,7 @@ const Navigation: React.FC<NavigationProps> = ({
 interface AuthButtonProps
   extends Pick<
     AuthContext,
-    "auth" | "signInWithGoogle" | "signOut" | "loading"
+    "auth" | "signInWithEmailAndPassword" | "signOut" | "loading"
   > {
   theme: NavigationTheme;
 }
@@ -254,7 +254,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
   auth,
   signOut,
   theme,
-  signInWithGoogle,
+  signInWithEmailAndPassword,
 }) => {
   const router = useRouter();
   const authLinks = [
@@ -296,29 +296,41 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
     onClick: link.onClick,
   }));
 
+  let accessCode = "";
+
   return (
     <Box direction={isEmpty(auth) ? "column" : "row"} align={"center"}>
       <TabletUp>
         {auth && <StyledMenu label={auth.name} items={authLinks} />}
       </TabletUp>
       {isEmpty(auth) ? (
-        <Button
-          primary
-          size={ButtonSizes.small}
-          color={
-            theme === NavigationTheme.LIGHT
-              ? colorPalette.blue
-              : colorPalette.periwinkleCrayola
-          }
-          label={"sign up"}
-          onClick={(event) => {
-            event.preventDefault();
-            signInWithGoogle();
-          }}
-          link={{
-            type: PageType.SESSIONS,
-          }}
-        />
+        <span>
+          <StyledInput
+            placeholder="Enter Access Code"
+            onChange={(event) => (accessCode = event.target.value)}
+          />
+          <Button
+            primary
+            size={ButtonSizes.small}
+            color={
+              theme === NavigationTheme.LIGHT
+                ? colorPalette.blue
+                : colorPalette.periwinkleCrayola
+            }
+            label={"Access Modules"}
+            onClick={(event) => {
+              event.preventDefault();
+
+              signInWithEmailAndPassword(
+                "demoaccount@pilaproject.org",
+                accessCode
+              );
+            }}
+            link={{
+              type: PageType.SESSIONS,
+            }}
+          />
+        </span>
       ) : (
         <Box>
           <Box
@@ -394,6 +406,14 @@ const StyledRoutedMobileTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
   color: white;
+`;
+
+const StyledInput = styled("input")`
+  font-size: 16px;
+  padding: 1em;
+  border-radius: 1em;
+  border: none;
+  margin-right: 0.5em;
 `;
 
 const MobileNavigation = styled(framerMotion.div)`
