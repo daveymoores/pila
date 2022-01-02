@@ -21,7 +21,10 @@ interface Auth {
 export interface AuthContext {
   auth: Auth | null;
   loading: boolean;
-  signInWithEmailAndPassword: (email: string, password: string) => Promise<void> | undefined;
+  signInWithEmailAndPassword: (
+    email: string,
+    password: string
+  ) => Promise<void> | undefined;
   signOut: () => Promise<void> | undefined;
 }
 
@@ -114,7 +117,6 @@ function useProvideAuth() {
   const signInWithEmailAndPassword = (email: string, password: string) => {
     if (!firebaseAuth) return;
     setLoading(true);
-    console.log(email, password)
 
     return firebaseAuth
       .signInWithEmailAndPassword(email, password)

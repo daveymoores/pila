@@ -296,7 +296,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
     onClick: link.onClick,
   }));
 
-  let accessCode = ''
+  let accessCode = ""
 
   return (
     <Box direction={isEmpty(auth) ? "column" : "row"} align={"center"}>
@@ -305,7 +305,10 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
       </TabletUp>
       {isEmpty(auth) ? (
         <span>
-          <StyledInput placeholder="Enter Access Code" onChange={event => accessCode = event.target.value} />
+          <StyledInput
+            placeholder="Enter Access Code"
+            onChange={event => accessCode = event.target.value}
+          />
           <Button
             primary
             size={ButtonSizes.small}
@@ -317,11 +320,11 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
             label={"Access Modules"}
             onClick={(event) => {
               event.preventDefault();
-              console.log(document.getElementById('access-code-input'))
+              console.log(document.getElementById("access-code-input"))
               signInWithEmailAndPassword(
-                'demoaccount@pilaproject.org',
+                "demoaccount@pilaproject.org",
                 accessCode
-              )
+              );
             }}
             link={{
               type: PageType.SESSIONS,
@@ -405,7 +408,7 @@ const StyledRoutedMobileTextLink = styled(TextLink)`
   color: white;
 `;
 
-const StyledInput = styled('input')`
+const StyledInput = styled("input")`
   font-size: 16px;
   padding: 1em;
   border-radius: 1em;
