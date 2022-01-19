@@ -39,6 +39,11 @@ export interface NavigationProps {
   signedInMenuItems: NavigationSlice[];
 }
 
+const DEMO_EMAILS_BY_PREFIX: Record<string, string> = {
+  A6: "demoaccount@pilaproject.org",
+  X8: "irishdemo@pilaproject.org",
+};
+
 const darkThemePages = (route: string) =>
   route === "/" || new RegExp("account|sessions").test(route);
 
@@ -322,7 +327,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
               event.preventDefault();
 
               signInWithEmailAndPassword(
-                "demoaccount@pilaproject.org",
+                DEMO_EMAILS_BY_PREFIX[accessCode.slice(0, 2)],
                 accessCode
               );
             }}
