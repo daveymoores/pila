@@ -3,7 +3,7 @@ const getAccountServerSideProps = async () => {
   return {
     props: {
       data: {
-        name: "Singapore Demo",
+        name: "PILA Demo",
         greeting: "Hello",
       },
     },
