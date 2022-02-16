@@ -2,6 +2,7 @@ import { LazyMotion, m as framerMotion } from "framer-motion";
 import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
+import NextImage from "next/image";
 import { useRouter } from "next/router";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
@@ -134,6 +135,7 @@ const Navigation: React.FC<NavigationProps> = ({
           <ResponsiveGrid rows="1" columns={"1"}>
             <MobileOnly>
               <Box justify="start" direction={"row"}>
+                <NextImage src={"/OECD_20cm_w.png"} width={203} height={42} />
                 <StyledLogoBox onClick={() => router.push(`/`)}>
                   <StyledLogo />
                 </StyledLogoBox>
@@ -212,6 +214,13 @@ const Navigation: React.FC<NavigationProps> = ({
                 gap="medium"
                 align={"center"}
               >
+                <NextImage
+                  src={"/OECD_20cm_w.png"}
+                  priority
+                  objectFit="initial"
+                  width={171}
+                  height={42}
+                />
                 <StyledLogoBox onClick={() => router.push(`/`)}>
                   <StyledLogo />
                 </StyledLogoBox>
