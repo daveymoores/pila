@@ -309,7 +309,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
         {auth && <StyledMenu label={auth.name} items={authLinks} />}
       </TabletUp>
       {isEmpty(auth) ? (
-        <span>
+        <Box direction="row">
           <StyledInput
             placeholder="Enter Access Code"
             onChange={(event) => (accessCode = event.target.value)}
@@ -335,7 +335,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
               type: PageType.SESSIONS,
             }}
           />
-        </span>
+        </Box>
       ) : (
         <Box>
           <Box
@@ -413,10 +413,11 @@ const StyledRoutedMobileTextLink = styled(TextLink)`
   color: white;
 `;
 
-const StyledInput = styled("input")`
+const StyledInput = styled.input`
   font-size: 16px;
-  padding: 1em;
-  border-radius: 1em;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 10px;
   border: none;
   margin-right: 0.5em;
 `;

@@ -76,18 +76,18 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const router = useRouter();
 
+  const { url, site_name, handle, appId, title, description } =
+    (pageProps.seo || [])[0]?.data || {};
+
   React.useEffect(() => {
     const handleRouteChange = (url: string) => {
-      ga.pageView(url);
+      ga.pageView(url, title, description);
     };
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
-
-  const { url, site_name, handle, appId, title, description } =
-    (pageProps.seo || [])[0]?.data || {};
 
   // calculate averages for difficulty and age, plus total number of tasks
   const assessmentApplicationAverages = getApplicationAverages(
