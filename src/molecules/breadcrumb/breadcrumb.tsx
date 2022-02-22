@@ -79,10 +79,10 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
 };
 
 const StyledBox = styled(Box)`
-  padding-top: 50px;
+  padding-top: 80px;
 
   @media (min-width: 600px) {
-    padding-top: 20px;
+    padding-top: 50px;
   }
 `;
 

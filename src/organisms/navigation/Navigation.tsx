@@ -2,7 +2,6 @@ import { LazyMotion, m as framerMotion } from "framer-motion";
 import { Box, BoxProps, Header, Image, Menu, Nav } from "grommet";
 import Hamburger from "hamburger-react";
 import isEmpty from "lodash/isEmpty";
-import NextImage from "next/image";
 import { useRouter } from "next/router";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
@@ -11,7 +10,6 @@ import { AuthContext, useAuth } from "../../../lib/auth";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
-import Logo from "../../atoms/logo/Logo";
 import {
   MobileOnly,
   TabletUp,
@@ -21,6 +19,7 @@ import OffCanvasContext from "../../context/OffCanvasContext";
 import useLinkResolver from "../../hooks/useLinkResolver";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
+import Logos from "../logos/Logos";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export enum NavigationTheme {
@@ -134,15 +133,19 @@ const Navigation: React.FC<NavigationProps> = ({
         <Section>
           <ResponsiveGrid rows="1" columns={"1"}>
             <MobileOnly>
-              <Box justify="start" direction={"row"}>
-                <NextImage src={"/OECD_20cm_w.png"} width={203} height={42} />
-                <StyledLogoBox onClick={() => router.push(`/`)}>
-                  <StyledLogo />
-                </StyledLogoBox>
+              <Box
+                justify="start"
+                align="center"
+                direction={"row"}
+                margin={{ bottom: "30px" }}
+              >
+                <Logos theme={theme} />
                 <Box
                   margin={{ left: "auto" }}
                   background={isOpen ? colorPalette.blue : colorPalette.yellow}
                   round={"50%"}
+                  height="48px"
+                  width="48px"
                   style={{
                     position: "relative",
                     zIndex: 3,
@@ -172,7 +175,6 @@ const Navigation: React.FC<NavigationProps> = ({
                       signInWithEmailAndPassword={signInWithEmailAndPassword}
                     />
                   </Box>
-
                   <Box
                     as={"ul"}
                     pad={{ horizontal: "xlarge", bottom: "xlarge" }}
@@ -214,16 +216,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 gap="medium"
                 align={"center"}
               >
-                <NextImage
-                  src={"/OECD_20cm_w.png"}
-                  priority
-                  objectFit="initial"
-                  width={171}
-                  height={42}
-                />
-                <StyledLogoBox onClick={() => router.push(`/`)}>
-                  <StyledLogo />
-                </StyledLogoBox>
+                <Logos theme={theme} />
                 <Nav
                   direction="row"
                   align={"center"}
@@ -390,17 +383,6 @@ const StyledHeader = styled(Header)`
   position: absolute;
   width: 100%;
   z-index: 2;
-`;
-
-const StyledLogoBox = styled(Box)`
-  min-width: 120px;
-  max-width: 120px;
-  height: 50px;
-  margin-right: 40px;
-`;
-
-const StyledLogo = styled(Logo)`
-  width: 100%;
 `;
 
 const StyledMenu = styled(Menu)`
