@@ -14,6 +14,7 @@ import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HomepageHeroProps {
+  subheading: RichTextBlock[];
   title: RichTextBlock[];
   link?: Link;
   externalHeroLink?: Link;
@@ -33,6 +34,7 @@ interface HeroContentsProps extends HomepageHeroProps {
 }
 
 const HeroContents: React.FC<HeroContentsProps> = ({
+  subheading,
   title,
   link,
   externalHeroLink,
@@ -59,11 +61,24 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               level={"1"}
               margin={{
                 top: isMobileDevice ? "120px" : "none",
+                bottom: "small",
+              }}
+              color={colorPalette.white}
+              alignSelf={"stretch"}
+              size={"small"}
+              responsive
+            >
+              {RichText.asText(subheading)}
+            </Heading>
+            <Heading
+              level={"2"}
+              color={colorPalette.periwinkleCrayola}
+              margin={{
                 bottom: "large",
               }}
               alignSelf={"stretch"}
               size={"small"}
-              responsive={true}
+              responsive
             >
               {RichText.asText(title)}
             </Heading>
