@@ -60,7 +60,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             <Heading
               level={"1"}
               margin={{
-                top: isMobileDevice ? "120px" : "none",
+                top: isMobileDevice ? "150px" : "none",
                 bottom: "small",
               }}
               color={colorPalette.white}

@@ -27,7 +27,7 @@ const Logos: React.FC<LogosProps> = ({ theme }) => {
         priority
         layout="fixed"
         objectFit="contain"
-        width={106}
+        width={130}
         height={42}
       />
       <StyledLogo />
