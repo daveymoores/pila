@@ -312,10 +312,6 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
       </TabletUp>
       {isEmpty(auth) ? (
         <Box direction="row">
-          <StyledInput
-            placeholder="Enter Access Code"
-            onChange={(event) => (accessCode = event.target.value)}
-          />
           <Button
             primary
             size={ButtonSizes.small}
@@ -324,14 +320,10 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
                 ? colorPalette.blue
                 : colorPalette.periwinkleCrayola
             }
-            label={"Access Modules"}
+            label={"Login"}
             onClick={(event) => {
               event.preventDefault();
-
-              signInWithEmailAndPassword(
-                DEMO_EMAILS_BY_PREFIX[accessCode.slice(0, 2)],
-                accessCode
-              );
+              open('https://pila-demo.knowlearning.systems', '__blank')
             }}
             link={{
               type: PageType.SESSIONS,
