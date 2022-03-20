@@ -7,6 +7,7 @@ import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
 import { AuthContext, useAuth } from "../../../lib/auth";
+import { gaEvent, GAEventType } from "../../../lib/ga";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -38,11 +39,6 @@ export interface NavigationProps {
   signedOutMenuItems: NavigationSlice[];
   signedInMenuItems: NavigationSlice[];
 }
-
-const DEMO_EMAILS_BY_PREFIX: Record<string, string> = {
-  A6: "demoaccount@pilaproject.org",
-  X8: "irishdemo@pilaproject.org",
-};
 
 const darkThemePages = (route: string) =>
   route === "/" || new RegExp("account|sessions").test(route);
@@ -257,12 +253,7 @@ interface AuthButtonProps
   theme: NavigationTheme;
 }
 
-const AuthButtons: React.FC<AuthButtonProps> = ({
-  auth,
-  signOut,
-  theme,
-  signInWithEmailAndPassword,
-}) => {
+const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
   const router = useRouter();
   const authLinks = [
     {
@@ -303,8 +294,6 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
     onClick: link.onClick,
   }));
 
-  let accessCode = "";
-
   return (
     <Box direction={isEmpty(auth) ? "column" : "row"} align={"center"}>
       <TabletUp>
@@ -323,7 +312,8 @@ const AuthButtons: React.FC<AuthButtonProps> = ({
             label={"Login"}
             onClick={(event) => {
               event.preventDefault();
-              open('https://pila-demo.knowlearning.systems', '__blank')
+              open("https://pila-demo.knowlearning.systems", "__blank");
+              gaEvent(GAEventType.LOGIN);
             }}
             link={{
               type: PageType.SESSIONS,
@@ -394,15 +384,6 @@ const StyledRoutedMobileTextLink = styled(TextLink)`
   font-size: 16px;
   font-weight: ${fontWeights.bold};
   color: white;
-`;
-
-const StyledInput = styled.input`
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: none;
-  margin-right: 0.5em;
 `;
 
 const MobileNavigation = styled(framerMotion.div)`

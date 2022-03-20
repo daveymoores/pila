@@ -4,6 +4,7 @@ import React, { ForwardedRef } from "react";
 import styled from "styled-components";
 
 import { useAuth } from "../../../lib/auth";
+import { gaEvent, GAEventType } from "../../../lib/ga";
 import PageType from "../../../types/PageTypes";
 import useWebMedia from "../../hooks/useWebMedia";
 import { colorPalette, fontWeights } from "../../theme/pila";
@@ -57,7 +58,16 @@ const Button: React.FC<CustomButtonProps> = ({
     const buttonLabel = auth ? "Start a new session" : label;
     return (
       <RoutedLink link={link}>
-        <ButtonWithRef size={size} onClick={onClick} {...rest}>
+        <ButtonWithRef
+          size={size}
+          onClick={(arg) => {
+            if (onClick) {
+              onClick(arg);
+            }
+            gaEvent(GAEventType.CROSS_SITE_LINKS, link.url);
+          }}
+          {...rest}
+        >
           {buttonLabel}
         </ButtonWithRef>
       </RoutedLink>
@@ -66,7 +76,16 @@ const Button: React.FC<CustomButtonProps> = ({
 
   return (
     <RoutedLink link={link}>
-      <ButtonWithRef size={size} onClick={onClick} {...rest}>
+      <ButtonWithRef
+        size={size}
+        onClick={(arg) => {
+          if (onClick) {
+            onClick(arg);
+          }
+          gaEvent(GAEventType.CROSS_SITE_LINKS, link.url);
+        }}
+        {...rest}
+      >
         {label}
       </ButtonWithRef>
     </RoutedLink>

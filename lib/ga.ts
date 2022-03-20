@@ -32,18 +32,34 @@ export const pageView = (
   }
 };
 
-export const gaEvent = (): void => {
-  if (typeof window !== "undefined") {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window.dataLayer?.push({ event: "event_name" });
-  }
-};
+export enum GAEventType {
+  DOWNLOAD = "download",
+  LOGIN = "login",
+  CONTACT_FORM = "contactForm",
+  ACCOUNT_CREATION = "accountCreation",
+  ALERT_SUBSCRIPTION = "alertSubscription",
+  OUT_BOUND_CLICK = "outBoundClick",
+  CROSS_SITE_LINKS = "crossSiteLinks",
+}
 
-export const event = (): void => {
+export const gaEvent = (
+  event_name: GAEventType,
+  document?: string,
+  url?: string
+): void => {
   if (typeof window !== "undefined") {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window.dataLayer?.push({ event: "event_name" });
+    if (document) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.dataLayer?.push({ event: event_name, document });
+    } else if (url) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.dataLayer?.push({ event: event_name, url });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.dataLayer?.push({ event: event_name });
+    }
   }
 };

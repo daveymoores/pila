@@ -16,6 +16,7 @@ import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import { gaEvent, GAEventType } from "../lib/ga";
 import { Client } from "../prismic";
 import Button from "../src/atoms/button/Button";
 import Loader from "../src/atoms/loader/Loader";
@@ -197,6 +198,7 @@ const Page: React.FC<PageProps> = (props) => {
 
                 if (response.status === 200) {
                   setSuccess(true);
+                  gaEvent(GAEventType.CONTACT_FORM);
                 } else {
                   setError(true);
                 }

@@ -5,6 +5,7 @@ import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import { gaEvent, GAEventType } from "../../../lib/ga";
 import { hrefResolver, linkResolver } from "../../../prismic";
 import CustomType from "../../../types/CustomType";
 import useLinkResolver from "../../hooks/useLinkResolver";
@@ -42,6 +43,7 @@ const onClickHandler = (href: string, as: string) => {
   return (event: React.SyntheticEvent) => {
     event.preventDefault();
     Router.push(href, as);
+    gaEvent(GAEventType.CROSS_SITE_LINKS, href);
   };
 };
 
