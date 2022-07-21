@@ -33,7 +33,7 @@ const Page: React.FC<SessionPageProps> = (props) => {
       <iframe
         height="1000px"
         width="100%"
-        src="https://pila-demo.knowlearning.systems/sessions"
+        src="https://brasil.knowlearning.systems"
       />
     </AccountLayout>
   );
