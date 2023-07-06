@@ -1,4 +1,5 @@
 import { Box, Heading, Paragraph } from "grommet";
+import { Params } from "next/dist/next-server/server/router";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
@@ -214,14 +215,16 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.LEARNING_MODULE,
-  uid: ({ params }) => params.learning_module,
+  uid: ({ params }: Params) => params.learning_module,
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.LEARNING_MODULE,
   fallback: false,
-  formatPath: ({ uid }) => ({ params: { learning_module: uid } }),
+  formatPath: ({ uid }: { uid: string }) => ({
+    params: { learning_module: uid },
+  }),
 });
 
 export default Page;

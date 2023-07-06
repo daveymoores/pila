@@ -175,7 +175,7 @@ export const getStaticProps = async (
   const { props } = await useGetStaticProps({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
-    uid: ({ params }) => params.assessment_application,
+    uid: ({ params }: Params) => params.assessment_application,
     params: {
       fetchLinks: ["category.name"],
     },

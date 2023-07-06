@@ -183,7 +183,7 @@ const Page: React.FC<PageProps> = (props) => {
               setValue(nextValue as { [key: string]: string });
             }}
             onSubmit={async (event) => {
-              const response = grecaptcha.getResponse();
+              const response = window.grecaptcha.getResponse();
               if (response.length === 0) {
                 alert("Please validate the Captcha test");
                 return false;

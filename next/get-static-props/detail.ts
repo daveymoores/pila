@@ -1,4 +1,5 @@
 import { GetStaticPropsResult } from "next";
+import { Params } from "next/dist/next-server/server/router";
 import { useGetStaticProps } from "next-slicezone/hooks";
 
 import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
@@ -16,7 +17,7 @@ const getStaticDetailProps = <T extends BaseStaticContextProps, K>(
   const { props } = await useGetStaticProps({
     client: Client(),
     type: pageType,
-    uid: ({ params }) => (isGuidePage ? params.guide : params.detail),
+    uid: ({ params }: Params) => (isGuidePage ? params.guide : params.detail),
     params: {
       fetchLinks: isGuidePage ? ["guide_category.title"] : ["theme_page.title"],
     },
