@@ -1,5 +1,6 @@
 import { Box } from "grommet";
 import { GetStaticPropsResult } from "next";
+import { Params } from "next/dist/next-server/server/router";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";

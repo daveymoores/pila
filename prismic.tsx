@@ -24,8 +24,8 @@ export const linkResolver = async (link: LinkProps): Promise<string> => {
           Prismic.Predicates.at("my.detail_page.uid", link.uid)
         )) as unknown) as ApiSearchResponse) || {};
       path = data.results[0].url || "";
-    } catch (err) {
-      throw new Error(err);
+    } catch (err: unknown) {
+      throw new Error(err as string);
     }
   }
 
@@ -48,7 +48,7 @@ export const linkResolver = async (link: LinkProps): Promise<string> => {
     [PageType.DETAIL]: path,
     [PageType.GUIDE_HOME]: `/guides`,
     [PageType.GUIDE]: `/guides/${link.uid}`,
-    [PageType.ASSESSMENT_APPLICATION]: `/learning-modules${path}`,
+    [PageType.ASSESSMENT_APPLICATION]: path,
     [PageType.LEARNING_MODULE]: `/learning-modules/${link.uid}`,
     [PageType.LEARNING_MODULE_HOME]: "/learning-modules",
     [PageType.FORM]: "/contact",

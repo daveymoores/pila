@@ -65,11 +65,7 @@ const gridAreas = {
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
-  const { primary, items, learningModules } = slice;
-
-  const filteredModules = learningModules
-    .filter((module) => items?.some((item) => item.module.id === module.id))
-    .sort((a, b) => a.uid.localeCompare(b.uid));
+  const { primary, learningModules } = slice;
 
   return (
     <StyledBox
@@ -97,7 +93,7 @@ const PoweredByResearchSection: FC<{
                 }}
                 rows={"auto"}
               >
-                {filteredModules
+                {learningModules
                   .filter((module, index) => index <= 1)
                   .map((module) => (
                     <ProjectCard
