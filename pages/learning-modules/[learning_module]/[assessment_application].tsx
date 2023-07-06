@@ -1,5 +1,6 @@
 import { Box } from "grommet";
 import { GetStaticPropsResult } from "next";
+import { Params } from "next/dist/next-server/server/router";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
@@ -174,7 +175,7 @@ export const getStaticProps = async (
   const { props } = await useGetStaticProps({
     client: Client(),
     type: PageType.ASSESSMENT_APPLICATION,
-    uid: ({ params }) => params.assessment_application,
+    uid: ({ params }: Params) => params.assessment_application,
     params: {
       fetchLinks: ["category.name"],
     },

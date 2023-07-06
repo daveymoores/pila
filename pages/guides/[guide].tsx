@@ -74,7 +74,7 @@ export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.GUIDE,
   fallback: false,
-  formatPath: ({ uid }) => ({ params: { guide: uid } }),
+  formatPath: ({ uid }: { uid: string }) => ({ params: { guide: uid } }),
 });
 
 export default Page;

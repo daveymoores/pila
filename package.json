@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next dev",
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build",
     "postbuild": "next-sitemap",
     "start": "next start",
     "slicemachine": "start-slicemachine --port 9999",
@@ -21,6 +21,7 @@
     "@sendgrid/mail": "^7.4.4",
     "add": "^2.0.6",
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "firebase": "^9.5.0",
     "firebase-admin": "^9.6.0",
     "framer-motion": "^4.0.3",

@@ -1,3 +1,4 @@
+import { Params } from "next/dist/next-server/server/router";
 import SliceZone from "next-slicezone";
 import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
 import React from "react";
@@ -47,14 +48,14 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
 export const getStaticProps = useGetStaticProps({
   client: Client(),
   type: PageType.THEME,
-  uid: ({ params }) => params.theme,
+  uid: ({ params }: Params) => params.theme,
 });
 
 export const getStaticPaths = useGetStaticPaths({
   client: Client(),
   type: PageType.THEME,
   fallback: false,
-  formatPath: ({ uid }) => ({ params: { theme: uid } }),
+  formatPath: ({ uid }: { uid: string }) => ({ params: { theme: uid } }),
 });
 
 export default Page;

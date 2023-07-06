@@ -73,7 +73,7 @@ export const getStaticProps = (context: StaticContextProps) =>
     context
   );
 
-interface Params {
+export interface Params {
   params: {
     detail: string;
     theme?: string;
