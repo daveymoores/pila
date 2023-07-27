@@ -68,8 +68,8 @@ const Page: React.FC<GuidesPageProps> = (props) => {
           {props.guides.map((guide, index) => (
             <GuideCard
               key={index}
-              title={RichText.asText(guide.data.title)}
-              guideCategory={guide.data?.guide_category.data.title}
+              title={RichText.asText(guide.data?.title)}
+              guideCategory={guide.data?.guide_category.data?.title}
               pageLink={{ uid: guide.uid, type: guide.type, url: guide.url }}
             />
           ))}
