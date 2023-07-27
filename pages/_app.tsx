@@ -7,7 +7,6 @@ import App, { AppContext, AppProps } from "next/app";
 import { useRouter } from "next/router";
 import Prismic from "prismic-javascript";
 import React from "react";
-import CookieNotice from "react-cookienotice";
 import styled from "styled-components";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
@@ -161,14 +160,14 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                   >
                     <Component {...pageProps} />
                   </Scaffold>
-                  {process.browser && (
+                  {/* {process.browser && (
                     <StyledBox>
                       <CookieNotice
                         darkTheme={false}
                         {...(pageProps?.cookieNotice || [])[0]?.data}
                       />
                     </StyledBox>
-                  )}
+                  )} */}
                   {pageProps.isPreview && <PreviewCard />}
                 </PilaTheme>
               </AssessmentApplicationContext.Provider>
