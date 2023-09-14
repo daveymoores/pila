@@ -3,8 +3,8 @@ import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import linkIsValid from "../../../helpers/linkIsValid/linkIsValid";
 import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
-import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import ApplicationStats from "../../molecules/application-stats/ApplicationStats";
 import GuideCard, { CardVariant } from "../../molecules/guide-card/GuideCard";
@@ -86,7 +86,9 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
   image,
   downloadLinks,
   index,
+  viewApplicationLink,
 }) => {
+  console.log(viewApplicationLink);
   return (
     <Box
       justify={"center"}
@@ -124,7 +126,10 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
               {RichText.asText(shortBody)}
             </Paragraph>
           )}
-          {downloadLinks &&
+          {downloadLinks?.some(
+            ({ link, downloadLink }) =>
+              linkIsValid(link) || linkIsValid(downloadLink)
+          ) &&
             downloadLinks.map(({ label, link, downloadLink }, index) => (
               <GuideCard
                 key={index}
@@ -134,17 +139,16 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
                 variant={CardVariant.SMALL}
               />
             ))}
-          <Button
-            primary
-            margin={{ top: "large" }}
-            size={ButtonSizes.large}
-            color={colorPalette.blue}
-            label={"View application"}
-            link={{
-              type: PageType.ASSESSMENT_APPLICATION,
-              uid,
-            }}
-          />
+          {linkIsValid(viewApplicationLink) && (
+            <Button
+              primary
+              margin={{ top: "large" }}
+              size={ButtonSizes.large}
+              color={colorPalette.blue}
+              label={"View application"}
+              link={viewApplicationLink}
+            />
+          )}
         </Box>
       </ResponsiveGrid>
     </Box>

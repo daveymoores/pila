@@ -3,6 +3,7 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import hasAttachedMedia from "../../../helpers/has-attached-media/hasAttachedMedia";
+import linkIsValid from "../../../helpers/linkIsValid/linkIsValid";
 import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -23,10 +24,6 @@ export interface ModuleHeroProps {
   guideLink?: Link;
   icon?: ImageProps;
 }
-
-const linkIsValid = (link?: Link) => {
-  return link && link.url && link.url !== "" && !link.isBroken;
-};
 
 const ModuleHero: React.FC<ModuleHeroProps> = ({
   uid,

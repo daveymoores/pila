@@ -43,6 +43,7 @@ export interface AssessmentApplicationMainProps
   miscTaskSectionTitle?: RichTextBlock[];
   miscTaskSectionIntroduction?: RichTextBlock[];
   miscTaskSlices?: MiscTask[];
+  viewApplicationLink: Link;
 }
 
 export interface MiscTask {
