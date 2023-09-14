@@ -88,7 +88,6 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
   index,
   viewApplicationLink,
 }) => {
-  console.log(viewApplicationLink);
   return (
     <Box
       justify={"center"}

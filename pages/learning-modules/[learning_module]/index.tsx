@@ -87,7 +87,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const module = learningModules.find(
     (module: CustomType<LearningModuleProps>) => module.uid === uid
   );
-  console.log(module);
+
   return (
     <React.Fragment>
       <Seo
