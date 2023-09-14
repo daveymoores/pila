@@ -24,6 +24,10 @@ export interface ModuleHeroProps {
   icon?: ImageProps;
 }
 
+const linkIsValid = (link?: Link) => {
+  return link && link.url && link.url !== "" && !link.isBroken;
+};
+
 const ModuleHero: React.FC<ModuleHeroProps> = ({
   uid,
   title,
@@ -33,6 +37,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
   icon,
 }) => {
   const parsedTitle = title ? RichText.asText(title) : "[LEARNING_MODULE]";
+
   return (
     <HeroText
       links={[
@@ -97,33 +102,37 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
       }
       info={
         <React.Fragment>
-          <Box width={{ max: "200px" }}>
+          <Box width={{ max: "200px", min: "100%" }}>
             <TabletUp>
               <LearningModuleIcon icon={icon} />
             </TabletUp>
-            <Paragraph margin={{ top: "medium", bottom: "medium" }}>
-              Learn more from the {parsedTitle} framework
-            </Paragraph>
-            <Box direction={"row"} justify={"center"}>
-              {guideDownload && hasAttachedMedia(guideDownload) && (
-                <Button
-                  color={colorPalette.green}
-                  size={ButtonSizes.small}
-                  link={guideDownload}
-                  icon={<DownloadIcon url={guideDownload.url} />}
-                />
-              )}
-              {guideLink && (
-                <Button
-                  primary
-                  color={colorPalette.blue}
-                  size={ButtonSizes.small}
-                  label={"View"}
-                  link={guideLink}
-                  margin={{ left: "small" }}
-                />
-              )}
-            </Box>
+            {(linkIsValid(guideDownload) || linkIsValid(guideLink)) && (
+              <React.Fragment>
+                <Paragraph margin={{ top: "medium", bottom: "medium" }}>
+                  Learn more from the {parsedTitle} framework
+                </Paragraph>
+                <Box direction={"row"} justify={"center"}>
+                  {guideDownload && hasAttachedMedia(guideDownload) && (
+                    <Button
+                      color={colorPalette.green}
+                      size={ButtonSizes.small}
+                      link={guideDownload}
+                      icon={<DownloadIcon url={guideDownload.url} />}
+                    />
+                  )}
+                  {guideLink && (
+                    <Button
+                      primary
+                      color={colorPalette.blue}
+                      size={ButtonSizes.small}
+                      label={"View"}
+                      link={guideLink}
+                      margin={{ left: "small" }}
+                    />
+                  )}
+                </Box>
+              </React.Fragment>
+            )}
           </Box>
         </React.Fragment>
       }

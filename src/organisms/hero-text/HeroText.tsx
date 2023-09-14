@@ -79,7 +79,12 @@ const HeroText: React.FC<HeroText> = ({
               {title}
             </StyledBox>
             {info && (
-              <Box gridArea="info" margin={{ top: "medium" }} align={"center"}>
+              <Box
+                gridArea="info"
+                margin={{ top: "medium" }}
+                align={"center"}
+                justify="center"
+              >
                 {info}
               </Box>
             )}
