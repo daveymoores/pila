@@ -312,7 +312,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
             label={"Login"}
             onClick={(event) => {
               event.preventDefault();
-              open("https://app.pilaproject.org", "__blank");
+              open("https://app.pilaproject.org/teacher", "__blank");
               gaEvent(GAEventType.LOGIN);
             }}
             link={{
