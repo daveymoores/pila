@@ -309,10 +309,28 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
                 ? colorPalette.blue
                 : colorPalette.periwinkleCrayola
             }
-            label={"Login"}
+            label={"Login International"}
             onClick={(event) => {
               event.preventDefault();
               open("https://app.pilaproject.org/teacher", "__blank");
+              gaEvent(GAEventType.LOGIN);
+            }}
+            link={{
+              type: PageType.SESSIONS,
+            }}
+          />
+          <Button
+            primary
+            size={ButtonSizes.small}
+            color={
+              theme === NavigationTheme.LIGHT
+                ? colorPalette.blue
+                : colorPalette.periwinkleCrayola
+            }
+            label={"Login Thailand"}
+            onClick={(event) => {
+              event.preventDefault();
+              open("https://thailand.pilaproject.org/teacher", "__blank");
               gaEvent(GAEventType.LOGIN);
             }}
             link={{
