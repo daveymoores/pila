@@ -304,7 +304,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
           <Button
             primary
             size={ButtonSizes.small}
-            margin="0 8px 0 0"
+            margin={{ right: "small" }}
             color={
               theme === NavigationTheme.LIGHT
                 ? colorPalette.blue
