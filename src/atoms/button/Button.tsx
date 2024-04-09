@@ -17,6 +17,7 @@ export enum ButtonSizes {
 
 interface CustomButtonProps extends ButtonProps {
   label?: string;
+  style?: string;
   link?: LinkProps;
   onClick?: (event: React.SyntheticEvent) => void;
 }
