@@ -120,7 +120,7 @@ const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
     props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};
   color: ${(props) => props.color === colorPalette.green && "white"};
   text-align: center;
-  ${props => props.style};
+  ${props => props.style || ""};
 `;
 
 export default Button;
