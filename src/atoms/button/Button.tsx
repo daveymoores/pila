@@ -17,7 +17,7 @@ export enum ButtonSizes {
 
 interface CustomButtonProps extends ButtonProps {
   label?: string;
-  margin?: string;
+  style?: string;
   link?: LinkProps;
   onClick?: (event: React.SyntheticEvent) => void;
 }
@@ -120,7 +120,7 @@ const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
     props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};
   color: ${(props) => props.color === colorPalette.green && "white"};
   text-align: center;
-  margin: ${props => props.margin};
+  ${props => props.style};
 `;
 
 export default Button;
