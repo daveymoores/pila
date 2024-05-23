@@ -54,7 +54,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
         <ResponsiveGrid rows={"2"} columns={columns}>
           <Box
             align={"start"}
-            height={isMobileDevice ? "auto" : "45vh"}
+            height={"auto"}
             justify={"start"}
           >
             <Heading
@@ -92,6 +92,17 @@ const HeroContents: React.FC<HeroContentsProps> = ({
                 link={externalHeroLink || link}
               />
             )}
+            <iframe
+              width="560"
+              height="315"
+              src={"https://www.youtube.com/embed/aMu03WxjFu8?si=_eN-Oi11ukVIdU5V"}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{ marginTop: "2em" }}
+            />
           </Box>
           <ImageContainer width={{ max: "600px" }}>
             <ImageBox
