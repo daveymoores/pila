@@ -67,7 +67,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             color={colorPalette.green}
             size={ButtonSizes.small}
             type="button"
-            label="View"
+            label="Learn More"
             link={link}
           />
         )}
