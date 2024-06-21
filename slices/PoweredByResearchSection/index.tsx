@@ -37,7 +37,8 @@ export interface PoweredByResearchSectionProps
 const columns = {
   small: ["auto"],
   medium: ["auto"],
-  large: Array(3).fill("flex"),
+  large: ["flex", "flex", "flex"],
+  xlarge: ["flex", "flex", "flex"],
 };
 
 const rows = {
@@ -45,21 +46,6 @@ const rows = {
   medium: ["auto", "auto"],
   large: ["auto"],
   xlarge: ["auto"],
-};
-
-const gridAreas = {
-  small: [
-    { name: "image", start: [0, 1], end: [0, 1] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
-  medium: [
-    { name: "image", start: [0, 1], end: [0, 1] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
-  large: [
-    { name: "image", start: [1, 0], end: [2, 0] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
 };
 
 const PoweredByResearchSection: FC<{
@@ -74,43 +60,32 @@ const PoweredByResearchSection: FC<{
       pad={{ top: "xlarge", bottom: "xlarge" }}
     >
       <Section>
+        <TextContent {...primary} asCard={false} padding="medium" />
         <ResponsiveGrid
-          columns={columns}
-          areas={gridAreas}
+          columns={{
+            small: ["auto"],
+            medium: ["flex", "flex"],
+            large: ["flex", "flex", "flex"],
+          }}
           rows={rows}
+          gap="medium"
           align={"stretch"}
         >
-          <React.Fragment>
-            <Box gridArea={"text"}>
-              <TextContent {...primary} asCard={false} padding="medium" />
-            </Box>
-            <Box gridArea={"image"}>
-              <ResponsiveGrid
-                columns={{
-                  small: ["auto"],
-                  medium: ["flex", "flex"],
-                  large: ["flex", "flex"],
+          {learningModules
+            .filter((module, index) => index <= 2)
+            .map((module) => (
+              <ProjectCard
+                key={module.id}
+                title={module.data?.title}
+                body={module.data?.bodyShort}
+                icon={module.data?.icon}
+                link={{
+                  uid: module.uid,
+                  type: module.type,
+                  id: module.id,
                 }}
-                rows={"auto"}
-              >
-                {learningModules
-                  .filter((module, index) => index <= 1)
-                  .map((module) => (
-                    <ProjectCard
-                      key={module.id}
-                      title={module.data?.title}
-                      body={module.data?.bodyShort}
-                      icon={module.data?.icon}
-                      link={{
-                        uid: module.uid,
-                        type: module.type,
-                        id: module.id,
-                      }}
-                    />
-                  ))}
-              </ResponsiveGrid>
-            </Box>
-          </React.Fragment>
+              />
+            ))}
         </ResponsiveGrid>
       </Section>
     </StyledBox>
