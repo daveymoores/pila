@@ -69,16 +69,6 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
                 {RichText.asText(title)}
               </Heading>
             )}
-            {body && (
-              <Paragraph
-                color={"white"}
-                textAlign={"center"}
-                margin="none"
-                fill
-              >
-                {RichText.asText(body)}
-              </Paragraph>
-            )}
           </CardHeader>
           <CardBody
             margin={{ top: "medium" }}
@@ -88,28 +78,17 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
             flex={"shrink"}
             style={{ position: "relative", zIndex: 1 }}
           >
-            {buttonOneLink && buttonOneLabel && (
-              <Button
-                margin={"small"}
-                primary
-                color={colorPalette.yellow}
-                size={ButtonSizes.large}
-                type="button"
-                label={buttonOneLabel}
-                link={buttonOneLink}
-              />
-            )}
-            {buttonTwoLink && buttonTwoLabel && (
-              <Button
-                margin={"small"}
-                primary
-                color={colorPalette.yellow}
-                size={ButtonSizes.large}
-                type="button"
-                label={buttonTwoLabel}
-                link={buttonTwoLink}
-              />
-            )}
+            <iframe
+              width="560"
+              height="315"
+              src={"https://www.youtube.com/embed/WrBnuh5paVo"}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{ marginTop: "2em", borderRadius: "10px"}}
+            />
           </CardBody>
         </StyledCard>
       </ResponsiveGrid>
