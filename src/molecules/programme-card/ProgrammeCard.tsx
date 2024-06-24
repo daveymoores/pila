@@ -1,7 +1,8 @@
 import { Card, CardBody, Heading, Paragraph } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
+import NextLink from 'next/link';
 
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -10,7 +11,7 @@ import DictionaryContext from "../../context/DictionaryContext";
 import { colorPalette } from "../../theme/pila";
 
 interface ProgrammeCardProps {
-  link?: Link;
+  link?: { url: string };
   title?: RichTextBlock[];
   body?: RichTextBlock[];
   icon?: ImageProps;
@@ -23,6 +24,15 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
   icon,
 }) => {
   const { getDictionaryValue } = React.useContext(DictionaryContext);
+
+  const staticUrls: { [key: string]: string } = {
+    "competency-based": "/competency-based-learning-and-assessment",
+    "reporting tools": "/reporting-tools",
+    "customiser tools": "/customiser-tools"
+  };
+
+  const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
+  const staticUrl = staticUrls[cardTitle];
 
   return (
     <StyledCard
@@ -60,16 +70,17 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             {RichText.asText(body)}
           </StyledParagraph>
         )}
-        {link && (
-          <Button
-            margin={{ top: "medium" }}
-            primary
-            color={colorPalette.green}
-            size={ButtonSizes.small}
-            type="button"
-            label="Learn More"
-            link={link}
-          />
+        {staticUrl && (
+          <NextLink href={staticUrl} passHref>
+            <Button
+              margin={{ top: "medium" }}
+              primary
+              color={colorPalette.green}
+              size={ButtonSizes.small}
+              type="button"
+              label="Learn More"
+            />
+          </NextLink>
         )}
       </CardBody>
     </StyledCard>
