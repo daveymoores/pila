@@ -77,7 +77,6 @@ interface ApplicationSectionProps
 }
 
 const ApplicationSection: React.FC<ApplicationSectionProps> = ({
-  uid,
   title,
   applicationsStats,
   shortBody,

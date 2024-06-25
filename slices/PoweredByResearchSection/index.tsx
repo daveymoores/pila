@@ -34,13 +34,6 @@ export interface PoweredByResearchSectionProps
   learningModules: CustomType<LearningModule>[];
 }
 
-const columns = {
-  small: ["auto"],
-  medium: ["auto"],
-  large: ["flex", "flex", "flex"],
-  xlarge: ["flex", "flex", "flex"],
-};
-
 const rows = {
   small: ["auto", "auto"],
   medium: ["auto", "auto"],

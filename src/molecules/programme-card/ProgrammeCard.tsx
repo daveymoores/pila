@@ -1,34 +1,31 @@
 import { Card, CardBody, Heading, Paragraph } from "grommet";
+import NextLink from "next/link";
 import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
-import NextLink from 'next/link';
 
-import ImageProps from "../../../types/ImageProps";
+import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
-import DictionaryContext from "../../context/DictionaryContext";
 import { colorPalette } from "../../theme/pila";
 
 interface ProgrammeCardProps {
-  link?: { url: string };
+  link?: {
+    url: string;
+    uid?: string;
+    type?: PageType;
+    id?: string;
+  };
   title?: RichTextBlock[];
   body?: RichTextBlock[];
-  icon?: ImageProps;
+  icon?: string;
 }
 
-const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
-  link,
-  title,
-  body,
-  icon,
-}) => {
-  const { getDictionaryValue } = React.useContext(DictionaryContext);
-
+const ProgrammeCard: React.FC<ProgrammeCardProps> = ({ title, body, icon }) => {
   const staticUrls: { [key: string]: string } = {
     "competency-based": "/competency-based-learning-and-assessment",
     "reporting tools": "/reporting-tools",
-    "customiser tools": "/customiser-tools"
+    "customiser tools": "/customiser-tools",
   };
 
   const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
