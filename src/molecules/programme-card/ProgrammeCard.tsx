@@ -21,7 +21,12 @@ interface ProgrammeCardProps {
   icon?: Pick<RichTextBlock, "url" | "alt" | "dimensions" | "copyright">;
 }
 
-const ProgrammeCard: React.FC<ProgrammeCardProps> = ({ title, body, icon }) => {
+const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
+  title,
+  body,
+  icon,
+  link,
+}) => {
   const staticUrls: { [key: string]: string } = {
     "competency-based": "/competency-based-learning-and-assessment",
     "reporting tools": "/reporting-tools",
@@ -30,6 +35,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({ title, body, icon }) => {
 
   const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
   const staticUrl = staticUrls[cardTitle];
+  const finalUrl = link?.url || staticUrl;
 
   return (
     <StyledCard
@@ -67,8 +73,8 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({ title, body, icon }) => {
             {RichText.asText(body)}
           </StyledParagraph>
         )}
-        {staticUrl && (
-          <NextLink href={staticUrl} passHref>
+        {finalUrl && (
+          <NextLink href={finalUrl} passHref>
             <Button
               margin={{ top: "medium" }}
               primary

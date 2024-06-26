@@ -19,10 +19,6 @@ import QueryType from "../../types/QueryType";
 import { Theme } from "../../types/Theme";
 import { LearningModuleProps } from "./[learning_module]";
 
-interface ExtendedLearningModuleProps extends LearningModuleProps {
-  link: { url: string };
-}
-
 type LearningModuleHomePageProps = HeroImageProps;
 
 type PageProps = PageData<unknown, LearningModuleHomePageProps> &
@@ -87,22 +83,14 @@ const Page: React.FC<PageProps> = (props) => {
       <Section>
         <Box margin={{ bottom: "xlarge" }}>
           <ResponsiveGrid columns={columns} rows={rows} align={"stretch"}>
-            {learningModules.map(
-              (module: CustomType<ExtendedLearningModuleProps>) => (
-                <ProgrammeCard
-                  key={module.id}
-                  title={module.data?.title}
-                  body={module.data?.bodyShort}
-                  icon={module.data?.icon}
-                  link={{
-                    url: module.data?.link?.url || "",
-                    uid: module.uid,
-                    type: module.type,
-                    id: module.id,
-                  }}
-                />
-              )
-            )}
+            {learningModules.map((module: CustomType<LearningModuleProps>) => (
+              <ProgrammeCard
+                key={module.id}
+                title={module.data?.title}
+                body={module.data?.bodyShort}
+                icon={module.data?.icon}
+              />
+            ))}
           </ResponsiveGrid>
         </Box>
       </Section>

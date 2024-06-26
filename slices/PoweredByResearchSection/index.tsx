@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
+import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
 import CustomType from "../../types/CustomType";
@@ -24,6 +24,7 @@ export interface LearningModule {
   bodyShort: RichTextBlock[];
   applications: CustomType<AssessmentApplicationProps>[];
   icon: ImageProps;
+  link: { url: string };
 }
 
 export interface PoweredByResearchSectionProps
@@ -67,17 +68,21 @@ const PoweredByResearchSection: FC<{
           {learningModules
             .filter((module, index) => index <= 2)
             .map((module) => (
-              <ProjectCard
+              <ProgrammeCard
                 key={module.id}
                 title={module.data?.title}
                 body={module.data?.bodyShort}
                 icon={module.data?.icon}
-                link={{
-                  url: module.data?.link?.url || "",
-                  uid: module.uid,
-                  type: module.type,
-                  id: module.id,
-                }}
+                link={
+                  module.data?.link
+                    ? {
+                        url: module.data.link.url || "",
+                        uid: module.uid,
+                        type: module.type,
+                        id: module.id,
+                      }
+                    : undefined
+                }
               />
             ))}
         </ResponsiveGrid>
