@@ -73,6 +73,7 @@ const PoweredByResearchSection: FC<{
                 body={module.data?.bodyShort}
                 icon={module.data?.icon}
                 link={{
+                  url: module.data?.link?.url || "",
                   uid: module.uid,
                   type: module.type,
                   id: module.id,

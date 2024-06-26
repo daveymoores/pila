@@ -205,7 +205,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
         }
       )) as unknown) as Response) || {};
   } catch (err) {
-    throw new Error(err);
+    throw new Error(String(err));
   }
 
   const sortedResults = data.results.reduce(

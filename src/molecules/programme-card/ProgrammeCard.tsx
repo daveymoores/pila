@@ -18,7 +18,7 @@ interface ProgrammeCardProps {
   };
   title?: RichTextBlock[];
   body?: RichTextBlock[];
-  icon?: string;
+  icon?: Pick<RichTextBlock, "url" | "alt" | "dimensions" | "copyright">;
 }
 
 const ProgrammeCard: React.FC<ProgrammeCardProps> = ({ title, body, icon }) => {
