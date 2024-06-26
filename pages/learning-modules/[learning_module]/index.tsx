@@ -5,7 +5,6 @@ import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import { Client } from "../../../prismic";
-import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import Section from "../../../src/layout/section/Section";
@@ -69,11 +68,6 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
     guidesTitle,
     applicationsSectionTitle,
     applicationsSectionIntroduction,
-    ctaSectionTitle,
-    ctaSectionButtonOneLabel,
-    ctaSectionButtonOneLink,
-    ctaSectionButtonTwoLabel,
-    ctaSectionButtonTwoLink,
     slices,
     metaDescription,
     metaTitle,
@@ -195,19 +189,6 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
             </Box>
           </Section>
         </Box>
-      )}
-      {ctaSectionTitle && ctaSectionButtonOneLink && ctaSectionButtonOneLabel && (
-        <CtaBanner
-          slice={{
-            primary: {
-              title: ctaSectionTitle,
-              buttonOneLink: ctaSectionButtonOneLink,
-              buttonOneLabel: ctaSectionButtonOneLabel,
-              buttonTwoLink: ctaSectionButtonTwoLink,
-              buttonTwoLabel: ctaSectionButtonTwoLabel,
-            },
-          }}
-        />
       )}
     </React.Fragment>
   );

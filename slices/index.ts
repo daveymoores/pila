@@ -13,16 +13,15 @@ export const components = {
   highlight_banner: dynamic(() => import("./HighlightBanner")),
   image_block: dynamic(() => import("./ImageBlock")),
   image_with_text_section: dynamic(() => import("./ImageWithTextSection")),
-  letsee: dynamic(() => import("./Letsee")),
   our_team_section: dynamic(() => import("./OurTeamSection")),
   powered_by_research_section: dynamic(
-    () => import("./PoweredByResearchSection"),
+    () => import("./PoweredByResearchSection")
   ),
   rich_text_block: dynamic(() => import("./RichTextBlock")),
   rich_text_section: dynamic(() => import("./RichTextSection")),
   steps_section: dynamic(() => import("./StepsSection")),
   thanks_to_institutions_section: dynamic(
-    () => import("./ThanksToInstitutionsSection"),
+    () => import("./ThanksToInstitutionsSection")
   ),
   video_block: dynamic(() => import("./VideoBlock")),
 };

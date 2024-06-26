@@ -7,7 +7,6 @@ import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
 import { Client } from "../../../prismic";
-import { CtaBanner } from "../../../slices";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
@@ -95,11 +94,6 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
     slices,
     applicationLink,
     applicationLinkLabel,
-    ctaSectionTitle,
-    ctaSectionButtonOneLink,
-    ctaSectionButtonOneLabel,
-    ctaSectionButtonTwoLink,
-    ctaSectionButtonTwoLabel,
     taskSectionTitle,
     taskSectionIntroduction,
     miscTaskSectionTitle,
@@ -145,19 +139,6 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
         </Box>
       ) : (
         <Box background={"light-1"} pad={"small"} responsive />
-      )}
-      {ctaSectionTitle && (
-        <CtaBanner
-          slice={{
-            primary: {
-              title: ctaSectionTitle,
-              buttonOneLink: ctaSectionButtonOneLink,
-              buttonOneLabel: ctaSectionButtonOneLabel,
-              buttonTwoLink: ctaSectionButtonTwoLink,
-              buttonTwoLabel: ctaSectionButtonTwoLabel,
-            },
-          }}
-        />
       )}
     </React.Fragment>
   );
