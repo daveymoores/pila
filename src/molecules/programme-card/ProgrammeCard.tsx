@@ -1,28 +1,41 @@
 import { Card, CardBody, Heading, Paragraph } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
+import NextLink from "next/link";
+import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import ImageProps from "../../../types/ImageProps";
+import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
-import DictionaryContext from "../../context/DictionaryContext";
 import { colorPalette } from "../../theme/pila";
 
 interface ProgrammeCardProps {
-  link?: Link;
+  link?: {
+    url: string;
+    uid?: string;
+    type?: PageType;
+    id?: string;
+  };
   title?: RichTextBlock[];
   body?: RichTextBlock[];
-  icon?: ImageProps;
+  icon?: Pick<RichTextBlock, "url" | "alt" | "dimensions" | "copyright">;
 }
 
 const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
-  link,
   title,
   body,
   icon,
+  link,
 }) => {
-  const { getDictionaryValue } = React.useContext(DictionaryContext);
+  const staticUrls: { [key: string]: string } = {
+    "competency-based": "/competency-based-learning-and-assessment",
+    "reporting tools": "/reporting-tools",
+    "customiser tools": "/customiser-tools",
+  };
+
+  const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
+  const staticUrl = staticUrls[cardTitle];
+  const finalUrl = link?.url || staticUrl;
 
   return (
     <StyledCard
@@ -60,16 +73,17 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             {RichText.asText(body)}
           </StyledParagraph>
         )}
-        {link && (
-          <Button
-            margin={{ top: "medium" }}
-            primary
-            color={colorPalette.green}
-            size={ButtonSizes.small}
-            type="button"
-            label={getDictionaryValue("View module")}
-            link={link}
-          />
+        {finalUrl && (
+          <NextLink href={finalUrl} passHref>
+            <Button
+              margin={{ top: "medium" }}
+              primary
+              color={colorPalette.green}
+              size={ButtonSizes.small}
+              type="button"
+              label="Learn More"
+            />
+          </NextLink>
         )}
       </CardBody>
     </StyledCard>

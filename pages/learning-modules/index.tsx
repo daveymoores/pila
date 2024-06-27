@@ -7,7 +7,7 @@ import React from "react";
 import { Client } from "../../prismic";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
+import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
 import { HeroImageProps } from "../../src/organisms/hero-image/HeroImage";
 import HeroText from "../../src/organisms/hero-text/HeroText";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
@@ -84,16 +84,11 @@ const Page: React.FC<PageProps> = (props) => {
         <Box margin={{ bottom: "xlarge" }}>
           <ResponsiveGrid columns={columns} rows={rows} align={"stretch"}>
             {learningModules.map((module: CustomType<LearningModuleProps>) => (
-              <ProjectCard
+              <ProgrammeCard
                 key={module.id}
                 title={module.data?.title}
                 body={module.data?.bodyShort}
                 icon={module.data?.icon}
-                link={{
-                  uid: module.uid,
-                  type: module.type,
-                  id: module.id,
-                }}
               />
             ))}
           </ResponsiveGrid>
@@ -102,6 +97,7 @@ const Page: React.FC<PageProps> = (props) => {
     </Box>
   );
 };
+
 interface StaticContextProps {
   params: Record<string, unknown>;
 }

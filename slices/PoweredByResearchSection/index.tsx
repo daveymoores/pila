@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
-import ProjectCard from "../../src/molecules/programme-card/ProgrammeCard";
+import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
 import CustomType from "../../types/CustomType";
@@ -24,6 +24,7 @@ export interface LearningModule {
   bodyShort: RichTextBlock[];
   applications: CustomType<AssessmentApplicationProps>[];
   icon: ImageProps;
+  link: { url: string };
 }
 
 export interface PoweredByResearchSectionProps
@@ -34,32 +35,11 @@ export interface PoweredByResearchSectionProps
   learningModules: CustomType<LearningModule>[];
 }
 
-const columns = {
-  small: ["auto"],
-  medium: ["auto"],
-  large: Array(3).fill("flex"),
-};
-
 const rows = {
   small: ["auto", "auto"],
   medium: ["auto", "auto"],
   large: ["auto"],
   xlarge: ["auto"],
-};
-
-const gridAreas = {
-  small: [
-    { name: "image", start: [0, 1], end: [0, 1] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
-  medium: [
-    { name: "image", start: [0, 1], end: [0, 1] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
-  large: [
-    { name: "image", start: [1, 0], end: [2, 0] },
-    { name: "text", start: [0, 0], end: [0, 0] },
-  ],
 };
 
 const PoweredByResearchSection: FC<{
@@ -74,43 +54,37 @@ const PoweredByResearchSection: FC<{
       pad={{ top: "xlarge", bottom: "xlarge" }}
     >
       <Section>
+        <TextContent {...primary} asCard={false} padding="medium" />
         <ResponsiveGrid
-          columns={columns}
-          areas={gridAreas}
+          columns={{
+            small: ["auto"],
+            medium: ["flex", "flex"],
+            large: ["flex", "flex", "flex"],
+          }}
           rows={rows}
+          gap="medium"
           align={"stretch"}
         >
-          <React.Fragment>
-            <Box gridArea={"text"}>
-              <TextContent {...primary} asCard={false} padding="medium" />
-            </Box>
-            <Box gridArea={"image"}>
-              <ResponsiveGrid
-                columns={{
-                  small: ["auto"],
-                  medium: ["flex", "flex"],
-                  large: ["flex", "flex"],
-                }}
-                rows={"auto"}
-              >
-                {learningModules
-                  .filter((module, index) => index <= 1)
-                  .map((module) => (
-                    <ProjectCard
-                      key={module.id}
-                      title={module.data?.title}
-                      body={module.data?.bodyShort}
-                      icon={module.data?.icon}
-                      link={{
+          {learningModules
+            .filter((module, index) => index <= 2)
+            .map((module) => (
+              <ProgrammeCard
+                key={module.id}
+                title={module.data?.title}
+                body={module.data?.bodyShort}
+                icon={module.data?.icon}
+                link={
+                  module.data?.link
+                    ? {
+                        url: module.data.link.url || "",
                         uid: module.uid,
                         type: module.type,
                         id: module.id,
-                      }}
-                    />
-                  ))}
-              </ResponsiveGrid>
-            </Box>
-          </React.Fragment>
+                      }
+                    : undefined
+                }
+              />
+            ))}
         </ResponsiveGrid>
       </Section>
     </StyledBox>

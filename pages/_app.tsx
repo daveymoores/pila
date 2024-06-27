@@ -1,13 +1,11 @@
 // pages/_app.js
 import "../styles/globals.css";
 
-import { Box } from "grommet";
 import { NextPage } from "next";
 import App, { AppContext, AppProps } from "next/app";
 import { useRouter } from "next/router";
 import Prismic from "prismic-javascript";
 import React from "react";
-import styled from "styled-components";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { AuthProvider } from "../lib/auth";
@@ -207,7 +205,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
         }
       )) as unknown) as Response) || {};
   } catch (err) {
-    throw new Error(err);
+    throw new Error(String(err));
   }
 
   const sortedResults = data.results.reduce(
@@ -264,18 +262,5 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
     },
   };
 };
-
-const StyledBox = styled(Box)`
-  @media (max-width: 768px) {
-    * {
-      font-size: 15px !important;
-    }
-
-    .react-cookienotice-wrapper {
-      border-radius: 24px !important;
-      margin: 16px;
-    }
-  }
-`;
 
 export default PilaApp;
