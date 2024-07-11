@@ -1,7 +1,5 @@
-import { Box } from "grommet";
 import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
-import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
@@ -48,45 +46,41 @@ const PoweredByResearchSection: FC<{
   const { primary, learningModules } = slice;
 
   return (
-      <Section>
-        <TextContent {...primary} asCard={false} padding="medium" />
-        <ResponsiveGrid
-          columns={{
-            small: ["auto"],
-            medium: ["flex", "flex"],
-            large: ["flex", "flex", "flex"],
-          }}
-          rows={rows}
-          gap="medium"
-          align={"stretch"}
-        >
-          {learningModules
-            .filter((module, index) => index <= 2)
-            .map((module) => (
-              <ProgrammeCard
-                key={module.id}
-                title={module.data?.title}
-                body={module.data?.bodyShort}
-                icon={module.data?.icon}
-                link={
-                  module.data?.link
-                    ? {
-                        url: module.data.link.url || "",
-                        uid: module.uid,
-                        type: module.type,
-                        id: module.id,
-                      }
-                    : undefined
-                }
-              />
-            ))}
-        </ResponsiveGrid>
-      </Section>
+    <Section>
+      <TextContent {...primary} asCard={false} padding="medium" />
+      <ResponsiveGrid
+        columns={{
+          small: ["auto"],
+          medium: ["flex", "flex"],
+          large: ["flex", "flex", "flex"],
+        }}
+        rows={rows}
+        gap="medium"
+        align={"stretch"}
+      >
+        {learningModules
+          .filter((module, index) => index <= 2)
+          .map((module) => (
+            <ProgrammeCard
+              key={module.id}
+              title={module.data?.title}
+              body={module.data?.bodyShort}
+              icon={module.data?.icon}
+              link={
+                module.data?.link
+                  ? {
+                      url: module.data.link.url || "",
+                      uid: module.uid,
+                      type: module.type,
+                      id: module.id,
+                    }
+                  : undefined
+              }
+            />
+          ))}
+      </ResponsiveGrid>
+    </Section>
   );
 };
-
-const StyledBox = styled(Box)`
-  min-height: 800px;
-`;
 
 export default PoweredByResearchSection;

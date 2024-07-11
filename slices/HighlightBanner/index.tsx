@@ -69,22 +69,22 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
             flex={"shrink"}
             style={{ position: "relative", zIndex: 1 }}
           >
-              <iframe
-                width="560"
-                height="315"
-                src={"https://www.youtube.com/embed/WrBnuh5paVo"}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                style={{
-                  marginTop: "2em",
-                  borderRadius: "10px",
-                  width: size === "small" ? "100%" : "560px",
-                  height: size === "small" ? "auto" : "315px",
-                }}
-              />
+            <iframe
+              width="560"
+              height="315"
+              src={"https://www.youtube.com/embed/WrBnuh5paVo"}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{
+                marginTop: "2em",
+                borderRadius: "10px",
+                width: size === "small" ? "100%" : "560px",
+                height: size === "small" ? "auto" : "315px",
+              }}
+            />
           </CardBody>
         </StyledCard>
       </ResponsiveGrid>
@@ -105,12 +105,6 @@ const HighlightPattern = styled(Image)`
   @media (min-width: 1250px) {
     height: auto;
     width: 100%;
-  }
-`;
-const StyledIframe = styled.iframe`
-  @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
   }
 `;
 
