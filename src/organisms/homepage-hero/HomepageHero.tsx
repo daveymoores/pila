@@ -46,9 +46,8 @@ const HeroContents: React.FC<HeroContentsProps> = ({
     <StyledBox
       background={colorPalette.blue}
       justify={"center"}
-      overflow={"hidden"}
-      height={isMobileDevice ? "100vh" : "95vh"}
-      style={{ overflow: "hidden", position: "relative" }}
+      height={"100vh"}
+      style={{ position: "relative" }}
     >
       <StyledSection justify={isMobileDevice ? "start" : "center"}>
         <ResponsiveGrid rows={"2"} columns={columns}>
@@ -97,7 +96,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             <ImageBox
               elevation={"xxxlarge"}
               background={`url(${image?.url})`}
-              style={{ right: isMobileDevice ? "-24vw" : "0" }}
+              style={{ right: isMobileDevice ? "0" : "0" }}
             />
           </ImageContainer>
         </ResponsiveGrid>
@@ -124,8 +123,7 @@ const StyledSection = styled(Section)`
 `;
 
 const StyledBox = styled(Box)`
-  min-height: 700px;
-  max-height: 1000px;
+  min-height: 100vh;
 `;
 
 const ImageBox = styled(Box)`

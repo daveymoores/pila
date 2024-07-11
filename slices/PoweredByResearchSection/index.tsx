@@ -48,11 +48,6 @@ const PoweredByResearchSection: FC<{
   const { primary, learningModules } = slice;
 
   return (
-    <StyledBox
-      background="light-1"
-      justify={"center"}
-      pad={{ top: "xlarge", bottom: "xlarge" }}
-    >
       <Section>
         <TextContent {...primary} asCard={false} padding="medium" />
         <ResponsiveGrid
@@ -87,7 +82,6 @@ const PoweredByResearchSection: FC<{
             ))}
         </ResponsiveGrid>
       </Section>
-    </StyledBox>
   );
 };
 
