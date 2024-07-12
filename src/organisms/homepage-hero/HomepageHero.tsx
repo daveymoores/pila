@@ -96,7 +96,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             <ImageBox
               elevation={"xxxlarge"}
               background={`url(${image?.url})`}
-              style={{ right: isMobileDevice ? "0" : "0" }}
+              isMobileDevice={isMobileDevice}
             />
           </ImageContainer>
         </ResponsiveGrid>
@@ -126,19 +126,22 @@ const StyledBox = styled(Box)`
   min-height: 100vh;
 `;
 
-const ImageBox = styled(Box)`
+const ImageBox = styled(Box)<{ isMobileDevice: boolean }>`
   padding-top: 110%;
   width: 100%;
+  max-width: 100%;
+  max-height: 50%;
   position: absolute;
+  z-index: 1;
 
-  @media only screen and (min-width: 601px) {
-    padding-top: 115%;
-    margin-top: -10%;
+  @media only screen and (max-width: 1200px) and (min-width: 601px) {
+    display: none;
   }
 `;
 
 const ImageContainer = styled(Box)`
   position: relative;
+  z-index: 0;
 `;
 
 export default HomepageHero;
