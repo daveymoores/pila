@@ -95,8 +95,8 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
 };
 
 const BackgroundWrapper = styled.div`
-  background: linear-gradient(180deg, #7481c0 0%, #7a87d1 50%, #8090e2 100%);
-  padding: 20px 0; /* Üst ve alt boşluk */
+  background: linear-gradient(180deg, #6e72d0 0%, #7b7fd0 50%, #878cda 100%);
+  padding: 20px 0;
 `;
 
 const StyledCard = styled(Card)`

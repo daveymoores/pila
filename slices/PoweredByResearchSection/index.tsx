@@ -1,6 +1,6 @@
 import { RichTextBlock } from "prismic-reactjs";
-import React, { FC } from "react";
-import styled from "styled-components";
+import React, { FC, useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
@@ -41,62 +41,119 @@ const rows = {
   xlarge: ["auto"],
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
+  const [showIcons, setShowIcons] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > window.innerHeight / 2) {
+        setShowIcons(true);
+      } else {
+        setShowIcons(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <BackgroundWrapper>
+    <OuterWrapper>
       <StyledSection>
-        <TextContent {...primary} asCard={false} padding="medium" />
-        <ResponsiveGrid
-          columns={{
-            small: ["auto"],
-            medium: ["flex", "flex"],
-            large: ["flex", "flex", "flex"],
-          }}
-          rows={rows}
-          gap="medium"
-          align={"stretch"}
-        >
-          {learningModules
-            .filter((module, index) => index <= 2)
-            .map((module) => (
-              <ProgrammeCard
-                key={module.id}
-                title={module.data?.title}
-                body={module.data?.bodyShort}
-                icon={module.data?.icon}
-                link={
-                  module.data?.link
-                    ? {
-                        url: module.data.link.url || "",
-                        uid: module.uid,
-                        type: module.type,
-                        id: module.id,
-                      }
-                    : undefined
-                }
-              />
-            ))}
-        </ResponsiveGrid>
+        <ContentWrapper>
+          <TextContent {...primary} asCard={false} padding="medium" />
+          <ResponsiveGridWrapper>
+            <ResponsiveGrid
+              columns={{
+                small: ["auto"],
+                medium: ["flex", "flex"],
+                large: ["flex", "flex", "flex"],
+              }}
+              rows={rows}
+              gap="medium"
+              align={"stretch"}
+            >
+              {learningModules
+                .filter((module, index) => index <= 2)
+                .map((module) => (
+                  <FixedProgrammeCard
+                    key={module.id}
+                    title={module.data?.title}
+                    body={module.data?.bodyShort}
+                    icon={module.data?.icon}
+                    link={
+                      module.data?.link
+                        ? {
+                            url: module.data.link.url || "",
+                            uid: module.uid,
+                            type: module.type,
+                            id: module.id,
+                          }
+                        : undefined
+                    }
+                  />
+                ))}
+            </ResponsiveGrid>
+          </ResponsiveGridWrapper>
+        </ContentWrapper>
       </StyledSection>
-    </BackgroundWrapper>
+      {showIcons && <Icon src="icon.png" alt="Icon Right" position="right" />}
+    </OuterWrapper>
   );
 };
 
-const BackgroundWrapper = styled.div`
-  background: linear-gradient(180deg, #4a47a3 0%, #5a61b1 50%, #6a75c0 100%);
-  padding: 20px 0; /* Üst ve alt boşluk */
+const OuterWrapper = styled.div`
+  background: linear-gradient(180deg, #4a47a3 0%, #5458d0 100%);
+  padding: 0 20px;
 `;
 
 const StyledSection = styled(Section)`
-  background: transparent; /* BackgroundWrapper arka planı kapsar */
-  padding: 20px;
+  background: transparent;
+  padding: 20px 0;
   border-radius: 10px;
-  max-width: 1200px; /* Maksimum genişlik */
-  margin: 0 auto; /* Ortalamak için */
+  position: relative;
+`;
+
+const ContentWrapper = styled.div`
+  position: relative;
+  z-index: 1; /* Ensure content is above the icons */
+`;
+
+const ResponsiveGridWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FixedProgrammeCard = styled(ProgrammeCard)`
+  flex: 1 1 300px; /* Adjust this value to set a fixed width for the cards */
+  max-width: 300px;
+  min-width: 300px;
+  margin: 10px;
+`;
+
+const Icon = styled.img<{ position: "left" | "right" }>`
+  width: 90%;
+  max-width: 200px;
+  height: auto;
+  margin: 0 10px;
+  position: absolute;
+  z-index: 2;
+  ${(props) => (props.position === "left" ? "left: 0;" : "right: 0;")}
+  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
 export default PoweredByResearchSection;

@@ -155,7 +155,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
 
 const StyledBox = styled(Box)`
   min-height: 800px;
-  background: linear-gradient(180deg, #6a75c0 0%, #6f7bc0 50%, #7481c0 100%);
+  background: linear-gradient(180deg, #5458d0 0%, #6165d0 50%, #6e72d0 100%);
   padding: 20px;
 `;
 
