@@ -1,5 +1,5 @@
 import { RichTextBlock } from "prismic-reactjs";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
@@ -46,18 +46,11 @@ const PoweredByResearchSection: FC<{
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
 
-  useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
-    return () => {
-      document.documentElement.style.scrollBehavior = "auto";
-    };
-  }, []);
-
   return (
-    <FullWidthSection>
+    <BackgroundWrapper>
       <StyledSection>
         <TextContent {...primary} asCard={false} padding="medium" />
-        <StyledResponsiveGrid
+        <ResponsiveGrid
           columns={{
             small: ["auto"],
             medium: ["flex", "flex"],
@@ -87,25 +80,23 @@ const PoweredByResearchSection: FC<{
                 }
               />
             ))}
-        </StyledResponsiveGrid>
+        </ResponsiveGrid>
       </StyledSection>
-    </FullWidthSection>
+    </BackgroundWrapper>
   );
 };
 
-const FullWidthSection = styled.div`
-  width: 100%;
-  background: linear-gradient(180deg, #4a47a3 0%, #5a53b6 50%, #6b61c7 100%);
+const BackgroundWrapper = styled.div`
+  background: linear-gradient(180deg, #4a47a3 0%, #5a61b1 50%, #6a75c0 100%);
+  padding: 20px 0; /* Üst ve alt boşluk */
 `;
 
 const StyledSection = styled(Section)`
+  background: transparent; /* BackgroundWrapper arka planı kapsar */
   padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const StyledResponsiveGrid = styled(ResponsiveGrid)`
-  margin: 0 -20px;
+  border-radius: 10px;
+  max-width: 1200px; /* Maksimum genişlik */
+  margin: 0 auto; /* Ortalamak için */
 `;
 
 export default PoweredByResearchSection;

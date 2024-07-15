@@ -1,6 +1,6 @@
 import { Box, Grid, Heading } from "grommet";
 import { RichText, RichTextBlock } from "prismic-reactjs";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 
 import Section from "../../src/layout/section/Section";
@@ -68,20 +68,18 @@ const gridAreas = (imageSide: ImagePosition) => ({
 const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
   const { primary, items } = slice;
 
-  useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
-    return () => {
-      document.documentElement.style.scrollBehavior = "auto";
-    };
-  }, []);
-
   return (
-    <FullWidthSection>
-      <StyledSection>
+    <StyledBox>
+      <Section>
         <Grid margin={{ bottom: "large" }} columns={"large"}>
-          <Heading level={"1"} size="small" margin="none" alignSelf={"stretch"}>
+          <StyledHeading
+            level={"1"}
+            size="small"
+            margin="none"
+            alignSelf={"stretch"}
+          >
             {RichText.asText(primary.title)}
-          </Heading>
+          </StyledHeading>
         </Grid>
         {items?.length &&
           items.map((item: Item, index: number) => (
@@ -150,20 +148,19 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
               </Box>
             </ResponsiveGrid>
           ))}
-      </StyledSection>
-    </FullWidthSection>
+      </Section>
+    </StyledBox>
   );
 };
 
-const FullWidthSection = styled.div`
-  width: 100%;
-  background: linear-gradient(180deg, #6b61c7 0%, #ffffff 100%);
+const StyledBox = styled(Box)`
+  min-height: 800px;
+  background: linear-gradient(180deg, #6a75c0 0%, #6f7bc0 50%, #7481c0 100%);
+  padding: 20px;
 `;
 
-const StyledSection = styled(Section)`
-  padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
+const StyledHeading = styled(Heading)`
+  color: white;
 `;
 
 const StyledRichText = styled(RichTextParser)`

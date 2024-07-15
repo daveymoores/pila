@@ -33,68 +33,76 @@ const HighlightBanner: FC<{ slice: HighlightBannerProps }> = ({ slice }) => {
   const size = React.useContext(ResponsiveContext);
 
   return (
-    <Section justify={"center"} flex>
-      <ResponsiveGrid columns="large" rows="1">
-        <StyledCard
-          elevation={"xlarge"}
-          pad={"large"}
-          background={colorPalette.green}
-          align={"center"}
-          justify={"center"}
-          margin={{ top: "xlarge", bottom: "xlarge" }}
-          style={{ position: "relative" }}
-        >
-          <HighlightPattern src={"/pattern/highlight-pattern.png"} />
-          <CardHeader
-            direction={"column"}
-            style={{ position: "relative", zIndex: 1 }}
+    <BackgroundWrapper>
+      <Section justify={"center"} flex>
+        <ResponsiveGrid columns="large" rows="1">
+          <StyledCard
+            elevation={"xlarge"}
+            pad={"large"}
+            background={colorPalette.green}
+            align={"center"}
+            justify={"center"}
+            margin={{ top: "xlarge", bottom: "xlarge" }}
+            style={{ position: "relative" }}
           >
-            {title && (
-              <Heading
-                level={"1"}
-                margin="none"
-                size="small"
-                color={"white"}
-                textAlign={"center"}
-              >
-                {RichText.asText(title)}
-              </Heading>
-            )}
-          </CardHeader>
-          <CardBody
-            margin={{ top: "medium" }}
-            direction={size === "small" ? "column" : "row"}
-            justify={"stretch"}
-            align={"stretch"}
-            flex={"shrink"}
-            style={{ position: "relative", zIndex: 1 }}
-          >
-            <iframe
-              width="560"
-              height="315"
-              src={"https://www.youtube.com/embed/WrBnuh5paVo"}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              style={{
-                marginTop: "2em",
-                borderRadius: "10px",
-                width: size === "small" ? "100%" : "560px",
-                height: size === "small" ? "auto" : "315px",
-              }}
-            />
-          </CardBody>
-        </StyledCard>
-      </ResponsiveGrid>
-    </Section>
+            <HighlightPattern src={"/pattern/highlight-pattern.png"} />
+            <CardHeader
+              direction={"column"}
+              style={{ position: "relative", zIndex: 1 }}
+            >
+              {title && (
+                <Heading
+                  level={"1"}
+                  margin="none"
+                  size="small"
+                  color={"white"}
+                  textAlign={"center"}
+                >
+                  {RichText.asText(title)}
+                </Heading>
+              )}
+            </CardHeader>
+            <CardBody
+              margin={{ top: "medium" }}
+              direction={size === "small" ? "column" : "row"}
+              justify={"stretch"}
+              align={"stretch"}
+              flex={"shrink"}
+              style={{ position: "relative", zIndex: 1 }}
+            >
+              <iframe
+                width="560"
+                height="315"
+                src={"https://www.youtube.com/embed/WrBnuh5paVo"}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                style={{
+                  marginTop: "2em",
+                  borderRadius: "10px",
+                  width: size === "small" ? "100%" : "560px",
+                  height: size === "small" ? "auto" : "315px",
+                }}
+              />
+            </CardBody>
+          </StyledCard>
+        </ResponsiveGrid>
+      </Section>
+    </BackgroundWrapper>
   );
 };
+
+const BackgroundWrapper = styled.div`
+  background: linear-gradient(180deg, #7481c0 0%, #7a87d1 50%, #8090e2 100%);
+  padding: 20px 0; /* Üst ve alt boşluk */
+`;
 
 const StyledCard = styled(Card)`
   border-radius: 25px;
   min-height: 380px;
+  background: ${colorPalette.green};
 `;
 
 const HighlightPattern = styled(Image)`
