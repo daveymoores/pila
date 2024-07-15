@@ -32,30 +32,23 @@ interface HeroContentsProps extends HomepageHeroProps {
 const fadeIn = keyframes`
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-  }
-`;
-
-const slideIn = keyframes`
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-`;
-
-const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
   }
-  40% {
-    transform: translateY(-30px);
+`;
+
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 10px #4A47A3;
   }
-  60% {
-    transform: translateY(-15px);
+  50% {
+    box-shadow: 0 0 20px #4A47A3;
+  }
+  100% {
+    box-shadow: 0 0 10px #4A47A3;
   }
 `;
 
@@ -94,17 +87,15 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             <AnimatedHeading
               level={"1"}
               margin={{ top: "none", bottom: "small" }}
-              color={colorPalette.white}
-              size={"medium"}
+              size={"large"}
               responsive
             >
               {RichText.asText(subheading)}
             </AnimatedHeading>
             <AnimatedHeading
               level={"2"}
-              color={colorPalette.periwinkleCrayola}
               margin={{ bottom: "medium" }}
-              size={"small"}
+              size={"medium"}
               responsive
             >
               {RichText.asText(title)}
@@ -160,7 +151,8 @@ const ContentBox = styled(Box)`
   align-items: center;
   text-align: center;
   padding: 24px;
-  animation: ${slideIn} 1s ease-out;
+  margin-top: 50px;
+  animation: ${fadeIn} 2s ease-out;
 
   @media (min-width: 768px) {
     padding: 48px;
@@ -168,15 +160,16 @@ const ContentBox = styled(Box)`
     align-items: flex-start;
     width: 100%;
     height: 100%;
+    margin-top: 0;
   }
 `;
 
 const AnimatedHeading = styled(Heading)`
   font-weight: 600;
   line-height: 1.2;
-  animation: ${bounce} 2s infinite;
   color: #fff;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  animation: ${glow} 3s infinite;
 
   @media (max-width: 768px) {
     font-size: 18px;
@@ -200,13 +193,12 @@ const StyledImageBox = styled(Box)<{ size: string }>`
   background-position: center;
   width: ${(props) => (props.size === "small" ? "80vw" : "50vw")};
   height: ${(props) => (props.size === "small" ? "50vh" : "80vh")};
-  animation: ${fadeIn} 1.5s ease-in-out, ${bounce} 3s infinite;
+  animation: ${fadeIn} 2s ease-in-out;
 
   @media (max-width: 768px) {
     width: 100%;
     height: 50vh;
     background-size: contain;
-    animation: ${fadeIn} 1.5s ease-in-out;
   }
 `;
 
