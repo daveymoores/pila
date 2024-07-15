@@ -154,6 +154,12 @@ const Icon = styled.img<{ position: "left" | "right" }>`
   z-index: 2;
   ${(props) => (props.position === "left" ? "left: 0;" : "right: 0;")}
   animation: ${fadeIn} 1s ease-in-out forwards;
+
+  @media (max-width: 850px) {
+    width: 30%;
+    max-width: 70px;
+    margin-right: 0;
+  }
 `;
 
 export default PoweredByResearchSection;
