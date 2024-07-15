@@ -42,13 +42,13 @@ const fadeIn = keyframes`
 
 const glow = keyframes`
   0% {
-    box-shadow: 0 0 10px #4A47A3;
+    text-shadow: 0 0 10px #4A47A3;
   }
   50% {
-    box-shadow: 0 0 20px #4A47A3;
+    text-shadow: 0 0 20px #4A47A3;
   }
   100% {
-    box-shadow: 0 0 10px #4A47A3;
+    text-shadow: 0 0 10px #4A47A3;
   }
 `;
 
@@ -87,15 +87,17 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             <AnimatedHeading
               level={"1"}
               margin={{ top: "none", bottom: "small" }}
-              size={"large"}
+              color={colorPalette.white}
+              size={"medium"}
               responsive
             >
               {RichText.asText(subheading)}
             </AnimatedHeading>
             <AnimatedHeading
               level={"2"}
+              color={colorPalette.periwinkleCrayola}
               margin={{ bottom: "medium" }}
-              size={"medium"}
+              size={"small"}
               responsive
             >
               {RichText.asText(title)}
@@ -151,7 +153,6 @@ const ContentBox = styled(Box)`
   align-items: center;
   text-align: center;
   padding: 24px;
-  margin-top: 50px;
   animation: ${fadeIn} 2s ease-out;
 
   @media (min-width: 768px) {
@@ -160,7 +161,6 @@ const ContentBox = styled(Box)`
     align-items: flex-start;
     width: 100%;
     height: 100%;
-    margin-top: 0;
   }
 `;
 
@@ -168,7 +168,6 @@ const AnimatedHeading = styled(Heading)`
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
   animation: ${glow} 3s infinite;
 
   @media (max-width: 768px) {
@@ -193,12 +192,13 @@ const StyledImageBox = styled(Box)<{ size: string }>`
   background-position: center;
   width: ${(props) => (props.size === "small" ? "80vw" : "50vw")};
   height: ${(props) => (props.size === "small" ? "50vh" : "80vh")};
-  animation: ${fadeIn} 2s ease-in-out;
+  animation: ${fadeIn} 1.5s ease-in-out;
 
   @media (max-width: 768px) {
     width: 100%;
     height: 50vh;
     background-size: contain;
+    animation: ${fadeIn} 1.5s ease-in-out;
   }
 `;
 
