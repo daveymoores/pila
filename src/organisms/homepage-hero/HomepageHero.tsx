@@ -154,7 +154,7 @@ const ContentBox = styled(Box)`
   text-align: center;
   padding: 24px;
   animation: ${fadeIn} 2s ease-out;
-  margin-top: 50px;  /* Updated margin */
+  margin-top: 50px; /* Updated margin */
 
   @media (min-width: 768px) {
     padding: 48px;
@@ -162,7 +162,7 @@ const ContentBox = styled(Box)`
     align-items: flex-start;
     width: 100%;
     height: 100%;
-    margin-top: 100px;  /* Updated margin */
+    margin-top: 100px; /* Updated margin */
   }
 `;
 
@@ -195,7 +195,7 @@ const StyledImageBox = styled(Box)<{ size: string }>`
   width: ${(props) => (props.size === "small" ? "80vw" : "50vw")};
   height: ${(props) => (props.size === "small" ? "50vh" : "80vh")};
   animation: ${fadeIn} 1.5s ease-in-out;
-  margin-top: 50px;  /* Added margin to move image down */
+  margin-top: 50px; /* Added margin to move image down */
 
   @media (max-width: 768px) {
     width: 100%;
@@ -208,7 +208,7 @@ const StyledImageBox = styled(Box)<{ size: string }>`
 const ImageContainer = styled(Box)`
   position: relative;
   z-index: 0;
-  margin-top: 50px;  /* Added margin to move container down */
+  margin-top: 50px; /* Added margin to move container down */
 `;
 
 export default HomepageHero;
