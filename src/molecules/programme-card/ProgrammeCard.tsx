@@ -38,13 +38,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
   const finalUrl = link?.url || staticUrl;
 
   return (
-    <StyledCard
-      background={"white"}
-      elevation="xlarge"
-      pad="large"
-      round={"medium"}
-      direction={"column"}
-    >
+    <StyledCard elevation="xlarge" pad="large" direction={"column"}>
       <LearningModuleIcon icon={icon} />
       <CardBody
         margin={{ top: "medium" }}
@@ -54,14 +48,14 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
         align={"start"}
       >
         {title && (
-          <Heading
+          <StyledHeading
             level={"4"}
             margin="none"
             alignSelf={"stretch"}
             responsive={false}
           >
             {RichText.asText(title)}
-          </Heading>
+          </StyledHeading>
         )}
         {body && (
           <StyledParagraph
@@ -91,10 +85,25 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 };
 
 const StyledCard = styled(Card)`
+  background: linear-gradient(135deg, #1e1ecf, #ffffff);
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #2b2ed3, #ffffff);
+  }
+`;
+
+const StyledHeading = styled(Heading)`
+  font-weight: 700;
+  color: #2b2ed3;
 `;
 
 const StyledParagraph = styled(Paragraph)`
+  color: #4a4a4a;
+
   @media only screen and (max-width: 600px) {
     font-size: 16px;
     line-height: 24px;
