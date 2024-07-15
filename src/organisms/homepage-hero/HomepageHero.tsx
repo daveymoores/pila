@@ -95,7 +95,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               level={"1"}
               margin={{ top: "none", bottom: "small" }}
               color={colorPalette.white}
-              size={"large"}
+              size={"medium"}
               responsive
             >
               {RichText.asText(subheading)}
@@ -104,7 +104,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               level={"2"}
               color={colorPalette.periwinkleCrayola}
               margin={{ bottom: "medium" }}
-              size={"medium"}
+              size={"small"}
               responsive
             >
               {RichText.asText(title)}
@@ -161,7 +161,6 @@ const ContentBox = styled(Box)`
   text-align: center;
   padding: 24px;
   animation: ${slideIn} 1s ease-out;
-  margin-top: 100px;
 
   @media (min-width: 768px) {
     padding: 48px;
@@ -169,7 +168,6 @@ const ContentBox = styled(Box)`
     align-items: flex-start;
     width: 100%;
     height: 100%;
-    margin-top: 0;
   }
 `;
 
@@ -181,7 +179,7 @@ const AnimatedHeading = styled(Heading)`
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 
   @media (max-width: 768px) {
-    font-size: 24px;
+    font-size: 18px;
     text-align: center;
   }
 `;
