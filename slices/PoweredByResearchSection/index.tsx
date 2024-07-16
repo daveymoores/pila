@@ -1,6 +1,6 @@
 import { RichTextBlock } from "prismic-reactjs";
-import React, { FC, useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React, { FC } from "react";
+import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import Section from "../../src/layout/section/Section";
@@ -41,35 +41,10 @@ const rows = {
   xlarge: ["auto"],
 };
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
   const { primary, learningModules } = slice;
-  const [showIcons, setShowIcons] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > window.innerHeight / 2) {
-        setShowIcons(true);
-      } else {
-        setShowIcons(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <OuterWrapper>
@@ -111,14 +86,37 @@ const PoweredByResearchSection: FC<{
           </ResponsiveGridWrapper>
         </ContentWrapper>
       </StyledSection>
-      {showIcons && <Icon src="icon.png" alt="Icon Right" position="right" />}
     </OuterWrapper>
   );
 };
 
 const OuterWrapper = styled.div`
-  background: linear-gradient(180deg, #4a47a3 0%, #5458d0 100%);
+  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
   padding: 0 20px;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: inherit;
+    filter: blur(20px);
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: inherit;
+    filter: blur(20px); /* Increase blur for more de-pixalisation effect */
+  }
 `;
 
 const StyledSection = styled(Section)`
@@ -143,23 +141,6 @@ const FixedProgrammeCard = styled(ProgrammeCard)`
   max-width: 300px;
   min-width: 300px;
   margin: 10px;
-`;
-
-const Icon = styled.img<{ position: "left" | "right" }>`
-  width: 90%;
-  max-width: 200px;
-  height: auto;
-  margin: 0 10px;
-  position: absolute;
-  z-index: 2;
-  ${(props) => (props.position === "left" ? "left: 0;" : "right: 0;")}
-  animation: ${fadeIn} 1s ease-in-out forwards;
-
-  @media (max-width: 850px) {
-    width: 30%;
-    max-width: 70px;
-    margin-right: 0;
-  }
 `;
 
 export default PoweredByResearchSection;

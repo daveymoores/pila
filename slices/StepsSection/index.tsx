@@ -16,6 +16,7 @@ interface Item {
   title: RichTextBlock[];
   body: RichTextBlock[];
   image: ImageProps;
+  id: string; // Assuming each item has a unique id
 }
 
 interface Primary {
@@ -75,7 +76,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
           <StyledHeading
             level={"1"}
             size="small"
-            margin="none"
+            margin={{ top: "medium", bottom: "small" }}
             alignSelf={"stretch"}
           >
             {RichText.asText(primary.title)}
@@ -84,10 +85,10 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
         {items?.length &&
           items.map((item: Item, index: number) => (
             <ResponsiveGrid
-              key={index}
+              key={item.id}
               columns={columns}
               areas={gridAreas(
-                index % 2 == 0
+                index % 2 === 0
                   ? ImagePosition.imageLeft
                   : ImagePosition.imageRight
               )}
@@ -108,12 +109,12 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   style={{
                     position: "absolute",
                     top: 0,
-                    left: index % 2 == 0 ? 0 : "auto",
-                    right: index % 2 == 0 ? "auto" : 0,
+                    left: index % 2 === 0 ? 0 : "auto",
+                    right: index % 2 === 0 ? "auto" : 0,
                     zIndex: 1,
                     textAlign: "center",
                     transform: `translate3d(${
-                      index % 2 == 0 ? -30 : 30
+                      index % 2 === 0 ? -30 : 30
                     }%, -40%, 0)`,
                     boxShadow: "0 8px 16px 0 rgb(0 0 0 / 5%)",
                   }}
@@ -125,7 +126,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                 {item.image?.url && (
                   <RichMediaElement
                     {...item.image}
-                    alt={item.image?.alt || ""}
+                    alt={item.image?.alt ?? ""}
                     layout={"responsive"}
                   />
                 )}
@@ -141,6 +142,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   size="small"
                   margin={{ bottom: "small" }}
                   alignSelf={"stretch"}
+                  style={{ color: "white" }}
                 >
                   {RichText.asText(item.title)}
                 </Heading>
@@ -155,8 +157,32 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
 
 const StyledBox = styled(Box)`
   min-height: 800px;
-  background: linear-gradient(180deg, #5458d0 0%, #999adf 50%, #ffffff 100%);
-  padding: 20px;
+  padding-top: 50px;
+  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: inherit;
+    filter: blur(20px); /* Increase blur for more de-pixalisation effect */
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: inherit;
+    filter: blur(60px); /* Increase blur for more de-pixalisation effect */
+  }
 `;
 
 const StyledHeading = styled(Heading)`

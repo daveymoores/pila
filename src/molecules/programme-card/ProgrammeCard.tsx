@@ -35,7 +35,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 
   const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
   const staticUrl = staticUrls[cardTitle];
-  const finalUrl = link?.url || staticUrl;
+  const finalUrl = link?.url ?? staticUrl;
 
   return (
     <StyledCard

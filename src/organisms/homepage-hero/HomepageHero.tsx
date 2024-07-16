@@ -95,7 +95,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             </AnimatedHeading>
             <AnimatedHeading
               level={"2"}
-              color={colorPalette.periwinkleCrayola}
+              color={colorPalette.white}
               margin={{ bottom: "medium" }}
               size={"small"}
               responsive
@@ -123,11 +123,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
 };
 
 const HomepageHero: React.FC<HomepageHeroProps> = (props) => {
-  return (
-    <>
-      <HeroContents {...props} isMobileDevice={false} />
-    </>
-  );
+  return <HeroContents {...props} isMobileDevice={false} />;
 };
 
 const StyledBox = styled(Box)`
@@ -137,8 +133,12 @@ const StyledBox = styled(Box)`
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  background: linear-gradient(180deg, #2b2ed3 0%, #3d3acb 50%, #4a47a3 100%);
+  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
   animation: ${fadeIn} 1.5s ease-in-out;
+
+  @media (max-width: 768px) {
+    min-height: 120vh; /* Increase min-height for small screens */
+  }
 `;
 
 const StyledSection = styled(Section)`
@@ -154,7 +154,6 @@ const ContentBox = styled(Box)`
   text-align: center;
   padding: 24px;
   animation: ${fadeIn} 2s ease-out;
-  margin-top: 50px;
 
   @media (min-width: 768px) {
     padding: 48px;
@@ -162,7 +161,10 @@ const ContentBox = styled(Box)`
     align-items: flex-start;
     width: 100%;
     height: 100%;
-    margin-top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 120px; /* Increase padding-top for small screens */
   }
 `;
 
@@ -195,7 +197,6 @@ const StyledImageBox = styled(Box)<{ size: string }>`
   width: ${(props) => (props.size === "small" ? "80vw" : "50vw")};
   height: ${(props) => (props.size === "small" ? "50vh" : "80vh")};
   animation: ${fadeIn} 1.5s ease-in-out;
-  margin-top: 50px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -208,7 +209,6 @@ const StyledImageBox = styled(Box)<{ size: string }>`
 const ImageContainer = styled(Box)`
   position: relative;
   z-index: 0;
-  margin-top: 50px;
 `;
 
 export default HomepageHero;
