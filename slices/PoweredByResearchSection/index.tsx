@@ -91,7 +91,7 @@ const PoweredByResearchSection: FC<{
 };
 
 const OuterWrapper = styled.div`
-  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
+  background: #2b2ed3;
   padding: 0 20px;
   position: relative;
   overflow: hidden;
@@ -104,7 +104,7 @@ const OuterWrapper = styled.div`
     right: 0;
     height: 20px;
     background: inherit;
-    filter: blur(20px);
+    filter: blur(10px);
   }
 
   &:after {
@@ -115,7 +115,7 @@ const OuterWrapper = styled.div`
     right: 0;
     height: 20px;
     background: inherit;
-    filter: blur(20px); /* Increase blur for more de-pixalisation effect */
+    filter: blur(10px);
   }
 `;
 
@@ -137,9 +137,7 @@ const ResponsiveGridWrapper = styled.div`
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
-  flex: 1 1 300px; /* Adjust this value to set a fixed width for the cards */
-  max-width: 300px;
-  min-width: 300px;
+  width: 120px; /* Set a fixed width for the cards */
   margin: 10px;
 `;
 
