@@ -35,7 +35,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 
   const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
   const staticUrl = staticUrls[cardTitle];
-  const finalUrl = link?.url || staticUrl;
+  const finalUrl = link?.url ?? staticUrl;
 
   return (
     <StyledCard
@@ -92,10 +92,17 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 
 const StyledCard = styled(Card)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out;
+  background: #f8f8f8; /* Slightly darkened background color */
+  width: 88%;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 400px) {
     font-size: 16px;
     line-height: 24px;
   }

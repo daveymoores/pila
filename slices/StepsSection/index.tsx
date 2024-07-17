@@ -76,9 +76,14 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
     >
       <Section>
         <Grid margin={{ bottom: "large" }} columns={"large"}>
-          <Heading level={"1"} size="small" margin="none" alignSelf={"stretch"}>
+          <StyledHeading
+            level={"1"}
+            size="small"
+            margin="none"
+            alignSelf={"stretch"}
+          >
             {RichText.asText(primary.title)}
-          </Heading>
+          </StyledHeading>
         </Grid>
         {items?.length &&
           items.map((item: Item, index: number) => (
@@ -86,7 +91,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
               key={index}
               columns={columns}
               areas={gridAreas(
-                index % 2 == 0
+                index % 2 === 0
                   ? ImagePosition.imageLeft
                   : ImagePosition.imageRight
               )}
@@ -107,12 +112,12 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   style={{
                     position: "absolute",
                     top: 0,
-                    left: index % 2 == 0 ? 0 : "auto",
-                    right: index % 2 == 0 ? "auto" : 0,
+                    left: index % 2 === 0 ? 0 : "auto",
+                    right: index % 2 === 0 ? "auto" : 0,
                     zIndex: 1,
                     textAlign: "center",
                     transform: `translate3d(${
-                      index % 2 == 0 ? -30 : 30
+                      index % 2 === 0 ? -30 : 30
                     }%, -40%, 0)`,
                     boxShadow: "0 8px 16px 0 rgb(0 0 0 / 5%)",
                   }}
@@ -129,7 +134,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   />
                 )}
               </Box>
-              <Box
+              <TextContainer
                 gridArea="text"
                 round={"medium"}
                 background={colorPalette.white}
@@ -144,7 +149,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   {RichText.asText(item.title)}
                 </Heading>
                 <StyledRichText body={item.body} />
-              </Box>
+              </TextContainer>
             </ResponsiveGrid>
           ))}
       </Section>
@@ -153,7 +158,12 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
 };
 
 const StyledBox = styled(Box)`
+  background: linear-gradient(180deg, rgb(58, 62, 223) 0%, #ffffff 100%);
   min-height: 800px;
+`;
+
+const StyledHeading = styled(Heading)`
+  color: ${colorPalette.white};
 `;
 
 const StyledRichText = styled(RichTextParser)`
@@ -161,6 +171,18 @@ const StyledRichText = styled(RichTextParser)`
     color: ${colorPalette.grey};
     font-size: 16px;
     line-height: 24px;
+  }
+`;
+
+const TextContainer = styled(Box)`
+  border-radius: medium;
+  background: ${colorPalette.white};
+  padding: large;
+  border: 1px solid ${colorPalette.grey};
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 18px 10px 10px rgba(4, 4, 4, 0.5);
   }
 `;
 
