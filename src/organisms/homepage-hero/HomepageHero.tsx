@@ -132,12 +132,13 @@ const StyledBox = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 80px 20px 0 20px; /* Added top padding to avoid navbar overlap */
   background: rgb(46, 50, 219);
   animation: ${fadeIn} 1.5s ease-in-out;
 
   @media (max-width: 768px) {
     min-height: 120vh;
+    padding-top: 100px; /* Increased top padding for mobile */
   }
 `;
 
@@ -164,7 +165,7 @@ const ContentBox = styled(Box)`
   }
 
   @media (max-width: 768px) {
-    padding-top: 120px;
+    padding-top: 120px; /* Increased padding to push content down */
   }
 `;
 
@@ -177,6 +178,7 @@ const AnimatedHeading = styled(Heading)`
   @media (max-width: 768px) {
     font-size: 18px;
     text-align: center;
+    margin-top: 20px; /* Margin to push the text down */
   }
 `;
 
@@ -188,6 +190,7 @@ const StyledButton = styled(Button)`
   @media (max-width: 768px) {
     width: 100%;
     text-align: center;
+    margin-top: 30px; /* Increased margin to push button down */
   }
 `;
 
@@ -203,6 +206,7 @@ const StyledImageBox = styled(Box)<{ size: string }>`
     height: 50vh;
     background-size: contain;
     animation: ${fadeIn} 1.5s ease-in-out;
+    margin-top: 20px; /* Margin to push image down */
   }
 `;
 

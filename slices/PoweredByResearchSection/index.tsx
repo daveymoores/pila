@@ -111,23 +111,24 @@ const StyledSection = styled(Section)`
 const ContentWrapper = styled.div`
   position: relative;
   z-index: 1;
+  margin: 10px 8px;
+  padding: 20px;
 `;
 
 const ResponsiveGridWrapper = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 0px; /* Ensure equal padding on left and right */
+  width: 100%;
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
-  flex: 1 1 300px;
-  max-width: 300px;
-  min-width: 300px;
+  flex: 1 1 200px; /* Narrowed the card width */
+  max-width: 200px; /* Ensured consistent width */
+  min-width: 200px; /* Ensured consistent width */
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease-in-out;
   background: #f8f8f8;
-  margin: 20px;
 
   &:hover {
     transform: scale(1.05);
