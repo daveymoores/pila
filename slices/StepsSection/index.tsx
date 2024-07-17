@@ -16,7 +16,6 @@ interface Item {
   title: RichTextBlock[];
   body: RichTextBlock[];
   image: ImageProps;
-  id: string; // Assuming each item has a unique id
 }
 
 interface Primary {
@@ -70,13 +69,17 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
   const { primary, items } = slice;
 
   return (
-    <StyledBox>
+    <StyledBox
+      background="light-1"
+      justify={"center"}
+      pad={{ vertical: "xlarge" }}
+    >
       <Section>
         <Grid margin={{ bottom: "large" }} columns={"large"}>
           <StyledHeading
             level={"1"}
             size="small"
-            margin={{ top: "medium", bottom: "small" }}
+            margin="none"
             alignSelf={"stretch"}
           >
             {RichText.asText(primary.title)}
@@ -85,7 +88,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
         {items?.length &&
           items.map((item: Item, index: number) => (
             <ResponsiveGrid
-              key={item.id}
+              key={index}
               columns={columns}
               areas={gridAreas(
                 index % 2 === 0
@@ -126,12 +129,12 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                 {item.image?.url && (
                   <RichMediaElement
                     {...item.image}
-                    alt={item.image?.alt ?? ""}
+                    alt={item.image?.alt || ""}
                     layout={"responsive"}
                   />
                 )}
               </Box>
-              <Box
+              <TextContainer
                 gridArea="text"
                 round={"medium"}
                 background={colorPalette.white}
@@ -142,12 +145,11 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   size="small"
                   margin={{ bottom: "small" }}
                   alignSelf={"stretch"}
-                  style={{ color: "white" }}
                 >
                   {RichText.asText(item.title)}
                 </Heading>
                 <StyledRichText body={item.body} />
-              </Box>
+              </TextContainer>
             </ResponsiveGrid>
           ))}
       </Section>
@@ -156,37 +158,12 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
 };
 
 const StyledBox = styled(Box)`
+  background: linear-gradient(180deg, rgb(58, 62, 223) 0%, #ffffff 100%);
   min-height: 800px;
-  padding-top: 50px;
-  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
-  position: relative;
-  overflow: hidden;
-
-  &:before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: inherit;
-    filter: blur(20px); /* Increase blur for more de-pixalisation effect */
-  }
-
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: inherit;
-    filter: blur(60px); /* Increase blur for more de-pixalisation effect */
-  }
 `;
 
 const StyledHeading = styled(Heading)`
-  color: white;
+  color: ${colorPalette.white};
 `;
 
 const StyledRichText = styled(RichTextParser)`
@@ -194,6 +171,18 @@ const StyledRichText = styled(RichTextParser)`
     color: ${colorPalette.grey};
     font-size: 16px;
     line-height: 24px;
+  }
+`;
+
+const TextContainer = styled(Box)`
+  border-radius: medium;
+  background: ${colorPalette.white};
+  padding: large;
+  border: 1px solid ${colorPalette.grey};
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 18px 10px 10px rgba(4, 4, 4, 0.5);
   }
 `;
 

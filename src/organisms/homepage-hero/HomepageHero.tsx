@@ -133,11 +133,11 @@ const StyledBox = styled(Box)`
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  background: linear-gradient(180deg, #2b2ed3 0%, #1e1ecf 100%);
+  background: rgb(46, 50, 219);
   animation: ${fadeIn} 1.5s ease-in-out;
 
   @media (max-width: 768px) {
-    min-height: 120vh; /* Increase min-height for small screens */
+    min-height: 120vh;
   }
 `;
 
@@ -164,7 +164,7 @@ const ContentBox = styled(Box)`
   }
 
   @media (max-width: 768px) {
-    padding-top: 120px; /* Increase padding-top for small screens */
+    padding-top: 120px;
   }
 `;
 

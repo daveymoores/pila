@@ -73,7 +73,7 @@ const PoweredByResearchSection: FC<{
                     link={
                       module.data?.link
                         ? {
-                            url: module.data.link.url || "",
+                            url: module.data.link.url ?? "",
                             uid: module.uid,
                             type: module.type,
                             id: module.id,
@@ -91,32 +91,14 @@ const PoweredByResearchSection: FC<{
 };
 
 const OuterWrapper = styled.div`
-  background: #2b2ed3;
+  background: linear-gradient(
+    180deg,
+    rgb(46, 50, 219) 0%,
+    rgb(58, 62, 223) 100%
+  );
   padding: 0 20px;
   position: relative;
   overflow: hidden;
-
-  &:before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: inherit;
-    filter: blur(10px);
-  }
-
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    background: inherit;
-    filter: blur(10px);
-  }
 `;
 
 const StyledSection = styled(Section)`
@@ -128,17 +110,28 @@ const StyledSection = styled(Section)`
 
 const ContentWrapper = styled.div`
   position: relative;
-  z-index: 1; /* Ensure content is above the icons */
+  z-index: 1;
 `;
 
 const ResponsiveGridWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
-  width: 120px; /* Set a fixed width for the cards */
-  margin: 10px;
+  flex: 1 1 300px;
+  max-width: 300px;
+  min-width: 300px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out;
+  background: #f8f8f8;
+  margin: 20px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export default PoweredByResearchSection;
