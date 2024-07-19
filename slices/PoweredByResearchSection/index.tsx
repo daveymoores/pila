@@ -123,12 +123,14 @@ const ResponsiveGridWrapper = styled.div`
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
-  flex: 1 1 200px; /* Narrowed the card width */
-  max-width: 200px; /* Ensured consistent width */
-  min-width: 200px; /* Ensured consistent width */
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease-in-out;
-  background: #f8f8f8;
+  // flex: 1 1 200px; /* Narrowed the card width */
+  // max-width: 200px; /* Ensured consistent width */
+  // min-width: 200px; /* Ensured consistent width */
+  // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+  // transition: transform 0.3s ease-in-out;
+  // background: #f8f8f8;
+  // justify-content: center;
+  align-items: center;
 
   &:hover {
     transform: scale(1.05);
