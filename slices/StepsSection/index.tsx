@@ -178,7 +178,7 @@ const TextContainer = styled(Box)`
   border-radius: medium;
   background: ${colorPalette.white};
   padding: large;
-  border: 1px solid ${colorPalette.grey};
+  // border: 1px solid ${colorPalette.grey};
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
   &:hover {
