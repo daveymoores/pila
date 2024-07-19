@@ -179,10 +179,10 @@ const TextContainer = styled(Box)`
   background: ${colorPalette.white};
   padding: large;
   border: 1px solid ${colorPalette.grey};
-  transition: box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
   &:hover {
-    box-shadow: 18px 10px 10px rgba(4, 4, 4, 0.5);
+    transform: scale(1.05) translateY(-10px);
   }
 `;
 
