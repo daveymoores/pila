@@ -90,6 +90,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               color={colorPalette.white}
               size={"medium"}
               responsive
+              isTitle
             >
               {RichText.asText(subheading)}
             </AnimatedHeading>
@@ -99,6 +100,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               margin={{ bottom: "medium" }}
               size={"small"}
               responsive
+              isSubheading
             >
               {RichText.asText(title)}
             </AnimatedHeading>
@@ -169,14 +171,34 @@ const ContentBox = styled(Box)`
   }
 `;
 
-const AnimatedHeading = styled(Heading)`
+const AnimatedHeading = styled(Heading)<{
+  isTitle?: boolean;
+  isSubheading?: boolean;
+}>`
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
   animation: ${glow} 3s infinite;
 
+  ${(props) =>
+    props.isTitle &&
+    `
+    font-size: 2.5rem;
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+    }
+  `}
+
+  ${(props) =>
+    props.isSubheading &&
+    `
+    font-size: 1.5rem;
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+  `}
+
   @media (max-width: 768px) {
-    font-size: 18px;
     text-align: center;
     margin-top: 20px; /* Margin to push the text down */
   }
