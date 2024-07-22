@@ -46,13 +46,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
       direction={"column"}
     >
       <LearningModuleIcon icon={icon} />
-      <CardBody
-        margin={{ top: "medium" }}
-        pad={{
-          top: "medium",
-        }}
-        align={"start"}
-      >
+      <StyledCardBody>
         {title && (
           <Heading
             level={"4"}
@@ -74,18 +68,19 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
           </StyledParagraph>
         )}
         {finalUrl && (
-          <NextLink href={finalUrl} passHref>
-            <Button
-              margin={{ top: "medium" }}
-              primary
-              color={colorPalette.green}
-              size={ButtonSizes.small}
-              type="button"
-              label="Learn More"
-            />
-          </NextLink>
+          <ButtonWrapper>
+            <NextLink href={finalUrl} passHref>
+              <Button
+                primary
+                color={colorPalette.green}
+                size={ButtonSizes.small}
+                type="button"
+                label="Learn More"
+              />
+            </NextLink>
+          </ButtonWrapper>
         )}
-      </CardBody>
+      </StyledCardBody>
     </StyledCard>
   );
 };
@@ -94,11 +89,27 @@ const StyledCard = styled(Card)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease-in-out;
   background: #f8f8f8; /* Slightly darkened background color */
-  width: 88%;
-
+  width: 100%; /* Ensure card takes full width */
+  height: 100%; /* Ensure card takes full height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   &:hover {
     transform: scale(1.05);
   }
+`;
+
+const StyledCardBody = styled(CardBody)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Ensure the content is spaced evenly */
+  height: 100%; /* Ensure card body takes full height */
+  align-items: center; /* Center the content */
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: auto;
+  padding-top: 20px;
 `;
 
 const StyledParagraph = styled(Paragraph)`

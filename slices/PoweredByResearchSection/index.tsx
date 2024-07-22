@@ -3,9 +3,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
-import Section from "../../src/layout/section/Section";
 import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
-import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
 import TextContent from "../../src/organisms/text-content/TextContent";
 import CustomType from "../../types/CustomType";
 import ImageProps from "../../types/ImageProps";
@@ -34,13 +32,6 @@ export interface PoweredByResearchSectionProps
   learningModules: CustomType<LearningModule>[];
 }
 
-const rows = {
-  small: ["auto", "auto"],
-  medium: ["auto", "auto"],
-  large: ["auto"],
-  xlarge: ["auto"],
-};
-
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
@@ -48,44 +39,31 @@ const PoweredByResearchSection: FC<{
 
   return (
     <OuterWrapper>
-      <StyledSection>
-        <ContentWrapper>
-          <TextContent {...primary} asCard={false} padding="medium" />
-          <ResponsiveGridWrapper>
-            <ResponsiveGrid
-              columns={{
-                small: ["auto"],
-                medium: ["flex", "flex"],
-                large: ["flex", "flex", "flex"],
-              }}
-              rows={rows}
-              gap="medium"
-              align={"stretch"}
-            >
-              {learningModules
-                .filter((module, index) => index <= 2)
-                .map((module) => (
-                  <FixedProgrammeCard
-                    key={module.id}
-                    title={module.data?.title}
-                    body={module.data?.bodyShort}
-                    icon={module.data?.icon}
-                    link={
-                      module.data?.link
-                        ? {
-                            url: module.data.link.url ?? "",
-                            uid: module.uid,
-                            type: module.type,
-                            id: module.id,
-                          }
-                        : undefined
-                    }
-                  />
-                ))}
-            </ResponsiveGrid>
-          </ResponsiveGridWrapper>
-        </ContentWrapper>
-      </StyledSection>
+      <TextContent {...primary} asCard={false} padding="medium" />
+      <ResponsiveGridWrapper>
+        <ResponsiveGrid>
+          {learningModules
+            .filter((module, index) => index <= 2)
+            .map((module) => (
+              <FixedProgrammeCard
+                key={module.id}
+                title={module.data?.title}
+                body={module.data?.bodyShort}
+                icon={module.data?.icon}
+                link={
+                  module.data?.link
+                    ? {
+                        url: module.data.link.url ?? "",
+                        uid: module.uid,
+                        type: module.type,
+                        id: module.id,
+                      }
+                    : undefined
+                }
+              />
+            ))}
+        </ResponsiveGrid>
+      </ResponsiveGridWrapper>
     </OuterWrapper>
   );
 };
@@ -99,39 +77,33 @@ const OuterWrapper = styled.div`
   padding: 0 20px;
   position: relative;
   overflow: hidden;
-`;
-
-const StyledSection = styled(Section)`
-  background: transparent;
-  padding: 20px 0;
-  border-radius: 10px;
-  position: relative;
-`;
-
-const ContentWrapper = styled.div`
-  position: relative;
-  z-index: 1;
-  margin: 10px 8px;
-  padding: 20px;
+  margin: 0;
 `;
 
 const ResponsiveGridWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px 0px; /* Ensure equal padding on left and right */
+  align-items: center;
+  padding: 20px 0;
   width: 100%;
+  margin: 0;
+`;
+
+const ResponsiveGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always have 3 columns */
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* 1 column for mobile */
+  }
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
-  // flex: 1 1 200px; /* Narrowed the card width */
-  // max-width: 200px; /* Ensured consistent width */
-  // min-width: 200px; /* Ensured consistent width */
-  // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
-  // transition: transform 0.3s ease-in-out;
-  // background: #f8f8f8;
-  // justify-content: center;
-  align-items: center;
-
+  max-width: 300px;
+  width: 100%; /* Ensure the cards take full width of their column */
   &:hover {
     transform: scale(1.05);
   }
