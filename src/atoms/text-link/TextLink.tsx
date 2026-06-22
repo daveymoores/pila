@@ -6,8 +6,8 @@ import styled from "styled-components";
 import type { Link } from "../../../lib/prismic-types";
 import { getLinkUrl } from "../../../lib/prismic-types";
 import { resolveLinkSync } from "../../../prismicio";
-import { colorPalette, fontWeights } from "../../theme/pila";
 import useWebMedia from "../../hooks/useWebMedia";
+import { colorPalette, fontWeights } from "../../theme/pila";
 
 interface CustomLinkProps extends AnchorProps {
   label: string;
