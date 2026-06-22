@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Grid, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import Section from "../../src/layout/section/Section";
 import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
@@ -10,7 +11,7 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Primary {
-  title: RichTextBlock[];
+  title: RichTextBlock;
 }
 
 interface Item {
@@ -46,7 +47,7 @@ const ThanksToInstitutionsSection: FC<{
     <Section justify={"center"} flex>
       <Grid margin={{ bottom: "large" }} columns={"large"}>
         <Heading level={"1"} size="small" margin="none" alignSelf={"stretch"}>
-          {RichText.asText(slice.primary.title)}
+          {asText(slice.primary.title)}
         </Heading>
       </Grid>
       <ResponsiveGrid columns={columns} rows={rows}>

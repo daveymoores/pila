@@ -1,8 +1,13 @@
-import ApiSearchResponse from "@prismicio/client/types/ApiSearchResponse";
-
 import CustomType from "./CustomType";
 
-interface Response<T> extends Omit<ApiSearchResponse, "results"> {
+interface Response<T> {
+  page: number;
+  results_per_page: number;
+  results_size: number;
+  total_results_size: number;
+  total_pages: number;
+  next_page: string | null;
+  prev_page: string | null;
   results: CustomType<T>[];
 }
 

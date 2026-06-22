@@ -8,6 +8,7 @@ import styled from "styled-components";
 
 import { AuthContext, useAuth } from "../../../lib/auth";
 import { gaEvent, GAEventType } from "../../../lib/ga";
+import { linkResolver } from "../../../prismicio";
 import PageType from "../../../types/PageTypes";
 import RepeatableLink from "../../../types/RepeatableLink";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -17,7 +18,6 @@ import {
 } from "../../atoms/responsive-helpers/ResponsiveHelpers";
 import TextLink from "../../atoms/text-link/TextLink";
 import OffCanvasContext from "../../context/OffCanvasContext";
-import useLinkResolver from "../../hooks/useLinkResolver";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
 import Logos from "../logos/Logos";
@@ -43,6 +43,59 @@ export interface NavigationProps {
 const darkThemePages = (route: string) =>
   route === "/" || new RegExp("account|sessions").test(route);
 
+type RoutedNavigationSlice = NavigationSlice & {
+  items: (RepeatableLink & {
+    href: string;
+    onClick: (event: SyntheticEvent) => void;
+  })[];
+};
+
+function useRoutedMenuItems(
+  menuItems: NavigationSlice[],
+): RoutedNavigationSlice[] {
+  const router = useRouter();
+  const [routedItems, setRoutedItems] = React.useState<RoutedNavigationSlice[]>(
+    [],
+  );
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    const resolveMenuItems = async () => {
+      const resolved = await Promise.all(
+        menuItems.map(async (navigationItem) => ({
+          ...navigationItem,
+          items: await Promise.all(
+            navigationItem.items.map(async (item) => {
+              const href = await linkResolver(item.link);
+              return {
+                ...item,
+                href,
+                onClick: (event: SyntheticEvent) => {
+                  event.preventDefault();
+                  router.push(href);
+                },
+              };
+            }),
+          ),
+        })),
+      );
+
+      if (!cancelled) {
+        setRoutedItems(resolved);
+      }
+    };
+
+    resolveMenuItems();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [menuItems, router]);
+
+  return routedItems;
+}
+
 const Navigation: React.FC<NavigationProps> = ({
   signedOutMenuItems,
   signedInMenuItems,
@@ -56,8 +109,8 @@ const Navigation: React.FC<NavigationProps> = ({
     : NavigationTheme.LIGHT;
 
   React.useEffect(() => {
-    if (isOpen) setIsOpen(false);
-  }, [router.asPath]);
+    setIsOpen(false);
+  }, [router.asPath, setIsOpen]);
 
   const variants = {
     initial: {
@@ -72,7 +125,7 @@ const Navigation: React.FC<NavigationProps> = ({
   };
 
   const spring = {
-    type: "spring",
+    type: "spring" as const,
     damping: 100,
     stiffness: 2000,
   };
@@ -80,35 +133,8 @@ const Navigation: React.FC<NavigationProps> = ({
   const loadFeatures = () =>
     import("./framer-motion-features").then((res) => res.default);
 
-  const signedOutRoutedMenuLinks = signedOutMenuItems.map((navigationItem) => ({
-    ...navigationItem,
-    items: navigationItem.items.map((item) => {
-      const href = useLinkResolver(item.link);
-      return {
-        ...item,
-        href: useLinkResolver(item.link),
-        onClick: (event: SyntheticEvent) => {
-          event.preventDefault();
-          router.push(href);
-        },
-      };
-    }),
-  }));
-
-  const signedInRoutedMenuLinks = signedInMenuItems.map((navigationItem) => ({
-    ...navigationItem,
-    items: navigationItem.items.map((item) => {
-      const href = useLinkResolver(item.link);
-      return {
-        ...item,
-        href: useLinkResolver(item.link),
-        onClick: (event: SyntheticEvent) => {
-          event.preventDefault();
-          router.push(href);
-        },
-      };
-    }),
-  }));
+  const signedOutRoutedMenuLinks = useRoutedMenuItems(signedOutMenuItems);
+  const signedInRoutedMenuLinks = useRoutedMenuItems(signedInMenuItems);
 
   const routedMenuItems = !isEmpty(auth)
     ? signedOutRoutedMenuLinks
@@ -245,11 +271,10 @@ const Navigation: React.FC<NavigationProps> = ({
   );
 };
 
-interface AuthButtonProps
-  extends Pick<
-    AuthContext,
-    "auth" | "signInWithEmailAndPassword" | "signOut" | "loading"
-  > {
+interface AuthButtonProps extends Pick<
+  AuthContext,
+  "auth" | "signInWithEmailAndPassword" | "signOut" | "loading"
+> {
   theme: NavigationTheme;
 }
 
@@ -258,7 +283,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
   const authLinks = [
     {
       label: "Sessions",
-      type: PageType.SESSIONS,
+      pageType: PageType.SESSIONS,
       href: `/account/sessions`,
       onClick: (event: SyntheticEvent) => {
         event.preventDefault();
@@ -267,7 +292,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
     },
     {
       label: "Profile",
-      type: PageType.ACCOUNT,
+      pageType: PageType.ACCOUNT,
       href: `/account`,
       onClick: (event: SyntheticEvent) => {
         event.preventDefault();
@@ -288,7 +313,7 @@ const AuthButtons: React.FC<AuthButtonProps> = ({ auth, signOut, theme }) => {
   const mobileAuthLinks: RepeatableLink[] = authLinks.map((link) => ({
     label: link.label,
     link: {
-      type: link.type,
+      type: link.pageType,
       link_type: "Document",
     },
     onClick: link.onClick,

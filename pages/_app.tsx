@@ -1,38 +1,41 @@
-// pages/_app.js
 import "../styles/globals.css";
 
-import { NextPage } from "next";
-import App, { AppContext, AppProps } from "next/app";
+import * as prismic from "@prismicio/client";
+import { type CreateClientConfig, PrismicPreview } from "@prismicio/next/pages";
+import App, { type AppContext, type AppProps } from "next/app";
 import { useRouter } from "next/router";
-import Prismic from "prismic-javascript";
 import React from "react";
 
 import getApplicationAverages from "../helpers/get-application-averages/getApplicationAverages";
 import { AuthProvider } from "../lib/auth";
 import * as ga from "../lib/ga";
-import { Client } from "../prismic";
+import { getLinkUid } from "../lib/prismic-types";
+import { createClient, repositoryName } from "../prismicio";
 import PreviewCard from "../src/atoms/preview-card/PreviewCard";
 import AssessmentApplicationContext from "../src/context/AssessmentApplicationContext";
 import {
-  DictionaryProps,
+  type DictionaryProps,
   DictionaryProvider,
 } from "../src/context/DictionaryContext";
 import LearningModulesContext from "../src/context/LearningModulesContext";
 import { NotificationProvider } from "../src/context/NotificationContext";
 import OffCanvasContext from "../src/context/OffCanvasContext";
 import Head from "../src/molecules/head/Head";
-import { NotificationProps } from "../src/molecules/notification/Notification";
-import { DoormatProps } from "../src/organisms/doormat/Doormat";
-import { FooterProps } from "../src/organisms/footer/Footer";
-import { NavigationProps } from "../src/organisms/navigation/Navigation";
+import { type NotificationProps } from "../src/molecules/notification/Notification";
+import { type DoormatProps } from "../src/organisms/doormat/Doormat";
+import { type FooterProps } from "../src/organisms/footer/Footer";
+import { type NavigationProps } from "../src/organisms/navigation/Navigation";
 import Scaffold from "../src/organisms/scaffold/Scaffold";
+import SiteScripts from "../src/organisms/site-scripts/SiteScripts";
 import PilaTheme from "../src/theme/PilaTheme/PilaTheme";
-import CookieNoticeProps from "../types/CookieNoticeProps";
-import CustomType from "../types/CustomType";
+import type CookieNoticeProps from "../types/CookieNoticeProps";
+import type CustomType from "../types/CustomType";
 import PageType from "../types/PageTypes";
-import PrismicResponse from "../types/PrismicResponse";
-import { LearningModuleProps } from "./learning-modules/[learning_module]";
-import { AssessmentApplicationProps } from "./learning-modules/[learning_module]/[assessment_application]";
+import type { LearningModuleProps } from "./learning-modules/[learning_module]";
+import type {
+  AssessmentApplicationMainProps,
+  AssessmentApplicationProps,
+} from "./learning-modules/[learning_module]/[assessment_application]";
 
 interface DefaultSeoProps {
   url: string;
@@ -53,22 +56,11 @@ export interface PageProps {
   doormat: CustomType<DoormatProps>[] | [];
   footer: CustomType<FooterProps>[] | [];
   seo: CustomType<DefaultSeoProps>[] | [];
+  userAgent?: string;
+  isPreview?: boolean;
 }
 
-type Response = PrismicResponse<
-  LearningModuleProps &
-    NavigationProps &
-    DoormatProps &
-    FooterProps &
-    DefaultSeoProps &
-    AssessmentApplicationProps &
-    DictionaryProps &
-    CookieNoticeProps
->;
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
+const PilaApp = (props: AppProps<PageProps>) => {
   const { Component, pageProps } = props;
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const router = useRouter();
@@ -78,18 +70,17 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 
   React.useEffect(() => {
     const handleRouteChange = (url: string) => {
-      ga.pageView(url, title, description);
+      ga.pageView(url, title || "", description || "");
     };
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, [router.events]);
+  }, [router.events, title, description]);
 
-  // calculate averages for difficulty and age, plus total number of tasks
   const assessmentApplicationAverages = getApplicationAverages(
     (pageProps?.assessmentApplications as CustomType<AssessmentApplicationProps>[]) ||
-      []
+      [],
   );
 
   const learningModules: CustomType<LearningModuleProps>[] = (
@@ -97,20 +88,21 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
   ).map((learningModule) => {
     const applications = (pageProps?.assessmentApplications || []).reduce(
       (
-        acc: CustomType<AssessmentApplicationProps>[],
-        application: CustomType<AssessmentApplicationProps>
+        acc: AssessmentApplicationMainProps[],
+        application: CustomType<AssessmentApplicationProps>,
       ) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (application.data?.module.uid === learningModule.uid) {
+        const appData = application.data as
+          | AssessmentApplicationMainProps
+          | undefined;
+        if (getLinkUid(appData?.module) === learningModule.uid) {
           const applicationsStats = assessmentApplicationAverages.find(
-            (app) => app.uid === application.uid
+            (app) => app.uid === application.uid,
           );
 
           return [
             ...acc,
             {
-              ...application.data,
+              ...(application.data as unknown as AssessmentApplicationMainProps),
               uid: application.uid,
               applicationsStats,
             },
@@ -119,7 +111,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 
         return acc;
       },
-      []
+      [],
     );
 
     return {
@@ -130,6 +122,7 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
 
   return (
     <AuthProvider>
+      <SiteScripts />
       <OffCanvasContext.Provider
         value={{
           isOpen,
@@ -140,7 +133,10 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
           <NotificationProvider notifications={pageProps.notification}>
             <LearningModulesContext.Provider value={learningModules}>
               <AssessmentApplicationContext.Provider
-                value={pageProps?.assessmentApplication}
+                value={
+                  (pageProps as unknown as Record<string, unknown>)
+                    .assessmentApplication as never
+                }
               >
                 <Head
                   title={title}
@@ -152,20 +148,36 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
                 />
                 <PilaTheme userAgent={pageProps.userAgent}>
                   <Scaffold
-                    navigation={(pageProps?.navigation || [])[0]?.data}
-                    doormat={(pageProps?.doormat || [])[0]?.data}
-                    footer={(pageProps?.footer || [])[0]?.data}
+                    navigation={
+                      (pageProps?.navigation || [])[0]?.data ?? {
+                        signedOutMenuItems: [],
+                        signedInMenuItems: [],
+                      }
+                    }
+                    doormat={
+                      ((pageProps?.doormat || [])[0]?.data ?? {
+                        list_one_label: "",
+                        list_one_links: [],
+                        list_two_label: "",
+                        list_two_links: [],
+                        list_three_label: "",
+                        list_three_links: [],
+                        mascotImage: {
+                          url: "",
+                          alt: "",
+                          dimensions: { width: 0, height: 0 },
+                        },
+                      }) as DoormatProps
+                    }
+                    footer={
+                      (pageProps?.footer || [])[0]?.data ?? {
+                        copyright: [],
+                        social_icons: [],
+                      }
+                    }
                   >
                     <Component {...pageProps} />
                   </Scaffold>
-                  {/* {process.browser && (
-                    <StyledBox>
-                      <CookieNotice
-                        darkTheme={false}
-                        {...(pageProps?.cookieNotice || [])[0]?.data}
-                      />
-                    </StyledBox>
-                  )} */}
                   {pageProps.isPreview && <PreviewCard />}
                 </PilaTheme>
               </AssessmentApplicationContext.Provider>
@@ -173,67 +185,108 @@ const PilaApp: NextPage<AppProps<PageProps>> = (props) => {
           </NotificationProvider>
         </DictionaryProvider>
       </OffCanvasContext.Provider>
+      <PrismicPreview repositoryName={repositoryName} />
     </AuthProvider>
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 PilaApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
   const userAgent = appContext.ctx.req?.headers["user-agent"];
-  const client = Client();
-  let data;
+  const ctx = appContext.ctx as AppContext["ctx"] & {
+    previewData?: CreateClientConfig["previewData"];
+  };
+  const client = createClient({
+    previewData: ctx.previewData,
+    ...(ctx.req
+      ? { req: ctx.req as unknown as CreateClientConfig["req"] }
+      : {}),
+  });
 
-  try {
-    data =
-      (((await client.query(
-        Prismic.Predicates.any("document.type", [
-          "assessment_application",
-          "learning_module",
-          "cookie_notice",
-          "notification",
-          "dictionary",
-          "navigation",
-          "doormat",
-          "footer",
-          "seo",
-        ]),
-        {
-          fetchLinks: ["document.slug", "document.type"],
-          orderings: "[document.first_publication_date]",
-        }
-      )) as unknown) as Response) || {};
-  } catch (err) {
-    throw new Error(String(err));
-  }
+  const data = await client.get({
+    filters: [
+      prismic.filter.any("document.type", [
+        PageType.ASSESSMENT_APPLICATION,
+        PageType.LEARNING_MODULE,
+        PageType.COOKIE_NOTICE,
+        PageType.NOTIFICATION,
+        PageType.DICTIONARY,
+        PageType.NAVIGATION,
+        PageType.DOORMAT,
+        PageType.FOOTER,
+        PageType.SEO,
+      ]),
+    ],
+    fetchLinks: ["document.slug", "document.type"],
+    orderings: [{ field: "document.first_publication_date", direction: "asc" }],
+  });
 
   const sortedResults = data.results.reduce(
     (acc: PageProps, result): PageProps => {
+      const typed = result as CustomType<unknown>;
       switch (result.type) {
         case PageType.SEO:
-          return { ...acc, seo: [...acc.seo, result] };
+          return {
+            ...acc,
+            seo: [...acc.seo, typed as CustomType<DefaultSeoProps>],
+          };
         case PageType.FOOTER:
-          return { ...acc, footer: [...acc.footer, result] };
+          return {
+            ...acc,
+            footer: [...acc.footer, typed as CustomType<FooterProps>],
+          };
         case PageType.DOORMAT:
-          return { ...acc, doormat: [...acc.doormat, result] };
+          return {
+            ...acc,
+            doormat: [...acc.doormat, typed as CustomType<DoormatProps>],
+          };
         case PageType.NAVIGATION:
-          return { ...acc, navigation: [...acc.navigation, result] };
+          return {
+            ...acc,
+            navigation: [
+              ...acc.navigation,
+              typed as CustomType<NavigationProps>,
+            ],
+          };
         case PageType.NOTIFICATION:
-          return { ...acc, notification: [...acc.notification, result] };
+          return {
+            ...acc,
+            notification: [
+              ...acc.notification,
+              typed as CustomType<NotificationProps>,
+            ],
+          };
         case PageType.DICTIONARY:
-          return { ...acc, dictionary: [...acc.dictionary, result] };
+          return {
+            ...acc,
+            dictionary: [
+              ...acc.dictionary,
+              typed as CustomType<DictionaryProps>,
+            ],
+          };
         case PageType.COOKIE_NOTICE:
-          return { ...acc, cookieNotice: [...acc.cookieNotice, result] };
+          return {
+            ...acc,
+            cookieNotice: [
+              ...acc.cookieNotice,
+              typed as CustomType<CookieNoticeProps>,
+            ],
+          };
         case PageType.LEARNING_MODULE:
           return {
             ...acc,
-            learningModules: [...acc.learningModules, result],
+            learningModules: [
+              ...acc.learningModules,
+              typed as CustomType<LearningModuleProps>,
+            ],
           };
         case PageType.ASSESSMENT_APPLICATION:
           return {
             ...acc,
-            assessmentApplications: [...acc.assessmentApplications, result],
+            assessmentApplications: [
+              ...acc.assessmentApplications,
+              typed as CustomType<AssessmentApplicationProps>,
+            ],
           };
         default:
           return acc;
@@ -249,7 +302,7 @@ PilaApp.getInitialProps = async (appContext: AppContext) => {
       doormat: [],
       footer: [],
       seo: [],
-    }
+    },
   );
 
   return {

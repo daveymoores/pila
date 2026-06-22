@@ -44,8 +44,8 @@ const gridAreas = {
 };
 
 interface HeroText extends Partial<BreadcrumbProps> {
-  title: JSX.IntrinsicAttributes;
-  info?: JSX.IntrinsicAttributes;
+  title: React.ReactNode;
+  info?: React.ReactNode;
   variant?: Theme;
 }
 

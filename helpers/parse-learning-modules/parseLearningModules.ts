@@ -7,7 +7,7 @@ export interface ModuleApplications {
 }
 
 const parseLearningModules = (
-  modules: CustomType<LearningModuleProps>[]
+  modules: CustomType<LearningModuleProps>[],
 ): ModuleApplications[] =>
   modules
     ? modules.map((result) => {

@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://pilaproject.org
+Host: https://pila.vercel.app
 
 # Sitemaps
-Sitemap: https://pilaproject.org/sitemap.xml
+Sitemap: https://pila.vercel.app/sitemap.xml

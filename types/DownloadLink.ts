@@ -1,4 +1,4 @@
-import { Link } from "prismic-reactjs";
+import type { Link } from "../lib/prismic-types";
 
 interface DownloadLink {
   label?: string;

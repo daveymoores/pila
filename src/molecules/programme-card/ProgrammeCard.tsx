@@ -1,9 +1,10 @@
+import { asText } from "@prismicio/client";
 import { Card, CardBody, Heading, Paragraph } from "grommet";
-import NextLink from "next/link";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../../lib/prismic-types";
+import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
@@ -16,9 +17,9 @@ interface ProgrammeCardProps {
     type?: PageType;
     id?: string;
   };
-  title?: RichTextBlock[];
-  body?: RichTextBlock[];
-  icon?: Pick<RichTextBlock, "url" | "alt" | "dimensions" | "copyright">;
+  title?: RichTextBlock;
+  body?: RichTextBlock;
+  icon?: ImageProps;
 }
 
 const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
@@ -33,7 +34,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
     "customiser tools": "/customiser-tools",
   };
 
-  const cardTitle = title ? RichText.asText(title).toLowerCase().trim() : "";
+  const cardTitle = title ? asText(title).toLowerCase().trim() : "";
   const staticUrl = staticUrls[cardTitle];
   const finalUrl = link?.url ?? staticUrl;
 
@@ -54,7 +55,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             alignSelf={"stretch"}
             responsive={false}
           >
-            {RichText.asText(title)}
+            {asText(title)}
           </Heading>
         )}
         {body && (
@@ -64,20 +65,22 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             }}
             fill
           >
-            {RichText.asText(body)}
+            {asText(body)}
           </StyledParagraph>
         )}
         {finalUrl && (
           <ButtonWrapper>
-            <NextLink href={finalUrl} passHref>
-              <Button
-                primary
-                color={colorPalette.green}
-                size={ButtonSizes.small}
-                type="button"
-                label="Learn More"
-              />
-            </NextLink>
+            <Button
+              primary
+              color={colorPalette.green}
+              size={ButtonSizes.small}
+              label="Learn More"
+              link={{
+                link_type: "Document",
+                type: PageType.THEME,
+                url: finalUrl,
+              }}
+            />
           </ButtonWrapper>
         )}
       </StyledCardBody>

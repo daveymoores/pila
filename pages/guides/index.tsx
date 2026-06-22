@@ -1,11 +1,10 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading } from "grommet";
-import { GetStaticPropsResult } from "next";
-import { useGetStaticProps } from "next-slicezone/hooks";
-import Prismic from "prismic-javascript";
-import { RichText } from "prismic-reactjs";
+import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import React from "react";
 
-import { Client } from "../../prismic";
+import { createGetStaticProps } from "../../helpers/prismic-static-props";
+import { createClient } from "../../prismicio";
 import Section from "../../src/layout/section/Section";
 import GuideCard from "../../src/molecules/guide-card/GuideCard";
 import HeroText from "../../src/organisms/hero-text/HeroText";
@@ -17,7 +16,6 @@ import DetailPageProps, {
 import GuidePageProps from "../../types/Guide";
 import PageData from "../../types/PageData";
 import PageType from "../../types/PageTypes";
-import PrismicResponse from "../../types/PrismicResponse";
 import QueryType from "../../types/QueryType";
 import { Theme } from "../../types/Theme";
 
@@ -58,7 +56,7 @@ const Page: React.FC<GuidesPageProps> = (props) => {
             alignSelf={"stretch"}
             size="small"
           >
-            {RichText.asText(title)}
+            {asText(title)}
           </Heading>
         }
         variant={Theme.LIGHT}
@@ -68,8 +66,8 @@ const Page: React.FC<GuidesPageProps> = (props) => {
           {props.guides.map((guide, index) => (
             <GuideCard
               key={index}
-              title={RichText.asText(guide.data?.title)}
-              guideCategory={guide.data?.guide_category.data?.title}
+              title={asText(guide.data?.title)}
+              guideCategory={guide.data?.guide_category?.data?.title}
               pageLink={{ uid: guide.uid, type: guide.type, url: guide.url }}
             />
           ))}
@@ -79,36 +77,31 @@ const Page: React.FC<GuidesPageProps> = (props) => {
   );
 };
 
-interface StaticContextProps {
-  params: Record<string, unknown>;
-}
-
 export const getStaticProps = async (
-  context: StaticContextProps
+  context: GetStaticPropsContext,
 ): Promise<GetStaticPropsResult<DetailPageProps>> => {
-  const client = Client();
-  let data;
+  const client = createClient({ previewData: context.previewData });
+  const guides = await client.getAllByType(PageType.GUIDE, {
+    fetchLinks: ["guide_category.title"],
+    orderings: [{ field: "document.first_publication_date", direction: "asc" }],
+  });
 
-  try {
-    data =
-      (((await client.query(
-        Prismic.Predicates.any("document.type", ["guide"]),
-        {
-          fetchLinks: ["guide_category.title"],
-          orderings: "[document.first_publication_date]",
-        }
-      )) as unknown) as PrismicResponse<DetailPageProps>) || {};
-  } catch (err) {
-    throw new Error(err);
-  }
-
-  const { props } = await useGetStaticProps({
-    client: Client(),
+  const pageResult = await createGetStaticProps({
     queryType: QueryType.SINGLE,
     type: PageType.GUIDE_HOME,
   })(context);
 
-  return { props: { ...props, guides: data.results, slices: null } };
+  if ("notFound" in pageResult && pageResult.notFound) {
+    return pageResult;
+  }
+
+  return {
+    props: {
+      ...pageResult.props,
+      guides,
+      slices: null,
+    } as unknown as DetailPageProps,
+  };
 };
 
 export default Page;

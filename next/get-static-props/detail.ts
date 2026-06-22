@@ -1,48 +1,55 @@
-import { GetStaticPropsResult } from "next";
-import { Params } from "next/dist/next-server/server/router";
-import { useGetStaticProps } from "next-slicezone/hooks";
+import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 
 import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
-import { Client } from "../../prismic";
+import { createGetStaticProps } from "../../helpers/prismic-static-props";
 import PageType from "../../types/PageTypes";
 
-interface BaseStaticContextProps {
-  params: Record<string, unknown>;
-}
-
-const getStaticDetailProps = <T extends BaseStaticContextProps, K>(
-  pageType: PageType
-) => async (context: T): Promise<GetStaticPropsResult<K>> => {
+const getStaticDetailProps = <K>(pageType: PageType) => {
   const isGuidePage = pageType === PageType.GUIDE;
-  const { props } = await useGetStaticProps({
-    client: Client(),
-    type: pageType,
-    uid: ({ params }: Params) => (isGuidePage ? params.guide : params.detail),
-    params: {
-      fetchLinks: isGuidePage ? ["guide_category.title"] : ["theme_page.title"],
-    },
-  })(context);
 
-  let associatedContent;
-
-  try {
-    const associatedContentData = props?.data?.associatedContent;
-    associatedContent =
-      associatedContentData &&
-      (await fetchAssociatedContent(props.data.associatedContent));
-  } catch (err) {
-    console.error(err);
-  }
-
-  return {
-    props: {
-      ...props,
-      data: {
-        ...props.data,
-        associatedContent: associatedContent?.results || [],
+  return async (
+    context: GetStaticPropsContext,
+  ): Promise<GetStaticPropsResult<K>> => {
+    const result = await createGetStaticProps({
+      type: pageType,
+      uid: (params) =>
+        isGuidePage ? (params.guide as string) : (params.detail as string),
+      params: {
+        fetchLinks: isGuidePage
+          ? ["guide_category.title"]
+          : ["theme_page.title"],
       },
-      params: context.params,
-    },
+    })(context);
+
+    if ("notFound" in result && result.notFound) {
+      return result;
+    }
+
+    const props = result.props as Record<string, unknown>;
+    const data = props.data as Record<string, unknown>;
+    let associatedContent;
+
+    try {
+      const associatedContentData = data?.associatedContent;
+      associatedContent =
+        associatedContentData &&
+        (await fetchAssociatedContent(
+          associatedContentData as Parameters<typeof fetchAssociatedContent>[0],
+        ));
+    } catch (err) {
+      console.error(err);
+    }
+
+    return {
+      props: {
+        ...props,
+        data: {
+          ...data,
+          associatedContent: associatedContent || [],
+        },
+        params: context.params,
+      } as K,
+    };
   };
 };
 

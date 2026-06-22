@@ -1,9 +1,9 @@
 import { Box, ResponsiveContext } from "grommet";
 import { FormNext, FormPrevious } from "grommet-icons";
-import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import type { Link } from "../../../lib/prismic-types";
 import TextLink from "../../atoms/text-link/TextLink";
 import Section from "../../layout/section/Section";
 import { colorPalette } from "../../theme/pila";

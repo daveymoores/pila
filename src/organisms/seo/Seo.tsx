@@ -1,5 +1,5 @@
-import { NextSeo } from "next-seo";
-import { OpenGraphImages } from "next-seo/lib/types";
+import Head from "next/head";
+import { generateNextSeo } from "next-seo/pages";
 import React from "react";
 
 import ImageProps from "../../../types/ImageProps";
@@ -31,47 +31,43 @@ const Seo: React.FC<SeoProps> = ({
 }) => {
   const { ogFormatOne, ogFormatTwo } = openGraphImage || {};
 
-  let ogImages: OpenGraphImages[] = [];
+  const ogImages = [];
   if (ogFormatOne?.url) {
-    ogImages = [
-      ...ogImages,
-      {
-        url: ogFormatOne.url,
-        width: 800,
-        height: 600,
-        alt: ogFormatOne.alt || "",
-      },
-    ];
+    ogImages.push({
+      url: ogFormatOne.url,
+      width: 800,
+      height: 600,
+      alt: ogFormatOne.alt || "",
+    });
   }
 
   if (ogFormatTwo?.url) {
-    ogImages = [
-      ...ogImages,
-      {
-        url: ogFormatTwo.url,
-        width: 800,
-        height: 600,
-        alt: ogFormatTwo.alt || "",
-      },
-    ];
+    ogImages.push({
+      url: ogFormatTwo.url,
+      width: 800,
+      height: 600,
+      alt: ogFormatTwo.alt || "",
+    });
   }
 
   return (
-    <NextSeo
-      title={metaTitle}
-      description={metaDescription}
-      openGraph={{
-        url: path,
-        title: openGraphTitle,
-        description: openGraphDescription,
-        images: ogImages,
-        site_name: "PILA",
-      }}
-      twitter={{
-        site: "@site",
-        cardType: "summary_large_image",
-      }}
-    />
+    <Head>
+      {generateNextSeo({
+        title: metaTitle,
+        description: metaDescription,
+        openGraph: {
+          url: path,
+          title: openGraphTitle,
+          description: openGraphDescription,
+          images: ogImages,
+          site_name: "PILA",
+        },
+        twitter: {
+          site: "@site",
+          cardType: "summary_large_image",
+        },
+      })}
+    </Head>
   );
 };
 

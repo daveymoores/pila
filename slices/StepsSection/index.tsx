@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Grid, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import Section from "../../src/layout/section/Section";
 import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
@@ -13,13 +14,13 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Item {
-  title: RichTextBlock[];
-  body: RichTextBlock[];
+  title: RichTextBlock;
+  body: RichTextBlock;
   image: ImageProps;
 }
 
 interface Primary {
-  title: RichTextBlock[];
+  title: RichTextBlock;
 }
 
 export type ImageBlockProps = Slice<Primary, Item>;
@@ -82,7 +83,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
             margin="none"
             alignSelf={"stretch"}
           >
-            {RichText.asText(primary.title)}
+            {asText(primary.title)}
           </StyledHeading>
         </Grid>
         {items?.length &&
@@ -93,7 +94,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
               areas={gridAreas(
                 index % 2 === 0
                   ? ImagePosition.imageLeft
-                  : ImagePosition.imageRight
+                  : ImagePosition.imageRight,
               )}
               rows={rows}
               margin={"large"}
@@ -146,7 +147,7 @@ const StepsSection: FC<{ slice: ImageBlockProps }> = ({ slice }) => {
                   margin={{ bottom: "small" }}
                   alignSelf={"stretch"}
                 >
-                  {RichText.asText(item.title)}
+                  {asText(item.title)}
                 </Heading>
                 <StyledRichText body={item.body} />
               </TextContainer>
@@ -179,7 +180,9 @@ const TextContainer = styled(Box)`
   background: ${colorPalette.white};
   padding: large;
   // border: 1px solid ${colorPalette.grey};
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
 
   &:hover {
     transform: scale(1.05) translateY(-10px);

@@ -1,5 +1,5 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading, Paragraph } from "grommet";
-import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
@@ -71,8 +71,10 @@ const gridAreas = {
   ],
 };
 
-interface ApplicationSectionProps
-  extends Omit<AssessmentApplicationMainProps, "body" | "applicationLink"> {
+interface ApplicationSectionProps extends Omit<
+  AssessmentApplicationMainProps,
+  "body" | "applicationLink"
+> {
   index: number;
 }
 
@@ -80,7 +82,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
   title,
   applicationsStats,
   shortBody,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   video,
   image,
   downloadLinks,
@@ -108,9 +110,7 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
         </Box>
         <Box gridArea="text" justify={"start"} align={"start"}>
           {title && (
-            <StyledHeading size={"small"}>
-              {RichText.asText(title)}
-            </StyledHeading>
+            <StyledHeading size={"small"}>{asText(title)}</StyledHeading>
           )}
           {applicationsStats ? (
             <Box margin={{ top: "medium", bottom: "large" }}>
@@ -121,12 +121,12 @@ const ApplicationSection: React.FC<ApplicationSectionProps> = ({
           )}
           {shortBody && (
             <Paragraph margin={{ bottom: "large" }} size={"small"}>
-              {RichText.asText(shortBody)}
+              {asText(shortBody)}
             </Paragraph>
           )}
           {downloadLinks?.some(
             ({ link, downloadLink }) =>
-              linkIsValid(link) || linkIsValid(downloadLink)
+              linkIsValid(link) || linkIsValid(downloadLink),
           ) &&
             downloadLinks.map(({ label, link, downloadLink }, index) => (
               <GuideCard

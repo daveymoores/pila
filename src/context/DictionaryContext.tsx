@@ -28,6 +28,7 @@ const getPlaceholderValue = (key: string) =>
 
 export const DictionaryProvider: React.FC<{
   dictionaryValues: CustomType<DictionaryProps>[];
+  children?: React.ReactNode;
 }> = ({ children, dictionaryValues }) => {
   const values = dictionaryValues[0]?.data?.values || [];
 
@@ -35,7 +36,7 @@ export const DictionaryProvider: React.FC<{
     (values.length &&
       values.filter(
         (dictionaryValue: DictionaryValue) =>
-          dictionaryValue.key.toLowerCase() === key.toLowerCase()
+          dictionaryValue.key.toLowerCase() === key.toLowerCase(),
       )[0]?.value) ||
     `[${getPlaceholderValue(key)}]`;
 

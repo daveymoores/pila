@@ -1,9 +1,14 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading, Paragraph } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
 import hasAttachedMedia from "../../../helpers/has-attached-media/hasAttachedMedia";
 import linkIsValid from "../../../helpers/linkIsValid/linkIsValid";
+import {
+  getLinkUrl,
+  type Link,
+  type RichTextBlock,
+} from "../../../lib/prismic-types";
 import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
@@ -18,8 +23,8 @@ import HeroText from "../hero-text/HeroText";
 
 export interface ModuleHeroProps {
   uid?: string;
-  title?: RichTextBlock[];
-  body?: RichTextBlock[];
+  title?: RichTextBlock;
+  body?: RichTextBlock;
   guideDownload?: Link;
   guideLink?: Link;
   icon?: ImageProps;
@@ -33,7 +38,7 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
   guideLink,
   icon,
 }) => {
-  const parsedTitle = title ? RichText.asText(title) : "[LEARNING_MODULE]";
+  const parsedTitle = title ? asText(title) : "[LEARNING_MODULE]";
 
   return (
     <HeroText
@@ -88,10 +93,10 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
           {body && (
             <React.Fragment>
               <MobileOnly>
-                <Paragraph size={"medium"}>{RichText.asText(body)}</Paragraph>
+                <Paragraph size={"medium"}>{asText(body)}</Paragraph>
               </MobileOnly>
               <TabletUp>
-                <Paragraph size={"large"}>{RichText.asText(body)}</Paragraph>
+                <Paragraph size={"large"}>{asText(body)}</Paragraph>
               </TabletUp>
             </React.Fragment>
           )}
@@ -114,7 +119,9 @@ const ModuleHero: React.FC<ModuleHeroProps> = ({
                       color={colorPalette.green}
                       size={ButtonSizes.small}
                       link={guideDownload}
-                      icon={<DownloadIcon url={guideDownload.url} />}
+                      icon={
+                        <DownloadIcon url={getLinkUrl(guideDownload) ?? ""} />
+                      }
                     />
                   )}
                   {guideLink && (

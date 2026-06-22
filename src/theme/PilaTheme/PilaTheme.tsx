@@ -4,7 +4,7 @@ import React from "react";
 
 import pila from "../pila";
 
-const customBreakpoints = (deepMerge(pila, {
+const customBreakpoints = deepMerge(pila, {
   global: {
     breakpoints: {
       small: {
@@ -18,7 +18,7 @@ const customBreakpoints = (deepMerge(pila, {
       },
     },
   },
-}) as unknown) as ThemeType;
+}) as unknown as ThemeType;
 
 interface PilaTheme {
   children: React.ReactNode;

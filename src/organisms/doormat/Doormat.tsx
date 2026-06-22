@@ -1,8 +1,9 @@
 import { Anchor, Box, Footer, Paragraph } from "grommet";
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 
+import PrismicImageProps from "../../../types/ImageProps";
 import RepeatableLink from "../../../types/RepeatableLink";
 import TextLink from "../../atoms/text-link/TextLink";
 import Section from "../../layout/section/Section";
@@ -16,7 +17,7 @@ export interface DoormatProps {
   list_two_links: RepeatableLink[];
   list_three_label: string;
   list_three_links: RepeatableLink[];
-  mascotImage: ImageProps;
+  mascotImage: PrismicImageProps;
 }
 
 interface DoormatListProps {
@@ -29,7 +30,7 @@ const DoormatList: React.FC<DoormatListProps> = ({ label, links }) => {
     <React.Fragment>
       {label && Array.isArray(links) && (
         <Box gap="medium" margin={{ bottom: "large" }}>
-          <Paragraph style={{ fontWeight: 500 }} size="medium">
+          <Paragraph color="white" style={{ fontWeight: 500 }} size="medium">
             {label}
           </Paragraph>
           <Box>
@@ -85,11 +86,20 @@ const Doormat: React.FC<DoormatProps> = ({
         <DoormatList label={list_two_label} links={list_two_links} />
         <DoormatList label={list_three_label} links={list_three_links} />
 
-        <RichMediaElement layout="responsive" {...mascotImage} />
+        <RichMediaElement
+          {...mascotImage}
+          layout="responsive"
+          url={mascotImage.url}
+        />
         <Anchor
           href={"https://vercel.com/?utm_source=pila-app&utm_campaign=oss"}
         >
-          <Image src={"/powered-by-vercel.svg"} width={"212"} height={"44"} />
+          <Image
+            src={"/powered-by-vercel.svg"}
+            alt="Powered by Vercel"
+            width={212}
+            height={44}
+          />
         </Anchor>
       </StyledResponsiveGrid>
     </Section>

@@ -26,7 +26,7 @@ const Page: React.FC<SessionPageProps> = (props) => {
       nookies.set(undefined, "token", "", { path: "/" });
       location.reload();
     } catch (error) {
-      setError(error);
+      setError(error instanceof Error ? error.message : "An error occurred");
       setLoading(false);
       console.error(error);
     }

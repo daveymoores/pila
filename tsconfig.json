@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "types": ["node", "jest"],
+    "target": "ES2017",
+    "types": [
+      "node",
+      "jest"
+    ],
     "lib": [
       "dom",
       "dom.iterable",
@@ -14,15 +17,12 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
-  },
-  "baseUrl": ".",
-  "paths": {
-    "*": ["types/*.d.ts"]
+    "jsx": "react-jsx",
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

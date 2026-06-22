@@ -11,7 +11,7 @@ const NavigationThemeContext = React.createContext<NavigationThemeContextProps>(
   {
     theme: NavigationTheme.LIGHT,
     setTheme: () => null,
-  }
+  },
 );
 
 export default NavigationThemeContext;

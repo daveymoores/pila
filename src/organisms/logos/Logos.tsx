@@ -24,11 +24,11 @@ const Logos: React.FC<LogosProps> = ({ theme }) => {
         src={
           theme === NavigationTheme.DARK ? "/OECD_20cm_w.png" : "/OECD_20cm.png"
         }
+        alt="OECD"
         priority
-        layout="fixed"
-        objectFit="contain"
         width={130}
         height={42}
+        style={{ objectFit: "contain" }}
       />
       <StyledLogo />
     </StyledLogoBox>

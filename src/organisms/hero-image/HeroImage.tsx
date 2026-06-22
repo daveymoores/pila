@@ -1,15 +1,16 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import ImageProps from "../../../types/ImageProps";
 import Section from "../../layout/section/Section";
 import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HeroImageProps {
-  title?: RichTextBlock[];
+  title?: RichTextBlock;
   image?: ImageProps;
   video?: Link;
 }
@@ -78,7 +79,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ title, image, video }) => (
               alignSelf={"stretch"}
               size="small"
             >
-              {RichText.asText(title)}
+              {asText(title)}
             </StyledHeading>
           )}
           <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>

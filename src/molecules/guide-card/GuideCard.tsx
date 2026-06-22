@@ -1,8 +1,8 @@
 import { Box, Card, Paragraph, ResponsiveContext } from "grommet";
-import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import { getLinkUrl, type Link } from "../../../lib/prismic-types";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import DownloadIcon from "../../atoms/download-icon/DownloadIcon";
 import { MobileOnly } from "../../atoms/responsive-helpers/ResponsiveHelpers";
@@ -115,7 +115,7 @@ const GuideCard: React.FC<GuideCardProps> = ({
                     color={colorPalette.green}
                     size={ButtonSizes.small}
                     link={downloadLink}
-                    icon={<DownloadIcon url={downloadLink.url} />}
+                    icon={<DownloadIcon url={getLinkUrl(downloadLink) ?? ""} />}
                   />
                 )}
                 {pageLink && (

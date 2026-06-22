@@ -1,10 +1,12 @@
+import { asText } from "@prismicio/client";
+import { SliceZone } from "@prismicio/react";
 import { Anchor, Box, Heading, Paragraph } from "grommet";
-import SliceZone from "next-slicezone";
-import { RichText } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
-import resolver from "../../../sm-resolver";
+import type { Link } from "../../../lib/prismic-types";
+import { asSlices } from "../../../lib/slices-helper";
+import { components } from "../../../slices";
 import CustomType from "../../../types/CustomType";
 import { DetailPageSlices, LinkedDetailPageProps } from "../../../types/Detail";
 import { GuidePageData } from "../../../types/Guide";
@@ -24,11 +26,10 @@ import RichMediaElement from "../../molecules/rich-media-element/RichMediaElemen
 import { colorPalette, fontWeights } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
-export interface HeroDetailProps
-  extends Pick<
-    LinkedDetailPageProps,
-    "title" | "heroImage" | "category" | "associatedContent"
-  > {
+export interface HeroDetailProps extends Pick<
+  LinkedDetailPageProps,
+  "title" | "heroImage" | "category" | "associatedContent"
+> {
   slices: DetailPageSlices[];
   breadcrumbLinks: BreadcrumbItem[];
   guide_category?: GuidePageData["guide_category"];
@@ -93,18 +94,18 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   const { getDictionaryValue } = React.useContext(DictionaryContext);
   const guideCategory = guide_category?.data?.title;
 
-  const contents =
-    slices &&
-    slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
-      const sectionTitle: string = slice.primary.sectionTitle;
-      return [
-        ...acc,
-        {
-          slug: (sectionTitle || "").replace(/ /g, "-").toLowerCase(),
-          title: sectionTitle,
-        },
-      ];
-    }, []);
+  const contents = Array.isArray(slices)
+    ? slices.reduce((acc: Contents[], slice: DetailPageSlices) => {
+        const sectionTitle: string = slice.primary.sectionTitle;
+        return [
+          ...acc,
+          {
+            slug: (sectionTitle || "").replace(/ /g, "-").toLowerCase(),
+            title: sectionTitle,
+          },
+        ];
+      }, [])
+    : [];
 
   const scrollToSection = (section: Element | null = null) => {
     if (!section) return;
@@ -115,7 +116,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
   const findSection = (slug: string) => {
     const sections = document.querySelectorAll(`[data-id="${slug}"]`);
     const visibleSection = Array.from(sections).find(
-      (item) => item.getBoundingClientRect().top
+      (item) => item.getBoundingClientRect().top,
     );
     if (!visibleSection) return;
     return visibleSection;
@@ -213,7 +214,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                         alignSelf={"stretch"}
                         size="small"
                       >
-                        {RichText.asText(title)}
+                        {asText(title)}
                       </Heading>
                     </Box>
                     <Box gridArea={"associated-content"} />
@@ -261,7 +262,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                       <StyledAnchor key={index} href={`#${link.slug}`}>
                         {link.title}
                       </StyledAnchor>
-                    )
+                    ),
                 )}
             </StyledLinkBox>
           </Box>
@@ -273,11 +274,14 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                 guideCategory={guideCategory}
               />
             </TabletUp>
-            <SliceZone slices={slices} resolver={resolver} />
+            <SliceZone
+              slices={asSlices(Array.isArray(slices) ? slices : [])}
+              components={components}
+            />
           </Box>
           <Box gridArea={"associated-content"} style={{ position: "relative" }}>
             <StyledLinkBox>
-              {associatedContent &&
+              {Array.isArray(associatedContent) &&
                 associatedContent.some(({ data }) => data?.title) && (
                   <Heading
                     size={"small"}
@@ -288,7 +292,7 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                       getDictionaryValue("Associated Content")}
                   </Heading>
                 )}
-              {associatedContent &&
+              {Array.isArray(associatedContent) &&
                 associatedContent.map((content: CustomType, index: number) => (
                   <React.Fragment key={index}>
                     {content.type === PageType.GUIDE && (
@@ -302,11 +306,9 @@ const HeroDetail: React.FC<HeroDetailProps> = ({
                     )}
                     <StyledTextLink
                       key={index}
-                      link={content}
+                      link={content as unknown as Link}
                       label={
-                        content.data?.title
-                          ? RichText.asText(content.data?.title)
-                          : ""
+                        content.data?.title ? asText(content.data?.title) : ""
                       }
                     />
                   </React.Fragment>

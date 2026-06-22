@@ -4,11 +4,12 @@ import React from "react";
 import Button from "../../atoms/button/Button";
 import { colorPalette } from "../../theme/pila";
 
-interface Modal {
+interface ModalProps {
   onClose?: () => void;
+  children?: React.ReactNode;
 }
 
-const Modal: React.FC<Modal> = ({ children, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
   const handleClose = onClose || (() => location.reload());
 
   return (

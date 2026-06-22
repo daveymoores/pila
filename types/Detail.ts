@@ -1,5 +1,4 @@
-import { Link, RichTextBlock } from "prismic-reactjs";
-
+import type { Link, RichTextBlock } from "../lib/prismic-types";
 import { AccordionBlockProps } from "../slices/AccordionBlock";
 import { CtaBannerProps } from "../slices/CtaBanner";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
@@ -18,22 +17,24 @@ export type DetailPageSlices = RichTextBlokProps &
 export type DetailBannerSlices = CtaBannerProps & HighlightBannerProps;
 
 export interface DetailPageData {
-  title?: RichTextBlock[];
+  title?: RichTextBlock;
   heroImage?: ImageProps;
   category?: { categories: Link & { data: { name: string } } };
   associatedContentLabel: string;
   associatedContent?: { link: Link }[];
-  parent?: Link & { data: { title: RichTextBlock[] } };
+  parent?: Link & { data: { title: RichTextBlock } };
   bannerSlices: DetailBannerSlices[];
 }
 
-export interface LinkedDetailPageProps
-  extends Omit<DetailPageData, "associatedContent"> {
+export interface LinkedDetailPageProps extends Omit<
+  DetailPageData,
+  "associatedContent"
+> {
   associatedContent?: CustomType[];
 }
 
-type DetailPageProps = JSX.IntrinsicAttributes & {
-  params: Record<string, unknown>;
-} & PageData<DetailPageSlices, LinkedDetailPageProps>;
+type DetailPageProps = PageData<DetailPageSlices, LinkedDetailPageProps> & {
+  params?: Record<string, unknown>;
+};
 
 export default DetailPageProps;

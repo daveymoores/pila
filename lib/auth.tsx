@@ -1,15 +1,30 @@
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  type User,
+} from "firebase/auth";
 import { useRouter } from "next/router";
 import nookies from "nookies";
 import React, {
-  Context,
+  type Context,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
 
 import { createUser } from "./db";
-import firebase from "./firebase";
+import { getFirebaseAuth } from "./firebase";
+import {
+  getMockAuthEmail,
+  isMockAuthCredentials,
+  isMockIntegrations,
+  MOCK_AUTH_TOKEN,
+  MOCK_AUTH_UID,
+} from "./mock-config";
+
 interface Auth {
   uid: string;
   email: string | null;
@@ -23,7 +38,7 @@ export interface AuthContext {
   loading: boolean;
   signInWithEmailAndPassword: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<void> | undefined;
   signOut: () => Promise<void> | undefined;
 }
@@ -32,14 +47,14 @@ const authContext: Context<AuthContext> = createContext<AuthContext>({
   auth: null,
   loading: true,
   signInWithEmailAndPassword: async () => {
-    //noop
+    // noop
   },
   signOut: async () => {
-    //noop
+    // noop
   },
 });
 
-const formatAuthState = (user: firebase.User): Auth => ({
+const formatAuthState = (user: User): Auth => ({
   uid: user.uid,
   email: user.email,
   name: user.displayName,
@@ -49,63 +64,47 @@ const formatAuthState = (user: firebase.User): Auth => ({
 
 function useProvideAuth() {
   const router = useRouter();
-  const [firebaseAuth, setFirebaseAuth] = useState<firebase.auth.Auth | null>(
-    null
-  );
-
-  useEffect(() => {
-    import("firebase/compat/auth")
-      .then(() => {
-        const appAuth = firebase.auth();
-        setFirebaseAuth(appAuth);
-      })
-      .catch((error) => {
-        console.error("Unable to lazy-load firebase/auth:", error);
-      });
-  }, []);
   const [auth, setAuth] = useState<Auth | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleAuthChange = async (authState: firebase.User | null) => {
-    if (!authState) {
-      setAuth(null);
-      nookies.set(undefined, "token", "", { path: "/" });
-      return;
-    }
+  const handleAuthChange = useCallback(
+    async (authState: User | null) => {
+      if (!authState) {
+        setAuth(null);
+        nookies.set(undefined, "token", "", { path: "/" });
+        return;
+      }
 
-    try {
-      const result = await fetch("/api/user", {
-        method: "GET",
-        headers: new Headers({ "Content-Type": "application/json" }),
-        credentials: "same-origin",
-      });
+      try {
+        const result = await fetch("/api/user", {
+          method: "GET",
+          headers: new Headers({ "Content-Type": "application/json" }),
+          credentials: "same-origin",
+        });
 
-      const data = await result.json();
+        const data = await result.json();
 
-      //token is valid, don't redirect to sessions page
+        const formattedAuth = formatAuthState(authState);
+        setAuth(formattedAuth);
+        setLoading(false);
+        if (data.uid) return;
+      } catch (err) {
+        console.error(err);
+      }
+
       const formattedAuth = formatAuthState(authState);
+      formattedAuth.token = await authState.getIdToken();
+      nookies.set(undefined, "token", formattedAuth.token, { path: "/" });
       setAuth(formattedAuth);
       setLoading(false);
-      if (data.uid) return;
-    } catch (err) {
-      console.error(err);
-    }
+      await router.push("/account/sessions");
+    },
+    [router],
+  );
 
-    const formattedAuth = formatAuthState(authState);
-    formattedAuth.token = await authState.getIdToken();
-    nookies.set(undefined, "token", formattedAuth.token, { path: "/" });
-    setAuth(formattedAuth);
-    setLoading(false);
-    await router.push("/account/sessions");
-  };
-
-  const signedIn = async (response: firebase.auth.UserCredential) => {
-    if (!response.user) {
-      throw new Error("No User");
-    }
-
-    const authedUser = formatAuthState(response.user);
-    await createUser(authedUser.uid as string, authedUser);
+  const signedIn = async (user: User) => {
+    const authedUser = formatAuthState(user);
+    await createUser(authedUser.uid, authedUser);
   };
 
   const clear = async () => {
@@ -114,35 +113,74 @@ function useProvideAuth() {
     await router.push("/");
   };
 
-  const signInWithEmailAndPassword = (email: string, password: string) => {
-    if (!firebaseAuth) return;
+  const signIn = (email: string, password: string) => {
     setLoading(true);
 
-    return firebaseAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(signedIn, clear);
+    if (isMockIntegrations() && isMockAuthCredentials(email, password)) {
+      const mockAuth: Auth = {
+        uid: MOCK_AUTH_UID,
+        email: getMockAuthEmail(),
+        name: "PILA Dev User",
+        photoUrl: null,
+        token: MOCK_AUTH_TOKEN,
+      };
+
+      nookies.set(undefined, "token", MOCK_AUTH_TOKEN, { path: "/" });
+      setAuth(mockAuth);
+      setLoading(false);
+      void router.push("/account/sessions");
+      return;
+    }
+
+    return signInWithEmailAndPassword(getFirebaseAuth(), email, password)
+      .then(async (credential) => {
+        if (credential.user) {
+          await signedIn(credential.user);
+        }
+      })
+      .catch(clear);
   };
 
-  const signOut = () => {
-    if (!firebaseAuth) return;
-    return firebaseAuth.signOut().then(clear);
+  const signOutUser = () => {
+    if (isMockIntegrations()) {
+      nookies.set(undefined, "token", "", { path: "/" });
+      return clear();
+    }
+
+    return signOut(getFirebaseAuth()).then(clear);
   };
 
   useEffect(() => {
-    if (!firebaseAuth) return;
-    const unsubscribe = firebaseAuth.onAuthStateChanged(handleAuthChange);
+    if (isMockIntegrations()) {
+      const token = nookies.get(undefined).token;
+
+      if (token === MOCK_AUTH_TOKEN) {
+        setAuth({
+          uid: MOCK_AUTH_UID,
+          email: getMockAuthEmail(),
+          name: "PILA Dev User",
+          photoUrl: null,
+          token: MOCK_AUTH_TOKEN,
+        });
+      }
+
+      setLoading(false);
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), handleAuthChange);
     return () => unsubscribe();
-  }, [firebaseAuth]);
+  }, [handleAuthChange]);
 
   return {
     auth,
     loading,
-    signInWithEmailAndPassword,
-    signOut,
+    signInWithEmailAndPassword: signIn,
+    signOut: signOutUser,
   };
 }
 
-export function AuthProvider({ children }: any) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }

@@ -1,3 +1,4 @@
+import { PrismicRichText } from "@prismicio/react";
 import { Anchor, Box, Grid, ResponsiveContext, Text } from "grommet";
 import {
   CreativeCommons,
@@ -10,9 +11,13 @@ import {
   Twitter,
   Vimeo,
 } from "grommet-icons";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import {
+  getLinkUrl,
+  type Link,
+  type RichTextBlock,
+} from "../../../lib/prismic-types";
 import Section from "../../layout/section/Section";
 
 enum SocialIcons {
@@ -34,7 +39,7 @@ interface SocialIconProps {
 }
 
 export interface FooterProps {
-  copyright?: RichTextBlock[];
+  copyright?: RichTextBlock;
   social_icons?: SocialIconProps[];
 }
 
@@ -70,7 +75,7 @@ const Social: React.FC<{ socialIcons?: SocialIconProps[] }> = ({
           key={index}
           style={{ display: "flex" }}
           a11yTitle={socialIcon?.a11y_title}
-          href={socialIcon?.link?.url}
+          href={getLinkUrl(socialIcon?.link) ?? ""}
           icon={SocialIconMapper(socialIcon?.company)}
         />
       ))}
@@ -104,7 +109,7 @@ const Footer: React.FC<FooterProps> = ({ copyright, social_icons }) => {
                 size={"xsmall"}
                 style={{ opacity: 0.8 }}
               >
-                {RichText.render(copyright)}
+                <PrismicRichText field={copyright} />
               </Text>
             )}
           </Box>

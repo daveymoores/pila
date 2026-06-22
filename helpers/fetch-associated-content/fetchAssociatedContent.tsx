@@ -1,33 +1,29 @@
-import Prismic from "prismic-javascript";
-import ApiSearchResponse from "prismic-javascript/types/ApiSearchResponse";
+import { isFilled } from "@prismicio/client";
 
-import { Client } from "../../prismic";
+import { asContentRelationship } from "../../lib/prismic-types";
+import { createClient } from "../../prismicio";
 import { DetailPageData } from "../../types/Detail";
 
 const fetchAssociatedContent = async (
-  associatedContent: DetailPageData["associatedContent"] = []
+  associatedContent: DetailPageData["associatedContent"] = [],
 ) => {
   const associatedContentIds = associatedContent
-    .filter(({ link }) => link.id)
-    .map(({ link }) => link.id);
+    .filter(({ link }) => {
+      const relationship = asContentRelationship(link);
+      return isFilled.contentRelationship(relationship) && relationship.id;
+    })
+    .map(({ link }) => {
+      const relationship = asContentRelationship(link);
+      return isFilled.contentRelationship(relationship) ? relationship.id : "";
+    })
+    .filter(Boolean);
 
-  const client = Client();
-  let associatedContentData;
-
-  if (!associatedContentIds.some((content) => !content)) {
-    try {
-      associatedContentData =
-        (((await client.query(
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          Prismic.Predicates.in("document.id", associatedContentIds)
-        )) as unknown) as ApiSearchResponse) || {};
-    } catch (err) {
-      throw new Error(err);
-    }
+  if (!associatedContentIds.length) {
+    return undefined;
   }
 
-  return associatedContentData;
+  const client = createClient();
+  return client.getByIDs(associatedContentIds);
 };
 
 export default fetchAssociatedContent;

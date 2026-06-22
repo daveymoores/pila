@@ -1,14 +1,14 @@
 import { Accordion, AccordionPanel, Box } from "grommet";
-import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import Slice from "../../types/Slice";
 
 type Item = {
   title: string;
-  body: RichTextBlock[];
+  body: RichTextBlock;
 };
 
 type Primary = {

@@ -1,12 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+import { exitPreview } from "@prismicio/next/pages";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default async (_, res) => {
-  if (!res.clearPreviewData) return;
-
-  res.clearPreviewData();
-
-  res.writeHead(307, { Location: "/" });
-  res.end();
-};
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  exitPreview({ req, res });
+}

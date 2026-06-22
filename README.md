@@ -1,33 +1,128 @@
 # PILA
 
-PILA is a not-for-profit, open-source platform for innovative learning assessments (PILA). This new platform aims to promote the use of technology-enhanced tasks for improving the assessment of students’ learning skills around the world – both for summative and formative purposes. Teachers can use PILA to monitor their students’ learning and gain insights into the concepts students understood (or struggled with) and the learning skills they successfully applied to open tasks. Each module includes a dynamic assessment system, with adaptive features that provide students with feedback and support.
+PILA is a not-for-profit, open-source platform for innovative learning assessments. Teachers use PILA to monitor student learning and gain insights into concepts and skills demonstrated in technology-enhanced tasks. Each module includes dynamic assessment with adaptive feedback.
 
-## Installation 
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and deployed on [Vercel](https://vercel.com/?utm_source=pila-app&utm_campaign=oss)
-
-Vercel supports this project through use of the Vercel platform.
+This site is the public marketing and content site for PILA, powered by [Prismic CMS](https://prismic.io/) and deployed on [Vercel](https://vercel.com/?utm_source=pila-app&utm_campaign=oss).
 
 [![Powered By Vercel](https://github.com/daveymoores/pila/blob/main/public/powered-by-vercel.svg?raw=true)](https://vercel.com/?utm_source=pila-app&utm_campaign=oss)
 
-## Getting Started
+## Stack
+
+- **Next.js 16** (Pages Router) + **React 19**
+- **TypeScript 5.9**
+- **Prismic** — `@prismicio/client`, `@prismicio/next`, Slice Machine
+- **styled-components 6**, **Grommet**, **Framer Motion 12**
+- **Firebase** (auth), **SendGrid** (contact form)
+- **Node.js 22+**
+
+## Requirements
+
+- Node.js **22** or later
+- Yarn
+
+## Getting started
 
 ### Install dependencies
 
-```
+```bash
 yarn install
 ```
 
-### Set up your .env file
+### Environment variables
 
-1. Copy `.env.example` to `.env.local`
-2. Fill the `.env.local` with the correct credentials.
+Copy the example env file:
 
-
-### Run the development server:
-
+```bash
+cp .env.example .env.local
 ```
+
+Fill in `.env.local` with credentials from Vercel, Prismic, Firebase, and SendGrid for full functionality.
+
+| Variable | Purpose |
+| --- | --- |
+| `PRISMIC_ACCESS_TOKEN` | Prismic API (optional for published content) |
+| `NEXT_PUBLIC_FIREBASE_*` | Firebase client auth |
+| `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL` | Firebase Admin (API routes) |
+| `SENDGRID_API_KEY`, `SENDGRID_TEMPLATE_ID`, `PILA_EMAIL` | Contact form emails |
+| `NEXT_PUBLIC_GOOGLE_ANALYTICS` | Google Tag Manager |
+| `NEXT_PUBLIC_GOOGLE_RECAPTCHA` | Contact form reCAPTCHA |
+| `SITE_URL` | Canonical URL for sitemap generation |
+
+### Run locally without real credentials
+
+Published Prismic content works without a token. For Firebase, SendGrid, and auth bypasses, use mock mode:
+
+```bash
+yarn dev:mock
+```
+
+Or copy the mock env once and use normal dev:
+
+```bash
+cp .env.mock .env.local
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mock mode sets `MOCK_INTEGRATIONS=true`. **Do not enable this in production.**
+
+Open [http://localhost:3000](http://localhost:3000).
+
+### Run with production credentials
+
+```bash
+yarn dev
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `yarn dev` | Start development server |
+| `yarn dev:mock` | Start dev server with mock env |
+| `yarn build` | Production build |
+| `yarn start` | Serve production build |
+| `yarn test` | Run Jest unit tests |
+| `yarn lint` | ESLint |
+| `yarn tsc` | TypeScript check |
+| `yarn checklist` | Lint + tsc + tests |
+| `yarn slicemachine` | Slice Machine UI (port 9999) |
+| `yarn storybook` | Storybook (port 8888) |
+
+## Prismic & Slice Machine
+
+- Repository: `pila`
+- Client config: `prismicio.ts`
+- Slices: `slices/`
+- Slice simulator: `/slice-simulator` (local dev)
+
+Start Slice Machine:
+
+```bash
+yarn slicemachine
+```
+
+## Testing & CI
+
+```bash
+yarn checklist
+```
+
+GitHub Actions runs lint, TypeScript, tests, and build on pushes to `main` and `development`.
+
+## Deployment
+
+The site deploys to Vercel. Set environment variables in the Vercel project dashboard — do not commit `.env.local`.
+
+Production URL: [https://pila.vercel.app](https://pila.vercel.app)
+
+## Project structure
+
+```
+pages/           Next.js routes
+slices/          Prismic slice components
+src/             React components (atoms → organisms)
+helpers/         Data fetching & parsing utilities
+lib/             Firebase, auth, Prismic helpers
+prismicio.ts     Prismic client & link resolvers
+fixtures/        Local fallbacks (e.g. contact form)
+```

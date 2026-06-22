@@ -12,7 +12,7 @@ type Primary = {
   sectionTitle?: string;
 };
 
-export type VideoBlockProps = Slice<Primary, never>;
+export type EmbedBlockProps = Slice<Primary, never>;
 
 const HTMLEmbed: FC<{ embed: Primary["embed"]; rows?: number }> = ({
   embed,
@@ -28,7 +28,7 @@ const HTMLEmbed: FC<{ embed: Primary["embed"]; rows?: number }> = ({
   </ResponsiveWrapper>
 );
 
-const EmbedBlock: FC<{ slice: VideoBlockProps }> = ({ slice }) => {
+const EmbedBlock: FC<{ slice: EmbedBlockProps }> = ({ slice }) => {
   const { primary } = slice;
   const sectionTitle = slice.primary.sectionTitle;
 

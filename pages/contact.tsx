@@ -1,3 +1,4 @@
+import { asText } from "@prismicio/client";
 import {
   Box,
   Card,
@@ -10,14 +11,15 @@ import {
   TextArea,
   TextInput,
 } from "grommet";
-import { GetStaticPropsResult } from "next";
-import { useGetStaticProps } from "next-slicezone/hooks";
-import { RichText, RichTextBlock } from "prismic-reactjs";
+import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
+import Script from "next/script";
 import React from "react";
 import styled from "styled-components";
 
+import { contactPageFallbackProps } from "../fixtures/contact-page-fallback";
+import { createGetStaticProps } from "../helpers/prismic-static-props";
 import { gaEvent, GAEventType } from "../lib/ga";
-import { Client } from "../prismic";
+import type { RichTextBlock } from "../lib/prismic-types";
 import Button from "../src/atoms/button/Button";
 import Loader from "../src/atoms/loader/Loader";
 import DictionaryContext from "../src/context/DictionaryContext";
@@ -69,7 +71,7 @@ type FormValues = { [key: string]: string };
 
 type ContactPageProps = ContactPageMainProps;
 
-type PageProps = PageData<unknown, ContactPageProps> & JSX.IntrinsicAttributes;
+type PageProps = PageData<unknown, ContactPageProps>;
 
 const Page: React.FC<PageProps> = (props) => {
   const {
@@ -89,13 +91,16 @@ const Page: React.FC<PageProps> = (props) => {
 
   const { getDictionaryValue } = React.useContext(DictionaryContext);
 
-  const initialValues = (fields || []).reduce((acc, field) => {
-    if (!field.fieldName) return acc;
-    return {
-      ...acc,
-      [field.fieldName]: "",
-    };
-  }, {});
+  const initialValues = (fields || []).reduce(
+    (acc: FormValues, field: Field) => {
+      if (!field.fieldName) return acc;
+      return {
+        ...acc,
+        [field.fieldName]: "",
+      };
+    },
+    {},
+  );
 
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -103,13 +108,14 @@ const Page: React.FC<PageProps> = (props) => {
   const [value, setValue] = React.useState<FormValues>(initialValues);
   const [disabled, setDisabled] = React.useState<boolean>(true);
   const [queryType, setQueryType] = React.useState<string>();
-  const [queryDescription, setQueryDescription] = React.useState<
-    RichTextBlock[]
-  >();
+  const [queryDescription, setQueryDescription] =
+    React.useState<RichTextBlock[]>();
 
   React.useEffect(() => {
     if (queries && queryType) {
-      const query = queries.filter((item) => item.query === queryType);
+      const query = queries.filter(
+        (item: ContactQueries) => item.query === queryType,
+      );
       setQueryDescription(query[0].description);
       setDisabled(false);
     }
@@ -135,6 +141,10 @@ const Page: React.FC<PageProps> = (props) => {
         bottom: "xlarge",
       }}
     >
+      <Script
+        src="https://www.google.com/recaptcha/api.js"
+        strategy="lazyOnload"
+      />
       <Seo
         metaDescription={metaDescription}
         metaTitle={metaTitle}
@@ -156,7 +166,7 @@ const Page: React.FC<PageProps> = (props) => {
               size="small"
               margin={{ top: "xlarge", bottom: "medium" }}
             >
-              {RichText.asText(title)}
+              {asText(title)}
             </Heading>
           )}
         </Box>
@@ -169,12 +179,12 @@ const Page: React.FC<PageProps> = (props) => {
         >
           {success && submissionSuccess && (
             <Modal>
-              <StyledRichTextParser body={submissionSuccess} />
+              <StyledRichTextParser body={submissionSuccess as RichTextBlock} />
             </Modal>
           )}
           {error && submissionError && (
             <Modal>
-              <StyledRichTextParser body={submissionError} />
+              <StyledRichTextParser body={submissionError as RichTextBlock} />
             </Modal>
           )}
           <Form
@@ -183,7 +193,7 @@ const Page: React.FC<PageProps> = (props) => {
               setValue(nextValue as { [key: string]: string });
             }}
             onSubmit={async (event) => {
-              const response = window.grecaptcha.getResponse();
+              const response = window.grecaptcha?.getResponse() ?? "";
               if (response.length === 0) {
                 alert("Please validate the Captcha test");
                 return false;
@@ -216,7 +226,9 @@ const Page: React.FC<PageProps> = (props) => {
                       id="queryType"
                       size={"small"}
                       placeholder={queriesPlaceholder}
-                      options={queries.map((queryItem) => queryItem.query)}
+                      options={queries.map(
+                        (queryItem: ContactQueries) => queryItem.query,
+                      )}
                       value={queryType}
                       onChange={({ option }) => setQueryType(option)}
                     />
@@ -231,13 +243,15 @@ const Page: React.FC<PageProps> = (props) => {
                   background={colorPalette.green}
                   margin={{ top: "medium" }}
                 >
-                  <StyledRichTextParser body={queryDescription} />
+                  <StyledRichTextParser
+                    body={queryDescription as RichTextBlock}
+                  />
                 </Card>
               )}
             </Box>
             <Grid columns={["auto", "auto"]} gap={"medium"}>
               {fields &&
-                fields.map((field, index) => (
+                fields.map((field: Field, index: number) => (
                   <Box key={index} style={getFieldWidth(field, index)}>
                     <FormField
                       label={`${field.fieldLabel}${field.required ? "*" : ""}`}
@@ -297,20 +311,29 @@ const Page: React.FC<PageProps> = (props) => {
   );
 };
 
-interface StaticContextProps {
-  params: Record<string, unknown>;
-}
-
 export const getStaticProps = async (
-  context: StaticContextProps
+  context: GetStaticPropsContext,
 ): Promise<GetStaticPropsResult<PageProps>> => {
-  const { props } = await useGetStaticProps({
-    client: Client(),
+  const pageResult = await createGetStaticProps({
     queryType: QueryType.SINGLE,
     type: PageType.FORM,
   })(context);
 
-  return { props: { ...props, slices: null } };
+  if ("notFound" in pageResult && pageResult.notFound) {
+    return {
+      props: {
+        ...contactPageFallbackProps,
+        slices: null,
+      } as unknown as PageProps,
+    };
+  }
+
+  return {
+    props: {
+      ...pageResult.props,
+      slices: null,
+    } as unknown as PageProps,
+  };
 };
 
 const StyledRichTextParser = styled(RichTextParser)`

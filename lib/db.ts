@@ -1,14 +1,31 @@
-import { getFirestoreInstance } from "./firebase";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 
-export async function updateUser(uid: string, data: any) {
+import { getFirestoreInstance } from "./firebase";
+import { isMockIntegrations } from "./mock-config";
+
+export async function updateUser(uid: string, data: Record<string, unknown>) {
+  if (isMockIntegrations()) {
+    console.info("[mock] updateUser", { uid, data });
+    return;
+  }
+
   const firestore = await getFirestoreInstance();
-  return firestore.collection("users").doc(uid).update(data);
+  return updateDoc(doc(firestore, "users", uid), data);
 }
 
-export async function createUser(uid: string, data: any) {
+export async function createUser(
+  uid: string,
+  data: Record<string, unknown> | object,
+) {
+  if (isMockIntegrations()) {
+    console.info("[mock] createUser", { uid, data });
+    return;
+  }
+
   const firestore = await getFirestoreInstance();
-  return firestore
-    .collection("users")
-    .doc(uid)
-    .set({ uid, ...data }, { merge: true });
+  return setDoc(
+    doc(firestore, "users", uid),
+    { uid, ...data },
+    { merge: true },
+  );
 }

@@ -1,15 +1,14 @@
-import SliceZone from "next-slicezone";
-import { useGetStaticPaths } from "next-slicezone/hooks";
-import { Link, RichText } from "prismic-reactjs";
+import { asText } from "@prismicio/client";
+import { SliceZone } from "@prismicio/react";
 import React from "react";
 
+import { createGetStaticPaths } from "../../helpers/prismic-static-props";
+import { asSlices } from "../../lib/slices-helper";
 import getStaticDetailProps from "../../next/get-static-props/detail";
-import { Client } from "../../prismic";
-import resolver from "../../sm-resolver";
+import { components } from "../../slices";
 import { BreadcrumbItem } from "../../src/molecules/breadcrumb/breadcrumb";
 import HeroDetail from "../../src/organisms/hero-detail/HeroDetail";
 import Seo from "../../src/organisms/seo/Seo";
-import DetailPageProps from "../../types/Detail";
 import GuidePageProps from "../../types/Guide";
 import PageType from "../../types/PageTypes";
 
@@ -33,10 +32,8 @@ const Page: React.FC<GuidePageProps> = ({ data, slices, params }) => {
       label: "Guides",
     },
     {
-      link: { type: PageType.GUIDE, uid: params?.guide as Link["uid"] },
-      label: restProps.title
-        ? RichText.asText(restProps.title)
-        : "[GUIDE_PAGE_TITLE]",
+      link: { type: PageType.GUIDE, uid: params?.guide as string },
+      label: restProps.title ? asText(restProps.title) : "[GUIDE_PAGE_TITLE]",
     },
   ];
 
@@ -54,27 +51,18 @@ const Page: React.FC<GuidePageProps> = ({ data, slices, params }) => {
         breadcrumbLinks={breadcrumbLinks}
         slices={slices}
       />
-      <SliceZone slices={bannerSlices} resolver={resolver} />
+      <SliceZone slices={asSlices(bannerSlices)} components={components} />
     </React.Fragment>
   );
 };
 
-interface StaticContextProps {
-  params: {
-    guide: string;
-  };
-}
+export const getStaticProps = getStaticDetailProps<GuidePageProps>(
+  PageType.GUIDE,
+);
 
-export const getStaticProps = (context: StaticContextProps) =>
-  getStaticDetailProps<StaticContextProps, DetailPageProps>(PageType.GUIDE)(
-    context
-  );
-
-export const getStaticPaths = useGetStaticPaths({
-  client: Client(),
+export const getStaticPaths = createGetStaticPaths({
   type: PageType.GUIDE,
-  fallback: false,
-  formatPath: ({ uid }: { uid: string }) => ({ params: { guide: uid } }),
+  formatPath: ({ uid }) => ({ params: { guide: uid || "" } }),
 });
 
 export default Page;

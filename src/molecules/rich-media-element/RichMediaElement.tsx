@@ -1,18 +1,24 @@
 import { ResponsiveContext } from "grommet";
-import Image, { ImageProps } from "next/image";
-import { Link } from "prismic-reactjs";
+import dynamic from "next/dynamic";
+import Image, { type ImageProps } from "next/image";
 import React, { useContext } from "react";
-import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+
+import type { Link } from "../../../lib/prismic-types";
 import PrismicImageProps from "../../../types/ImageProps";
 
-interface RichMediaElementProps
-  extends Omit<ImageProps, "alt" | "layout" | "src"> {
+type ImageLayout = "fill" | "responsive" | "intrinsic" | "fixed";
+
+interface RichMediaElementProps extends Omit<
+  ImageProps,
+  "alt" | "src" | "fill"
+> {
   video?: Link;
   alt?: string | null;
   url?: string;
-  layout: "fill" | "responsive" | "intrinsic" | "fixed";
+  layout: ImageLayout;
   dimensions?: { height: number; width: number };
   mobile?: PrismicImageProps;
 }
@@ -27,12 +33,14 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
   className,
   ...restProps
 }) => {
-  if (video && video.url) {
+  const size = useContext(ResponsiveContext);
+
+  if (video && "url" in video && video.url) {
     return (
       <ResponsiveWrapper>
         <ReactPlayer
           className="react-player"
-          url={video.url}
+          src={video.url}
           width="100%"
           height="100%"
         />
@@ -42,54 +50,65 @@ const RichMediaElement: React.FC<RichMediaElementProps> = ({
 
   if (!url) return null;
 
-  const size = useContext(ResponsiveContext);
   const shouldRenderMobileImage =
     size === "small" && mobile && "dimensions" in mobile;
 
-  const props = {
-    alt: shouldRenderMobileImage ? mobile?.alt : alt,
-    src: shouldRenderMobileImage ? mobile?.url : url,
-    height: shouldRenderMobileImage
-      ? mobile?.dimensions?.height
-      : dimensions?.height,
-    width: shouldRenderMobileImage
-      ? mobile?.dimensions?.width
-      : dimensions?.width,
-  };
+  const imageSrc = shouldRenderMobileImage ? mobile?.url : url;
+  const imageAlt = shouldRenderMobileImage ? mobile?.alt : alt;
+  const imageWidth = shouldRenderMobileImage
+    ? mobile?.dimensions?.width
+    : dimensions?.width;
+  const imageHeight = shouldRenderMobileImage
+    ? mobile?.dimensions?.height
+    : dimensions?.height;
 
   if (layout === "fill") {
     return (
-      <StyledImage
-        {...restProps}
-        src={props.src || ""}
-        alt={props.alt || ""}
-        objectFit="cover"
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        layout={layout}
-        className={className}
-        unoptimized
-      />
+      <FillContainer className={className}>
+        <StyledImage
+          {...restProps}
+          src={imageSrc || ""}
+          alt={imageAlt || ""}
+          fill
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+          unoptimized
+        />
+      </FillContainer>
     );
   }
+
+  const width = imageWidth || 800;
+  const height = imageHeight || 600;
+  const isResponsive = layout === "responsive" || layout === "intrinsic";
 
   return (
     <StyledImage
       {...restProps}
-      src={url || ""}
-      alt={alt || ""}
-      objectFit="cover"
-      width={props.width}
-      height={props.height}
+      src={imageSrc || ""}
+      alt={imageAlt || ""}
+      width={width}
+      height={height}
+      sizes={isResponsive ? "(max-width: 600px) 100vw, 800px" : undefined}
+      style={{
+        objectFit: "cover",
+        width: isResponsive ? "100%" : width,
+        height: isResponsive ? "auto" : height,
+      }}
       className={className}
       unoptimized
     />
   );
 };
 
+const FillContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const StyledImage = styled(Image)`
   border-radius: 24px;
-  height: 100%;
 
   @media only screen and (max-width: 600px) {
     border-radius: 12px;

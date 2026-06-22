@@ -18,7 +18,7 @@ export const siteView = (props?: pageViewProps): void => {
 export const pageView = (
   url: string,
   title: string,
-  description: string
+  description: string,
 ): void => {
   if (typeof window !== "undefined") {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -45,7 +45,7 @@ export enum GAEventType {
 export const gaEvent = (
   event_name: GAEventType,
   document?: string,
-  url?: string
+  url?: string,
 ): void => {
   if (typeof window !== "undefined") {
     if (document) {
