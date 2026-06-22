@@ -1,7 +1,8 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading, Paragraph, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import { LearningModuleProps } from "../../../pages/learning-modules/[learning_module]";
 import { AssessmentApplicationMainProps } from "../../../pages/learning-modules/[learning_module]/[assessment_application]";
 import CustomType from "../../../types/CustomType";
@@ -20,8 +21,8 @@ import HeroText from "../hero-text/HeroText";
 
 export interface ModuleHeroProps {
   uid?: string;
-  title?: RichTextBlock[];
-  body?: RichTextBlock[];
+  title?: RichTextBlock;
+  body?: RichTextBlock;
   guideDownload?: Link;
   guideLink?: Link;
   learningModuleUid: string;
@@ -44,11 +45,10 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
 
   const module = learningModules.find(
     (module: CustomType<LearningModuleProps>) =>
-      module.uid === learningModuleUid
+      module.uid === learningModuleUid,
   );
-  const assessmentApplication:
-    | AssessmentApplicationMainProps
-    | undefined = module?.data?.applications.find((app) => app.uid === uid);
+  const assessmentApplication: AssessmentApplicationMainProps | undefined =
+    module?.data?.applications.find((app) => app.uid === uid);
 
   return (
     <React.Fragment>
@@ -64,12 +64,12 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
           {
             link: { type: PageType.LEARNING_MODULE, uid: learningModuleUid },
             label: module?.data?.title
-              ? RichText.asText(module?.data?.title)
+              ? asText(module?.data?.title)
               : "[learning_module]",
           },
           {
             link: { type: PageType.ASSESSMENT_APPLICATION, uid },
-            label: title ? RichText.asText(title) : "",
+            label: title ? asText(title) : "",
           },
         ]}
         title={
@@ -85,12 +85,12 @@ const ApplicationHero: React.FC<ModuleHeroProps> = ({
                   bottom: "medium",
                 }}
               >
-                {RichText.asText(title)}
+                {asText(title)}
               </Heading>
             )}
             {body && (
               <Paragraph size={size === "small" ? "medium" : "large"}>
-                {RichText.asText(body)}
+                {asText(body)}
               </Paragraph>
             )}
           </React.Fragment>

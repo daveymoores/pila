@@ -1,17 +1,16 @@
-// pages/_document.js
 import Document, {
-  DocumentContext,
+  type DocumentContext,
   Head,
   Html,
   Main,
   NextScript,
 } from "next/document";
-import { createResolver } from "next-slicezone/resolver";
 import React from "react";
 import { ServerStyleSheet } from "styled-components";
 
+const gtmId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
+
 export default class extends Document {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -19,14 +18,11 @@ export default class extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App: unknown) => (props) =>
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+          enhanceApp: (App) => (props) =>
             sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
-      await createResolver();
 
       return {
         ...initialProps,
@@ -42,7 +38,6 @@ export default class extends Document {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render() {
     return (
       <Html>
@@ -65,42 +60,18 @@ export default class extends Document {
             as="font"
             crossOrigin=""
           />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              window.dataLayer = window.dataLayer || [];
-                  window.dataLayer?.push({
-                          siteName: "oecd.org",
-                          siteEnvironment: ${
-                            process.env.NODE_ENV !== "production"
-                              ? "dev"
-                              : "live"
-                          },
-                          pageLanguage: "en",
-                 });
-              `,
-            }}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');`,
-            }}
-          />
-          <script src="https://www.google.com/recaptcha/api.js" async defer />
         </Head>
         <body>
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            />
-          </noscript>
+          {gtmId ? (
+            <noscript>
+              <iframe
+                src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+                height="0"
+                width="0"
+                style={{ display: "none", visibility: "hidden" }}
+              />
+            </noscript>
+          ) : null}
           <Main />
           <NextScript />
         </body>

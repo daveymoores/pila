@@ -1,8 +1,9 @@
-import SliceZone from "next-slicezone";
-import { useGetStaticProps } from "next-slicezone/hooks";
+import { SliceZone } from "@prismicio/react";
 import React from "react";
 
-import { Client } from "../prismic";
+import { createGetStaticProps } from "../helpers/prismic-static-props";
+import { asSlices } from "../lib/slices-helper";
+import { components } from "../slices";
 import { FullWidthImageSectionProps } from "../slices/FullWidthImageSection";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
@@ -11,7 +12,6 @@ import {
   PoweredByResearchSectionProps,
 } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
-import resolver from "../sm-resolver";
 import HomepageHero, {
   HomepageHeroProps,
 } from "../src/organisms/homepage-hero/HomepageHero";
@@ -29,17 +29,16 @@ type HomepageSlices = ImageWithTextSectionProps &
 
 type HomepageProps = HomepageHeroProps;
 
-type PageProps = JSX.IntrinsicAttributes &
-  PageData<HomepageSlices, HomepageProps> & {
-    learningModules: LearningModule[];
-  };
+type PageProps = PageData<HomepageSlices, HomepageProps> & {
+  learningModules: LearningModule[];
+};
 
 const Page: React.FC<PageProps> = ({
   data,
   slices,
   learningModules,
 }: PageProps) => {
-  const parsedSlices = slices.map((slice) => {
+  const parsedSlices = slices.map((slice: HomepageSlices) => {
     if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
       return { ...slice, learningModules };
     }
@@ -65,13 +64,12 @@ const Page: React.FC<PageProps> = ({
         openGraphTitle={openGraphTitle}
       />
       <HomepageHero {...restData} />
-      <SliceZone slices={parsedSlices} resolver={resolver} />
+      <SliceZone slices={asSlices(parsedSlices)} components={components} />
     </React.Fragment>
   );
 };
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
+export const getStaticProps = createGetStaticProps({
   queryType: QueryType.SINGLE,
   type: PageType.HOME,
 });

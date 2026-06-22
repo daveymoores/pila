@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Card, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 
+import { getLinkUrl, type RichTextBlock } from "../../../lib/prismic-types";
 import {
   AssessmentApplicationMainProps,
   Task,
@@ -50,10 +51,12 @@ const gridAreas = {
   ],
 };
 
-interface Slices
-  extends Pick<PageData<Task, AssessmentApplicationMainProps>, "slices"> {
-  taskSectionTitle?: RichTextBlock[];
-  taskSectionIntroduction?: RichTextBlock[];
+interface Slices extends Pick<
+  PageData<Task, AssessmentApplicationMainProps>,
+  "slices"
+> {
+  taskSectionTitle?: RichTextBlock;
+  taskSectionIntroduction?: RichTextBlock;
 }
 
 type TaskSectionData = Pick<
@@ -68,18 +71,16 @@ const TaskSection: React.FC<TaskSection> = ({
   taskSectionTitle,
   taskSectionIntroduction,
 }) => {
-  const [selectedTaskData, setSelectedTaskData] = React.useState<Task>();
-
-  React.useEffect(() => {
-    setSelectedTaskData(slices[0]);
-  }, []);
+  const [selectedTaskData, setSelectedTaskData] = React.useState<
+    Task | undefined
+  >(() => slices[0]);
 
   const handleClick = React.useCallback(
     (event: SyntheticEvent, cardIndex: number) => {
       event.preventDefault();
       setSelectedTaskData(slices[cardIndex]);
     },
-    [selectedTaskData, slices]
+    [slices],
   );
 
   return (
@@ -87,7 +88,7 @@ const TaskSection: React.FC<TaskSection> = ({
       <Box justify={"center"} margin={{ bottom: "xlarge" }}>
         {taskSectionTitle && (
           <Heading size={"small"} margin={{ bottom: "large" }}>
-            {RichText.asText(taskSectionTitle)}
+            {asText(taskSectionTitle)}
           </Heading>
         )}
         {!!taskSectionIntroduction?.length && (
@@ -115,9 +116,9 @@ const TaskSection: React.FC<TaskSection> = ({
                 } = primary;
 
                 const isSelected =
-                  RichText.asText(taskTitle) ===
+                  asText(taskTitle) ===
                   (selectedTaskData?.primary?.taskTitle &&
-                    RichText.asText(selectedTaskData?.primary?.taskTitle));
+                    asText(selectedTaskData?.primary?.taskTitle));
 
                 return (
                   <StyledCard
@@ -137,7 +138,7 @@ const TaskSection: React.FC<TaskSection> = ({
                       size={"21px"}
                       margin={{ bottom: "small" }}
                     >
-                      {RichText.asText(taskTitle)}
+                      {asText(taskTitle)}
                     </Heading>
                     {taskLength && taskDifficulty && (
                       <TaskStats
@@ -160,7 +161,7 @@ const TaskSection: React.FC<TaskSection> = ({
                 responsive={false}
                 margin={{ top: "large", bottom: "medium" }}
               >
-                {RichText.asText(selectedTaskData.primary.taskTitle)}
+                {asText(selectedTaskData.primary.taskTitle)}
               </Heading>
             )}
             <Box direction={"row"} justify={"start"} align={"end"}>
@@ -168,7 +169,7 @@ const TaskSection: React.FC<TaskSection> = ({
                 if (!categories?.data?.name) return;
                 return <Category key={index} name={categories?.data?.name} />;
               })}
-              {selectedTaskData?.primary.taskLink.url &&
+              {getLinkUrl(selectedTaskData?.primary.taskLink) &&
                 selectedTaskData?.primary.startTaskButtonLabel && (
                   <Button
                     primary

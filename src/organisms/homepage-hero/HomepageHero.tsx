@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
+import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Section from "../../layout/section/Section";
@@ -10,8 +11,8 @@ import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
 export interface HomepageHeroProps {
-  subheading: RichTextBlock[];
-  title: RichTextBlock[];
+  subheading: RichTextBlock;
+  title: RichTextBlock;
   link?: Link;
   externalHeroLink?: Link;
   linklabel?: string;
@@ -92,7 +93,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               responsive
               isTitle
             >
-              {RichText.asText(subheading)}
+              {asText(subheading)}
             </AnimatedHeading>
             <AnimatedHeading
               level={"2"}
@@ -102,7 +103,7 @@ const HeroContents: React.FC<HeroContentsProps> = ({
               responsive
               isSubheading
             >
-              {RichText.asText(title)}
+              {asText(title)}
             </AnimatedHeading>
             {(externalHeroLink || link) && linklabel && (
               <StyledButton

@@ -1,19 +1,23 @@
 import NextLink from "next/link";
-import { Link } from "prismic-reactjs";
 import React from "react";
 
-import { hrefResolver } from "../../../prismic";
-import useLinkResolver from "../../hooks/useLinkResolver";
+import type { Link } from "../../../lib/prismic-types";
+import { resolveLinkSync } from "../../../prismicio";
 
-interface RoutedLink {
+interface RoutedLinkProps extends React.ComponentPropsWithoutRef<
+  typeof NextLink
+> {
   link: Link;
+  children: React.ReactNode;
 }
 
-const RoutedLink: React.FC<RoutedLink> = ({ link, children }) => {
-  const as = useLinkResolver(link);
+const RoutedLink: React.FC<RoutedLinkProps> = ({ link, children, ...rest }) => {
+  const { href: _href, ...linkProps } = rest;
+  void _href;
+  const resolvedHref = resolveLinkSync(link);
 
   return (
-    <NextLink href={hrefResolver(link) || "/"} as={as} passHref>
+    <NextLink href={resolvedHref} {...linkProps}>
       {children}
     </NextLink>
   );

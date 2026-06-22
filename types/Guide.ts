@@ -6,13 +6,15 @@ export interface GuidePageData extends DetailPageData {
   guide_category: PageData<never, { title: string }>;
 }
 
-export interface LinkedGuidePageProps
-  extends Omit<GuidePageData, "associatedContent"> {
+export interface LinkedGuidePageProps extends Omit<
+  GuidePageData,
+  "associatedContent"
+> {
   associatedContent?: CustomType[];
 }
 
-type GuidePageProps = JSX.IntrinsicAttributes & {
-  params: Record<string, unknown>;
-} & PageData<DetailPageSlices, LinkedGuidePageProps>;
+type GuidePageProps = PageData<DetailPageSlices, LinkedGuidePageProps> & {
+  params?: Record<string, unknown>;
+};
 
 export default GuidePageProps;

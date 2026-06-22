@@ -1,12 +1,17 @@
 import { Box } from "grommet";
-import { GetStaticPropsResult } from "next";
-import { Params } from "next/dist/next-server/server/router";
-import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import { Link, RichTextBlock } from "prismic-reactjs";
+import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
-import { Client } from "../../../prismic";
+import {
+  createGetStaticPaths,
+  createGetStaticProps,
+} from "../../../helpers/prismic-static-props";
+import {
+  getLinkUid,
+  type Link,
+  type RichTextBlock,
+} from "../../../lib/prismic-types";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import ApplicationHero from "../../../src/organisms/application-hero/ApplicationHero";
 import Seo from "../../../src/organisms/seo/Seo";
@@ -24,23 +29,22 @@ export enum Difficulty {
   ADVANCED = "Advanced",
 }
 
-export interface AssessmentApplicationMainProps
-  extends CTABannerAlternateProps {
-  title?: RichTextBlock[];
+export interface AssessmentApplicationMainProps extends CTABannerAlternateProps {
+  title?: RichTextBlock;
   uid: string;
   applicationLinkLabel?: string;
   applicationLink?: Link;
-  body?: RichTextBlock[];
-  shortBody?: RichTextBlock[];
+  body?: RichTextBlock;
+  shortBody?: RichTextBlock;
   video?: Link;
   image?: ImageProps;
   downloadLinks?: DownloadLink[];
   applicationsStats?: ApplicationStats;
   module?: Link;
-  taskSectionTitle?: RichTextBlock[];
-  taskSectionIntroduction?: RichTextBlock[];
-  miscTaskSectionTitle?: RichTextBlock[];
-  miscTaskSectionIntroduction?: RichTextBlock[];
+  taskSectionTitle?: RichTextBlock;
+  taskSectionIntroduction?: RichTextBlock;
+  miscTaskSectionTitle?: RichTextBlock;
+  miscTaskSectionIntroduction?: RichTextBlock;
   miscTaskSlices?: MiscTask[];
   viewApplicationLink: Link;
 }
@@ -48,10 +52,10 @@ export interface AssessmentApplicationMainProps
 export interface MiscTask {
   items: { categories: Link & { data: { name: string } } }[];
   primary: {
-    taskTitle: RichTextBlock[];
+    taskTitle: RichTextBlock;
     taskImage: ImageProps;
     taskVideo: Link;
-    taskBody: RichTextBlock[];
+    taskBody: RichTextBlock;
     startTaskButtonLabel: string;
     taskLink: Link;
   };
@@ -60,10 +64,10 @@ export interface MiscTask {
 export interface Task {
   items: { categories: Link & { data: { name: string } } }[];
   primary: {
-    taskTitle: RichTextBlock[];
+    taskTitle: RichTextBlock;
     taskImage: ImageProps;
     taskVideo: Link;
-    taskBody: RichTextBlock[];
+    taskBody: RichTextBlock;
     startTaskButtonLabel: string;
     taskLink: Link;
     taskDifficulty: Difficulty;
@@ -75,12 +79,14 @@ export interface Task {
 
 type AssessmentApplicationPageProps = AssessmentApplicationMainProps;
 
-export interface AssessmentApplicationProps
-  extends PageData<Task, AssessmentApplicationPageProps> {
+export interface AssessmentApplicationProps extends PageData<
+  Task,
+  AssessmentApplicationPageProps
+> {
   learningModuleUid: string;
 }
 
-type PageProps = AssessmentApplicationProps & JSX.IntrinsicAttributes;
+type PageProps = AssessmentApplicationProps;
 
 const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
   const {
@@ -144,52 +150,42 @@ const Page: React.FC<PageProps> = ({ data, learningModuleUid, uid }) => {
   );
 };
 
-interface StaticContextProps {
-  params: {
-    assessment_application: string;
-    learning_module: string;
-  };
-}
-
 export const getStaticProps = async (
-  context: StaticContextProps
+  context: GetStaticPropsContext,
 ): Promise<GetStaticPropsResult<PageProps>> => {
-  const { props } = await useGetStaticProps({
-    client: Client(),
+  const pageResult = await createGetStaticProps({
     type: PageType.ASSESSMENT_APPLICATION,
-    uid: ({ params }: Params) => params.assessment_application,
+    uid: ({ assessment_application }) => assessment_application,
     params: {
       fetchLinks: ["category.name"],
     },
   })(context);
 
+  if ("notFound" in pageResult && pageResult.notFound) {
+    return pageResult;
+  }
+
   return {
-    props: { ...props, learningModuleUid: context.params.learning_module },
+    props: {
+      ...pageResult.props,
+      learningModuleUid: String(context.params?.learning_module ?? ""),
+    } as PageProps,
   };
 };
 
-export const getStaticPaths = async (): Promise<StaticContextProps> => {
-  return useGetStaticPaths({
-    client: Client(),
-    type: PageType.ASSESSMENT_APPLICATION,
-    fallback: false,
-    formatPath: ({ uid, data }: PageProps): Params => {
-      if (data.module?.uid) {
-        return {
-          params: {
-            assessment_application: uid,
-            learning_module: data.module.uid,
-          },
-        };
-      }
+export const getStaticPaths = createGetStaticPaths({
+  type: PageType.ASSESSMENT_APPLICATION,
+  formatPath: (doc) => {
+    const data = doc.data as AssessmentApplicationMainProps;
+    const moduleUid = getLinkUid(data?.module) ?? "";
 
-      return {
-        params: {
-          assessment_application: uid,
-        },
-      };
-    },
-  })();
-};
+    return {
+      params: {
+        assessment_application: doc.uid ?? "",
+        learning_module: moduleUid,
+      },
+    };
+  },
+});
 
 export default Page;

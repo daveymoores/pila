@@ -1,9 +1,8 @@
-import { RichTextBlock } from "prismic-reactjs";
-
+import type { RichTextBlock } from "../lib/prismic-types";
 import PageType from "./PageTypes";
 
 type GenericPageProps = {
-  title: RichTextBlock[];
+  title: RichTextBlock;
 };
 
 interface CustomType<T = GenericPageProps> {

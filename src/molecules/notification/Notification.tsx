@@ -1,17 +1,18 @@
+import { PrismicRichText } from "@prismicio/react";
 import { Box } from "grommet";
 import { CircleInformation } from "grommet-icons";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import type { RichTextBlock } from "../../../lib/prismic-types";
 import CustomType from "../../../types/CustomType";
 import Section from "../../layout/section/Section";
 import { colorPalette, fontWeights } from "../../theme/pila";
 
 export interface NotificationProps {
   notificationId?: string;
-  body?: RichTextBlock[];
+  body?: RichTextBlock;
   showGlobal?: boolean;
-  document?: CustomType<any>;
+  document?: CustomType<Record<string, unknown>>;
 }
 
 const Notification: React.FC<NotificationProps> = ({ body }) => {
@@ -33,7 +34,7 @@ const Notification: React.FC<NotificationProps> = ({ body }) => {
                 fontWeight: fontWeights.bold,
               }}
             >
-              {RichText.render(body)}
+              <PrismicRichText field={body} />
             </Box>
           )}
         </Box>

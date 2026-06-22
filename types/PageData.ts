@@ -1,11 +1,10 @@
-import { RichTextBlock } from "prismic-reactjs";
-
+import type { RichTextBlock } from "../lib/prismic-types";
 import { SeoMetaDataProps } from "../src/organisms/seo/Seo";
 import CustomType from "./CustomType";
 
-type Data<T, K extends unknown> = K &
+type Data<T, K> = K &
   SeoMetaDataProps & {
-    title: RichTextBlock[];
+    title: RichTextBlock;
     slices: T[];
   };
 

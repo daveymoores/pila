@@ -1,7 +1,7 @@
-import { RichTextBlock } from "prismic-reactjs";
+import type { FilledImageFieldImage } from "@prismicio/client";
 
 type ImageProps = Pick<
-  RichTextBlock,
+  FilledImageFieldImage,
   "dimensions" | "alt" | "copyright" | "url"
 >;
 

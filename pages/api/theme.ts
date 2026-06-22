@@ -4,7 +4,7 @@ import pila from "../../src/theme/pila";
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<void> => {
   res.json(pila);
 };

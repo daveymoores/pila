@@ -1,8 +1,8 @@
 import { Box } from "grommet";
-import { Link, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { Link, RichTextBlock } from "../../lib/prismic-types";
 import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../src/theme/pila";
@@ -10,7 +10,7 @@ import Slice from "../../types/Slice";
 
 type Primary = {
   video?: Link;
-  caption?: RichTextBlock[];
+  caption?: RichTextBlock;
   sectionTitle?: string;
 };
 
@@ -27,7 +27,7 @@ const VideoBlock: FC<{ slice: VideoBlockProps }> = ({ slice }) => {
       pad={{ top: "none", bottom: "large" }}
     >
       <Box gridArea={"image"} overflow={"hidden"} round={"medium"}>
-        {primary.video?.url && (
+        {primary.video && "url" in primary.video && primary.video.url && (
           <RichMediaElement video={primary.video} layout={"responsive"} />
         )}
       </Box>

@@ -37,7 +37,7 @@ const getDifficultyValue = (difficulty: Difficulty): number => {
 };
 
 const groupApplicationMetrics = (
-  applications: CustomType<AssessmentApplicationProps>[]
+  applications: CustomType<AssessmentApplicationProps>[],
 ): MetricGroups[] | [] =>
   applications.reduce((acc: MetricGroups[] | [], application) => {
     if (!application.data?.slices) return acc;
@@ -60,29 +60,31 @@ const groupApplicationMetrics = (
           minimumAges: [],
           maximumAges: [],
           units: 0,
-        }
+        },
       ),
     ];
   }, []);
 
 const getAverageDifficulty = (difficulties: Difficulty[]): string => {
   const totalDifficultyValue = sum(
-    difficulties.map((difficulty: Difficulty) => getDifficultyValue(difficulty))
+    difficulties.map((difficulty: Difficulty) =>
+      getDifficultyValue(difficulty),
+    ),
   );
 
   const averageDifficultyValue = Math.floor(
-    totalDifficultyValue / difficulties.length
+    totalDifficultyValue / difficulties.length,
   );
 
   return (
     Object.entries(difficultyValues).find(
-      ([, value]) => value === averageDifficultyValue
+      ([, value]) => value === averageDifficultyValue,
     ) || []
   ).shift() as string;
 };
 
 const getApplicationAverages = (
-  applications: CustomType<AssessmentApplicationProps>[]
+  applications: CustomType<AssessmentApplicationProps>[],
 ): ApplicationStats[] | [] => {
   if (!applications.length) return [];
   const metricGroups = groupApplicationMetrics(applications);

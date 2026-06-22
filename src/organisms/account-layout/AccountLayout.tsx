@@ -10,6 +10,7 @@ interface AccountLayoutProps {
   title: string;
   error?: string;
   loading: boolean;
+  children?: React.ReactNode;
 }
 
 const AccountLayout: React.FC<AccountLayoutProps> = ({

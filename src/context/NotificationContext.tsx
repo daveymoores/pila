@@ -16,11 +16,12 @@ const NotificationContext = React.createContext<NotificationContextProps>({
 
 export const NotificationProvider: React.FC<{
   notifications: CustomType<NotificationProps>[];
+  children?: React.ReactNode;
 }> = ({ children, notifications }) => {
   const route = useRouter();
 
   const routeTypes: (string | string[] | undefined)[] = Object.values(
-    route.query
+    route.query,
   );
 
   const routeNotification = notifications.filter((notification) => {
@@ -34,7 +35,7 @@ export const NotificationProvider: React.FC<{
   const globalNotification =
     notifications.find(
       (notification: CustomType<NotificationProps>) =>
-        notification.data?.showGlobal
+        notification.data?.showGlobal,
     )?.data || {};
 
   return (

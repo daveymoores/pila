@@ -1,8 +1,8 @@
 import { Box } from "grommet";
-import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../src/theme/pila";
@@ -11,7 +11,7 @@ import Slice from "../../types/Slice";
 
 type Primary = {
   image?: ImageProps;
-  caption?: RichTextBlock[];
+  caption?: RichTextBlock;
   sectionTitle?: string;
 };
 

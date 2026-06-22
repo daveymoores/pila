@@ -1,10 +1,12 @@
+import { asText, isFilled } from "@prismicio/client";
 import { Box, Heading, Paragraph } from "grommet";
-import { Params } from "next/dist/next-server/server/router";
-import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
-import { Client } from "../../../prismic";
+import {
+  createGetStaticPaths,
+  createGetStaticProps,
+} from "../../../helpers/prismic-static-props";
+import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import { CTABannerAlternateProps } from "../../../slices/CtaBanner";
 import LearningModulesContext from "../../../src/context/LearningModulesContext";
 import Section from "../../../src/layout/section/Section";
@@ -22,7 +24,7 @@ import PageType from "../../../types/PageTypes";
 import { AssessmentApplicationMainProps } from "./[assessment_application]";
 
 interface GuideItem {
-  guideTitle: RichTextBlock[];
+  guideTitle: RichTextBlock;
   guideDownloadLink: Link;
   guidePageLink: Link;
 }
@@ -30,30 +32,28 @@ interface GuideItem {
 interface GuideGroup {
   items?: GuideItem[];
   primary: {
-    guideGroupTitle?: RichTextBlock[];
+    guideGroupTitle?: RichTextBlock;
   };
 }
 
 export interface LearningModuleProps
-  extends ModuleHeroProps,
-    CTABannerAlternateProps {
-  introduction?: RichTextBlock[];
+  extends ModuleHeroProps, CTABannerAlternateProps {
+  introduction?: RichTextBlock;
   bodyTitle?: string;
   parent?: Link;
   icon?: ImageProps;
-  bodyShort?: RichTextBlock[];
-  guidesBody?: RichTextBlock[];
-  guidesTitle?: RichTextBlock[];
+  bodyShort?: RichTextBlock;
+  guidesBody?: RichTextBlock;
+  guidesTitle?: RichTextBlock;
   applicationsSectionTitle?: string;
-  applicationsSectionIntroduction?: RichTextBlock[];
+  applicationsSectionIntroduction?: RichTextBlock;
   slices?: GuideGroup[];
   applications: AssessmentApplicationMainProps[];
 }
 
 type LearningModulePageProps = LearningModuleProps;
 
-type PageProps = PageData<unknown, LearningModulePageProps> &
-  JSX.IntrinsicAttributes;
+type PageProps = PageData<unknown, LearningModulePageProps>;
 
 const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const {
@@ -79,7 +79,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   const learningModules = React.useContext(LearningModulesContext);
 
   const module = learningModules.find(
-    (module: CustomType<LearningModuleProps>) => module.uid === uid
+    (module: CustomType<LearningModuleProps>) => module.uid === uid,
   );
 
   return (
@@ -88,7 +88,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         metaDescription={metaDescription}
         metaTitle={metaTitle}
         openGraphDescription={openGraphDescription}
-        openGraphImage={openGraphImage || {}}
+        openGraphImage={openGraphImage}
         openGraphTitle={openGraphTitle}
       />
       <ModuleHero
@@ -99,7 +99,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
         guideLink={guideLink}
         icon={icon}
       />
-      {(!!body?.some((paragraph) => paragraph.text) || bodyTitle) && (
+      {(!!(body && isFilled.richText(body) && asText(body)) || bodyTitle) && (
         <Box pad={{ top: "xlarge", bottom: "medium" }}>
           <Section>
             {bodyTitle && (
@@ -117,7 +117,7 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
             <Heading size={"small"}>{applicationsSectionTitle}</Heading>
           )}
           {!!applicationsSectionIntroduction?.length &&
-            !applicationsSectionIntroduction.every(({ text }) => !text) && (
+            !!asText(applicationsSectionIntroduction) && (
               <Box margin={{ top: "medium" }} width={{ max: "850px" }}>
                 <RichTextParser body={applicationsSectionIntroduction} />
               </Box>
@@ -151,41 +151,48 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
                     size={"small"}
                     margin={{ bottom: "medium" }}
                   >
-                    {RichText.asText(guidesTitle)}
+                    {asText(guidesTitle)}
                   </Heading>
                 )}
-                {guidesBody && (
-                  <Paragraph>{RichText.asText(guidesBody)}</Paragraph>
-                )}
+                {guidesBody && <Paragraph>{asText(guidesBody)}</Paragraph>}
               </Box>
               {slices &&
-                slices.map(({ items, primary: { guideGroupTitle } }, index) => (
-                  <Box key={index} margin={{ top: "small" }}>
-                    {guideGroupTitle && (
-                      <Heading
-                        level={"2"}
-                        size={"small"}
-                        margin={{ top: "small", bottom: "medium" }}
-                      >
-                        {RichText.asText(guideGroupTitle)}
-                      </Heading>
-                    )}
-                    {items &&
-                      items.map(
-                        (
-                          { guideTitle, guideDownloadLink, guidePageLink },
-                          index
-                        ) => (
-                          <GuideCard
-                            key={index}
-                            title={RichText.asText(guideTitle)}
-                            downloadLink={guideDownloadLink}
-                            pageLink={guidePageLink}
-                          />
-                        )
+                slices.map(
+                  (
+                    { items, primary: { guideGroupTitle } }: GuideGroup,
+                    index: number,
+                  ) => (
+                    <Box key={index} margin={{ top: "small" }}>
+                      {guideGroupTitle && (
+                        <Heading
+                          level={"2"}
+                          size={"small"}
+                          margin={{ top: "small", bottom: "medium" }}
+                        >
+                          {asText(guideGroupTitle)}
+                        </Heading>
                       )}
-                  </Box>
-                ))}
+                      {items &&
+                        items.map(
+                          (
+                            {
+                              guideTitle,
+                              guideDownloadLink,
+                              guidePageLink,
+                            }: GuideItem,
+                            index: number,
+                          ) => (
+                            <GuideCard
+                              key={index}
+                              title={asText(guideTitle) ?? ""}
+                              downloadLink={guideDownloadLink}
+                              pageLink={guidePageLink}
+                            />
+                          ),
+                        )}
+                    </Box>
+                  ),
+                )}
             </Box>
           </Section>
         </Box>
@@ -194,18 +201,15 @@ const Page: React.FC<PageProps> = ({ uid, data = {} }) => {
   );
 };
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
+export const getStaticProps = createGetStaticProps({
   type: PageType.LEARNING_MODULE,
-  uid: ({ params }: Params) => params.learning_module,
+  uid: ({ learning_module }) => learning_module,
 });
 
-export const getStaticPaths = useGetStaticPaths({
-  client: Client(),
+export const getStaticPaths = createGetStaticPaths({
   type: PageType.LEARNING_MODULE,
-  fallback: false,
-  formatPath: ({ uid }: { uid: string }) => ({
-    params: { learning_module: uid },
+  formatPath: ({ uid }) => ({
+    params: { learning_module: uid || "" },
   }),
 });
 

@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Card, Grid, Heading } from "grommet";
-import { RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import Section from "../../src/layout/section/Section";
 import RichMediaElement from "../../src/molecules/rich-media-element/RichMediaElement";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
@@ -12,7 +13,7 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Primary {
-  title: RichTextBlock[];
+  title: RichTextBlock;
   gridLength: "2" | "3" | "4";
   bottomPadding: "xlarge" | "large" | "medium";
 }
@@ -21,7 +22,7 @@ interface Item {
   image: ImageProps;
   name: string;
   position: string;
-  body: RichTextBlock[];
+  body: RichTextBlock;
 }
 
 export type OurTeamSectionProps = Slice<Primary, Item>;
@@ -51,7 +52,7 @@ const OurTeamSection: FC<{
     <Section justify={"center"} flex>
       <Grid margin={{ bottom: "large" }} columns={"large"}>
         <Heading level={"1"} size="small" margin="none" alignSelf={"stretch"}>
-          {RichText.asText(slice.primary.title)}
+          {asText(slice.primary.title)}
         </Heading>
       </Grid>
       <ResponsiveGrid columns={columns(slice.primary.gridLength)} rows={rows}>

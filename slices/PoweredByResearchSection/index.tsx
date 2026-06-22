@@ -1,7 +1,7 @@
-import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
 import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
 import TextContent from "../../src/organisms/text-content/TextContent";
@@ -10,25 +10,24 @@ import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Primary {
-  eyebrowHeadline: RichTextBlock[];
-  title: RichTextBlock[];
-  description: RichTextBlock[];
+  eyebrowHeadline: RichTextBlock;
+  title: RichTextBlock;
+  description: RichTextBlock;
 }
 
 export interface LearningModule {
-  title: RichTextBlock[];
-  body: RichTextBlock[];
-  bodyShort: RichTextBlock[];
+  title: RichTextBlock;
+  body: RichTextBlock;
+  bodyShort: RichTextBlock;
   applications: CustomType<AssessmentApplicationProps>[];
   icon: ImageProps;
   link: { url: string };
 }
 
-export interface PoweredByResearchSectionProps
-  extends Slice<
-    Primary,
-    { module: Pick<CustomType<AssessmentApplicationProps>, "id"> }
-  > {
+export interface PoweredByResearchSectionProps extends Slice<
+  Primary,
+  { module: Pick<CustomType<AssessmentApplicationProps>, "id"> }
+> {
   learningModules: CustomType<LearningModule>[];
 }
 

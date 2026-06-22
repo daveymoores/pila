@@ -1,7 +1,7 @@
 import useSWR from "swr";
 
 interface Response {
-  sent: any;
+  sent: unknown;
   isLoading: boolean;
   isError: boolean;
 }

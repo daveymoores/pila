@@ -33,8 +33,8 @@ export const Pattern: React.FC<{
   const [parentIndex, setParentIndex] = React.useState(getRandomInt(0));
   const [isAnimating, setIsAnimating] = React.useState(false);
   const [mouseEvent, setMouseEvent] = React.useState<SyntheticEvent["type"]>();
-  const [sequenceInt, setSequenceInt] = React.useState<any>(sequences[0]);
-  const [sequence, setSequence] = React.useState<any>(sequences[0]);
+  const [sequenceInt, setSequenceInt] = React.useState(0);
+  const [sequence, setSequence] = React.useState(sequences[0]);
 
   React.useEffect(() => {
     if (!parentIndex) {
@@ -49,7 +49,7 @@ export const Pattern: React.FC<{
       setMouseEvent(event.type);
       setIsAnimating(!isAnimating);
     },
-    [isAnimating]
+    [isAnimating],
   );
 
   React.useEffect(() => {
@@ -61,15 +61,15 @@ export const Pattern: React.FC<{
     if (isAnimating) {
       if (mouseEvent === "mouseenter") {
         setParentIndex((index) =>
-          index + 1 > sequenceLength - 1 ? 0 : index + 1
+          index + 1 > sequenceLength - 1 ? 0 : index + 1,
         );
       }
       timerId = setInterval(
         () =>
           setParentIndex((index) =>
-            index + 1 > sequenceLength - 1 ? 0 : index + 1
+            index + 1 > sequenceLength - 1 ? 0 : index + 1,
           ),
-        400
+        400,
       );
     } else {
       clearInterval(timerId);
@@ -132,7 +132,7 @@ const Motif: React.FC<MotifProps> = ({ containerRef, color }) => {
       const area = width * height;
       setSquares(Math.round(area / (100 * 100)));
     }
-  }, [containerRef?.current]);
+  }, [containerRef]);
 
   return (
     <MotifWrapper>

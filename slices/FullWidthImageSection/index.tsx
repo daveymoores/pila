@@ -122,7 +122,7 @@ const StyledTextContent = styled(TextContent)<OrderProps>(
     `
   grid-column: ${column};
   max-width: 400px;
-`
+`,
 );
 
 export default FullWidthImageSection;

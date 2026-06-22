@@ -1,12 +1,12 @@
 import { Box } from "grommet";
-import { RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 
+import type { RichTextBlock } from "../../lib/prismic-types";
 import RichTextParser from "../../src/molecules/rich-text-parser/RichTextParser";
 import Slice from "../../types/Slice";
 
 type Primary = {
-  body?: RichTextBlock[];
+  body?: RichTextBlock;
   sectionTitle?: string;
 };
 

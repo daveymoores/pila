@@ -2,11 +2,23 @@ import { motion, useCycle } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
 
+type AnimationKeyframe = {
+  rotate: number;
+  originY: number;
+  originX: number;
+};
+
+type AnimationSequence = {
+  sequence1: AnimationKeyframe[][];
+  sequence2: AnimationKeyframe[][];
+  sequence3: AnimationKeyframe[][];
+};
+
 interface PoleProps {
   index: number;
-  style?: any;
+  style?: React.CSSProperties;
   parentIndex: number;
-  sequence: any;
+  sequence: AnimationSequence;
   color: string;
 }
 

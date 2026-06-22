@@ -1,11 +1,13 @@
-import { Params } from "next/dist/next-server/server/router";
-import SliceZone from "next-slicezone";
-import { useGetStaticPaths, useGetStaticProps } from "next-slicezone/hooks";
+import { SliceZone } from "@prismicio/react";
 import React from "react";
 
-import { Client } from "../../prismic";
+import {
+  createGetStaticPaths,
+  createGetStaticProps,
+} from "../../helpers/prismic-static-props";
+import { asSlices } from "../../lib/slices-helper";
+import { components } from "../../slices";
 import { ImageWithTextSectionProps } from "../../slices/ImageWithTextSection";
-import resolver from "../../sm-resolver";
 import HeroImage, {
   HeroImageProps,
 } from "../../src/organisms/hero-image/HeroImage";
@@ -17,8 +19,7 @@ type ThemesPageSlices = ImageWithTextSectionProps;
 
 type ThemesPageProps = HeroImageProps;
 
-type PageProps = JSX.IntrinsicAttributes &
-  PageData<ThemesPageSlices, ThemesPageProps>;
+type PageProps = PageData<ThemesPageSlices, ThemesPageProps>;
 
 const Page: React.FC<PageProps> = ({ data, slices }) => {
   const {
@@ -40,22 +41,19 @@ const Page: React.FC<PageProps> = ({ data, slices }) => {
         openGraphTitle={openGraphTitle}
       />
       <HeroImage {...restData} />
-      <SliceZone slices={slices} resolver={resolver} />
+      <SliceZone slices={asSlices(slices)} components={components} />
     </React.Fragment>
   );
 };
 
-export const getStaticProps = useGetStaticProps({
-  client: Client(),
+export const getStaticProps = createGetStaticProps({
   type: PageType.THEME,
-  uid: ({ params }: Params) => params.theme,
+  uid: ({ theme }) => theme || "",
 });
 
-export const getStaticPaths = useGetStaticPaths({
-  client: Client(),
+export const getStaticPaths = createGetStaticPaths({
   type: PageType.THEME,
-  fallback: false,
-  formatPath: ({ uid }: { uid: string }) => ({ params: { theme: uid } }),
+  formatPath: ({ uid }) => ({ params: { theme: uid || "" } }),
 });
 
 export default Page;

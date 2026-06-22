@@ -18,9 +18,11 @@ interface GridOptions<T> {
   xlarge?: T;
 }
 
-interface ResponsiveProps
-  extends Omit<GridProps, "areas" | "columns" | "rows"> {
-  children: React.ReactChild | React.ReactElement[];
+interface ResponsiveProps extends Omit<
+  GridProps,
+  "areas" | "columns" | "rows"
+> {
+  children: React.ReactNode;
   rows: GridOptions<GridOption> | string;
   columns: GridOptions<GridOption> | string;
   areas?: GridOptions<AreaOption>;

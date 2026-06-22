@@ -1,10 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Heading } from "grommet";
-import { GetStaticPropsResult } from "next";
-import { useGetStaticProps } from "next-slicezone/hooks";
-import { RichText } from "prismic-reactjs";
+import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import React from "react";
 
-import { Client } from "../../prismic";
+import { createGetStaticProps } from "../../helpers/prismic-static-props";
 import LearningModulesContext from "../../src/context/LearningModulesContext";
 import Section from "../../src/layout/section/Section";
 import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
@@ -21,8 +20,7 @@ import { LearningModuleProps } from "./[learning_module]";
 
 type LearningModuleHomePageProps = HeroImageProps;
 
-type PageProps = PageData<unknown, LearningModuleHomePageProps> &
-  JSX.IntrinsicAttributes;
+type PageProps = PageData<unknown, LearningModuleHomePageProps>;
 
 const columns = {
   small: ["auto"],
@@ -74,7 +72,7 @@ const Page: React.FC<PageProps> = (props) => {
               alignSelf={"stretch"}
               size="small"
             >
-              {RichText.asText(title)}
+              {asText(title)}
             </Heading>
           }
           variant={Theme.LIGHT}
@@ -98,20 +96,24 @@ const Page: React.FC<PageProps> = (props) => {
   );
 };
 
-interface StaticContextProps {
-  params: Record<string, unknown>;
-}
-
 export const getStaticProps = async (
-  context: StaticContextProps
+  context: GetStaticPropsContext,
 ): Promise<GetStaticPropsResult<PageProps>> => {
-  const { props } = await useGetStaticProps({
-    client: Client(),
+  const pageResult = await createGetStaticProps({
     queryType: QueryType.SINGLE,
     type: PageType.LEARNING_MODULE_HOME,
   })(context);
 
-  return { props: { ...props, slices: null } };
+  if ("notFound" in pageResult && pageResult.notFound) {
+    return pageResult;
+  }
+
+  return {
+    props: {
+      ...pageResult.props,
+      slices: null,
+    } as unknown as PageProps,
+  };
 };
 
 export default Page;

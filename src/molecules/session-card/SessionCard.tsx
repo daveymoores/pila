@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { Box, Card, Grid, Paragraph } from "grommet";
 import { Group } from "grommet-icons";
-import { Link } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import type { Link } from "../../../lib/prismic-types";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import {
   DesktopUp,

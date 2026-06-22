@@ -1,16 +1,17 @@
+import { asText } from "@prismicio/client";
 import { Box, Card, CardBody, CardFooter, CardHeader, Heading } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 import styled from "styled-components";
 
+import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import RichTextParser from "../../molecules/rich-text-parser/RichTextParser";
 import { colorPalette } from "../../theme/pila";
 
 export interface TextContentProps {
-  eyebrowHeadline?: RichTextBlock[];
-  title?: RichTextBlock[];
-  description?: RichTextBlock[];
+  eyebrowHeadline?: RichTextBlock;
+  title?: RichTextBlock;
+  description?: RichTextBlock;
   link?: Link;
   linkLabel?: string;
   secondaryLink?: Link;
@@ -59,7 +60,7 @@ const TextContent: React.FC<TextContentProps> = ({
               alignSelf={"stretch"}
               responsive={false}
             >
-              {RichText.asText(eyebrowHeadline)}
+              {asText(eyebrowHeadline)}
             </Heading>
           )}
           <Heading
@@ -68,7 +69,7 @@ const TextContent: React.FC<TextContentProps> = ({
             size={"small"}
             margin={{ top: "small", bottom: "medium" }}
           >
-            {RichText.asText(title)}
+            {asText(title)}
           </Heading>
         </Box>
       </CardHeader>

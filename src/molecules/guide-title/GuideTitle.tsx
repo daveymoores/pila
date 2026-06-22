@@ -1,5 +1,5 @@
+import { asText } from "@prismicio/client";
 import { Heading, Paragraph } from "grommet";
-import { RichText } from "prismic-reactjs";
 import React from "react";
 
 import { DetailPageData } from "../../../types/Detail";
@@ -36,7 +36,7 @@ const GuideTitle: React.FC<GuideTitle> = ({
         alignSelf={"stretch"}
         size="small"
       >
-        {title && RichText.asText(title)}
+        {title && asText(title)}
       </Heading>
     )}
   </React.Fragment>

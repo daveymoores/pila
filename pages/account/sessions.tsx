@@ -1,6 +1,6 @@
-import { Link, RichTextBlock } from "prismic-reactjs";
 import React from "react";
 
+import type { Link, RichTextBlock } from "../../lib/prismic-types";
 import getAccountServerSideProps from "../../next/get-server-side-props/account";
 import AccountLayout from "../../src/organisms/account-layout/AccountLayout";
 import PageData from "../../types/PageData";
@@ -8,7 +8,7 @@ import PageData from "../../types/PageData";
 interface SessionsPageMainProps {
   name: string;
   greeting: string;
-  noSessionsText: RichTextBlock[];
+  noSessionsText: RichTextBlock;
   startSessionLabel: string;
   startSessionLink: Link;
   exploreModulesLabel: string;
@@ -18,8 +18,7 @@ interface SessionsPageMainProps {
 
 export type SessionsPageProps = SessionsPageMainProps;
 
-export type SessionPageProps = PageData<unknown, SessionsPageProps> &
-  JSX.IntrinsicAttributes;
+export type SessionPageProps = PageData<unknown, SessionsPageProps>;
 
 const Page: React.FC<SessionPageProps> = (props) => {
   const { name, greeting } = props.data;

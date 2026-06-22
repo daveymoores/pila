@@ -1,8 +1,9 @@
+import { asText } from "@prismicio/client";
 import { Box, Grid, Heading, Image, ResponsiveContext } from "grommet";
-import { Link, RichText, RichTextBlock } from "prismic-reactjs";
 import React, { FC } from "react";
 import styled from "styled-components";
 
+import type { Link, RichTextBlock } from "../../lib/prismic-types";
 import Button, { ButtonSizes } from "../../src/atoms/button/Button";
 import Section from "../../src/layout/section/Section";
 import ResponsiveGrid from "../../src/organisms/responsive-grid/ResponsiveGrid";
@@ -10,7 +11,7 @@ import { colorPalette } from "../../src/theme/pila";
 import Slice from "../../types/Slice";
 
 type Primary = {
-  title?: RichTextBlock[];
+  title?: RichTextBlock;
   buttonOneLink?: Link;
   buttonTwoLink?: Link;
   buttonOneLabel?: string;
@@ -21,7 +22,7 @@ type Primary = {
  * This interface is used when the fields are outside of the slice machine
  */
 export interface CTABannerAlternateProps {
-  ctaSectionTitle?: RichTextBlock[];
+  ctaSectionTitle?: RichTextBlock;
   ctaSectionButtonOneLabel?: string;
   ctaSectionButtonOneLink?: Link;
   ctaSectionButtonTwoLabel?: string;
@@ -95,7 +96,7 @@ const CtaBanner: FC<{ slice: CtaBannerProps }> = ({ slice }) => {
                 margin={"none"}
                 color={colorPalette.light_green}
               >
-                {RichText.asText(title)}
+                {asText(title)}
               </Heading>
             )}
             <Box
