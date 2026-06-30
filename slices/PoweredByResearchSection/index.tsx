@@ -1,12 +1,10 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 
-import type { RichTextBlock } from "../../lib/prismic-types";
-import { AssessmentApplicationProps } from "../../pages/learning-modules/[learning_module]/[assessment_application]";
+import type { ProgrammeCardData } from "../../helpers/resolve-programme-cards";
+import type { Link, RichTextBlock } from "../../lib/prismic-types";
 import ProgrammeCard from "../../src/molecules/programme-card/ProgrammeCard";
 import TextContent from "../../src/organisms/text-content/TextContent";
-import CustomType from "../../types/CustomType";
-import ImageProps from "../../types/ImageProps";
 import Slice from "../../types/Slice";
 
 interface Primary {
@@ -15,52 +13,32 @@ interface Primary {
   description: RichTextBlock;
 }
 
-export interface LearningModule {
-  title: RichTextBlock;
-  body: RichTextBlock;
-  bodyShort: RichTextBlock;
-  applications: CustomType<AssessmentApplicationProps>[];
-  icon: ImageProps;
-  link: { url: string };
-}
-
 export interface PoweredByResearchSectionProps extends Slice<
   Primary,
-  { module: Pick<CustomType<AssessmentApplicationProps>, "id"> }
+  { module: Link }
 > {
-  learningModules: CustomType<LearningModule>[];
+  programmeCards?: ProgrammeCardData[];
 }
 
 const PoweredByResearchSection: FC<{
   slice: PoweredByResearchSectionProps;
 }> = ({ slice }) => {
-  const { primary, learningModules } = slice;
+  const { primary, programmeCards = [] } = slice;
 
   return (
     <OuterWrapper>
       <TextContent {...primary} asCard={false} padding="medium" />
       <ResponsiveGridWrapper>
         <ResponsiveGrid>
-          {learningModules
-            .filter((module, index) => index <= 2)
-            .map((module) => (
-              <FixedProgrammeCard
-                key={module.id}
-                title={module.data?.title}
-                body={module.data?.bodyShort}
-                icon={module.data?.icon}
-                link={
-                  module.data?.link
-                    ? {
-                        url: module.data.link.url ?? "",
-                        uid: module.uid,
-                        type: module.type,
-                        id: module.id,
-                      }
-                    : undefined
-                }
-              />
-            ))}
+          {programmeCards.map((card) => (
+            <FixedProgrammeCard
+              key={card.id}
+              title={card.title}
+              body={card.body}
+              icon={card.icon}
+              link={card.link}
+            />
+          ))}
         </ResponsiveGrid>
       </ResponsiveGridWrapper>
     </OuterWrapper>
@@ -90,22 +68,19 @@ const ResponsiveGridWrapper = styled.div`
 
 const ResponsiveGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Always have 3 columns */
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
   width: 100%;
   max-width: 1200px;
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr; /* 1 column for mobile */
+    grid-template-columns: 1fr;
   }
 `;
 
 const FixedProgrammeCard = styled(ProgrammeCard)`
   max-width: 300px;
-  width: 100%; /* Ensure the cards take full width of their column */
-  &:hover {
-    transform: scale(1.05);
-  }
+  width: 100%;
 `;
 
 export default PoweredByResearchSection;

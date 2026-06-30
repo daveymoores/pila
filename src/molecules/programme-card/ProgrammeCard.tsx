@@ -7,8 +7,8 @@ import type { RichTextBlock } from "../../../lib/prismic-types";
 import ImageProps from "../../../types/ImageProps";
 import PageType from "../../../types/PageTypes";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
-import LearningModuleIcon from "../../atoms/learning-module-icon/LearningModuleIcon";
 import { colorPalette } from "../../theme/pila";
+import RichMediaElement from "../rich-media-element/RichMediaElement";
 
 interface ProgrammeCardProps {
   link?: {
@@ -42,12 +42,15 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
     <StyledCard
       background={"white"}
       elevation="xlarge"
-      pad="large"
       round={"medium"}
       direction={"column"}
     >
-      <LearningModuleIcon icon={icon} />
-      <StyledCardBody>
+      {icon?.url && (
+        <CardHero>
+          <CardHeroImage {...icon} alt={icon.alt || ""} layout="fill" />
+        </CardHero>
+      )}
+      <StyledCardBody pad="large">
         {title && (
           <Heading
             level={"4"}
@@ -63,7 +66,6 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
             margin={{
               top: "medium",
             }}
-            fill
           >
             {asText(body)}
           </StyledParagraph>
@@ -77,7 +79,7 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
               label="Learn More"
               link={{
                 link_type: "Document",
-                type: PageType.THEME,
+                type: (link?.type as PageType) || PageType.THEME,
                 url: finalUrl,
               }}
             />
@@ -91,23 +93,42 @@ const ProgrammeCard: React.FC<ProgrammeCardProps> = ({
 const StyledCard = styled(Card)`
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease-in-out;
-  background: #f8f8f8; /* Slightly darkened background color */
-  width: 100%; /* Ensure card takes full width */
-  height: 100%; /* Ensure card takes full height */
+  background: #f8f8f8;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  padding: 0;
+
   &:hover {
     transform: scale(1.05);
+  }
+`;
+
+const CardHero = styled.div`
+  position: relative;
+  width: 100%;
+  height: 10rem;
+`;
+
+const CardHeroImage = styled(RichMediaElement)`
+  border-radius: 0 !important;
+
+  img {
+    object-fit: cover !important;
+    border-radius: 0 !important;
   }
 `;
 
 const StyledCardBody = styled(CardBody)`
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Ensure the content is spaced evenly */
-  height: 100%; /* Ensure card body takes full height */
-  align-items: center; /* Center the content */
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
@@ -116,9 +137,19 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledParagraph = styled(Paragraph)`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: calc(1.5em * 3);
+  word-break: break-word;
+
   @media only screen and (max-width: 400px) {
     font-size: 16px;
     line-height: 24px;
+    max-height: calc(24px * 3);
   }
 `;
 

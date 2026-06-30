@@ -3,6 +3,7 @@ import { Box, Heading } from "grommet";
 import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import React from "react";
 
+import { mergeStaticProps } from "../../helpers/merge-static-props";
 import { createGetStaticProps } from "../../helpers/prismic-static-props";
 import { createClient } from "../../prismicio";
 import Section from "../../src/layout/section/Section";
@@ -95,13 +96,10 @@ export const getStaticProps = async (
     return pageResult;
   }
 
-  return {
-    props: {
-      ...pageResult.props,
-      guides,
-      slices: null,
-    } as unknown as DetailPageProps,
-  };
+  return mergeStaticProps(pageResult, {
+    guides,
+    slices: null,
+  } as unknown as Partial<DetailPageProps>) as GetStaticPropsResult<DetailPageProps>;
 };
 
 export default Page;

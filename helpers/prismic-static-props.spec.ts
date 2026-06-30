@@ -87,6 +87,7 @@ describe("prismic-static-props", () => {
           },
           slices: [{ slice_type: "rich_text_block" }],
         },
+        revalidate: 60,
       });
     });
 
@@ -171,7 +172,7 @@ describe("prismic-static-props", () => {
           { params: { guide: "guide-one" } },
           { params: { guide: "guide-two" } },
         ],
-        fallback: false,
+        fallback: "blocking",
       });
     });
   });

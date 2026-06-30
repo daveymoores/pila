@@ -1,16 +1,16 @@
 import { SliceZone } from "@prismicio/react";
+import type { GetStaticPropsContext } from "next";
 import React from "react";
 
 import { createGetStaticProps } from "../helpers/prismic-static-props";
+import { resolveProgrammeCardsFromSliceItems } from "../helpers/resolve-programme-cards";
 import { asSlices } from "../lib/slices-helper";
+import { createClient } from "../prismicio";
 import { components } from "../slices";
 import { FullWidthImageSectionProps } from "../slices/FullWidthImageSection";
 import { HighlightBannerProps } from "../slices/HighlightBanner";
 import { ImageWithTextSectionProps } from "../slices/ImageWithTextSection";
-import {
-  LearningModule,
-  PoweredByResearchSectionProps,
-} from "../slices/PoweredByResearchSection";
+import { PoweredByResearchSectionProps } from "../slices/PoweredByResearchSection";
 import { ThanksToInstitutionsSectionProps } from "../slices/ThanksToInstitutionsSection";
 import HomepageHero, {
   HomepageHeroProps,
@@ -29,22 +29,9 @@ type HomepageSlices = ImageWithTextSectionProps &
 
 type HomepageProps = HomepageHeroProps;
 
-type PageProps = PageData<HomepageSlices, HomepageProps> & {
-  learningModules: LearningModule[];
-};
+type PageProps = PageData<HomepageSlices, HomepageProps>;
 
-const Page: React.FC<PageProps> = ({
-  data,
-  slices,
-  learningModules,
-}: PageProps) => {
-  const parsedSlices = slices.map((slice: HomepageSlices) => {
-    if (slice.slice_type === SliceType.POWERED_BY_RESEARCH_SECTION) {
-      return { ...slice, learningModules };
-    }
-    return slice;
-  });
-
+const Page: React.FC<PageProps> = ({ data, slices }: PageProps) => {
   const {
     metaDescription,
     metaTitle,
@@ -64,14 +51,55 @@ const Page: React.FC<PageProps> = ({
         openGraphTitle={openGraphTitle}
       />
       <HomepageHero {...restData} />
-      <SliceZone slices={asSlices(parsedSlices)} components={components} />
+      <SliceZone slices={asSlices(slices)} components={components} />
     </React.Fragment>
   );
 };
 
-export const getStaticProps = createGetStaticProps({
+const getHomeStaticProps = createGetStaticProps({
   queryType: QueryType.SINGLE,
   type: PageType.HOME,
 });
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const pageResult = await getHomeStaticProps(context);
+
+  if ("notFound" in pageResult && pageResult.notFound) {
+    return pageResult;
+  }
+
+  if ("redirect" in pageResult && pageResult.redirect) {
+    return pageResult;
+  }
+
+  const client = createClient({ previewData: context.previewData });
+  const slices = (pageResult.props.slices || []) as HomepageSlices[];
+
+  const enrichedSlices = await Promise.all(
+    slices.map(async (slice) => {
+      if (slice.slice_type !== SliceType.POWERED_BY_RESEARCH_SECTION) {
+        return slice;
+      }
+
+      const programmeCards = await resolveProgrammeCardsFromSliceItems(
+        client,
+        slice.items,
+      );
+
+      return {
+        ...slice,
+        programmeCards,
+      };
+    }),
+  );
+
+  return {
+    ...pageResult,
+    props: {
+      ...pageResult.props,
+      slices: enrichedSlices,
+    },
+  };
+};
 
 export default Page;

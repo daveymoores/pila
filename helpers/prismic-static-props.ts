@@ -1,6 +1,7 @@
 import * as prismic from "@prismicio/client";
 import type { GetStaticPathsResult, GetStaticPropsContext } from "next";
 
+import { PRISMIC_REVALIDATE_SECONDS } from "../lib/revalidate-config";
 import { createClient } from "../prismicio";
 import QueryType from "../types/QueryType";
 
@@ -73,7 +74,10 @@ export function createGetStaticProps(options: StaticPropsOptions) {
       return { notFound: true as const };
     }
 
-    return { props: toPageProps(document) };
+    return {
+      props: toPageProps(document),
+      revalidate: PRISMIC_REVALIDATE_SECONDS,
+    };
   };
 }
 
@@ -92,7 +96,7 @@ export function createGetStaticPaths<T extends Document = Document>(
 
     return {
       paths: documents.map((doc) => options.formatPath(doc)),
-      fallback: options.fallback ?? false,
+      fallback: options.fallback ?? "blocking",
     };
   };
 }
