@@ -3,6 +3,7 @@ import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import React from "react";
 
 import { ApplicationStats } from "../../../helpers/get-application-averages/getApplicationAverages";
+import { mergeStaticProps } from "../../../helpers/merge-static-props";
 import {
   createGetStaticPaths,
   createGetStaticProps,
@@ -165,12 +166,9 @@ export const getStaticProps = async (
     return pageResult;
   }
 
-  return {
-    props: {
-      ...pageResult.props,
-      learningModuleUid: String(context.params?.learning_module ?? ""),
-    } as PageProps,
-  };
+  return mergeStaticProps(pageResult, {
+    learningModuleUid: String(context.params?.learning_module ?? ""),
+  } as unknown as Partial<PageProps>) as GetStaticPropsResult<PageProps>;
 };
 
 export const getStaticPaths = createGetStaticPaths({

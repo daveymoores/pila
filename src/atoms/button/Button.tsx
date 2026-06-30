@@ -12,6 +12,17 @@ import PageType from "../../../types/PageTypes";
 import useWebMedia from "../../hooks/useWebMedia";
 import { colorPalette, fontWeights } from "../../theme/pila";
 
+const DARK_BUTTON_BACKGROUNDS = new Set<string>([
+  colorPalette.green,
+  colorPalette.blue,
+  colorPalette.dark_blue,
+  colorPalette.night_blue,
+  colorPalette.patternBlue,
+  colorPalette.grey_blue,
+  colorPalette.redCrayola,
+  colorPalette.grey,
+]);
+
 export enum ButtonSizes {
   small = "small",
   large = "large",
@@ -28,6 +39,28 @@ interface GrommetButtonProps extends ButtonProps {
   children?: string;
 }
 
+const getButtonLabelColor = (color: GrommetButtonProps["color"]) => {
+  if (typeof color !== "string") {
+    return undefined;
+  }
+
+  if (DARK_BUTTON_BACKGROUNDS.has(color)) {
+    return colorPalette.white;
+  }
+
+  if (
+    color === colorPalette.periwinkleCrayola ||
+    color === colorPalette.yellow ||
+    color === colorPalette.white ||
+    color === colorPalette.light_green ||
+    color === colorPalette.stormGrey
+  ) {
+    return colorPalette.dark_blue;
+  }
+
+  return undefined;
+};
+
 const buttonStyles = css<GrommetButtonProps>`
   border-radius: 10px;
   font-size: ${(props) => (props.size === ButtonSizes.small ? `16px` : `18px`)};
@@ -35,8 +68,6 @@ const buttonStyles = css<GrommetButtonProps>`
   background-color: ${(props) => props.color};
   padding: ${(props) =>
     props.size === ButtonSizes.small ? `10px 20px` : `15px 35px`};
-  color: ${(props) =>
-    props.color === colorPalette.green ? "white" : "inherit"};
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -99,20 +130,67 @@ const Button: React.FC<CustomButtonProps> = ({
   );
 };
 
+const GROMMET_BUTTON_STYLE_PROPS = new Set([
+  "primary",
+  "secondary",
+  "tertiary",
+  "plain",
+  "busy",
+  "icon",
+  "label",
+  "tip",
+  "fill",
+  "reverse",
+  "badge",
+  "kind",
+  "dropAlign",
+  "dropProps",
+  "color",
+  "size",
+]);
+
 const ButtonWithRef = React.forwardRef<HTMLButtonElement, GrommetButtonProps>(
-  ({ onClick, children, ...rest }) => {
-    return <StyledButton label={children} onClick={onClick} {...rest} />;
+  ({ onClick, children, ...rest }, ref) => {
+    return (
+      <StyledButton
+        ref={ref as React.Ref<never>}
+        label={children}
+        onClick={onClick}
+        {...rest}
+      />
+    );
   },
 );
 
 ButtonWithRef.displayName = "ButtonWithRef";
 
-const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
-  ${buttonStyles}
+const labelColorOverride = css<GrommetButtonProps>`
+  ${(props) => {
+    const labelColor = getButtonLabelColor(props.color);
+
+    if (!labelColor) {
+      return "";
+    }
+
+    return css`
+      &,
+      & * {
+        color: ${labelColor} !important;
+      }
+    `;
+  }}
 `;
 
-const StyledButtonLink = styled(NextLink)<GrommetButtonProps>`
+const StyledButton = styled(GrommetButton)<GrommetButtonProps>`
   ${buttonStyles}
+  ${labelColorOverride}
+`;
+
+const StyledButtonLink = styled(NextLink).withConfig({
+  shouldForwardProp: (prop) => !GROMMET_BUTTON_STYLE_PROPS.has(prop),
+})<GrommetButtonProps>`
+  ${buttonStyles}
+  ${labelColorOverride}
 `;
 
 export default Button;

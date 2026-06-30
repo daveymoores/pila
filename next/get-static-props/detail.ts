@@ -1,6 +1,7 @@
 import type { GetStaticPropsContext, GetStaticPropsResult } from "next";
 
 import fetchAssociatedContent from "../../helpers/fetch-associated-content/fetchAssociatedContent";
+import { mergeStaticProps } from "../../helpers/merge-static-props";
 import { createGetStaticProps } from "../../helpers/prismic-static-props";
 import PageType from "../../types/PageTypes";
 
@@ -40,16 +41,13 @@ const getStaticDetailProps = <K>(pageType: PageType) => {
       console.error(err);
     }
 
-    return {
-      props: {
-        ...props,
-        data: {
-          ...data,
-          associatedContent: associatedContent || [],
-        },
-        params: context.params,
-      } as K,
-    };
+    return mergeStaticProps(result, {
+      data: {
+        ...data,
+        associatedContent: associatedContent || [],
+      },
+      params: context.params,
+    } as unknown as Partial<K>) as GetStaticPropsResult<K>;
   };
 };
 

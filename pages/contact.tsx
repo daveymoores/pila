@@ -17,6 +17,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { contactPageFallbackProps } from "../fixtures/contact-page-fallback";
+import { mergeStaticProps } from "../helpers/merge-static-props";
 import { createGetStaticProps } from "../helpers/prismic-static-props";
 import { gaEvent, GAEventType } from "../lib/ga";
 import type { RichTextBlock } from "../lib/prismic-types";
@@ -320,20 +321,17 @@ export const getStaticProps = async (
   })(context);
 
   if ("notFound" in pageResult && pageResult.notFound) {
-    return {
+    return mergeStaticProps<PageProps>({
       props: {
         ...contactPageFallbackProps,
         slices: null,
       } as unknown as PageProps,
-    };
+    });
   }
 
-  return {
-    props: {
-      ...pageResult.props,
-      slices: null,
-    } as unknown as PageProps,
-  };
+  return mergeStaticProps(pageResult, {
+    slices: null,
+  } as unknown as Partial<PageProps>) as GetStaticPropsResult<PageProps>;
 };
 
 const StyledRichTextParser = styled(RichTextParser)`

@@ -7,6 +7,7 @@ import type { Link, RichTextBlock } from "../../../lib/prismic-types";
 import ImageProps from "../../../types/ImageProps";
 import Button, { ButtonSizes } from "../../atoms/button/Button";
 import Section from "../../layout/section/Section";
+import RichMediaElement from "../../molecules/rich-media-element/RichMediaElement";
 import { colorPalette } from "../../theme/pila";
 import ResponsiveGrid from "../responsive-grid/ResponsiveGrid";
 
@@ -117,7 +118,17 @@ const HeroContents: React.FC<HeroContentsProps> = ({
             )}
           </ContentBox>
           <ImageContainer align="center" justify="center">
-            <StyledImageBox background={`url(${image?.url})`} size={size} />
+            {image?.url && (
+              <HeroImageWrapper size={size}>
+                <RichMediaElement
+                  url={image.url}
+                  alt={image.alt || ""}
+                  dimensions={image.dimensions}
+                  layout="fill"
+                  priority
+                />
+              </HeroImageWrapper>
+            )}
           </ImageContainer>
         </ResponsiveGrid>
       </StyledSection>
@@ -217,19 +228,24 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const StyledImageBox = styled(Box)<{ size: string }>`
-  background-size: cover;
-  background-position: center;
+const HeroImageWrapper = styled.div<{ size: string }>`
+  position: relative;
   width: ${(props) => (props.size === "small" ? "80vw" : "50vw")};
   height: ${(props) => (props.size === "small" ? "50vh" : "80vh")};
   animation: ${fadeIn} 1.5s ease-in-out;
 
+  img {
+    object-fit: cover;
+  }
+
   @media (max-width: 768px) {
     width: 100%;
     height: 50vh;
-    background-size: contain;
-    animation: ${fadeIn} 1.5s ease-in-out;
-    margin-top: 20px; /* Margin to push image down */
+    margin-top: 20px;
+
+    img {
+      object-fit: contain;
+    }
   }
 `;
 
